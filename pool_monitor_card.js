@@ -9,7 +9,7 @@ import { cardContent } from './cardContent.js'
 class PoolMonitorCard extends LitElement {
   static cardType = 'pool-monitor-card'
   static cardName = 'Pool Monitor Card'
-  static cardDescription = 'The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, and ORP levels of your swimming pool. '
+  static cardDescription = 'The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, and ORP levels of your swimming pool'
 
   static get properties() {
     return {
