@@ -26,13 +26,13 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 Home assistant Sun card is available by default on HACS directory. More info [here](https://hacs.xyz/).
 
 or click on: 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor&category=plugin)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor-card&category=plugin)
 
 
 
 ### Manualy
 
-1. Download the `pool_monitor_card.js` file from the [latest release available](https://github.com/wilsto/pool-monitor/releases) and save it in your `configuration/www` folder.
+1. Download the `pool_monitor_card.js` file from the [latest release available](https://github.com/wilsto/pool-monitor-card/releases) and save it in your `configuration/www` folder.
 1. Go to `Configuration > Lovelace dashboard > Resources` in Home Assistant and click on `Add resource`.
     1. Add `/local/community/pool_monitor_card.js` to the URL.
     1. Choose `Javascript Module` as Resource type.
