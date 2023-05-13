@@ -72,7 +72,7 @@ class PoolMonitorCard extends LitElement {
   calculateData(name, entity, setpoint, setpoint_offset, unit, override_value) {
     const newData = {};
     newData.name = name;
-    newData.img_src ="/hacsfiles/pool_monitor/"+ name +".png"
+    newData.img_src ="/hacsfiles/pool_monitor_card/"+ name +".png"
     newData.value = this.hass.states[entity].state;
     newData.unit = unit;
     const override = false
