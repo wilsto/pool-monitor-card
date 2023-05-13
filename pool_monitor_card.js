@@ -7,6 +7,10 @@ import { cardStyles } from './cardStyles.js';
 import { cardContent } from './cardContent.js'
 
 class PoolMonitorCard extends LitElement {
+  static cardType = 'pool-monitor-card'
+  static cardName = 'Pool Monitor Card'
+  static cardDescription = 'The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, and ORP levels of your swimming pool. '
+
   static get properties() {
     return {
       hass: {},
@@ -68,10 +72,10 @@ class PoolMonitorCard extends LitElement {
   calculateData(name, entity, setpoint, setpoint_offset, unit, override_value) {
     const newData = {};
     newData.name = name;
-    newData.img_src ="/local/community/pool_monitor/"+ name +".png"
+    newData.img_src ="/hacsfiles/pool_monitor/"+ name +".png"
     newData.value = this.hass.states[entity].state;
     newData.unit = unit;
-    const override = true
+    const override = false
     if (override){
       newData.value = override_value;
     }
@@ -142,4 +146,4 @@ class PoolMonitorCard extends LitElement {
   }
 
 }
-customElements.define("pool-monitor", PoolMonitorCard);
+customElements.define("pool-monitor-card", PoolMonitorCard);

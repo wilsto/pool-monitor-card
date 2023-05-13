@@ -13,15 +13,13 @@ The "Pool Monitor Card" is a home assistant plugin that provides information abo
 
 With the "Pool Monitor Card", you can easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
 
+![all](example/light-dark-card.png)
 
 ## Support
 
 Hey dude! Help me out for a couple of :beers: or a :coffee:!
 
 [![coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://bmc.link/wilsto)
-
-
-![all](example/light-dark-card.png)
 
 ## Install
 ### via HACS
