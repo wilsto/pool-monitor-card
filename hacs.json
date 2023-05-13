@@ -2,5 +2,5 @@
 "name": "Pool Monitor Card",
 "content_in_root": true,
 "filename": "pool_monitor_card.js",
-"render_readme" : true
+"render_readme" : false
 }
