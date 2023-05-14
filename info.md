@@ -58,7 +58,7 @@ orp: sensor.orp_sensor
 ### Main Options
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type` | string | **Required** | `custom:pool-monitor` ||
+| `type` | string | **Required** | `custom:pool-monitor-card` ||
 | `temperature` | string | **Option*** | Temperature sensor entity |`none`|
 | `temperature_setpoint` | number | **Option** |Temperature setpoint |`27`|
 | `ph` | string | **Option*** | ph sensor entity |`none`|
