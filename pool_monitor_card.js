@@ -3,9 +3,6 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-import { cardStyles } from './cardStyles.js';
-import { cardContent } from './cardContent.js'
-
 class PoolMonitorCard extends LitElement {
   static cardType = 'pool-monitor-card'
   static cardName = 'Pool Monitor Card'
@@ -19,7 +16,96 @@ class PoolMonitorCard extends LitElement {
   }
 
   static styles = [
-    cardStyles
+    css`
+  :host {
+    background: var(--ha-card-background, var(--card-background-color, white));
+    border-radius: var(--ha-card-border-radius, 4px);
+    border-width: var(--ha-card-border-width,4px);
+    box-shadow: var(
+      --ha-card-box-shadow
+    );
+    color: var(--primary-text-color);
+    display: block;
+    transition: all 0.3s ease-out 0s;
+    position: relative;
+    padding-top: 25px;
+  }
+
+  .pool-monitor-title{
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-left: 15px;
+    margin: 0;
+  }
+
+  .pool-monitor-container {
+    display: grid;
+    grid-template-columns: 10% repeat(6, 1fr) 5%;
+    padding: 5px;
+  }
+
+  .pool-monitor-container-values {
+    display: grid;
+    grid-template-columns:12% repeat(6, 1fr) 2% ;
+    padding: 5px;
+  }
+
+  .pool-monitor-container-marker {
+    display: grid;
+    grid-template-columns: 10% repeat(6, 1fr) 5%;
+    padding: 10px;
+    grid-template-rows:15px;
+    line-height: 15px;
+    position: relative;
+  }
+
+  .pool-monitor-container-marker .marker {
+    text-align: center;
+    justify-self: center;
+    width: 40px;
+    height:20px;
+    padding-top:5px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .pool-monitor-container-marker .marker-state {
+    border-radius: 5px;
+    width: 90px;
+    text-align: right;
+    justify-self: right;
+
+    position: absolute;
+    z-index: 1;
+  }
+
+  .pool-monitor-container-marker .triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    bottom: 0px;
+    transform: translateX(-50%);
+  }
+
+  .grid-item {
+    padding-top: 150%;
+    padding-bottom: 20%;
+    padding: 0;
+  }
+
+  .grid-item-text-box {
+    font-size: 0.8em;
+    text-align: center;
+    font-weight: 700;
+  }
+  
+  .item-row {
+    grid-row: 1;
+  }
+`
   ];
 
   constructor() {
@@ -72,7 +158,7 @@ class PoolMonitorCard extends LitElement {
   calculateData(name, entity, setpoint, setpoint_offset, unit, override_value) {
     const newData = {};
     newData.name = name;
-    newData.img_src ="/hacsfiles/pool-monitor-card/"+ name +".png"
+    newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/"+ name +".png"
     newData.value = this.hass.states[entity].state;
     newData.unit = unit;
     const override = false
@@ -116,7 +202,6 @@ class PoolMonitorCard extends LitElement {
     newData.pct_state_offset = parseFloat(newData.pct) + parseFloat(side_offset) ;
 
     return newData
-
   }
 
   countDecimals(number) {
@@ -144,6 +229,50 @@ class PoolMonitorCard extends LitElement {
       .querySelector("home-assistant")
       .dispatchEvent(popupEvent);
   }
-
 }
+
+class cardContent {
+
+  static generateTitle (config) {
+      const title = config.title !== undefined ? html`
+        <h1 class="pool-monitor-title">${config.title}</h1>
+      ` : html``
+  
+      return html`
+      ${title}
+      `
+    }
+
+    static generateBody (data) {
+      return html`
+      <!-- ##### ${data.name} section ##### -->      
+      <div  class="pool-monitor-container-marker" >
+        <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
+        <div class="marker-state" style="text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset}%;">${data.state}</div>
+        <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
+      </div>
+      <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
+      <div  class="pool-monitor-container" @click=${() => 
+        this._moreinfo(data.entity)}>
+        <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
+        <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+        <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
+        <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
+        <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
+        <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
+        <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+      </div>
+      <div  class="pool-monitor-container-values" @click=${() => 
+        this._moreinfo(data.entity)}>
+        <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
+        <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
+        <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+        <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
+        <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
+        <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+      </div> 
+      `
+    }
+}
+
 customElements.define("pool-monitor-card", PoolMonitorCard);
