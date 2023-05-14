@@ -33,7 +33,7 @@ or click on:
 
 1. Download the `pool_monitor_card.js` file from the [latest release available](https://github.com/wilsto/pool-monitor-card/releases) and save it in your `configuration/www` folder.
 1. Go to `Configuration > Lovelace dashboard > Resources` in Home Assistant and click on `Add resource`.
-    1. Add `/local/community/pool_monitor_card.js` to the URL.
+    1. Add `/local/community/pool-monitor-card/pool_monitor_card.js` to the URL.
     1. Choose `Javascript Module` as Resource type.
 
 
