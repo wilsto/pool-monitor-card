@@ -49,7 +49,7 @@ Note: If `Custom: Pool Monitor card` doesn't appear you will have to reload clea
 
 #### Example of code
 ```yaml
-type: 'custom:pool-monitor'
+type: 'custom:pool-monitor-card'
 temperature: sensor.temperature_sensor
 ph: sensor.ph_sensor
 orp: sensor.orp_sensor
