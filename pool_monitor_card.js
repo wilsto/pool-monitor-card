@@ -37,7 +37,7 @@ class PoolMonitorCard extends LitElement {
       ${cardContent.generateBody(data.ph)}
       <div style="height:20px">&nbsp;</div>
       ${cardContent.generateBody(data.orp)}
-    `;
+    </div>`;
   }
 
   getConfig () {
