@@ -7,13 +7,15 @@
 Click on the following button to choose the language of your ReadMe : [![fr](https://img.shields.io/badge/lang-fr-green.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README-fr.md) [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README.md)
 ## Description
 
-The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, and ORP levels of your swimming pool. 
+The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, ORP levels and TDS of your swimming pool.
 
 - **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
 - **pH**: This is a measure of how acidic or alkaline the water in your pool is. The ideal range for pH in a pool is between 7.0 and 7.4. Maintaining the proper pH level can help prevent skin and eye irritation and keep the pool water safe for swimming.
 
 - **ORP**: This stands for Oxidation Reduction Potential and measures the ability of the water to oxidize or reduce substances in the pool. The ORP level is related to the amount of chlorine or other sanitizers in the pool.  The ideal range for chlorine in a pool is between 650 and 750 mV. Maintaining the correct ORP level can help ensure that the pool water is properly sanitized and free of harmful bacteria.
+
+- **TDS**: This stands for Total Dissolved Solids and measures the amount of inorganic and organic substances in the water, such as minerals, salts, and other particles. High levels of TDS can affect water clarity and make it difficult to balance chemicals in the pool. The ideal range for TDS in a saltwater pool is between 3000 and 5000 parts per million (ppm) (3 and 5 g/L).
 
 With the "Pool Monitor Card", you can easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
 
@@ -62,6 +64,7 @@ type: 'custom:pool-monitor-card'
 temperature: sensor.temperature_sensor
 ph: sensor.ph_sensor
 orp: sensor.orp_sensor
+tds: sensor.tds_sensor
 ```
 
 ### Main Options
@@ -70,11 +73,13 @@ orp: sensor.orp_sensor
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:pool-monitor-card` ||
 | `temperature` | string | **Option*** | Temperature sensor entity |`none`|
-| `temperature_setpoint` | number | **Option** |Temperature setpoint |`27`|
+| `temperature_setpoint` | number | **Option** |Temperature setpoint  (°C) |`27`|
 | `ph` | string | **Option*** | ph sensor entity |`none`|
-| `ph_setpoint` | number | **Option** | pH setpoint |`7.2`|
+| `ph_setpoint` | number | **Option** | pH setpoint (pH) |`7.2`|
 | `orp` | string | **Option*** | ORP sensor entity |`none`|
-| `orp_setpoint` | number | **Option** |ORP Setpoint |`700`|
+| `orp_setpoint` | number | **Option** |ORP Setpoint (mV)  |`700`|
+| `tds` | texte | **Option*** | Entité TDS  |`aucune`|
+| `tds_setpoint` | nombre | **Option** | TDS Setpoint (g/L) |`4`|
 | `title` | string | **Option** | Pool Monitor Card Title |`none`|
 
-*You need to define at least one of theses 3 entities
+*You need to define at least one of theses 4 entities

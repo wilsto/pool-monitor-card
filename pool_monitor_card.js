@@ -31,6 +31,10 @@ class PoolMonitorCard extends LitElement {
     padding-top: 25px;
   }
 
+  .section{
+    padding-bottom:10px;
+  }
+
   .pool-monitor-title{
     font-size: 1.5rem;
     font-weight: 500;
@@ -116,13 +120,12 @@ class PoolMonitorCard extends LitElement {
     const data = this.processData()
       
     return html`
-    <div id="pool-monitor-card")>
+    <div id="pool-monitor-card">
       ${cardContent.generateTitle(config)}
-      ${cardContent.generateBody(data.temperature)}
-      <div style="height:20px">&nbsp;</div>
-      ${cardContent.generateBody(data.ph)}
-      <div style="height:20px">&nbsp;</div>
-      ${cardContent.generateBody(data.orp)}
+      ${data.temperature !== undefined ? cardContent.generateBody(data.temperature): ''}
+      ${data.ph !== undefined ? cardContent.generateBody(data.ph): ''}
+      ${data.orp !== undefined ? cardContent.generateBody(data.orp): ''}
+      ${data.tds !== undefined ? cardContent.generateBody(data.tds): ''}      
     </div>`;
   }
 
@@ -133,9 +136,13 @@ class PoolMonitorCard extends LitElement {
 
     config.ph = this.config.ph ;
     config.ph_setpoint = this.config.ph_setpoint ?? 7.2;
+    
     config.orp = this.config.orp ;
-
     config.orp_setpoint = this.config.orp_setpoint ?? 700;
+
+    config.tds = this.config.tds ;
+    config.tds_setpoint = this.config.tds_setpoint ?? 4;
+    
     config.title = this.config.title;
 
     return config;
@@ -147,9 +154,18 @@ class PoolMonitorCard extends LitElement {
     const config = this.getConfig()
     // console.log("config:",config);
 
+    if (config.temperature) {
     data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, 1,"°C", 26.5) 
+    }
+    if (config.ph) {
     data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,0.2,"pH",6.9) 
+    }
+    if (config.orp) {
     data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,50,"mV", 558) 
+    }
+    if (config.tds) {
+      data.tds = this.calculateData('TDS', config.tds, config.tds_setpoint,1,"g/L", 4,1) 
+    }
 
     // console.log("data:",data);
     return data
@@ -161,7 +177,7 @@ class PoolMonitorCard extends LitElement {
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/"+ name +".png"
     newData.value = this.hass.states[entity].state;
     newData.unit = unit;
-    const override = false
+    const override = true
     if (override){
       newData.value = override_value;
     }
@@ -245,31 +261,33 @@ class cardContent {
 
     static generateBody (data) {
       return html`
-      <!-- ##### ${data.name} section ##### -->      
-      <div  class="pool-monitor-container-marker" >
-        <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
-        <div class="marker-state" style="text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset}%;">${data.state}</div>
-        <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
-      </div>
-      <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
-      <div  class="pool-monitor-container" @click=${() => 
-        this._moreinfo(data.entity)}>
-        <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
-        <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-        <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
-        <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
-        <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
-        <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
-        <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-      </div>
-      <div  class="pool-monitor-container-values" @click=${() => 
-        this._moreinfo(data.entity)}>
-        <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
-        <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-        <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
-        <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
-        <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
-        <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+      <!-- ##### ${data.name} section ##### -->    
+      <div class="section">   
+        <div  class="pool-monitor-container-marker" >
+          <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
+          <div class="marker-state" style="text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset}%;">${data.state}</div>
+          <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
+        </div>
+        <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
+        <div  class="pool-monitor-container" @click=${() => 
+          this._moreinfo(data.entity)}>
+          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
+          <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+          <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
+          <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
+          <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
+          <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
+          <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+        </div>
+        <div  class="pool-monitor-container-values" @click=${() => 
+          this._moreinfo(data.entity)}>
+          <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
+          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
+          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
+          <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
+          <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+        </div> 
       </div> 
       `
     }
