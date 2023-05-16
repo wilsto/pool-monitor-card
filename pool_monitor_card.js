@@ -39,6 +39,7 @@ class PoolMonitorCard extends LitElement {
     font-size: 1.5rem;
     font-weight: 500;
     padding-left: 15px;
+    padding-bottom: 15px;
     margin: 0;
   }
 
@@ -164,7 +165,7 @@ class PoolMonitorCard extends LitElement {
     data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,50,"mV", 558) 
     }
     if (config.tds) {
-      data.tds = this.calculateData('TDS', config.tds, config.tds_setpoint,1,"g/L", 4,1) 
+      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,1,"g/L", 4,1) 
     }
 
     // console.log("data:",data);
