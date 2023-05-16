@@ -178,7 +178,7 @@ class PoolMonitorCard extends LitElement {
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/"+ name +".png"
     newData.value = this.hass.states[entity].state;
     newData.unit = unit;
-    const override = true
+    const override = false
     if (override){
       newData.value = override_value;
     }
