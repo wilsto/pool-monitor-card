@@ -82,5 +82,6 @@ tds: sensor.tds_sensor
 | `tds` | texte | **Option*** | Entité TDS  |`aucune`|
 | `tds_setpoint` | nombre | **Option** | Point de consigne TDS (g/L) |`4`|
 | `title` | texte | **Option** | Titre de la carte  |`aucune`|
+| `compact` | booléen | **Option** | Mode Compact |`false`|
 
 *Vous devez définir au moins l'une de ces 4 entités.

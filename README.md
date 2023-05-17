@@ -81,5 +81,6 @@ tds: sensor.tds_sensor
 | `tds` | texte | **Option*** | Entité TDS  |`aucune`|
 | `tds_setpoint` | nombre | **Option** | TDS Setpoint (g/L) |`4`|
 | `title` | string | **Option** | Pool Monitor Card Title |`none`|
+| `compact` | boolean | **Option** | Compact Mode |`false`|
 
 *You need to define at least one of theses 4 entities

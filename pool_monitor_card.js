@@ -156,13 +156,13 @@ class PoolMonitorCard extends LitElement {
     // console.log("config:",config);
 
     if (config.temperature) {
-    data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, 1,"°C", 26.5) 
+      data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, 1,"°C", 26.5) 
     }
     if (config.ph) {
-    data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,0.2,"pH",6.9) 
+      data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,0.2,"pH",6.9) 
     }
     if (config.orp) {
-    data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,50,"mV", 558) 
+      data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,50,"mV", 558) 
     }
     if (config.tds) {
       data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,1,"g/L", 4,1) 
