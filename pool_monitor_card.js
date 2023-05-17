@@ -19,7 +19,7 @@ class PoolMonitorCard extends LitElement {
     css`
   :host {
     background: var(--ha-card-background, var(--card-background-color, white));
-    border-radius: var(--ha-card-border-radius, 4px);
+    border-radius: var(--ha-card-border-radius, 12px);
     border-width: var(--ha-card-border-width,4px);
     box-shadow: var(
       --ha-card-box-shadow
@@ -215,6 +215,7 @@ class PoolMonitorCard extends LitElement {
     newData.name = name;
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
     newData.value = this.hass.states[entity].state;
+    newData.entity = entity;
     newData.unit = unit;
     if (override){
       newData.value = override_value;
@@ -274,16 +275,15 @@ class PoolMonitorCard extends LitElement {
     this.config =  { ...config };
   }
 
-  _moreinfo(entityinfo) {
+  static _moreinfo(entityinfo) {
     const popupEvent = new Event("hass-more-info", {
       bubbles: true,
       cancelable: false,
       composed: true,
     });
     popupEvent.detail = { entityId: entityinfo };
-    this.ownerDocument
-      .querySelector("home-assistant")
-      .dispatchEvent(popupEvent);
+    console.log("entityinfo", entityinfo)
+    document.querySelector("home-assistant").dispatchEvent(popupEvent);
   }
 }
 
@@ -302,15 +302,15 @@ class cardContent {
     static generateBody (data) {
       return html`
       <!-- ##### ${data.name} section ##### -->    
-      <div class="section">   
-        <div  class="pool-monitor-container-marker" >
+      <div class="section" @click=${() => 
+          PoolMonitorCard._moreinfo(data.entity)}>   
+        <div class="pool-monitor-container-marker" >
           <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
           <div class="marker-state" style="text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset}%;">${data.state}</div>
           <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
         </div>
         <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
-        <div  class="pool-monitor-container" @click=${() => 
-          this._moreinfo(data.entity)}>
+        <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
           <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
@@ -319,8 +319,7 @@ class cardContent {
           <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
           <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div>
-        <div  class="pool-monitor-container-values" @click=${() => 
-          this._moreinfo(data.entity)}>
+        <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
           <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
           <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
@@ -335,10 +334,10 @@ class cardContent {
     static generateCompactBody (data) {
       return html`
       <!-- ##### ${data.name} section ##### -->    
-      <div class="section-compact" >   
+      <div class="section-compact"  @click=${() => 
+          PoolMonitorCard._moreinfo(data.entity)}>   
         <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
-        <div  class="pool-monitor-container" @click=${() => 
-          this._moreinfo(data.entity)}>
+        <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
           <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
@@ -348,8 +347,7 @@ class cardContent {
           <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
           <div class="cursor-text" style="border-${data.side_align}: 5px solid black; text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset_cursor - 2}%;">${data.value} - ${data.state}</div>
         </div>
-        <div  class="pool-monitor-container-values" @click=${() => 
-          this._moreinfo(data.entity)}>
+        <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
           <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
           <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
