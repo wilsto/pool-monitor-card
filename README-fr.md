@@ -8,7 +8,7 @@ Clique sur les boutons suivants pour choisir la langue de ton ReadMe : [![fr](ht
 
 ## Description
 
-La "Pool Monitor Card" est un plugin d'Home Assistant qui fournit des informations sur la température, le pH, les niveaux d'ORP et de TDS de votre piscine. 
+La "Pool Monitor Card" est un plugin d'Home Assistant qui fournit des informations sur la température, le pH, les niveaux d'ORP et de TDS de votre piscine.
 
 - **Température** : Il s'agit de la température de l'eau de votre piscine. La température idéale d'une piscine se situe entre 26°C et 28°C.  Connaître la température peut vous aider à décider si l'eau est suffisamment chaude pour nager ou si elle est trop froide et doit être chauffée.
 
@@ -44,7 +44,7 @@ ou cliquez sur :
     1. Ajoutez `/local/community/pool-monitor-card/pool_monitor_card.js` à l'URL.
     1. Choisissez `Javascript Module` comme Resource type.
 
-## Mise en place sous Lovelace 
+## Mise en place sous Lovelace
 
 ### Utilisation de l'interface utilisateur
 

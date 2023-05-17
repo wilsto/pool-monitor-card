@@ -5,6 +5,7 @@
 ## Multilanguage ReadMe
 
 Click on the following button to choose the language of your ReadMe : [![fr](https://img.shields.io/badge/lang-fr-green.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README-fr.md) [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README.md)
+
 ## Description
 
 The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, ORP levels and TDS of your swimming pool.
@@ -33,7 +34,7 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 
 Home assistant Pool Monitor Card is available by default on HACS directory. More info [here](https://hacs.xyz/).
 
-or click on: 
+or click on:
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor-card&category=plugin)
 
 ### Manualy
@@ -42,7 +43,6 @@ or click on:
 1. Go to `Configuration > Lovelace dashboard > Resources` in Home Assistant and click on `Add resource`.
     1. Add `/local/community/pool-monitor-card/pool_monitor_card.js` to the URL.
     1. Choose `Javascript Module` as Resource type.
-
 
 ## Lovelace Set up
 
