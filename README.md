@@ -19,7 +19,7 @@ The "Pool Monitor Card" is a home assistant plugin that provides information abo
 
 With the "Pool Monitor Card", you can easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
 
-![all](example/light-dark-card.png)
+![all](example/compact-card.png)
 
 ## Support
 
@@ -84,3 +84,7 @@ tds: sensor.tds_sensor
 | `compact` | boolean | **Option** | Compact Mode |`false`|
 
 *You need to define at least one of theses 4 entities
+
+## Other screenshots
+
+![all](example/light-dark-card.png)

@@ -80,7 +80,6 @@ class PoolMonitorCard extends LitElement {
     width: 90px;
     text-align: right;
     justify-self: right;
-
     position: absolute;
     z-index: 1;
   }
@@ -110,6 +109,31 @@ class PoolMonitorCard extends LitElement {
   .item-row {
     grid-row: 1;
   }
+
+  .cursor{
+    text-align: center;
+    justify-self: center;
+    font-size:20px;
+    font-weight: 900;
+    color: black;
+    position: absolute;
+    z-index: 1;
+  }
+  .cursor-text{
+    width: 150px;
+    height: 22px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top:2px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: right;
+    color: black;
+    justify-self: right;
+    position: absolute;
+    z-index: 1;
+  }
+  
 `
   ];
 
@@ -120,14 +144,26 @@ class PoolMonitorCard extends LitElement {
     const config = this.getConfig()
     const data = this.processData()
       
-    return html`
-    <div id="pool-monitor-card">
-      ${cardContent.generateTitle(config)}
-      ${data.temperature !== undefined ? cardContent.generateBody(data.temperature): ''}
-      ${data.ph !== undefined ? cardContent.generateBody(data.ph): ''}
-      ${data.orp !== undefined ? cardContent.generateBody(data.orp): ''}
-      ${data.tds !== undefined ? cardContent.generateBody(data.tds): ''}      
-    </div>`;
+    if (config.compact) {
+      return html`
+      <div id="pool-monitor-card">
+        ${cardContent.generateTitle(config)}
+        ${data.temperature !== undefined ? cardContent.generateCompactBody(data.temperature): ''}
+        ${data.ph !== undefined ? cardContent.generateCompactBody(data.ph): ''}
+        ${data.orp !== undefined ? cardContent.generateCompactBody(data.orp): ''}
+        ${data.tds !== undefined ? cardContent.generateCompactBody(data.tds): ''}      
+      </div>`;
+    } else {
+      return html`
+      <div id="pool-monitor-card">
+        ${cardContent.generateTitle(config)}
+        ${data.temperature !== undefined ? cardContent.generateBody(data.temperature): ''}
+        ${data.ph !== undefined ? cardContent.generateBody(data.ph): ''}
+        ${data.orp !== undefined ? cardContent.generateBody(data.orp): ''}
+        ${data.tds !== undefined ? cardContent.generateBody(data.tds): ''}      
+      </div>`;
+    }
+
   }
 
   getConfig () {
@@ -145,7 +181,9 @@ class PoolMonitorCard extends LitElement {
     config.tds_setpoint = this.config.tds_setpoint ?? 4;
     
     config.title = this.config.title;
-
+    config.compact = this.config.compact ?? false;
+    
+    config.override = this.config.override ?? false;
     return config;
   }
 
@@ -156,29 +194,28 @@ class PoolMonitorCard extends LitElement {
     // console.log("config:",config);
 
     if (config.temperature) {
-      data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, 1,"°C", 26.5) 
+      data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, 1,"°C", 26.5, config.override) 
     }
     if (config.ph) {
-      data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,0.2,"pH",6.9) 
+      data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,0.2,"pH",6.9, config.override) 
     }
     if (config.orp) {
-      data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,50,"mV", 558) 
+      data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,50,"mV", 551, config.override) 
     }
     if (config.tds) {
-      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,1,"g/L", 4,1) 
+      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,1,"g/L", 7, 1, config.override) 
     }
 
     // console.log("data:",data);
     return data
   }
 
-  calculateData(name, entity, setpoint, setpoint_offset, unit, override_value) {
+  calculateData(name, entity, setpoint, setpoint_offset, unit, override_value, override) {
     const newData = {};
     newData.name = name;
-    newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/"+ name +".png"
+    newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
     newData.value = this.hass.states[entity].state;
     newData.unit = unit;
-    const override = false
     if (override){
       newData.value = override_value;
     }
@@ -213,10 +250,12 @@ class PoolMonitorCard extends LitElement {
       newData.state = "Too High";
       newData.color = "#e17055";
     }
-    newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_offset)) / (6 * setpoint_offset)) * 0.79 * 100 + 21)).toFixed(0);
+    newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_offset)) / (6 * setpoint_offset)) * 0.80 * 100 + 22)).toFixed(0);
     var side_offset = newData.value > setpoint ? -26 : 5 ;
+    var side_offset_cursor = newData.value > setpoint ? -30 : 0 ;
     newData.side_align = newData.value > setpoint ? "right" : "left" ;
     newData.pct_state_offset = parseFloat(newData.pct) + parseFloat(side_offset) ;
+    newData.pct_state_offset_cursor = parseFloat(newData.pct) + parseFloat(side_offset_cursor) ;
 
     return newData
   }
@@ -292,6 +331,35 @@ class cardContent {
       </div> 
       `
     }
+
+    static generateCompactBody (data) {
+      return html`
+      <!-- ##### ${data.name} section ##### -->    
+      <div class="section-compact" >   
+        <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
+        <div  class="pool-monitor-container" @click=${() => 
+          this._moreinfo(data.entity)}>
+          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
+          <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+          <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
+          <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
+          <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
+          <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
+          <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+          <div class="cursor-text" style="border-${data.side_align}: 5px solid black; text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset_cursor - 2}%;">${data.value} - ${data.state}</div>
+        </div>
+        <div  class="pool-monitor-container-values" @click=${() => 
+          this._moreinfo(data.entity)}>
+          <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
+          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
+          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
+          <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
+          <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+        </div> 
+      </div> 
+      `
+    }    
 }
 
 customElements.define("pool-monitor-card", PoolMonitorCard);
