@@ -90,7 +90,7 @@ You can go further with the card by modifying, if needed or desired, the unit, s
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `temperature_unit` | String | **Optional** | Temperature Unit (°C ou °F) |`°C`|
+| `temperature_unit` | String | **Optional** | Temperature Unit (°C or °F) |`°C`|
 | `temperature_setpoint` | Number | **Optional** | Temperature Set Point |If unit=°C:`27` <br/> If unit=°F:`80`|
 | `temperature_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
 
@@ -114,7 +114,7 @@ You can go further with the card by modifying, if needed or desired, the unit, s
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tds_unit` | String | **Optional** | TDS Unit (g/L ou ppm) |`g/L`|
+| `tds_unit` | String | **Optional** | TDS Unit (g/L or ppm) |`g/L`|
 | `tds_setpoint` | Number | **Optional** | TDS Set Point |If unit=g/L:`4` <br/> If unit=ppm:`4000`|
 | `tds_step` | Number | **Optional** | TDS Step  |If unit=g/L:`1` <br/> If unit=ppm:`1000`|
 
