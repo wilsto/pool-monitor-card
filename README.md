@@ -120,4 +120,6 @@ You can go further with the card by modifying, if needed or desired, the unit, s
 
 ## Other screenshots
 
-![all](example/light-dark-card.png)
+![dark_light](example/light-dark-card.png)
+
+![change_unit](example/change_unit.png)

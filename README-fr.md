@@ -119,4 +119,6 @@ Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité,
 
 ## Autres captures d'écran
 
-![all](example/light-dark-card.png)
+![dark_light](example/light-dark-card.png)
+
+![change_unit](example/change_unit.png)
