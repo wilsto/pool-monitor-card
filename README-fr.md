@@ -121,4 +121,4 @@ Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité,
 
 ![dark_light](example/light-dark-card.png)
 
-![change_unit](example/change_unit.png)
+![change_unit](example/change_units.png)
