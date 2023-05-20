@@ -169,17 +169,31 @@ class PoolMonitorCard extends LitElement {
   getConfig () {
     const config = {};
     config.temperature = this.config.temperature ;
-    config.temperature_setpoint = this.config.temperature_setpoint ?? 27;
+    config.temperature_unit = this.config.temperature_unit ?? "°C";
+    config.temperature_unit = config.temperature_unit.toUpperCase()
+    config.temperature_setpoint = this.config.temperature_setpoint ?? (config.temperature_unit === "°F" ? 80 : 27) ;
+    config.temperature_step = this.config.temperature_step ?? (config.temperature_unit === "°F" ? 2 : 1) ;
+    config.temperature_override = config.temperature_unit === "°F" ? 79 : 26.5;
 
-    config.ph = this.config.ph ;
+    config.ph = this.config.ph;
+    config.ph_unit = this.config.ph_unit ?? "pH";
     config.ph_setpoint = this.config.ph_setpoint ?? 7.2;
+    config.ph_step = this.config.ph_step ?? 0.2 ;
+    config.ph_override = 6.9;
     
     config.orp = this.config.orp ;
+    config.orp_unit = this.config.orp_unit ?? "mV";
     config.orp_setpoint = this.config.orp_setpoint ?? 700;
+    config.orp_step = this.config.orp_step ?? 50 ;
+    config.orp_override = 551;
 
     config.tds = this.config.tds ;
-    config.tds_setpoint = this.config.tds_setpoint ?? 4;
-    
+    config.tds_unit = this.config.tds_unit ?? "g/L";
+    config.tds_unit = config.tds_unit.toLowerCase()
+    config.tds_setpoint = this.config.tds_setpoint ?? (config.tds_unit === "ppm" ? 4000 : 4) ;
+    config.tds_step = this.config.tds_step ?? (config.tds_unit === "ppm" ? 1000 : 1) ;
+    config.tds_override = config.tds_unit === "ppm" ? 7000 : 7;
+
     config.title = this.config.title;
     config.compact = this.config.compact ?? false;
     
@@ -194,23 +208,23 @@ class PoolMonitorCard extends LitElement {
     // console.log("config:",config);
 
     if (config.temperature) {
-      data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, 1,"°C", 26.5, config.override) 
+      data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
     }
     if (config.ph) {
-      data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,0.2,"pH",6.9, config.override) 
+      data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
     }
     if (config.orp) {
-      data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,50,"mV", 551, config.override) 
+      data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
     }
     if (config.tds) {
-      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,1,"g/L", 7, 1, config.override) 
+      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,config.tds_step, config.tds_unit,  config.tds_override,  config.override) 
     }
 
     // console.log("data:",data);
     return data
   }
 
-  calculateData(name, entity, setpoint, setpoint_offset, unit, override_value, override) {
+  calculateData(name, entity, setpoint, setpoint_step, unit, override_value, override) {
     const newData = {};
     newData.name = name;
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
@@ -223,11 +237,11 @@ class PoolMonitorCard extends LitElement {
     newData.setpoint = setpoint ;
     const countDecimals = this.countDecimals(setpoint);
     newData.setpoint_class = [
-      (setpoint - 2 *setpoint_offset).toFixed(countDecimals),
-      (setpoint - setpoint_offset).toFixed(countDecimals),
+      (setpoint - 2 *setpoint_step).toFixed(countDecimals),
+      (setpoint - setpoint_step).toFixed(countDecimals),
       (setpoint).toFixed(countDecimals),
-      (setpoint + setpoint_offset).toFixed(countDecimals),
-      (setpoint + 2 *setpoint_offset).toFixed(countDecimals)
+      (setpoint + setpoint_step).toFixed(countDecimals),
+      (setpoint + 2 *setpoint_step).toFixed(countDecimals)
     ]
 
     newData.state = "no data";
@@ -251,12 +265,12 @@ class PoolMonitorCard extends LitElement {
       newData.state = "Too High";
       newData.color = "#e17055";
     }
-    newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_offset)) / (6 * setpoint_offset)) * 0.80 * 100 + 22)).toFixed(0);
-    var side_offset = newData.value > setpoint ? -26 : 5 ;
-    var side_offset_cursor = newData.value > setpoint ? -30 : 0 ;
+    newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.80 * 100 + 22)).toFixed(0);
+    var side_step = newData.value > setpoint ? -26 : 5 ;
+    var side_step_cursor = newData.value > setpoint ? -30 : 0 ;
     newData.side_align = newData.value > setpoint ? "right" : "left" ;
-    newData.pct_state_offset = parseFloat(newData.pct) + parseFloat(side_offset) ;
-    newData.pct_state_offset_cursor = parseFloat(newData.pct) + parseFloat(side_offset_cursor) ;
+    newData.pct_state_step = parseFloat(newData.pct) + parseFloat(side_step) ;
+    newData.pct_state_step_cursor = parseFloat(newData.pct) + parseFloat(side_step_cursor) ;
 
     return newData
   }
@@ -306,7 +320,7 @@ class cardContent {
           PoolMonitorCard._moreinfo(data.entity)}>   
         <div class="pool-monitor-container-marker" >
           <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
-          <div class="marker-state" style="text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset}%;">${data.state}</div>
+          <div class="marker-state" style="text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_step}%;">${data.state}</div>
           <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
         </div>
         <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
@@ -345,7 +359,7 @@ class cardContent {
           <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
           <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
           <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-          <div class="cursor-text" style="border-${data.side_align}: 5px solid black; text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_offset_cursor - 2}%;">${data.value} - ${data.state}</div>
+          <div class="cursor-text" style="border-${data.side_align}: 5px solid black; text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_step_cursor - 2}%;">${data.value} - ${data.state}</div>
         </div>
         <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>

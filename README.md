@@ -72,18 +72,51 @@ tds: sensor.tds_sensor
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:pool-monitor-card` ||
-| `temperature` | string | **Option*** | Temperature sensor entity |`none`|
-| `temperature_setpoint` | number | **Option** |Temperature setpoint  (°C) |`27`|
-| `ph` | string | **Option*** | ph sensor entity |`none`|
-| `ph_setpoint` | number | **Option** | pH setpoint (pH) |`7.2`|
-| `orp` | string | **Option*** | ORP sensor entity |`none`|
-| `orp_setpoint` | number | **Option** |ORP Setpoint (mV)  |`700`|
-| `tds` | texte | **Option*** | Entité TDS  |`aucune`|
-| `tds_setpoint` | nombre | **Option** | TDS Setpoint (g/L) |`4`|
-| `title` | string | **Option** | Pool Monitor Card Title |`none`|
-| `compact` | boolean | **Option** | Compact Mode |`false`|
+| `temperature` | string | **Optional*** | Temperature sensor entity |`none`|
+| `ph` | string | **Optional*** | ph sensor entity |`none`|
+| `orp` | string | **Optional*** | ORP sensor entity |`none`|
+| `tds` | String | **Optional*** | Entité TDS  |`aucune`|
+| `title` | string | **Optional** | Pool Monitor Card Title |`none`|
+| `compact` | boolean | **Optional** | Compact Mode |`false`|
 
 *You need to define at least one of theses 4 entities
+
+### Advanced options
+
+You can go further with the card by modifying, if needed or desired, the unit, setpoint, and step of each measured entity.
+
+
+#### Température
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `temperature_unit` | String | **Optional** | Temperature Unit (°C ou °F) |`°C`|
+| `temperature_setpoint` | Number | **Optional** | Temperature Set Point |If unit=°C:`27` <br/> If unit=°F:`80`|
+| `temperature_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
+
+#### pH
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ph_unit` | String | **Optional** | pH Unit |`pH`|
+| `ph_setpoint` | Number | **Optional** | pH Set Point |`7.2`|
+| `ph_step` | Number | **Optional** | pH Step |`0.2`|
+
+#### ORP
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `orp_unit` | String | **Optional*** | ORP Unit |`mV`|
+| `orp_setpoint` | Number | **Optional** | ORP Set Point |`700`|
+| `orp_step` | Number | **Optional** | ORP Step |`50`|
+
+#### TDS
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tds_unit` | String | **Optional** | TDS Unit (g/L ou ppm) |`g/L`|
+| `tds_setpoint` | Number | **Optional** | TDS Set Point |If unit=g/L:`4` <br/> If unit=ppm:`4000`|
+| `tds_step` | Number | **Optional** | TDS Step  |If unit=g/L:`1` <br/> If unit=ppm:`1000`|
 
 ## Other screenshots
 

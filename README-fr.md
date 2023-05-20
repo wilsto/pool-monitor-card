@@ -37,7 +37,7 @@ La carte Home Assistant Pool Monitor est disponible par défaut dans le réperto
 ou cliquez sur :
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor-card&category=plugin)
 
-### Manualy
+### Manuellement
 
 1. Téléchargez le fichier `pool_monitor_card.js` depuis la [dernière version disponible](https://github.com/wilsto/pool-monitor-card/releases) et sauvegardez-le dans votre dossier `configuration/www`.
 1. Allez dans `Configuration > Lovelace dashboard > Resources` dans Home Assistant et cliquez sur `Add resource`.
@@ -67,23 +67,55 @@ orp: sensor.orp_sensor
 tds: sensor.tds_sensor
 ```
 
-### Main Options
+### Paramètres principaux
 
 | Nom | Type | Exigence | Description | Valeur par défaut |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | texte | **Obligatoire** | `custom:pool-monitor-card` ||
 | `temperature` | texte | **Option*** | Entité Temperature  |`aucune`|
-| `temperature_setpoint` | nombre | **Option** | Point de consigne Temperature (°C) |`27`|
 | `ph` | texte | **Option*** | Entité ph  |`aucune`|
-| `ph_setpoint` | nombre | **Option** | Point de consigne pH (pH) |`7.2`|
 | `orp` | texte | **Option*** | Entité ORP  |`aucune`|
-| `orp_setpoint` | nombre | **Option** | Point de consigne ORP (mV) |`700`|
 | `tds` | texte | **Option*** | Entité TDS  |`aucune`|
-| `tds_setpoint` | nombre | **Option** | Point de consigne TDS (g/L) |`4`|
 | `title` | texte | **Option** | Titre de la carte  |`aucune`|
 | `compact` | booléen | **Option** | Mode Compact |`false`|
 
 *Vous devez définir au moins l'une de ces 4 entités.
+
+### Paramètres avancés
+
+Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité, le point de consigne et le palier de chaque entité mesurée.
+
+#### Température
+
+| Nom | Type | Exigence | Description | Valeur par défaut |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `temperature_unit` | texte | **Option** | Unité Temperature (°C ou °F) |`°C`|
+| `temperature_setpoint` | nombre | **Option** | Point de consigne Temperature |Si unité=°C:`27` <br/> Si unité=°F:`80`|
+| `temperature_step` | nombre | **Option** | Palier Temperature |Si unité=°C:`1` <br/> Si unité=°F:`2`|
+
+#### pH
+
+| Nom | Type | Exigence | Description | Valeur par défaut |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ph_unit` | texte | **Option** | Unité pH |`pH`|
+| `ph_setpoint` | nombre | **Option** | Point de consigne pH (pH) |`7.2`|
+| `ph_step` | nombre | **Option** | Palier pH |`0.2`|
+
+#### ORP
+
+| Nom | Type | Exigence | Description | Valeur par défaut |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `orp_unit` | texte | **Option*** | Unité ORP  |`mV`|
+| `orp_setpoint` | nombre | **Option** | Point de consigne ORP |`700`|
+| `orp_step` | nombre | **Option** | Palier ORP |`50`|
+
+#### TDS
+
+| Nom | Type | Exigence | Description | Valeur par défaut |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tds_unit` | texte | **Option** | Unité TDS (g/L ou ppm) |`g/L`|
+| `tds_setpoint` | nombre | **Option** | Point de consigne TDS (g/L) |Si unité=g/L:`4` <br/> Si unité=ppm:`4000`|
+| `tds_step` | nombre | **Option** | Palier TDS |Si unité=g/L:`1` <br/> Si unité=ppm:`1000`|
 
 ## Autres captures d'écran
 
