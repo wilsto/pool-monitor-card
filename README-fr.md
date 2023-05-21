@@ -122,3 +122,14 @@ Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité,
 ![dark_light](example/light-dark-card.png)
 
 ![change_unit](example/change_units.png)
+
+## Matériels
+
+Voici une liste non exhaustive, non testée et non affiliée de différents matériaux susceptibles d'intégrer certaines des valeurs ci-dessus :
+
+| Marque | Modèle  | Temp | pH | ORP | TDS | Home Assistant Support |
+| ---- | ----  | ----------- |--- | --- | --- | ------ | ----------------------------------------------- |
+| Bluerriot | [Blue Connect Plus Gold](https://www.blueriiot.com/us-en) |:heavy_check_mark: | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark:| ?? |
+|Inkbird | [IBS-P01R Bluetooth](https://pool-thermometer.eu/shop/wifi-swimming-pool-thermometer-bundle-weather-station/?lang=en) |  :heavy_check_mark: |  | | | ?? |
+| Ondilo |  [ICO Pool](https://ondilo.com/en/ico-pool/) |:heavy_check_mark: | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark:| ?? |
+| Zodiac  | [iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq)  |  :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | | [via nodeRED](https://community.home-assistant.io/t/jandy-iaqualink-pool-integration/105633/378?u=wilsto) |
