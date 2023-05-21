@@ -42,7 +42,12 @@ class PoolMonitorCard extends LitElement {
     padding-bottom: 15px;
     margin: 0;
   }
-
+  
+  .pool-monitor-entity-img {
+    text-align:right;
+    width:10%;
+    float:left;
+  }
   .pool-monitor-container {
     display: grid;
     grid-template-columns: 10% repeat(6, 1fr) 5%;
@@ -76,10 +81,7 @@ class PoolMonitorCard extends LitElement {
   }
   
   .pool-monitor-container-marker .marker-state {
-    border-radius: 5px;
-    width: 90px;
-    text-align: right;
-    justify-self: right;
+    width: 60px;
     position: absolute;
     z-index: 1;
   }
@@ -179,7 +181,7 @@ class PoolMonitorCard extends LitElement {
     config.ph_unit = this.config.ph_unit ?? "pH";
     config.ph_setpoint = this.config.ph_setpoint ?? 7.2;
     config.ph_step = this.config.ph_step ?? 0.2 ;
-    config.ph_override = 6.9;
+    config.ph_override = 7.5;
     
     config.orp = this.config.orp ;
     config.orp_unit = this.config.orp_unit ?? "mV";
@@ -205,7 +207,6 @@ class PoolMonitorCard extends LitElement {
 
     const data = {}
     const config = this.getConfig()
-    // console.log("config:",config);
 
     if (config.temperature) {
       data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
@@ -217,10 +218,9 @@ class PoolMonitorCard extends LitElement {
       data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
     }
     if (config.tds) {
-      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,config.tds_step, config.tds_unit,  config.tds_override,  config.override) 
+      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
     }
 
-    // console.log("data:",data);
     return data
   }
 
@@ -265,13 +265,10 @@ class PoolMonitorCard extends LitElement {
       newData.state = "Too High";
       newData.color = "#e17055";
     }
-    newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.80 * 100 + 22)).toFixed(0);
-    var side_step = newData.value > setpoint ? -26 : 5 ;
-    var side_step_cursor = newData.value > setpoint ? -30 : 0 ;
+    newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
     newData.side_align = newData.value > setpoint ? "right" : "left" ;
-    newData.pct_state_step = parseFloat(newData.pct) + parseFloat(side_step) ;
-    newData.pct_state_step_cursor = parseFloat(newData.pct) + parseFloat(side_step_cursor) ;
-
+    newData.pct_cursor = newData.value > setpoint ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) -2;    
+    newData.pct_state_step = newData.value > setpoint ? 100 - parseFloat(newData.pct): parseFloat(newData.pct);
     return newData
   }
 
@@ -296,7 +293,6 @@ class PoolMonitorCard extends LitElement {
       composed: true,
     });
     popupEvent.detail = { entityId: entityinfo };
-    console.log("entityinfo", entityinfo)
     document.querySelector("home-assistant").dispatchEvent(popupEvent);
   }
 }
@@ -320,10 +316,10 @@ class cardContent {
           PoolMonitorCard._moreinfo(data.entity)}>   
         <div class="pool-monitor-container-marker" >
           <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
-          <div class="marker-state" style="text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_step}%;">${data.state}</div>
+          <div class="marker-state" style="padding-${data.side_align}:40px;text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_state_step}%;">${data.state}</div>
           <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
         </div>
-        <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
+        <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
         <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
@@ -345,21 +341,21 @@ class cardContent {
       `
     }
 
-    static generateCompactBody (data) {
+    static generateCompactBody (data) {    
       return html`
       <!-- ##### ${data.name} section ##### -->    
       <div class="section-compact"  @click=${() => 
           PoolMonitorCard._moreinfo(data.entity)}>   
-        <div style="padding-left:20px;float:left"><img src="${data.img_src}"></div>
+        <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
         <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
           <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
           <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
+          <div class="cursor-text" style="border-${data.side_align}: 5px solid black; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} - ${data.state}</div>
           <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
           <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
           <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-          <div class="cursor-text" style="border-${data.side_align}: 5px solid black; text-align:${data.side_align};background-color:transparent ;left: ${data.pct_state_step_cursor - 2}%;">${data.value} - ${data.state}</div>
         </div>
         <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
