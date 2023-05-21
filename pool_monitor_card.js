@@ -236,6 +236,7 @@ class PoolMonitorCard extends LitElement {
     }
     newData.setpoint = setpoint ;
     const countDecimals = this.countDecimals(setpoint);
+    newData.value = (newData.value < 10 ? newData.value.toFixed(2): newData.value < 100 ? newData.value.toFixed(1): newData.value.toFixed(0))
     newData.setpoint_class = [
       (setpoint - 2 *setpoint_step).toFixed(countDecimals),
       (setpoint - setpoint_step).toFixed(countDecimals),

@@ -104,7 +104,7 @@ You can go further with the card by modifying, if needed or desired, the unit, s
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `orp_unit` | String | **Optional*** | ORP Unit |`mV`|
+| `orp_unit` | String | **Optional** | ORP Unit |`mV`|
 | `orp_setpoint` | Number | **Optional** | ORP Set Point |`700`|
 | `orp_step` | Number | **Optional** | ORP Step |`50`|
 

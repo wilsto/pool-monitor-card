@@ -103,7 +103,7 @@ Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité,
 
 | Nom | Type | Exigence | Description | Valeur par défaut |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `orp_unit` | texte | **Option*** | Unité ORP  |`mV`|
+| `orp_unit` | texte | **Option** | Unité ORP  |`mV`|
 | `orp_setpoint` | nombre | **Option** | Point de consigne ORP |`700`|
 | `orp_step` | nombre | **Option** | Palier ORP |`50`|
 
