@@ -32,9 +32,7 @@ Hey mec ! Aide-moi pour quelques :beers: ou un :coffee:!
 
 ### via HACS
 
-La carte Home Assistant Pool Monitor est disponible par défaut dans le répertoire HACS. Plus d'infos  [ici](https://hacs.xyz/).
-
-ou cliquez sur :
+En attendant que la carte "Pool Monitor Card" soit disponible par défaut dans le répertoire HACS.  cliquez sur :
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor-card&category=plugin)
 
 ### Manuellement
@@ -127,9 +125,13 @@ Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité,
 
 Voici une liste non exhaustive, non testée et non affiliée de différents matériaux susceptibles d'intégrer certaines des valeurs ci-dessus :
 
-| Marque | Modèle  | Temp | pH | ORP | TDS | Home Assistant Support |
+| Marque | Modèle  | Temp | pH | ORP | TDS | HA Support |
 | -------------- | ----------- | ------------ |  ------------ |  ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Bluerriot | [Blue Connect Plus Gold](https://www.blueriiot.com/us-en) |:heavy_check_mark: | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark:| ?? |
-|Inkbird | [IBS-P01R Bluetooth](https://pool-thermometer.eu/shop/wifi-swimming-pool-thermometer-bundle-weather-station/?lang=en) |  :heavy_check_mark: |  | | | ?? |
-| Ondilo |  [ICO Pool](https://ondilo.com/en/ico-pool/) |:heavy_check_mark: | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark:| ?? |
-| Zodiac  | [iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq)  |  :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | | [via nodeRED](https://community.home-assistant.io/t/jandy-iaqualink-pool-integration/105633/378?u=wilsto) |
+| Bluerriot | [Blue Connect Plus Gold](https://www.blueriiot.com/us-en) |✔️ | ✔️ |✔️ | ✔️|  [Blog](https://blog.mikejmcguire.com/2021/12/30/home-assistant-add-on-for-blueriiot-blue-connect-plus/) |
+| Flipr | [AnalysR](https://goflipr.com/flipr-analysr-3/) |✔️ | ✔️ |✔️ | ❌ | [Component](https://www.home-assistant.io/integrations/flipr/) |
+|Inkbird | [IBS-P01R Bluetooth](https://pool-thermometer.eu/shop/wifi-swimming-pool-thermometer-bundle-weather-station/?lang=en) |  ✔️ | ❌ | ❌| ❌ | [Component](https://www.home-assistant.io/integrations/inkbird/) |
+| Ondilo |  [ICO Pool](https://ondilo.com/en/ico-pool/) |✔️ | ✔️ |✔️ | ✔️| [Component](https://www.home-assistant.io/integrations/ondilo_ico/) |
+| Zodiac  | [iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq)  |  ✔️  | ✔️ | ✔️ |❌ | [via nodeRED](https://community.home-assistant.io/t/jandy-iaqualink-pool-integration/105633/378?u=wilsto) |
+
+Note : ✔️ indique que le modèle est capable de mesurer le paramètre spécifié, tandis que ❌ indique qu'il ne l'est pas.
+La dernière colonne concerne des infos pour le connecter à Home Assistant.
