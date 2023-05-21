@@ -227,7 +227,6 @@ class PoolMonitorCard extends LitElement {
   calculateData(name, entity, setpoint, setpoint_step, unit, override_value, override) {
     const newData = {};
     newData.name = name;
-    console.log('name',name)
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
     newData.value = parseFloat(this.hass.states[entity].state);
     newData.entity = entity;
@@ -237,7 +236,6 @@ class PoolMonitorCard extends LitElement {
     }
     newData.setpoint = setpoint ;
     const countDecimals = this.countDecimals(setpoint);
-    console.log('newData.value',newData.value)
     if (newData.value) {
       newData.value = (newData.value < 10 ? newData.value.toFixed(2): newData.value < 100 ? newData.value.toFixed(1): newData.value.toFixed(0))
     }
