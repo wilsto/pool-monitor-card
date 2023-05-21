@@ -128,7 +128,7 @@ Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité,
 Voici une liste non exhaustive, non testée et non affiliée de différents matériaux susceptibles d'intégrer certaines des valeurs ci-dessus :
 
 | Marque | Modèle  | Temp | pH | ORP | TDS | Home Assistant Support |
-| ---- | ----  | ----------- |--- | --- | --- | ------ | ----------------------------------------------- |
+| -------------- | ----------- | ------------ |  ------------ |  ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Bluerriot | [Blue Connect Plus Gold](https://www.blueriiot.com/us-en) |:heavy_check_mark: | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark:| ?? |
 |Inkbird | [IBS-P01R Bluetooth](https://pool-thermometer.eu/shop/wifi-swimming-pool-thermometer-bundle-weather-station/?lang=en) |  :heavy_check_mark: |  | | | ?? |
 | Ondilo |  [ICO Pool](https://ondilo.com/en/ico-pool/) |:heavy_check_mark: | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark:| ?? |
