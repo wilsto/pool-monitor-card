@@ -145,7 +145,14 @@ class PoolMonitorCard extends LitElement {
   render() {
     const config = this.getConfig()
     const data = this.processData()
-      
+
+    console.groupCollapsed(
+      `%cPOOL-MONITORING-CARD ${config.version} IS INSTALLED`,
+      "color: green; font-weight: bold"
+    );
+    console.log("Readme:", "https://github.com/wilsto/pool-monitor-card");
+    console.groupEnd();
+
     if (config.compact) {
       return html`
       <div id="pool-monitor-card">
@@ -170,6 +177,9 @@ class PoolMonitorCard extends LitElement {
 
   getConfig () {
     const config = {};
+
+    config.version = '1.3.4'
+
     config.temperature = this.config.temperature ;
     config.temperature_unit = this.config.temperature_unit ?? "°C";
     config.temperature_unit = config.temperature_unit.toUpperCase()
