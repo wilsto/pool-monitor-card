@@ -1,9 +1,10 @@
 # More Screenshots
 
-## Light and dark mode
+## Light mode
 
-![dark_light](light-dark-card.png)
+<a href="multi-screenshots.png">![multi-screenshot](multi-screenshots.png)</a>
 
-## Units and Setpoints
 
-![change_unit](change_units.png)
+## Dark mode
+
+<a href="multi-screenshots-dark.png">![multi-screenshot](multi-screenshots-dark.png)</a>

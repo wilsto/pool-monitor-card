@@ -294,6 +294,7 @@ class PoolMonitorCard extends LitElement {
 
     config.title = this.config.title;
     config.compact = this.config.compact ?? false;
+    config.show_names = this.config.show_names ?? true;
     config.show_labels = this.config.show_labels ?? true;
     config.language = this.config.language ?? 'en';
 
@@ -307,51 +308,52 @@ class PoolMonitorCard extends LitElement {
     const config = this.getConfig()
 
     if (config.temperature) {
-      data.temperature = this.calculateData('temperature', config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
+      data.temperature = this.calculateData('temperature', 'Temperature', config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
     }
     if (config.ph) {
-      data.ph = this.calculateData('ph', config.ph, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
+      data.ph = this.calculateData('ph', 'pH', config.ph, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
     }
     if (config.orp) {
-      data.orp = this.calculateData('orp', config.orp, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
+      data.orp = this.calculateData('orp', 'ORP', config.orp, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
     }
     if (config.tds) {
-      data.tds = this.calculateData('tds', config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
+      data.tds = this.calculateData('tds', 'TDS', config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
     }
     if (config.salt) {
-      data.salt = this.calculateData('salt', config.salt, config.salt_setpoint,config.salt_step, config.salt_unit, config.salt_override, config.override) 
+      data.salt = this.calculateData('salt', 'Salt', config.salt, config.salt_setpoint,config.salt_step, config.salt_unit, config.salt_override, config.override) 
     }
     if (config.cya) {
-      data.cya = this.calculateData('cya', config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
+      data.cya = this.calculateData('cya', 'Cyanuric Acid',config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
     }
     if (config.calcium) {
-      data.calcium = this.calculateData('calcium', config.calcium, config.calcium_setpoint,config.calcium_step, config.calcium_unit, config.calcium_override, config.override) 
+      data.calcium = this.calculateData('calcium', 'Calcium', config.calcium, config.calcium_setpoint,config.calcium_step, config.calcium_unit, config.calcium_override, config.override) 
     }
     if (config.phosphate) {
-      data.phosphate = this.calculateData('phosphate', config.phosphate, config.phosphate_setpoint,config.phosphate_step, config.phosphate_unit, config.phosphate_override, config.override) 
+      data.phosphate = this.calculateData('phosphate', 'Phosphate', config.phosphate, config.phosphate_setpoint,config.phosphate_step, config.phosphate_unit, config.phosphate_override, config.override) 
     }
     if (config.alkalinity) {
-      data.alkalinity = this.calculateData('alkalinity', config.alkalinity, config.alkalinity_setpoint,config.alkalinity_step, config.alkalinity_unit, config.alkalinity_override, config.override) 
+      data.alkalinity = this.calculateData('alkalinity', 'Alkalinity', config.alkalinity, config.alkalinity_setpoint,config.alkalinity_step, config.alkalinity_unit, config.alkalinity_override, config.override) 
     }    
     if (config.free_chlorine) {
-      data.free_chlorine = this.calculateData('free_chlorine', config.free_chlorine, config.free_chlorine_setpoint,config.free_chlorine_step, config.free_chlorine_unit, config.free_chlorine_override, config.override) 
+      data.free_chlorine = this.calculateData('free_chlorine', 'Free Chlorine', config.free_chlorine, config.free_chlorine_setpoint,config.free_chlorine_step, config.free_chlorine_unit, config.free_chlorine_override, config.override) 
     }    
     if (config.total_chlorine) {
-      data.total_chlorine = this.calculateData('total_chlorine', config.total_chlorine, config.total_chlorine_setpoint,config.total_chlorine_step, config.total_chlorine_unit, config.total_chlorine_override, config.override) 
+      data.total_chlorine = this.calculateData('total_chlorine', 'Total Chlorine', config.total_chlorine, config.total_chlorine_setpoint,config.total_chlorine_step, config.total_chlorine_unit, config.total_chlorine_override, config.override) 
     }    
     if (config.pressure) {
-      data.pressure = this.calculateData('pressure', config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
+      data.pressure = this.calculateData('pressure', 'Filter Pressure', config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
     }     
     console.log('config',config)
     console.log('data',data)
     return data
   }
 
-  calculateData(name, entity, setpoint, setpoint_step, unit, override_value, override) {
+  calculateData(name, title, entity, setpoint, setpoint_step, unit, override_value, override) {
     const newData = {};
     const config = this.getConfig()
 
     newData.name = name;
+    newData.title = config.show_names ? title : "";
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
     newData.value = parseFloat(this.hass.states[entity].state);
     newData.entity = entity;
@@ -443,6 +445,8 @@ class cardContent {
       <!-- ##### ${data.name} section ##### -->    
       <div class="section" @click=${() => 
           PoolMonitorCard._moreinfo(data.entity)}>   
+        <div style="float:left;padding-left:10px; ">${data.title}</div>
+
         <div class="pool-monitor-container-marker" >
           <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
           <div class="marker-state" style="padding-${data.side_align}:40px;text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_state_step}%;">${data.state}</div>
@@ -450,7 +454,7 @@ class cardContent {
         </div>
         <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
         <div class="pool-monitor-container">
-          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
+          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
           <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
           <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
@@ -477,7 +481,7 @@ class cardContent {
           PoolMonitorCard._moreinfo(data.entity)}>   
         <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
         <div class="pool-monitor-container">
-          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
+          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
           <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
           <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
@@ -495,6 +499,9 @@ class cardContent {
           <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div> 
       </div> 
+    
+      <div style="position: relative;margin-top:-30px;text-align:left;left:-25px;font-size:9px ">${data.title}</div>
+
       `
     }    
 }
