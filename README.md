@@ -312,5 +312,7 @@ Here is a non-exhaustive, non-tested and non-affiliated list of different materi
 | Ondilo |  [ICO Pool](https://ondilo.com/en/ico-pool/) |✔️ | ✔️ |✔️ | ✔️| [Component](https://www.home-assistant.io/integrations/ondilo_ico/) |
 | Zodiac  | [iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq)  |  ✔️  | ✔️ | ✔️ |❌ | [via nodeRED](https://community.home-assistant.io/t/jandy-iaqualink-pool-integration/105633/378?u=wilsto) |
 
-Note: ✔️ indicates that the model is able to measure the specified parameter, while ❌ indicates it is not.
+> **_NOTE:_**  ✔️ indicates that the model is able to measure the specified parameter, while ❌ indicates it is not.
 The last column is about info to connect it to Home Assistant.
+
+[Click me to see more hardware](example/hardware.md)
