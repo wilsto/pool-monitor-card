@@ -29,7 +29,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
 
 ## Description
 
-The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">12 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salt, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure**
+The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">12 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure**
 
 - **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
@@ -43,7 +43,7 @@ The "Pool Monitor Card" is a home assistant plugin that display information of *
   <summary><span style="color:blue">Click me to continue to list 8 other possible sensors</span></summary>
 
 
-- **Salt**: This measures the amount of salt in the water. A saltwater pool requires a specific range of salt to function properly. The ideal range for salt in a saltwater pool is between 2500 and 3500 ppm.
+- **Salinity**: This measures the amount of salt in the water. A saltwater pool requires a specific range of salt to function properly. The ideal range for salt in a saltwater pool is between 2500 and 3500 ppm.
 
 - **CYA**: This stands for Cyanuric Acid and measures the amount of stabilizer in the water. Stabilizer helps to protect the chlorine from being broken down by sunlight. The ideal range for CYA in a pool is between 30 and 50 ppm.
 
@@ -126,7 +126,7 @@ ph: sensor.your_ph_sensor
 | `ph` | string | **Optional*** | The entity that measures the acidity or basicity of the water. |`none`|
 | `orp` | string | **Optional*** | The entity that measures the Oxidation Reduction Potential of the water. |`none`|
 | `tds` | String | **Optional*** | The entity that measures the Total Dissolved Solids in the water. |`none`|
-| `salt` | String | **Optional*** | The entity that measures the salt level in the water (for saltwater pools). |`none`|
+| `salinity` | String | **Optional*** | The entity that measures the salt level in the water (for saltwater pools). |`none`|
 | `cya` | String | **Optional*** | The entity that measures the Cyanuric Acid level in the water. |`none`|
 | `calcium` | String | **Optional*** | The entity that measures the Calcium Hardness level in the water. |`none`|
 | `phosphate` | String | **Optional*** | The entity that measures the Phosphate level in the water. |`none`|
@@ -199,16 +199,16 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `tds_step` | Number | **Optional** | TDS Step  |If unit=g/L:`1` <br/> If unit=ppm:`1000`|
 </details>
 
-#### Salt
+#### Salinity
 
 <details >
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `salt_unit` | String | **Optional** | Salt Unit (ppm or mg/L) |`ppm`|
-| `salt_setpoint` | Number | **Optional** | Salt Set Point | `3000` |
-| `salt_step` | Number | **Optional** | Salt Step  |`500`|
+| `salinity_unit` | String | **Optional** | Salinity Unit (ppm or mg/L) |`ppm`|
+| `salinity_setpoint` | Number | **Optional** | Salinity Set Point | `3000` |
+| `salinity_step` | Number | **Optional** | Salinity Step  |`500`|
 </details>
 
 #### Cyanuric Acid
@@ -290,9 +290,9 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `salt_unit` | String | **Optional** | Filter Pressure Unit (psi or bar) |`psi`|
-| `salt_setpoint` | Number | **Optional** | Filter Pressure Set Point | `20` |
-| `salt_step` | Number | **Optional** | Filter Pressure Step  |`10`|
+| `pressure_unit` | String | **Optional** | Filter Pressure Unit (psi or bar) |`psi`|
+| `pressure_setpoint` | Number | **Optional** | Filter Pressure Set Point | `20` |
+| `pressure_step` | Number | **Optional** | Filter Pressure Step  |`10`|
 </details>
 
 ---

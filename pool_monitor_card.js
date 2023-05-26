@@ -185,7 +185,7 @@ class PoolMonitorCard extends LitElement {
         ${data.ph !== undefined ? cardContent.generateCompactBody(data.ph): ''}
         ${data.orp !== undefined ? cardContent.generateCompactBody(data.orp): ''}
         ${data.tds !== undefined ? cardContent.generateCompactBody(data.tds): ''}      
-        ${data.salt !== undefined ? cardContent.generateCompactBody(data.salt): ''}      
+        ${data.salinity !== undefined ? cardContent.generateCompactBody(data.salinity): ''}      
         ${data.cya !== undefined ? cardContent.generateCompactBody(data.cya): ''}      
         ${data.calcium !== undefined ? cardContent.generateCompactBody(data.calcium): ''}      
         ${data.phosphate !== undefined ? cardContent.generateCompactBody(data.phosphate): ''}      
@@ -202,7 +202,7 @@ class PoolMonitorCard extends LitElement {
         ${data.ph !== undefined ? cardContent.generateBody(data.ph): ''}
         ${data.orp !== undefined ? cardContent.generateBody(data.orp): ''}
         ${data.tds !== undefined ? cardContent.generateBody(data.tds): ''}      
-        ${data.salt !== undefined ? cardContent.generateBody(data.salt): ''}      
+        ${data.salinity !== undefined ? cardContent.generateBody(data.salinity): ''}      
         ${data.cya !== undefined ? cardContent.generateBody(data.cya): ''}      
         ${data.calcium !== undefined ? cardContent.generateBody(data.calcium): ''}      
         ${data.phosphate !== undefined ? cardContent.generateBody(data.phosphate): ''}      
@@ -244,11 +244,11 @@ class PoolMonitorCard extends LitElement {
     config.tds_step = this.config.tds_step ?? (config.tds_unit === "ppm" ? 1000 : 1) ;
     config.tds_override = config.tds_unit === "ppm" ? 7000 : 7;
 
-    config.salt = this.config.salt ;
-    config.salt_unit = this.config.salt_unit ?? "ppm";
-    config.salt_setpoint = this.config.salt_setpoint ?? 3000;
-    config.salt_step = this.config.salt_step ?? 500 ;
-    config.salt_override = 2750;
+    config.salinity = this.config.salinity ;
+    config.salinity_unit = this.config.salinity_unit ?? "ppm";
+    config.salinity_setpoint = this.config.salinity_setpoint ?? 3000;
+    config.salinity_step = this.config.salinity_step ?? 500 ;
+    config.salinity_override = 2750;
 
     config.cya = this.config.cya ;
     config.cya_unit = this.config.cya_unit ?? "ppm";
@@ -288,8 +288,8 @@ class PoolMonitorCard extends LitElement {
 
     config.pressure = this.config.pressure ;
     config.pressure_unit = this.config.pressure_unit ?? "psi";
-    config.pressure_setpoint = this.config.pressure_setpoint ?? 20;
-    config.pressure_step = this.config.pressure_step ?? 10 ;
+    config.pressure_setpoint = this.config.pressure_setpoint ?? (config.pressure_unit === "bar" ? 1.5 : 23);
+    config.pressure_step = this.config.pressure_step ?? (config.pressure_unit === "bar" ? 0.5 : 7);
     config.pressure_override = 32  ;
 
     config.title = this.config.title;
@@ -319,8 +319,8 @@ class PoolMonitorCard extends LitElement {
     if (config.tds) {
       data.tds = this.calculateData('tds', 'TDS', config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
     }
-    if (config.salt) {
-      data.salt = this.calculateData('salt', 'Salt', config.salt, config.salt_setpoint,config.salt_step, config.salt_unit, config.salt_override, config.override) 
+    if (config.salinity) {
+      data.salinity = this.calculateData('salinity', 'Salinity', config.salinity, config.salinity_setpoint,config.salinity_step, config.salinity_unit, config.salinity_override, config.override) 
     }
     if (config.cya) {
       data.cya = this.calculateData('cya', 'Cyanuric Acid',config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
