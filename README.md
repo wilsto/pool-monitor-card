@@ -2,13 +2,34 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
+![all](example/compact-card.png)
+[Click me to see more screenshots](exmaple/screenshots.md)
+
+
 ## Multilanguage ReadMe
 
 Click on the following button to choose the language of your ReadMe : [![fr](https://img.shields.io/badge/lang-fr-green.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README-fr.md) [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README.md)
 
+## TOC <!-- omit in toc -->
+
+- [Description](#description)
+- [Support](#support)
+- [Install](#install)
+  - [via HACS](#via-hacs)
+  - [Manualy](#manualy)
+- [Lovelace Set up](#lovelace-set-up)
+  - [Using UI](#using-ui)
+  - [Using YAML](#using-yaml)
+- [Parameters](#parameters)  
+  - [Main options](#main-options)
+  - [Advanced options](#advanced-options)
+- [Hardware](#hardware)
+
+---
+
 ## Description
 
-The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, ORP levels and TDS of your swimming pool.
+The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">12 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salt, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure**
 
 - **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
@@ -18,9 +39,32 @@ The "Pool Monitor Card" is a home assistant plugin that provides information abo
 
 - **TDS**: This stands for Total Dissolved Solids and measures the amount of inorganic and organic substances in the water, such as minerals, salts, and other particles. High levels of TDS can affect water clarity and make it difficult to balance chemicals in the pool. The ideal range for TDS in a saltwater pool is between 3000 and 5000 parts per million (ppm) (3 and 5 g/L).
 
+<details>
+  <summary><span style="color:blue">Click me to continue to list 8 other possible sensors</span></summary>
+
+
+- **Salt**: This measures the amount of salt in the water. A saltwater pool requires a specific range of salt to function properly. The ideal range for salt in a saltwater pool is between 2500 and 3500 ppm.
+
+- **CYA**: This stands for Cyanuric Acid and measures the amount of stabilizer in the water. Stabilizer helps to protect the chlorine from being broken down by sunlight. The ideal range for CYA in a pool is between 30 and 50 ppm.
+
+- **Calcium**: This measures the amount of calcium in the water. High levels of calcium can lead to scaling on pool surfaces and equipment. The ideal range for calcium hardness in a pool is between 200 and 400 ppm.
+
+- **Phosphate**: This measures the amount of phosphate in the water. Phosphates in the water can provide food for algae to grow. The ideal range for phosphate in a pool is below 200-300 ppm.
+
+- **Alkalinity**: This measures the ability of the water to resist changes in pH. Proper alkalinity can help to prevent the water from becoming too acidic or alkaline. The ideal range for alkalinity in a pool is between 80 and 120 ppm.
+
+- **Free Chlorine**: This measures the amount of active chlorine in the water that is available to sanitize the pool. The ideal range for free chlorine in a pool is between 1 and 3 ppm.
+
+- **Total Chlorine**: This measures the combined concentration of both free chlorine and chlorine that has combined with contaminants in the water. The ideal range for total chlorine in a pool is up to 5 ppm.
+
+- **Filter pressure**: This measures the pressure inside the pool filter. A high filter pressure can indicate that the filter is dirty and needs to be cleaned. The ideal filter pressure can vary depending on the make and model of the pool filter.
+
+</details>  
+
+<br/>
 With the "Pool Monitor Card", you can easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
 
-![all](example/compact-card.png)
+---
 
 ## Support
 
@@ -28,99 +72,144 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 
 [![coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://bmc.link/wilsto)
 
+---
+
 ## Install
 
-### via HACS
+#### via HACS
 
 Until the Home Assistant Pool Monitor card is available by default in the HACS directory, click on:
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor-card&category=plugin)
 
-### Manualy
+#### Manualy
 
 1. Download the `pool_monitor_card.js` file from the [latest release available](https://github.com/wilsto/pool-monitor-card/releases) and save it in your `configuration/www` folder.
 1. Go to `Configuration > Lovelace dashboard > Resources` in Home Assistant and click on `Add resource`.
     1. Add `/local/community/pool-monitor-card/pool_monitor_card.js` to the URL.
     1. Choose `Javascript Module` as Resource type.
 
+---
+
 ## Lovelace Set up
 
 ### Using UI
 
-1. Go to your dashboard, enter in edit mode and click on `Add card`, you should be able to find `Custom: Pool Monitor card` in the list.
-1. Once in the UI editor you can modify the card behavior by adding some of the config that you will find below
-
-Note: If `Custom: Pool Monitor card` doesn't appear you will have to reload cleaning the cache.
+Not yet possible.
 
 ### Using YAML
 
-1. You just need to add a new card with `type: 'custom:pool-monitor-card'` to your cards list and any of the config that you will find below if you want to customize more your card.
+1. You just need to add a new empty card with `type: 'custom:pool-monitor-card'` to your cards list and any of the config that you will find below if you want to customize more your card.
 
 #### Example of code
 
 ```yaml
 type: 'custom:pool-monitor-card'
-temperature: sensor.temperature_sensor
-ph: sensor.ph_sensor
-orp: sensor.orp_sensor
-tds: sensor.tds_sensor
+temperature: sensor.your_temperature_sensor
+ph: sensor.your_ph_sensor
 ```
 
+---
+
+## Parameters
+
 ### Main Options
+
+  Here's a list of sensors that may be important to monitor, depending on your pool's specific needs. Maintaining levels within the recommended ranges is essential to keep your pool healthy and swimmable.
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:pool-monitor-card` ||
-| `temperature` | string | **Optional*** | Temperature sensor entity |`none`|
-| `ph` | string | **Optional*** | ph sensor entity |`none`|
-| `orp` | string | **Optional*** | ORP sensor entity |`none`|
-| `tds` | String | **Optional*** | Entité TDS  |`aucune`|
-| `title` | string | **Optional** | Pool Monitor Card Title |`none`|
-| `compact` | boolean | **Optional** | Compact Mode |`false`|
+| `temperature` | string | **Optional*** | The entity that measures the water temperature. |`none`|
+| `ph` | string | **Optional*** | The entity that measures the acidity or basicity of the water. |`none`|
+| `orp` | string | **Optional*** | The entity that measures the Oxidation Reduction Potential of the water. |`none`|
+| `tds` | String | **Optional*** | The entity that measures the Total Dissolved Solids in the water. |`none`|
+| `salt` | String | **Optional*** | The entity that measures the salt level in the water (for saltwater pools). |`none`|
+| `cya` | String | **Optional*** | The entity that measures the Cyanuric Acid level in the water. |`none`|
+| `calcium` | String | **Optional*** | The entity that measures the Calcium Hardness level in the water. |`none`|
+| `phosphate` | String | **Optional*** | The entity that measures the Phosphate level in the water. |`none`|
+| `free_chlorine` | String | **Optional*** | The entity that measures the concentration of free chlorine in the water.|`none`|
+| `total_chlorine` | String | **Optional*** | The entity that measures the concentration of both free chlorine and combined chlorine in the water. |`none`|
+| `alkalinity` | String | **Optional*** | The entity that measures the alkalinity of the water. |`none`|
+| `pressure` | String | **Optional*** | The entity that measures the filter pressure in the pool. |`none`|
 
-*You need to define at least one of theses 4 entities
+*You need to define at least one of theses entities
 
 ### Advanced options
 
+You can go further with the card by modifying the user interface (UI).
+
+#### User eXperience (UI/UX)
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title` | string | **Optional** | Pool Monitor Card Title |`none`|
+| `compact` | boolean | **Optional** | Compact Mode |`false`|
+| `show_labels` | boolean | **Optional** | Display the state qualification (Low, Ideal, High)  |`true`|
+| `language` | string | **Optional** | Interface language (en, fr)  |`en`|
+
 You can go further with the card by modifying, if needed or desired, the unit, setpoint, and step of each measured entity.
 
+#### Temperature
 
-#### Température
+<details open>
+  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `temperature_unit` | String | **Optional** | Temperature Unit (°C or °F) |`°C`|
 | `temperature_setpoint` | Number | **Optional** | Temperature Set Point |If unit=°C:`27` <br/> If unit=°F:`80`|
 | `temperature_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
+</details>
 
 #### pH
+
+<details >
+  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ph_unit` | String | **Optional** | pH Unit |`pH`|
 | `ph_setpoint` | Number | **Optional** | pH Set Point |`7.2`|
 | `ph_step` | Number | **Optional** | pH Step |`0.2`|
+</details>
 
 #### ORP
+
+<details >
+  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `orp_unit` | String | **Optional** | ORP Unit |`mV`|
 | `orp_setpoint` | Number | **Optional** | ORP Set Point |`700`|
 | `orp_step` | Number | **Optional** | ORP Step |`50`|
+</details>
 
 #### TDS
+
+<details >
+  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tds_unit` | String | **Optional** | TDS Unit (g/L or ppm) |`g/L`|
 | `tds_setpoint` | Number | **Optional** | TDS Set Point |If unit=g/L:`4` <br/> If unit=ppm:`4000`|
 | `tds_step` | Number | **Optional** | TDS Step  |If unit=g/L:`1` <br/> If unit=ppm:`1000`|
+</details>
 
-## Other screenshots
+#### Salt
 
-![dark_light](example/light-dark-card.png)
+<details >
+  <summary> click me to open</summary>
 
-![change_unit](example/change_units.png)
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `salt_unit` | String | **Optional** | Salt Unit (ppm or mg/L) |`ppm`|
+| `salt_setpoint` | Number | **Optional** | Salt Set Point | `3000` |
+| `salt_step` | Number | **Optional** | Salt Step  |`500`|
+</details>
+
+---
 
 ## Hardware
 

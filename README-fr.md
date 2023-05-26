@@ -71,17 +71,24 @@ tds: sensor.tds_sensor
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | texte | **Obligatoire** | `custom:pool-monitor-card` ||
 | `temperature` | texte | **Option*** | Entité Temperature  |`aucune`|
-| `ph` | texte | **Option*** | Entité ph  |`aucune`|
+| `ph` | texte | **Option*** | Entité pH  |`aucune`|
 | `orp` | texte | **Option*** | Entité ORP  |`aucune`|
 | `tds` | texte | **Option*** | Entité TDS  |`aucune`|
-| `title` | texte | **Option** | Titre de la carte  |`aucune`|
-| `compact` | booléen | **Option** | Mode Compact |`false`|
 
 *Vous devez définir au moins l'une de ces 4 entités.
 
 ### Paramètres avancés
 
 Vous pouvez aller plus loin avec la carte en modifiant si besoin/envie l'unité, le point de consigne et le palier de chaque entité mesurée.
+
+#### eXperience Utilisateur (UI/UX)
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title` | texte | **Option** | Titre de la carte  |`aucune`|
+| `compact` | booléen | **Option** | Mode Compact |`false`|
+| `show_labels` | boolean | **Option** | Afficher la qualification de l'état (Bas, idéal, Elevé) |`true`|
+| `language` | string | **Option** | Langue d'interface (en, fr)  |`en`|
 
 #### Température
 
