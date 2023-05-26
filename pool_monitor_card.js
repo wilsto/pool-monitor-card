@@ -232,7 +232,7 @@ class PoolMonitorCard extends LitElement {
     config.temperature_2_unit = config.temperature_2_unit.toUpperCase()
     config.temperature_2_setpoint = this.config.temperature_2_setpoint ?? (config.temperature_2_unit === "°F" ? 80 : 27) ;
     config.temperature_2_step = this.config.temperature_2_step ?? (config.temperature_2_unit === "°F" ? 2 : 1) ;
-    config.temperature_2_override = config.temperature_2_unit === "°F" ? 79 : 26.5;
+    config.temperature_2_override = config.temperature_2_unit === "°F" ? 92 : 28.5;
 
     config.ph = this.config.ph;
     config.ph_unit = this.config.ph_unit ?? "pH";
@@ -511,7 +511,7 @@ class cardContent {
         </div> 
       </div> 
     
-      <div style="position: relative;margin-top:-30px;text-align:left;left:-25px;font-size:9px ">${data.title}</div>
+      <div style="position: relative;margin-top:-30px;text-align:left;left:-30px;font-size:9px ">${data.title}</div>
 
       `
     }    
