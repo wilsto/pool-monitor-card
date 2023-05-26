@@ -3,7 +3,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
 ![all](example/compact-card.png)
-[Click me to see more screenshots](exmaple/screenshots.md)
+[Click me to see more screenshots](example/screenshots.md)
 
 
 ## Multilanguage ReadMe
