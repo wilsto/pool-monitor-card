@@ -112,9 +112,12 @@ ph: sensor.your_ph_sensor
 
 ## Parameters
 
-### Main Options
+### Sensors Options
 
   Here's a list of sensors that may be important to monitor, depending on your pool's specific needs. Maintaining levels within the recommended ranges is essential to keep your pool healthy and swimmable.
+
+  ***All are optionals but you need to define at least one of theses entities**
+  
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -132,13 +135,11 @@ ph: sensor.your_ph_sensor
 | `alkalinity` | String | **Optional*** | The entity that measures the alkalinity of the water. |`none`|
 | `pressure` | String | **Optional*** | The entity that measures the filter pressure in the pool. |`none`|
 
-*You need to define at least one of theses entities
-
 ### Advanced options
 
 You can go further with the card by modifying the user interface (UI).
 
-#### User eXperience (UI/UX)
+#### User eXperience (UX)
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -148,7 +149,7 @@ You can go further with the card by modifying the user interface (UI).
 | `show_labels` | boolean | **Optional** | Display the state qualification (Low, Ideal, High)  |`true`|
 | `language` | string | **Optional** | Interface language (en, fr)  |`en`|
 
-You can go further with the card by modifying, if needed or desired, the unit, setpoint, and step of each measured entity.
+Needed to change the unit, setpoint, and steps ? No problem, see additionnal parameters below for each measured entity .
 
 #### Temperature
 
@@ -208,6 +209,90 @@ You can go further with the card by modifying, if needed or desired, the unit, s
 | `salt_unit` | String | **Optional** | Salt Unit (ppm or mg/L) |`ppm`|
 | `salt_setpoint` | Number | **Optional** | Salt Set Point | `3000` |
 | `salt_step` | Number | **Optional** | Salt Step  |`500`|
+</details>
+
+#### Cyanuric Acid
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cya_unit` | String | **Optional** | Cyanuric Acid Unit |`ppm`|
+| `cya_setpoint` | Number | **Optional** | Cyanuric Acid Set Point | `40` |
+| `cya_step` | Number | **Optional** | Cyanuric Acid Step  |`10`|
+</details>
+
+#### Calcium
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `calcium_unit` | String | **Optional** | Calcium Unit |`ppm`|
+| `calcium_setpoint` | Number | **Optional** | Calcium Set Point | `300` |
+| `calcium_step` | Number | **Optional** | Calcium Step  |`100`|
+</details>
+
+#### Phosphate
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `phosphate_unit` | String | **Optional** | Phosphate Unit |`ppb`|
+| `phosphate_setpoint` | Number | **Optional** | Phosphate Set Point | `100` |
+| `phosphate_step` | Number | **Optional** | Phosphate Step  |`100`|
+</details>
+
+#### Alkalinity
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `alkalinity_unit` | String | **Optional** | Alkalinity Unit |`ppm`|
+| `alkalinity_setpoint` | Number | **Optional** | Alkalinity Set Point | `100` |
+| `alkalinity_step` | Number | **Optional** | Alkalinity Step  |`20`|
+</details>
+
+#### Free Chlorine
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `free_chlorine_unit` | String | **Optional** | Free Chlorine Unit |`ppm`|
+| `free_chlorine_setpoint` | Number | **Optional** | Free Chlorine Set Point | `2` |
+| `free_chlorine_step` | Number | **Optional** | Free Chlorine Step  |`1`|
+</details>
+
+#### Total Chlorine
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `total_chlorine_unit` | String | **Optional** | Total Chlorine Unit |`ppm`|
+| `total_chlorine_setpoint` | Number | **Optional** | Total Chlorine Set Point | `3` |
+| `total_chlorine_step` | Number | **Optional** | Total Chlorine Step  |`1`|
+</details>
+
+#### Filter Pressure
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `salt_unit` | String | **Optional** | Filter Pressure Unit (psi or bar) |`psi`|
+| `salt_setpoint` | Number | **Optional** | Filter Pressure Set Point | `20` |
+| `salt_step` | Number | **Optional** | Filter Pressure Step  |`10`|
 </details>
 
 ---
