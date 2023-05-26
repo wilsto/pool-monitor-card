@@ -2,7 +2,7 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
-![all](example/Hero.png)
+![all](example/hero.png)
 [Cliquez sur moi pour voir d'autres captures d'écran](example/screenshots.md)
 
 ## ReadMe multilingue
