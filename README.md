@@ -163,6 +163,9 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `temperature_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
 </details>
 
+> **_NOTE:_**  I added a second parameter named temperature_2 (with same logic for unit, setpoint, step) for thoses who have multiple temperature sensors.
+
+
 #### pH
 
 <details >

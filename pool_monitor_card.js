@@ -182,6 +182,7 @@ class PoolMonitorCard extends LitElement {
       <div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
         ${data.temperature !== undefined ? cardContent.generateCompactBody(data.temperature): ''}
+        ${data.temperature_2 !== undefined ? cardContent.generateCompactBody(data.temperature_2): ''}
         ${data.ph !== undefined ? cardContent.generateCompactBody(data.ph): ''}
         ${data.orp !== undefined ? cardContent.generateCompactBody(data.orp): ''}
         ${data.tds !== undefined ? cardContent.generateCompactBody(data.tds): ''}      
@@ -199,6 +200,7 @@ class PoolMonitorCard extends LitElement {
       <div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
         ${data.temperature !== undefined ? cardContent.generateBody(data.temperature): ''}
+        ${data.temperature_2 !== undefined ? cardContent.generateBody(data.temperature_2): ''}
         ${data.ph !== undefined ? cardContent.generateBody(data.ph): ''}
         ${data.orp !== undefined ? cardContent.generateBody(data.orp): ''}
         ${data.tds !== undefined ? cardContent.generateBody(data.tds): ''}      
@@ -224,6 +226,13 @@ class PoolMonitorCard extends LitElement {
     config.temperature_setpoint = this.config.temperature_setpoint ?? (config.temperature_unit === "°F" ? 80 : 27) ;
     config.temperature_step = this.config.temperature_step ?? (config.temperature_unit === "°F" ? 2 : 1) ;
     config.temperature_override = config.temperature_unit === "°F" ? 79 : 26.5;
+
+    config.temperature_2 = this.config.temperature_2 ;
+    config.temperature_2_unit = this.config.temperature_2_unit ?? "°C";
+    config.temperature_2_unit = config.temperature_2_unit.toUpperCase()
+    config.temperature_2_setpoint = this.config.temperature_2_setpoint ?? (config.temperature_2_unit === "°F" ? 80 : 27) ;
+    config.temperature_2_step = this.config.temperature_2_step ?? (config.temperature_2_unit === "°F" ? 2 : 1) ;
+    config.temperature_2_override = config.temperature_2_unit === "°F" ? 79 : 26.5;
 
     config.ph = this.config.ph;
     config.ph_unit = this.config.ph_unit ?? "pH";
@@ -310,6 +319,9 @@ class PoolMonitorCard extends LitElement {
     if (config.temperature) {
       data.temperature = this.calculateData('temperature', 'Temperature', config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
     }
+    if (config.temperature_2) {
+      data.temperature_2 = this.calculateData('temperature_2', 'Temperature 2', config.temperature_2, config.temperature_2_setpoint, config.temperature_2_step,config.temperature_2_unit,  config.temperature_2_override, config.override) 
+    }
     if (config.ph) {
       data.ph = this.calculateData('ph', 'pH', config.ph, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
     }
@@ -343,8 +355,6 @@ class PoolMonitorCard extends LitElement {
     if (config.pressure) {
       data.pressure = this.calculateData('pressure', 'Filter Pressure', config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
     }     
-    console.log('config',config)
-    console.log('data',data)
     return data
   }
 
@@ -445,7 +455,6 @@ class cardContent {
       <!-- ##### ${data.name} section ##### -->    
       <div class="section" @click=${() => 
           PoolMonitorCard._moreinfo(data.entity)}>   
-        <div style="float:left;padding-left:10px; ">${data.title}</div>
 
         <div class="pool-monitor-container-marker" >
           <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
@@ -471,6 +480,8 @@ class cardContent {
           <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div> 
       </div> 
+      <div style="position: relative;top:-25px;text-align:left;left:15px;font-size:9px ">${data.title}</div>
+
       `
     }
 
