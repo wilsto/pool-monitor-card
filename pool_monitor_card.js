@@ -354,7 +354,9 @@ class PoolMonitorCard extends LitElement {
     }    
     if (config.pressure) {
       data.pressure = this.calculateData('pressure', 'Filter Pressure', config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
-    }     
+    }    
+    
+    console.log('data',data)
     return data
   }
 
@@ -386,22 +388,22 @@ class PoolMonitorCard extends LitElement {
 
     newData.separator = config.show_labels ? "-":"";
     newData.color = "transparent";
-    if (newData.value < newData.setpoint_class[0]) {
+    if (Number(newData.value)  < Number(newData.setpoint_class[0])) {
       newData.state = config.show_labels ? translations[config.language]["state"][1]:"";
       newData.color = "#e17055";
-    } else if (newData.value >= newData.setpoint_class[0] && newData.value < newData.setpoint_class[1]) {
+    } else if (Number(newData.value)  >= Number(newData.setpoint_class[0]) && Number(newData.value)  < Number(newData.setpoint_class[1])) {
       newData.state = config.show_labels ? translations[config.language]["state"][2]:"";
       newData.color = "#fdcb6e";
-    } else if (newData.value >= newData.setpoint_class[1] && newData.value < newData.setpoint_class[2]) {
+    } else if (Number(newData.value)  >= Number(newData.setpoint_class[1]) && Number(newData.value)  < Number(newData.setpoint_class[2])) {
       newData.state = config.show_labels ? translations[config.language]["state"][3]:"";
       newData.color = "#00b894";
-    } else if (newData.value >= newData.setpoint_class[2] && newData.value < newData.setpoint_class[3]) {
+    } else if (Number(newData.value)  >= Number(newData.setpoint_class[2]) && Number(newData.value)  < Number(newData.setpoint_class[3])) {
       newData.state = config.show_labels ? translations[config.language]["state"][4]:"";
       newData.color = "#00b894";
-    } else if (newData.value >= newData.setpoint_class[3] && newData.value < newData.setpoint_class[4]) {
+    } else if (Number(newData.value)  >= Number(newData.setpoint_class[3]) && Number(newData.value)  < Number(newData.setpoint_class[4])) {
       newData.state = config.show_labels ? translations[config.language]["state"][5]:"";
       newData.color = "#fdcb6e";
-    } else if (newData.value >= newData.setpoint_class[4]) {
+    } else if (Number(newData.value)  >= Number(newData.setpoint_class[4])) {
       newData.state = config.show_labels ? translations[config.language]["state"][6]:"";
       newData.color = "#e17055";
     }
