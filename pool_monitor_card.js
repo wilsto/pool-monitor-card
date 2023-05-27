@@ -5,12 +5,12 @@ var css = LitElement.prototype.css;
 
 const CARD_VERSION = '1.4.0';
 
-console.groupCollapsed(
-  `%cPOOL-MONITORING-CARD ${CARD_VERSION} IS INSTALLED`,
-  'color: green; font-weight: bold; background: black',
+// eslint-disable-next-line no-console
+console.info(
+  `%c POOL-MONITORING-CARD %c ${CARD_VERSION} `,
+  'color: white; background: green; font-weight: 700;',
+  'color: green; background: white; font-weight: 700;',
 );
-console.log("Readme:", "https://github.com/wilsto/pool-monitor-card");
-console.groupEnd();
 
 const translations = {
   'en': {
@@ -366,7 +366,6 @@ class PoolMonitorCard extends LitElement {
       data.pressure = this.calculateData('pressure', 'Filter Pressure', config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
     }    
     
-    console.log('data',data)
     return data
   }
 
