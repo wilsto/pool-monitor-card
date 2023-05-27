@@ -32,6 +32,16 @@ const translations = {
       "5": "Acceptable élevé",
       "6": "Trop élevé"
     }
+  },
+  'es': {
+    "state": {
+      "1": "Demasiado bajo",
+      "2": "Aceptable bajo",
+      "3": "Perfecto",
+      "4": "Perfecto",
+      "5": "Aceptable alto",
+      "6": "Demasiado alto"
+    }
   }
 }
 
