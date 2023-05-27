@@ -1,3 +1,10 @@
+<style>
+pre{
+    max-height: 350px;
+    overflow: auto;
+}
+</style>
+
 # Zodiac Tutorial
 
 This tutorial provides information and code to integrate Zodiac chlorinator eXO iQ and HeatPump Z400 iQ with Home Assistant using NodeRED.
@@ -30,7 +37,6 @@ To declare sensors under Home Assistant, add the following code in `mqtt.yaml` f
 
 Code :
 
-<div style="max-height: 350px; overflow: auto;">
 
 ```yaml
 sensor:
@@ -87,8 +93,6 @@ sensor:
     value_template: "{{ value_json.error_code }}"
 ```
 
-</div>
-<br/>
 Add the `mqtt.yaml` file to `configuration.yaml` if not already done.
 
 ## Nodered
@@ -108,7 +112,6 @@ Copy and Import this code, then Connect your MQTT with your login and password
 
 Code :
 
-<div style="max-height: 350px; overflow: auto;">
 
 ```json
 
@@ -1027,9 +1030,6 @@ Code :
 ]
 
 ```
-
-</div>
-<br/>
 
 ## MQTT Topics
 
