@@ -88,6 +88,7 @@ sensor:
 ```
 
 ## Nodered
+> note : If you don't already have note-red installed, please [find info here](https://community.home-assistant.io/t/home-assistant-community-add-on-node-red/55023)
 
 ![nodered](https://forum.hacf.fr/uploads/default/optimized/3X/8/8/8863b7b8db67a2b2acb9cecfb13622974b543d6c_2_690x438.png)
 
