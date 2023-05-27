@@ -1,36 +1,36 @@
-<style>
+# Zodiac Tutorial
 
-.markdown-body pre {
-  max-height: 600px;
-}
-</style>
-
-# Zodiac
+This tutorial provides information and code to integrate Zodiac chlorinator eXO iQ and HeatPump Z400 iQ with Home Assistant using NodeRED.
 
 ## chlorinator eXO iQ
 
-https://www.zodiac.com.au/salt-chlorinators/exo-pro
+Chlorinator eXO iQ is a smart salt chlorinator that automates pool sanitation. It features a multi-language interface, easy operation, and remote monitoring.
 
-For HA, for this device you need to connect with nodeRED (see Below)
+To connect this device with Home Assistant, you need to integrate it with NodeRED.
 
 ![eXO](https://cdn.shopify.com/s/files/1/0272/3066/6840/products/eXO_iQ_11_1200x1200.png?v=1574270371)
 
+Visit https://www.zodiac.com.au/salt-chlorinators/exo-pro to learn more about eXO iQ.
+
 ## HeatPump Z400 iQ
 
-https://www.zodiac.com.au/pool-heaters/heat-pumps/z400
+Zodiac HeatPump Z400 iQ is an energy-efficient pool heater that keeps your pool water warm and comfortable throughout the swim season. It features a powerful compressor, advanced control, and user-friendly interface.
 
-For HA, for this device you need to connect with nodeRED (see Below)
+To connect this device with Home Assistant, you need to integrate it with NodeRED.
+
 ![Z400](https://s3-ap-southeast-2.amazonaws.com/zodiac-au-2/Products/z400-pool-heat-pump/z400-iq-aqua-final.jpg)
 
+Visit https://www.zodiac.com.au/pool-heaters/heat-pumps/z400 to learn more about Z400 iQ.
 
 # Code
 
 ## Home Assistant
 
-Here's the mqtt.yaml code to declare sensors under HA.
-Root file to declare in confirguration.yaml if not already done:
+To declare sensors under Home Assistant, add the following code in `mqtt.yaml` file:
 
-File mqtt.yaml
+Code :
+
+<div style="max-height: 350px; overflow: auto;">
 
 ```yaml
 sensor:
@@ -87,21 +87,14 @@ sensor:
     value_template: "{{ value_json.error_code }}"
 ```
 
+</div>
+<br/>
+Add the `mqtt.yaml` file to `configuration.yaml` if not already done.
+
 ## Nodered
-> note : If you don't already have note-red installed, please [find info here](https://community.home-assistant.io/t/home-assistant-community-add-on-node-red/55023)
+> note : If you don't already have NodeRED installed, please visit https://community.home-assistant.io/t/home-assistant-community-add-on-node-red/55023 for installation instructions.
 
-![nodered](https://forum.hacf.fr/uploads/default/optimized/3X/8/8/8863b7b8db67a2b2acb9cecfb13622974b543d6c_2_690x438.png)
-
-Here is the NodeRed flow code with MQTT part
-
-
-
-Topics published are
-- pool/chlorinator
-- pool/heatpump
-
-Modify these 3 values in the code by supplying your own.
-
+Here is the NodeRED flow code with MQTT part. Modify these 3 values in the code by supplying your own.
 
         ***EMAIL***
         ***PASSWORD***
@@ -109,10 +102,16 @@ Modify these 3 values in the code by supplying your own.
 
 You can do it directly in the code before import or via nodeRED interface, in the third node of each flow.
 
-Copy and Import this code
-Then Connect your MQTT with your login and password
+![nodered](https://forum.hacf.fr/uploads/default/optimized/3X/8/8/8863b7b8db67a2b2acb9cecfb13622974b543d6c_2_690x438.png)
+
+Copy and Import this code, then Connect your MQTT with your login and password
+
+Code :
+
+<div style="max-height: 350px; overflow: auto;">
 
 ```json
+
 
 [
     {
@@ -1028,3 +1027,17 @@ Then Connect your MQTT with your login and password
 ]
 
 ```
+
+</div>
+<br/>
+
+## MQTT Topics
+
+The following MQTT topics need to be published for integration:
+
+- pool/chlorinator
+- pool/heatpump
+
+Once you have set these up, you can use NodeRED to receive these MQTT messages and integrate them with Home Assistant.
+
+With these instructions, you can successfully integrate Zodiac devices with Home Assistant using NodeRED.
