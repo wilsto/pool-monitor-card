@@ -91,13 +91,25 @@ sensor:
 
 ![nodered](https://forum.hacf.fr/uploads/default/optimized/3X/8/8/8863b7b8db67a2b2acb9cecfb13622974b543d6c_2_690x438.png)
 
-Import a NodeRed flow this code with MQTT part
-The 2 published topics we'll retrieve from HA will be pool/chlorinator and pool/heatpump (code above)
+Here is the NodeRed flow code with MQTT part
+
+
+
+Topics published are
+- pool/chlorinator
+- pool/heatpump
 
 Modify these 3 values in the code by supplying your own.
-        \*\*\*EMAIL\*\*\*\
-        \*\*\*PASSWORD\*\*\*\
-        \*\*\*ID DEVICE\*\*\*
+
+
+        ***EMAIL***
+        ***PASSWORD***
+        ***ID DEVICE***
+
+You can do it directly in the code before import or via nodeRED interface, in the third node of each flow.
+
+Copy and Import this code
+Then Connect your MQTT with your login and password
 
 ```json
 
