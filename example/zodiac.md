@@ -1,10 +1,3 @@
-<style>
-pre{
-    max-height: 350px;
-    overflow: auto;
-}
-</style>
-
 # Zodiac Tutorial
 
 This tutorial provides information and code to integrate Zodiac chlorinator eXO iQ and HeatPump Z400 iQ with Home Assistant using NodeRED.
