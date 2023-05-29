@@ -2,6 +2,9 @@
 
 This tutorial provides information and code to integrate Zodiac chlorinator eXO iQ and HeatPump Z400 iQ with Home Assistant using NodeRED.
 
+![image](https://github.com/wilsto/pool-monitor-card/assets/4889715/d3466eb5-e29b-486f-b2e3-c26c5ad75470)
+
+
 ## chlorinator eXO iQ
 
 Chlorinator eXO iQ is a smart salt chlorinator that automates pool sanitation. It features a multi-language interface, easy operation, and remote monitoring.
