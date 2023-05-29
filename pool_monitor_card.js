@@ -21,6 +21,21 @@ const translations = {
       "4": "Ideal",
       "5": "Acceptable High",
       "6": "Too High"
+    },
+    "sensor": {
+      "temperature": "Temperature",
+      "temperature_2": "Temperature 2",
+      "ph": "pH",
+      "orp": "ORP",
+      "tds": "TDS",
+      "salinity": "Salinity",
+      "cya": "Cyanuric Acid",
+      "calcium": "Calcium",
+      "phosphate": "Phosphate",
+      "alkalinity": "Alkalinity",
+      "free_chlorine": "Free Chlorine",
+      "total_chlorine": "Total Chlorine",
+      "pressure": "Filter Pressure"
     }
   },
   'fr': {
@@ -31,6 +46,21 @@ const translations = {
       "4": "Idéal",
       "5": "Acceptable élevé",
       "6": "Trop élevé"
+    },
+    "sensor": {
+      "temperature": "Température",
+      "temperature_2": "Température 2",
+      "ph": "pH",
+      "orp": "ORP",
+      "tds": "TDS",
+      "salinity": "Salinité",
+      "cya": "Acide cyanurique",
+      "calcium": "Calcium",
+      "phosphate": "Phosphate",
+      "alkalinity": "Alcalinité",
+      "free_chlorine": "Chlore libre",
+      "total_chlorine": "Chlore total",
+      "pressure": "Pression du filtre"
     }
   },
   'es': {
@@ -41,6 +71,21 @@ const translations = {
       "4": "Perfecto",
       "5": "Aceptable alto",
       "6": "Demasiado alto"
+    },
+    "sensor": {
+      "temperature": "Temperatura",
+      "temperature_2": "Temperatura 2",
+      "ph": "pH",
+      "orp": "ORP",
+      "tds": "TDS",
+      "salinity": "Salinidad",
+      "cya": "Acido cianúrico",
+      "calcium": "Calcio",
+      "phosphate": "Fosfato",
+      "alkalinity": "Alcalinidad",
+      "free_chlorine": "Cloro libre",
+      "total_chlorine": "Cloro total",
+      "pressure": "Presión del filtro"
     }
   }
 }
@@ -230,7 +275,16 @@ class PoolMonitorCard extends LitElement {
   getConfig () {
     const config = {};
 
+    config.title = this.config.title ;
+    config.compact = this.config.compact ?? false;
+    config.show_names = this.config.show_names ?? true;
+    config.show_labels = this.config.show_labels ?? true;
+    config.language = this.config.language ?? 'en';
+
+    config.override = this.config.override ?? false;
+
     config.temperature = this.config.temperature ;
+    config.temperature_name = this.config.temperature_name ?? translations[config.language]["sensor"]["temperature"];
     config.temperature_unit = this.config.temperature_unit ?? "°C";
     config.temperature_unit = config.temperature_unit.toUpperCase()
     config.temperature_setpoint = this.config.temperature_setpoint ?? (config.temperature_unit === "°F" ? 80 : 27) ;
@@ -238,6 +292,7 @@ class PoolMonitorCard extends LitElement {
     config.temperature_override = config.temperature_unit === "°F" ? 79 : 26.5;
 
     config.temperature_2 = this.config.temperature_2 ;
+    config.temperature_2_name = this.config.temperature_2_name ?? translations[config.language]["sensor"]["temperature_2"];
     config.temperature_2_unit = this.config.temperature_2_unit ?? "°C";
     config.temperature_2_unit = config.temperature_2_unit.toUpperCase()
     config.temperature_2_setpoint = this.config.temperature_2_setpoint ?? (config.temperature_2_unit === "°F" ? 80 : 27) ;
@@ -245,18 +300,21 @@ class PoolMonitorCard extends LitElement {
     config.temperature_2_override = config.temperature_2_unit === "°F" ? 92 : 28.5;
 
     config.ph = this.config.ph;
+    config.ph_name = this.config.ph_name ?? translations[config.language]["sensor"]["ph"];
     config.ph_unit = this.config.ph_unit ?? "pH";
     config.ph_setpoint = this.config.ph_setpoint ?? 7.2;
     config.ph_step = this.config.ph_step ?? 0.2 ;
     config.ph_override = 7.5;
     
     config.orp = this.config.orp ;
+    config.orp_name = this.config.orp_name ?? translations[config.language]["sensor"]["orp"];
     config.orp_unit = this.config.orp_unit ?? "mV";
     config.orp_setpoint = this.config.orp_setpoint ?? 700;
     config.orp_step = this.config.orp_step ?? 50 ;
     config.orp_override = 551;
 
     config.tds = this.config.tds ;
+    config.tds_name = this.config.tds_name ?? translations[config.language]["sensor"]["tds"];
     config.tds_unit = this.config.tds_unit ?? "g/L";
     config.tds_unit = config.tds_unit.toLowerCase()
     config.tds_setpoint = this.config.tds_setpoint ?? (config.tds_unit === "ppm" ? 4000 : 4) ;
@@ -264,60 +322,61 @@ class PoolMonitorCard extends LitElement {
     config.tds_override = config.tds_unit === "ppm" ? 7000 : 7;
 
     config.salinity = this.config.salinity ;
+    config.salinity_name = this.config.salinity_name ?? translations[config.language]["sensor"]["salinity"];
     config.salinity_unit = this.config.salinity_unit ?? "ppm";
     config.salinity_setpoint = this.config.salinity_setpoint ?? 3000;
     config.salinity_step = this.config.salinity_step ?? 500 ;
     config.salinity_override = 2750;
 
     config.cya = this.config.cya ;
+    config.cya_name = this.config.cya_name ?? translations[config.language]["sensor"]["cya"];
     config.cya_unit = this.config.cya_unit ?? "ppm";
     config.cya_setpoint = this.config.cya_setpoint ?? 40;
     config.cya_step = this.config.cya_step ?? 10 ;
     config.cya_override = 27;
 
     config.calcium = this.config.calcium ;
+    config.calcium_name = this.config.calcium_name ?? translations[config.language]["sensor"]["calcium"];
     config.calcium_unit = this.config.calcium_unit ?? "ppm";
     config.calcium_setpoint = this.config.calcium_setpoint ?? 300;
     config.calcium_step = this.config.calcium_step ?? 100 ;
     config.calcium_override = 425;
 
     config.phosphate = this.config.phosphate ;
+    config.phosphate_name = this.config.phosphate_name ?? translations[config.language]["sensor"]["phosphate"];
     config.phosphate_unit = this.config.phosphate_unit ?? "ppb";
     config.phosphate_setpoint = this.config.phosphate_setpoint ?? 100;
     config.phosphate_step = this.config.phosphate_step ?? 100 ;
     config.phosphate_override = 30;
 
     config.alkalinity = this.config.alkalinity ;
+    config.alkalinity_name = this.config.alkalinity_name ?? translations[config.language]["sensor"]["alkalinity"];
     config.alkalinity_unit = this.config.alkalinity_unit ?? "ppm";
     config.alkalinity_setpoint = this.config.alkalinity_setpoint ?? 100;
     config.alkalinity_step = this.config.alkalinity_step ?? 20 ;
     config.alkalinity_override = 50;
 
     config.free_chlorine = this.config.free_chlorine ;
+    config.free_chlorine_name = this.config.free_chlorine_name ?? translations[config.language]["sensor"]["free_chlorine"];
     config.free_chlorine_unit = this.config.free_chlorine_unit ?? "ppm";
     config.free_chlorine_setpoint = this.config.free_chlorine_setpoint ?? 2;
     config.free_chlorine_step = this.config.free_chlorine_step ?? 1 ;
     config.free_chlorine_override = 1.5;
 
     config.total_chlorine = this.config.total_chlorine ;
+    config.total_chlorine_name = this.config.total_chlorine_name ?? translations[config.language]["sensor"]["total_chlorine"];
     config.total_chlorine_unit = this.config.total_chlorine_unit ?? "ppm";
     config.total_chlorine_setpoint = this.config.total_chlorine_setpoint ?? 3;
     config.total_chlorine_step = this.config.total_chlorine_step ?? 1 ;
     config.total_chlorine_override = 5.5;
 
     config.pressure = this.config.pressure ;
+    config.pressure_name = this.config.pressure_name ?? translations[config.language]["sensor"]["pressure"];
     config.pressure_unit = this.config.pressure_unit ?? "psi";
     config.pressure_setpoint = this.config.pressure_setpoint ?? (config.pressure_unit === "bar" ? 1.5 : 23);
     config.pressure_step = this.config.pressure_step ?? (config.pressure_unit === "bar" ? 0.5 : 7);
     config.pressure_override = 32  ;
 
-    config.title = this.config.title;
-    config.compact = this.config.compact ?? false;
-    config.show_names = this.config.show_names ?? true;
-    config.show_labels = this.config.show_labels ?? true;
-    config.language = this.config.language ?? 'en';
-
-    config.override = this.config.override ?? false;
     return config;
   }
 
@@ -327,43 +386,43 @@ class PoolMonitorCard extends LitElement {
     const config = this.getConfig()
 
     if (config.temperature) {
-      data.temperature = this.calculateData('temperature', 'Temperature', config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
+      data.temperature = this.calculateData('temperature', config.temperature_name, config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
     }
     if (config.temperature_2) {
-      data.temperature_2 = this.calculateData('temperature_2', 'Temperature 2', config.temperature_2, config.temperature_2_setpoint, config.temperature_2_step,config.temperature_2_unit,  config.temperature_2_override, config.override) 
+      data.temperature_2 = this.calculateData('temperature_2', config.temperature_2_name, config.temperature_2, config.temperature_2_setpoint, config.temperature_2_step,config.temperature_2_unit,  config.temperature_2_override, config.override) 
     }
     if (config.ph) {
-      data.ph = this.calculateData('ph', 'pH', config.ph, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
+      data.ph = this.calculateData('ph', config.ph_name, config.ph, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
     }
     if (config.orp) {
-      data.orp = this.calculateData('orp', 'ORP', config.orp, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
+      data.orp = this.calculateData('orp', config.orp_name, config.orp, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
     }
     if (config.tds) {
-      data.tds = this.calculateData('tds', 'TDS', config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
+      data.tds = this.calculateData('tds', config.tds_name, config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
     }
     if (config.salinity) {
-      data.salinity = this.calculateData('salinity', 'Salinity', config.salinity, config.salinity_setpoint,config.salinity_step, config.salinity_unit, config.salinity_override, config.override) 
+      data.salinity = this.calculateData('salinity', config.salinity_name, config.salinity, config.salinity_setpoint,config.salinity_step, config.salinity_unit, config.salinity_override, config.override) 
     }
     if (config.cya) {
-      data.cya = this.calculateData('cya', 'Cyanuric Acid',config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
+      data.cya = this.calculateData('cya', config.cya_name,config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
     }
     if (config.calcium) {
-      data.calcium = this.calculateData('calcium', 'Calcium', config.calcium, config.calcium_setpoint,config.calcium_step, config.calcium_unit, config.calcium_override, config.override) 
+      data.calcium = this.calculateData('calcium', config.calcium_name, config.calcium, config.calcium_setpoint,config.calcium_step, config.calcium_unit, config.calcium_override, config.override) 
     }
     if (config.phosphate) {
-      data.phosphate = this.calculateData('phosphate', 'Phosphate', config.phosphate, config.phosphate_setpoint,config.phosphate_step, config.phosphate_unit, config.phosphate_override, config.override) 
+      data.phosphate = this.calculateData('phosphate', config.phosphate_name, config.phosphate, config.phosphate_setpoint,config.phosphate_step, config.phosphate_unit, config.phosphate_override, config.override) 
     }
     if (config.alkalinity) {
-      data.alkalinity = this.calculateData('alkalinity', 'Alkalinity', config.alkalinity, config.alkalinity_setpoint,config.alkalinity_step, config.alkalinity_unit, config.alkalinity_override, config.override) 
+      data.alkalinity = this.calculateData('alkalinity', config.alkalinity_name , config.alkalinity, config.alkalinity_setpoint,config.alkalinity_step, config.alkalinity_unit, config.alkalinity_override, config.override) 
     }    
     if (config.free_chlorine) {
-      data.free_chlorine = this.calculateData('free_chlorine', 'Free Chlorine', config.free_chlorine, config.free_chlorine_setpoint,config.free_chlorine_step, config.free_chlorine_unit, config.free_chlorine_override, config.override) 
+      data.free_chlorine = this.calculateData('free_chlorine', config.free_chlorine_name, config.free_chlorine, config.free_chlorine_setpoint,config.free_chlorine_step, config.free_chlorine_unit, config.free_chlorine_override, config.override) 
     }    
     if (config.total_chlorine) {
-      data.total_chlorine = this.calculateData('total_chlorine', 'Total Chlorine', config.total_chlorine, config.total_chlorine_setpoint,config.total_chlorine_step, config.total_chlorine_unit, config.total_chlorine_override, config.override) 
+      data.total_chlorine = this.calculateData('total_chlorine', config.total_chlorine_name, config.total_chlorine, config.total_chlorine_setpoint,config.total_chlorine_step, config.total_chlorine_unit, config.total_chlorine_override, config.override) 
     }    
     if (config.pressure) {
-      data.pressure = this.calculateData('pressure', 'Filter Pressure', config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
+      data.pressure = this.calculateData('pressure', config.pressure_name, config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
     }    
     
     return data
@@ -374,7 +433,7 @@ class PoolMonitorCard extends LitElement {
     const config = this.getConfig()
 
     newData.name = name;
-    newData.title = config.show_names ? title : "";
+    newData.title = config.show_names ? title : html`&nbsp;`;
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
     newData.value = parseFloat(this.hass.states[entity].state);
     newData.entity = entity;
@@ -491,7 +550,7 @@ class cardContent {
           <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div> 
       </div> 
-      <div style="position: relative;top:-25px;text-align:left;left:15px;font-size:9px ">${data.title}</div>
+      <div style="position: relative;top:-25px;margin-bottom:-25px;text-align:left;left:15px;font-size:9px ">${data.title}</div>
 
       `
     }
@@ -521,8 +580,8 @@ class cardContent {
           <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div> 
       </div> 
-    
-      <div style="position: relative;margin-top:-30px;text-align:left;left:-30px;font-size:9px ">${data.title}</div>
+          
+      <div style="position: relative;margin-top:-30px;text-align:left;left:-30px;font-size:9px;padding-bottom: 5px;">${data.title}</div>
 
       `
     }    

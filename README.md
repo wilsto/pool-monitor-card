@@ -158,6 +158,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `temperature_name` | String | **Optional** | Sensor Name |`Temperature` <small>[Multilanguage]</small>|
 | `temperature_unit` | String | **Optional** | Temperature Unit (°C or °F) |`°C`|
 | `temperature_setpoint` | Number | **Optional** | Temperature Set Point |If unit=°C:`27` <br/> If unit=°F:`80`|
 | `temperature_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
@@ -173,6 +174,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ph_name` | String | **Optional** | Sensor Name |`pH` <small>[Multilanguage]</small>|
 | `ph_unit` | String | **Optional** | pH Unit |`pH`|
 | `ph_setpoint` | Number | **Optional** | pH Set Point |`7.2`|
 | `ph_step` | Number | **Optional** | pH Step |`0.2`|
@@ -185,6 +187,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `orp_name` | String | **Optional** | Sensor Name |`ORP` <small>[Multilanguage]</small>|
 | `orp_unit` | String | **Optional** | ORP Unit |`mV`|
 | `orp_setpoint` | Number | **Optional** | ORP Set Point |`700`|
 | `orp_step` | Number | **Optional** | ORP Step |`50`|
@@ -197,6 +200,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tds_name` | String | **Optional** | Sensor Name |`TDS` <small>[Multilanguage]</small>|
 | `tds_unit` | String | **Optional** | TDS Unit (g/L or ppm) |`g/L`|
 | `tds_setpoint` | Number | **Optional** | TDS Set Point |If unit=g/L:`4` <br/> If unit=ppm:`4000`|
 | `tds_step` | Number | **Optional** | TDS Step  |If unit=g/L:`1` <br/> If unit=ppm:`1000`|
@@ -209,6 +213,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `salinity_name` | String | **Optional** | Sensor Name |`Salinity` <small>[Multilanguage]</small>|
 | `salinity_unit` | String | **Optional** | Salinity Unit (ppm or mg/L) |`ppm`|
 | `salinity_setpoint` | Number | **Optional** | Salinity Set Point | `3000` |
 | `salinity_step` | Number | **Optional** | Salinity Step  |`500`|
@@ -221,6 +226,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cya_name` | String | **Optional** | Sensor Name |`Cyanuric Acid` <small>[Multilanguage]</small>|
 | `cya_unit` | String | **Optional** | Cyanuric Acid Unit |`ppm`|
 | `cya_setpoint` | Number | **Optional** | Cyanuric Acid Set Point | `40` |
 | `cya_step` | Number | **Optional** | Cyanuric Acid Step  |`10`|
@@ -233,6 +239,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `calcium_name` | String | **Optional** | Sensor Name |`Calcium` <small>[Multilanguage]</small>|
 | `calcium_unit` | String | **Optional** | Calcium Unit |`ppm`|
 | `calcium_setpoint` | Number | **Optional** | Calcium Set Point | `300` |
 | `calcium_step` | Number | **Optional** | Calcium Step  |`100`|
@@ -245,6 +252,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `phosphate_name` | String | **Optional** | Sensor Name |`Phosphate` <small>[Multilanguage]</small>|
 | `phosphate_unit` | String | **Optional** | Phosphate Unit |`ppb`|
 | `phosphate_setpoint` | Number | **Optional** | Phosphate Set Point | `100` |
 | `phosphate_step` | Number | **Optional** | Phosphate Step  |`100`|
@@ -257,6 +265,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `alkalinity_name` | String | **Optional** | Sensor Name |`Alkalinity` <small>[Multilanguage]</small>|
 | `alkalinity_unit` | String | **Optional** | Alkalinity Unit |`ppm`|
 | `alkalinity_setpoint` | Number | **Optional** | Alkalinity Set Point | `100` |
 | `alkalinity_step` | Number | **Optional** | Alkalinity Step  |`20`|
@@ -269,6 +278,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `free_chlorine_name` | String | **Optional** | Sensor Name |`Free Chlorine` <small>[Multilanguage]</small>|
 | `free_chlorine_unit` | String | **Optional** | Free Chlorine Unit |`ppm`|
 | `free_chlorine_setpoint` | Number | **Optional** | Free Chlorine Set Point | `2` |
 | `free_chlorine_step` | Number | **Optional** | Free Chlorine Step  |`1`|
@@ -281,6 +291,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `total_chlorine_name` | String | **Optional** | Sensor Name |`Total Chlorine` <small>[Multilanguage]</small>|
 | `total_chlorine_unit` | String | **Optional** | Total Chlorine Unit |`ppm`|
 | `total_chlorine_setpoint` | Number | **Optional** | Total Chlorine Set Point | `3` |
 | `total_chlorine_step` | Number | **Optional** | Total Chlorine Step  |`1`|
@@ -293,6 +304,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pressure_name` | String | **Optional** | Sensor Name |`Filter Pressure` <small>[Multilanguage]</small>|
 | `pressure_unit` | String | **Optional** | Filter Pressure Unit (psi or bar) |`psi`|
 | `pressure_setpoint` | Number | **Optional** | Filter Pressure Set Point | `20` |
 | `pressure_step` | Number | **Optional** | Filter Pressure Step  |`10`|
