@@ -131,9 +131,10 @@ Vous pouvez aller plus loin avec la carte en modifiant l'interface utilisateur (
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `title` | texte | **Option** | Titre de la carte  |`aucune`|
 | `compact` | booléen | **Option** | Mode Compact |`false`|
-| `show_names` | boolean | **Optional** | Afficher le nom de l'entité |`true`|
-| `show_labels` | boolean | **Option** | Afficher la qualification de l'état (Bas, idéal, Elevé) |`true`|
-| `language` | string | **Option** | Langue d'interface (en, fr)  |`en`|
+| `show_names` | booléen | **Optional** | Afficher le nom de l'entité |`true`|
+| `show_labels` | booléen | **Option** | Afficher la qualification de l'état (Bas, idéal, Elevé) |`true`|
+| `show_last_updated` | booléen | **Optional** | Afficher la date relative de la dernière mise à jour du capteur [Uniquement pour compact = false]. |`false`|
+| `language` | texte | **Option** | Langue d'interface (en, fr)  |`en`|
 
 Besoin de changer l'unité, le point de consigne et les étapes ? Pas de problème, voir les paramètres additionnels ci-dessous pour chaque entité mesurée 
 
