@@ -3,7 +3,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.4.0';
+const CARD_VERSION = '1.5.0';
 
 // eslint-disable-next-line no-console
 console.info(
@@ -36,6 +36,12 @@ const translations = {
       "free_chlorine": "Free Chlorine",
       "total_chlorine": "Total Chlorine",
       "pressure": "Filter Pressure"
+    },
+    "time": {
+      "seconds": "just now",
+      "minutes": `{minutes} minute{plural} ago`,
+      "hours": `{hours} hour{plural} ago`,
+      "days": `{days} day{plural} ago`
     }
   },
   'fr': {
@@ -61,6 +67,12 @@ const translations = {
       "free_chlorine": "Chlore libre",
       "total_chlorine": "Chlore total",
       "pressure": "Pression du filtre"
+    },
+    "time": {
+      "seconds": "il y a {seconds} seconde{plural}",
+      "minutes": `il y a {minutes} minute{plural}`,
+      "hours": `il y a {hours} heure{plural}`,
+      "days": `il y a {days} jour{plural}`
     }
   },
   'es': {
@@ -86,6 +98,12 @@ const translations = {
       "free_chlorine": "Cloro libre",
       "total_chlorine": "Cloro total",
       "pressure": "Presión del filtro"
+    },
+    "time": {
+      "seconds": "justo ahora",
+      "minutes": "hace {minutes} minuto{plural}",
+      "hours": "hace {hours} hora{plural}",
+      "days": "hace {days} día{plural}"
     }
   }
 }
@@ -424,7 +442,6 @@ class PoolMonitorCard extends LitElement {
     if (config.pressure) {
       data.pressure = this.calculateData('pressure', config.pressure_name, config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
     }    
-    
     return data
   }
 
@@ -437,6 +454,8 @@ class PoolMonitorCard extends LitElement {
     newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
     newData.value = parseFloat(this.hass.states[entity].state);
     newData.entity = entity;
+    newData.last_updated = this.timeFromNow(this.hass.states[entity].last_updated, config.language);
+
     newData.unit = unit;
     if (override){
       newData.value = override_value;
@@ -490,8 +509,37 @@ class PoolMonitorCard extends LitElement {
     return number.toString().split(".")[1].length || 0;
   }
 
+  timeFromNow(dateTime, language) {
+    const date = new Date(dateTime);
+    const diff = Date.now() - date.getTime();
+  
+    const t = (key, n) => {
+      let plural = n == 1 ? '' : 's'
+      let translation = translations[language]["time"][key] ;
+      translation = translation.replace('{'+ key + '}', n) 
+      translation = translation.replace('{plural}', plural) 
+      return translation ;
+
+    };
+
+    if (diff < 60 * 1000) {
+      const seconds = Math.floor(diff / (1000));
+      return t('seconds', seconds);;
+    } else if (diff < 60 * 60 * 1000) {
+      const minutes = Math.floor(diff / (60 * 1000));
+      return t('minutes', minutes);
+    } else if (diff < 24 * 60 * 60 * 1000) {
+      const hours = Math.floor(diff / (60 * 60 * 1000));
+      return t('hours', hours);;
+    } else {
+      const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+      return t('days', days);;
+    }
+  }
+
+
   setConfig(config) {
-    if (!config.temperature && !config.ph && !config.orp) {
+    if (!config.temperature && !config.ph && !config.orp && !config.tds && !config.salinity && !config.cya && !config.calcium && !config.phosphate && !config.alkalinity && !config.free_chlorine && !config.total_chlorine && !config.pressure) {
       throw new Error("You need to define entities");
     }
     this.config =  { ...config };
@@ -550,7 +598,7 @@ class cardContent {
           <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div> 
       </div> 
-      <div style="position: relative;top:-25px;margin-bottom:-25px;text-align:left;left:15px;font-size:9px ">${data.title}</div>
+      <div style="position: relative;top:-25px;margin-bottom:-25px;text-align:left;left:15px;">${data.title}<br/><small style="position: relative;top:-5px;font-size:9px;color:lightgrey">${data.last_updated}</small></div>
 
       `
     }
