@@ -3,7 +3,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.5.0';
+const CARD_VERSION = '1.5.1';
 
 // eslint-disable-next-line no-console
 console.info(
