@@ -15,8 +15,8 @@ Clique sur les boutons suivants pour choisir la langue de ton ReadMe : [![fr](ht
 - [Support](#support)
 - [Installation](#installation)
   - [via HACS](#via-hacs)
-  - [Manuellement](#manuallemnt)
-- [Mise en place sous Lovelace](#Mise-en-place-sous-Lovelace)
+  - [Manuellement](#manuellement)
+- [Mise en place sous Lovelace](#mise-en-place-sous-Lovelace)
   - [Utilisation de l'interface utilisateur](#Utilisation-de-l-interface-utilisateur)
   - [Utilisation de YAML](#Utilisation-de-yaml)
 - [Parametres](#parametres)  
@@ -136,7 +136,7 @@ Vous pouvez aller plus loin avec la carte en modifiant l'interface utilisateur (
 | `show_last_updated` | booléen | **Optional** | Afficher la date relative de la dernière mise à jour du capteur [Uniquement pour compact = false]. |`false`|
 | `language` | texte | **Option** | Langue d'interface (en, fr)  |`en`|
 
-Besoin de changer l'unité, le point de consigne et les étapes ? Pas de problème, voir les paramètres additionnels ci-dessous pour chaque entité mesurée 
+Besoin de changer l'unité, le point de consigne et les étapes ? Pas de problème, voir les paramètres additionnels ci-dessous pour chaque entité mesurée
 
 #### Température
 
