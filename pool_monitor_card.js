@@ -342,9 +342,9 @@ class PoolMonitorCard extends LitElement {
     config.salinity = this.config.salinity ;
     config.salinity_name = this.config.salinity_name ?? translations[config.language]["sensor"]["salinity"];
     config.salinity_unit = this.config.salinity_unit ?? "ppm";
-    config.salinity_setpoint = this.config.salinity_setpoint ?? 3000;
-    config.salinity_step = this.config.salinity_step ?? 500 ;
-    config.salinity_override = 2750;
+    config.salinity_setpoint = this.config.salinity_setpoint ?? (config.salinity_unit === "ppm" ? 3000 : 4.5) ;
+    config.salinity_step = this.config.salinity_step ?? (config.salinity_unit === "ppm" ? 500 : 0.5)  ;
+    config.salinity_override = config.salinity_unit === "ppm" ? 2750 : 4;
 
     config.cya = this.config.cya ;
     config.cya_name = this.config.cya_name ?? translations[config.language]["sensor"]["cya"];

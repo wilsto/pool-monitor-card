@@ -5,25 +5,40 @@
 ![all](example/hero.png)
 [Click me to see more screenshots](example/screenshots.md)
 
-
 ## Multilanguage ReadMe
 
 Click on the following button to choose the language of your ReadMe : [![fr](https://img.shields.io/badge/lang-fr-green.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README-fr.md) [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README.md)
 
 ## TOC <!-- omit in toc -->
 
-- [Description](#description)
-- [Support](#support)
-- [Install](#install)
-  - [via HACS](#via-hacs)
-  - [Manualy](#manualy)
-- [Lovelace Set up](#lovelace-set-up)
-  - [Using UI](#using-ui)
-  - [Using YAML](#using-yaml)
-- [Parameters](#parameters)  
-  - [Main options](#main-options)
-  - [Advanced options](#advanced-options)
-- [Hardware](#hardware)
+- [Pool Monitor Card](#pool-monitor-card)
+  - [Multilanguage ReadMe](#multilanguage-readme)
+  - [Description](#description)
+  - [Support](#support)
+  - [Install](#install)
+      - [via HACS](#via-hacs)
+      - [Manualy](#manualy)
+  - [Lovelace Set up](#lovelace-set-up)
+    - [Using UI](#using-ui)
+    - [Using YAML](#using-yaml)
+      - [Example of code](#example-of-code)
+  - [Parameters](#parameters)
+    - [Sensors Options](#sensors-options)
+    - [Advanced options](#advanced-options)
+      - [User eXperience (UX)](#user-experience-ux)
+      - [Temperature](#temperature)
+      - [pH](#ph)
+      - [ORP](#orp)
+      - [TDS](#tds)
+      - [Salinity](#salinity)
+      - [Cyanuric Acid](#cyanuric-acid)
+      - [Calcium](#calcium)
+      - [Phosphate](#phosphate)
+      - [Alkalinity](#alkalinity)
+      - [Free Chlorine](#free-chlorine)
+      - [Total Chlorine](#total-chlorine)
+      - [Filter Pressure](#filter-pressure)
+  - [Hardware](#hardware)
 
 ---
 
@@ -41,7 +56,6 @@ The "Pool Monitor Card" is a home assistant plugin that display information of *
 
 <details>
   <summary><span style="color:blue">Click me to continue to list 8 other possible sensors</span></summary>
-
 
 - **Salinity**: This measures the amount of salt in the water. A saltwater pool requires a specific range of salt to function properly. The ideal range for salt in a saltwater pool is between 2500 and 3500 ppm.
 
@@ -118,7 +132,6 @@ ph: sensor.your_ph_sensor
 
   ***All are optionals but you need to define at least one of theses entities**
   
-
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:pool-monitor-card` ||
@@ -167,7 +180,6 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 
 > **_NOTE:_**  I added a second parameter named temperature_2 (with same logic for unit, setpoint, step) for thoses who have multiple temperature sensors.
 
-
 #### pH
 
 <details >
@@ -215,9 +227,9 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `salinity_name` | String | **Optional** | Sensor Name |`Salinity` <small>[Multilanguage]</small>|
-| `salinity_unit` | String | **Optional** | Salinity Unit (ppm or mg/L) |`ppm`|
-| `salinity_setpoint` | Number | **Optional** | Salinity Set Point | `3000` |
-| `salinity_step` | Number | **Optional** | Salinity Step  |`500`|
+| `salinity_unit` | String | **Optional** | Salinity Unit (ppm or g/L) |`ppm`|
+| `salinity_setpoint` | Number | **Optional** | Salinity Set Point |If unit=g/L:`4.5` <br/> If unit=ppm:`3000`|
+| `salinity_step` | Number | **Optional** | Salinity Step  |If unit=g/L:`0.5` <br/> If unit=ppm:`500`|
 </details>
 
 #### Cyanuric Acid
