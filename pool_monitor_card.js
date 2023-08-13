@@ -254,37 +254,37 @@ class PoolMonitorCard extends LitElement {
       return html`
       <div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
-        ${data.temperature !== undefined ? cardContent.generateCompactBody(data.temperature): ''}
-        ${data.temperature_2 !== undefined ? cardContent.generateCompactBody(data.temperature_2): ''}
-        ${data.ph !== undefined ? cardContent.generateCompactBody(data.ph): ''}
-        ${data.orp !== undefined ? cardContent.generateCompactBody(data.orp): ''}
-        ${data.tds !== undefined ? cardContent.generateCompactBody(data.tds): ''}      
-        ${data.salinity !== undefined ? cardContent.generateCompactBody(data.salinity): ''}      
-        ${data.cya !== undefined ? cardContent.generateCompactBody(data.cya): ''}      
-        ${data.calcium !== undefined ? cardContent.generateCompactBody(data.calcium): ''}      
-        ${data.phosphate !== undefined ? cardContent.generateCompactBody(data.phosphate): ''}      
-        ${data.alkalinity !== undefined ? cardContent.generateCompactBody(data.alkalinity): ''}      
-        ${data.free_chlorine !== undefined ? cardContent.generateCompactBody(data.free_chlorine): ''}      
-        ${data.total_chlorine !== undefined ? cardContent.generateCompactBody(data.total_chlorine): ''}      
-        ${data.pressure !== undefined ? cardContent.generateCompactBody(data.pressure): ''}      
+        ${data.temperature !== undefined ? cardContent.generateCompactBody(config,data.temperature): ''}
+        ${data.temperature_2 !== undefined ? cardContent.generateCompactBody(config,data.temperature_2): ''}
+        ${data.ph !== undefined ? cardContent.generateCompactBody(config,data.ph): ''}
+        ${data.orp !== undefined ? cardContent.generateCompactBody(config,data.orp): ''}
+        ${data.tds !== undefined ? cardContent.generateCompactBody(config,data.tds): ''}      
+        ${data.salinity !== undefined ? cardContent.generateCompactBody(config,data.salinity): ''}      
+        ${data.cya !== undefined ? cardContent.generateCompactBody(config,data.cya): ''}      
+        ${data.calcium !== undefined ? cardContent.generateCompactBody(config,data.calcium): ''}      
+        ${data.phosphate !== undefined ? cardContent.generateCompactBody(config,data.phosphate): ''}      
+        ${data.alkalinity !== undefined ? cardContent.generateCompactBody(config,data.alkalinity): ''}      
+        ${data.free_chlorine !== undefined ? cardContent.generateCompactBody(config,data.free_chlorine): ''}      
+        ${data.total_chlorine !== undefined ? cardContent.generateCompactBody(config,data.total_chlorine): ''}      
+        ${data.pressure !== undefined ? cardContent.generateCompactBody(config,data.pressure): ''}      
       </div>`;
     } else {
       return html`
       <div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
-        ${data.temperature !== undefined ? cardContent.generateBody(data.temperature): ''}
-        ${data.temperature_2 !== undefined ? cardContent.generateBody(data.temperature_2): ''}
-        ${data.ph !== undefined ? cardContent.generateBody(data.ph): ''}
-        ${data.orp !== undefined ? cardContent.generateBody(data.orp): ''}
-        ${data.tds !== undefined ? cardContent.generateBody(data.tds): ''}      
-        ${data.salinity !== undefined ? cardContent.generateBody(data.salinity): ''}      
-        ${data.cya !== undefined ? cardContent.generateBody(data.cya): ''}      
-        ${data.calcium !== undefined ? cardContent.generateBody(data.calcium): ''}      
-        ${data.phosphate !== undefined ? cardContent.generateBody(data.phosphate): ''}      
-        ${data.alkalinity !== undefined ? cardContent.generateBody(data.alkalinity): ''}      
-        ${data.free_chlorine !== undefined ? cardContent.generateBody(data.free_chlorine): ''}      
-        ${data.total_chlorine !== undefined ? cardContent.generateBody(data.total_chlorine): ''}      
-        ${data.pressure !== undefined ? cardContent.generateBody(data.pressure): ''}      
+        ${data.temperature !== undefined ? cardContent.generateBody(config,data.temperature): ''}
+        ${data.temperature_2 !== undefined ? cardContent.generateBody(config,data.temperature_2): ''}
+        ${data.ph !== undefined ? cardContent.generateBody(config,data.ph): ''}
+        ${data.orp !== undefined ? cardContent.generateBody(config,data.orp): ''}
+        ${data.tds !== undefined ? cardContent.generateBody(config,data.tds): ''}      
+        ${data.salinity !== undefined ? cardContent.generateBody(config,data.salinity): ''}      
+        ${data.cya !== undefined ? cardContent.generateBody(config,data.cya): ''}      
+        ${data.calcium !== undefined ? cardContent.generateBody(config,data.calcium): ''}      
+        ${data.phosphate !== undefined ? cardContent.generateBody(config,data.phosphate): ''}      
+        ${data.alkalinity !== undefined ? cardContent.generateBody(config,data.alkalinity): ''}      
+        ${data.free_chlorine !== undefined ? cardContent.generateBody(config,data.free_chlorine): ''}      
+        ${data.total_chlorine !== undefined ? cardContent.generateBody(config,data.total_chlorine): ''}      
+        ${data.pressure !== undefined ? cardContent.generateBody(config,data.pressure): ''}      
       </div>`;
     }
 
@@ -299,17 +299,26 @@ class PoolMonitorCard extends LitElement {
     config.show_labels = this.config.show_labels ?? true;
     config.language = this.config.language ?? 'en';
 
+    config.normal_color = this.config.normal_color ?? "#00b894";
+    config.low_color = this.config.low_color ?? "#fdcb6e";
+    config.warn_color = this.config.warn_color ?? "#e17055";
+
     config.override = this.config.override ?? false;
 
+    config.temperature = this.config.temperature ;
+    config.temperature_min = this.config.temperature_min ;
+    config.temperature_max = this.config.temperature_max ;
     config.temperature = this.config.temperature ;
     config.temperature_name = this.config.temperature_name ?? translations[config.language]["sensor"]["temperature"];
     config.temperature_unit = this.config.temperature_unit ?? "°C";
     config.temperature_unit = config.temperature_unit.toUpperCase()
     config.temperature_setpoint = this.config.temperature_setpoint ?? (config.temperature_unit === "°F" ? 80 : 27) ;
     config.temperature_step = this.config.temperature_step ?? (config.temperature_unit === "°F" ? 2 : 1) ;
-    config.temperature_override = config.temperature_unit === "°F" ? 79 : 26.5;
+    config.temperature_override = config.temperature_unit === "°F" ? 80 : 26.5;
 
     config.temperature_2 = this.config.temperature_2 ;
+    config.temperature_2_min = this.config.temperature_2_min ;
+    config.temperature_2_max = this.config.temperature_2_max ;
     config.temperature_2_name = this.config.temperature_2_name ?? translations[config.language]["sensor"]["temperature_2"];
     config.temperature_2_unit = this.config.temperature_2_unit ?? "°C";
     config.temperature_2_unit = config.temperature_2_unit.toUpperCase()
@@ -318,20 +327,26 @@ class PoolMonitorCard extends LitElement {
     config.temperature_2_override = config.temperature_2_unit === "°F" ? 92 : 28.5;
 
     config.ph = this.config.ph;
+    config.ph_min = this.config.ph_min;
+    config.ph_max = this.config.ph_max;
     config.ph_name = this.config.ph_name ?? translations[config.language]["sensor"]["ph"];
     config.ph_unit = this.config.ph_unit ?? "pH";
     config.ph_setpoint = this.config.ph_setpoint ?? 7.2;
     config.ph_step = this.config.ph_step ?? 0.2 ;
-    config.ph_override = 7.5;
+    config.ph_override = 7.6;
     
     config.orp = this.config.orp ;
+    config.orp_min = this.config.orp_min ;
+    config.orp_max = this.config.orp_max ;
     config.orp_name = this.config.orp_name ?? translations[config.language]["sensor"]["orp"];
     config.orp_unit = this.config.orp_unit ?? "mV";
     config.orp_setpoint = this.config.orp_setpoint ?? 700;
     config.orp_step = this.config.orp_step ?? 50 ;
-    config.orp_override = 551;
+    config.orp_override = 800;
 
     config.tds = this.config.tds ;
+    config.tds_min = this.config.tds_min ;
+    config.tds_max = this.config.tds_max ;
     config.tds_name = this.config.tds_name ?? translations[config.language]["sensor"]["tds"];
     config.tds_unit = this.config.tds_unit ?? "g/L";
     config.tds_unit = config.tds_unit.toLowerCase()
@@ -340,6 +355,8 @@ class PoolMonitorCard extends LitElement {
     config.tds_override = config.tds_unit === "ppm" ? 7000 : 7;
 
     config.salinity = this.config.salinity ;
+    config.salinity_min = this.config.salinity_min ;
+    config.salinity_max = this.config.salinity_max ;
     config.salinity_name = this.config.salinity_name ?? translations[config.language]["sensor"]["salinity"];
     config.salinity_unit = this.config.salinity_unit ?? "ppm";
     config.salinity_setpoint = this.config.salinity_setpoint ?? (config.salinity_unit === "ppm" ? 3000 : 4.5) ;
@@ -347,6 +364,8 @@ class PoolMonitorCard extends LitElement {
     config.salinity_override = config.salinity_unit === "ppm" ? 2750 : 4;
 
     config.cya = this.config.cya ;
+    config.cya_min = this.config.cya_min ;
+    config.cya_max = this.config.cya_max ;
     config.cya_name = this.config.cya_name ?? translations[config.language]["sensor"]["cya"];
     config.cya_unit = this.config.cya_unit ?? "ppm";
     config.cya_setpoint = this.config.cya_setpoint ?? 40;
@@ -354,6 +373,8 @@ class PoolMonitorCard extends LitElement {
     config.cya_override = 27;
 
     config.calcium = this.config.calcium ;
+    config.calcium_min = this.config.calcium_min ;
+    config.calcium_max = this.config.calcium_max ;
     config.calcium_name = this.config.calcium_name ?? translations[config.language]["sensor"]["calcium"];
     config.calcium_unit = this.config.calcium_unit ?? "ppm";
     config.calcium_setpoint = this.config.calcium_setpoint ?? 300;
@@ -361,6 +382,8 @@ class PoolMonitorCard extends LitElement {
     config.calcium_override = 425;
 
     config.phosphate = this.config.phosphate ;
+    config.phosphate_min = this.config.phosphate_min ;
+    config.phosphate_max = this.config.phosphate_max ;
     config.phosphate_name = this.config.phosphate_name ?? translations[config.language]["sensor"]["phosphate"];
     config.phosphate_unit = this.config.phosphate_unit ?? "ppb";
     config.phosphate_setpoint = this.config.phosphate_setpoint ?? 100;
@@ -368,6 +391,8 @@ class PoolMonitorCard extends LitElement {
     config.phosphate_override = 30;
 
     config.alkalinity = this.config.alkalinity ;
+    config.alkalinity_min = this.config.alkalinity_min ;
+    config.alkalinity_max = this.config.alkalinity_max ;
     config.alkalinity_name = this.config.alkalinity_name ?? translations[config.language]["sensor"]["alkalinity"];
     config.alkalinity_unit = this.config.alkalinity_unit ?? "ppm";
     config.alkalinity_setpoint = this.config.alkalinity_setpoint ?? 100;
@@ -375,6 +400,8 @@ class PoolMonitorCard extends LitElement {
     config.alkalinity_override = 50;
 
     config.free_chlorine = this.config.free_chlorine ;
+    config.free_chlorine_min = this.config.free_chlorine_min ;
+    config.free_chlorine_max = this.config.free_chlorine_max ;
     config.free_chlorine_name = this.config.free_chlorine_name ?? translations[config.language]["sensor"]["free_chlorine"];
     config.free_chlorine_unit = this.config.free_chlorine_unit ?? "ppm";
     config.free_chlorine_setpoint = this.config.free_chlorine_setpoint ?? 2;
@@ -382,6 +409,8 @@ class PoolMonitorCard extends LitElement {
     config.free_chlorine_override = 1.5;
 
     config.total_chlorine = this.config.total_chlorine ;
+    config.total_chlorine_min = this.config.total_chlorine_min ;
+    config.total_chlorine_max = this.config.total_chlorine_max ;
     config.total_chlorine_name = this.config.total_chlorine_name ?? translations[config.language]["sensor"]["total_chlorine"];
     config.total_chlorine_unit = this.config.total_chlorine_unit ?? "ppm";
     config.total_chlorine_setpoint = this.config.total_chlorine_setpoint ?? 3;
@@ -389,6 +418,8 @@ class PoolMonitorCard extends LitElement {
     config.total_chlorine_override = 5.5;
 
     config.pressure = this.config.pressure ;
+    config.pressure_min = this.config.pressure_min ;
+    config.pressure_max = this.config.pressure_max ;
     config.pressure_name = this.config.pressure_name ?? translations[config.language]["sensor"]["pressure"];
     config.pressure_unit = this.config.pressure_unit ?? "psi";
     config.pressure_setpoint = this.config.pressure_setpoint ?? (config.pressure_unit === "bar" ? 1.5 : 23);
@@ -404,48 +435,48 @@ class PoolMonitorCard extends LitElement {
     const config = this.getConfig()
 
     if (config.temperature) {
-      data.temperature = this.calculateData('temperature', config.temperature_name, config.temperature, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
+      data.temperature = this.calculateData('temperature', config.temperature_name, config.temperature, config.temperature_min, config.temperature_max, config.temperature_setpoint, config.temperature_step,config.temperature_unit,  config.temperature_override, config.override) 
     }
     if (config.temperature_2) {
-      data.temperature_2 = this.calculateData('temperature_2', config.temperature_2_name, config.temperature_2, config.temperature_2_setpoint, config.temperature_2_step,config.temperature_2_unit,  config.temperature_2_override, config.override) 
+      data.temperature_2 = this.calculateData('temperature_2', config.temperature_2_name, config.temperature_2, config.temperature_2_min, config.temperature_2_max, config.temperature_2_setpoint, config.temperature_2_step,config.temperature_2_unit,  config.temperature_2_override, config.override) 
     }
     if (config.ph) {
-      data.ph = this.calculateData('ph', config.ph_name, config.ph, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
+      data.ph = this.calculateData('ph', config.ph_name, config.ph, config.ph_min, config.ph_max, config.ph_setpoint,config.ph_step,config.ph_unit,config.ph_override, config.override) 
     }
     if (config.orp) {
-      data.orp = this.calculateData('orp', config.orp_name, config.orp, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
+      data.orp = this.calculateData('orp', config.orp_name, config.orp, config.orp_min, config.orp_max, config.orp_setpoint,config.orp_step ,config.orp_unit, config.orp_override, config.override) 
     }
     if (config.tds) {
-      data.tds = this.calculateData('tds', config.tds_name, config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
+      data.tds = this.calculateData('tds', config.tds_name, config.tds, config.tds_min, config.tds_max, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
     }
     if (config.salinity) {
-      data.salinity = this.calculateData('salinity', config.salinity_name, config.salinity, config.salinity_setpoint,config.salinity_step, config.salinity_unit, config.salinity_override, config.override) 
+      data.salinity = this.calculateData('salinity', config.salinity_name, config.salinity, config.salinity_min, config.salinity_max, config.salinity_setpoint,config.salinity_step, config.salinity_unit, config.salinity_override, config.override) 
     }
     if (config.cya) {
-      data.cya = this.calculateData('cya', config.cya_name,config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
+      data.cya = this.calculateData('cya', config.cya_name, config.cya_min, config.cya_max, config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
     }
     if (config.calcium) {
-      data.calcium = this.calculateData('calcium', config.calcium_name, config.calcium, config.calcium_setpoint,config.calcium_step, config.calcium_unit, config.calcium_override, config.override) 
+      data.calcium = this.calculateData('calcium', config.calcium_name, config.calcium, config.calcium_min, config.calcium_max, config.calcium_setpoint,config.calcium_step, config.calcium_unit, config.calcium_override, config.override) 
     }
     if (config.phosphate) {
-      data.phosphate = this.calculateData('phosphate', config.phosphate_name, config.phosphate, config.phosphate_setpoint,config.phosphate_step, config.phosphate_unit, config.phosphate_override, config.override) 
+      data.phosphate = this.calculateData('phosphate', config.phosphate_name, config.phosphate, config.phosphate_min, config.phosphate_max, config.phosphate_setpoint,config.phosphate_step, config.phosphate_unit, config.phosphate_override, config.override) 
     }
     if (config.alkalinity) {
-      data.alkalinity = this.calculateData('alkalinity', config.alkalinity_name , config.alkalinity, config.alkalinity_setpoint,config.alkalinity_step, config.alkalinity_unit, config.alkalinity_override, config.override) 
+      data.alkalinity = this.calculateData('alkalinity', config.alkalinity_name, config.alkalinity, config.alkalinity_min, config.alkalinity_max, config.alkalinity_setpoint,config.alkalinity_step, config.alkalinity_unit, config.alkalinity_override, config.override) 
     }    
     if (config.free_chlorine) {
-      data.free_chlorine = this.calculateData('free_chlorine', config.free_chlorine_name, config.free_chlorine, config.free_chlorine_setpoint,config.free_chlorine_step, config.free_chlorine_unit, config.free_chlorine_override, config.override) 
+      data.free_chlorine = this.calculateData('free_chlorine', config.free_chlorine_name, config.free_chlorine, config.free_chlorine_min, config.free_chlorine_max, config.free_chlorine_setpoint,config.free_chlorine_step, config.free_chlorine_unit, config.free_chlorine_override, config.override) 
     }    
     if (config.total_chlorine) {
-      data.total_chlorine = this.calculateData('total_chlorine', config.total_chlorine_name, config.total_chlorine, config.total_chlorine_setpoint,config.total_chlorine_step, config.total_chlorine_unit, config.total_chlorine_override, config.override) 
+      data.total_chlorine = this.calculateData('total_chlorine', config.total_chlorine_name, config.total_chlorine, config.total_chlorine_min, config.total_chlorine_max, config.total_chlorine_setpoint,config.total_chlorine_step, config.total_chlorine_unit, config.total_chlorine_override, config.override) 
     }    
     if (config.pressure) {
-      data.pressure = this.calculateData('pressure', config.pressure_name, config.pressure, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
+      data.pressure = this.calculateData('pressure', config.pressure_name, config.pressure, config.pressure_min, config.pressure_max, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
     }    
     return data
   }
 
-  calculateData(name, title, entity, setpoint, setpoint_step, unit, override_value, override) {
+  calculateData(name, title, entity, entity_min, entity_max, setpoint, setpoint_step, unit, override_value, override) {
     const newData = {};
     const config = this.getConfig()
 
@@ -460,6 +491,10 @@ class PoolMonitorCard extends LitElement {
     if (override){
       newData.value = override_value;
     }
+
+    newData.min_value = entity_min !== undefined ? parseFloat(this.hass.states[entity_min].state):newData.value;
+    newData.max_value = entity_max !== undefined ? parseFloat(this.hass.states[entity_max].state):newData.value;
+
     newData.setpoint = setpoint ;
     const countDecimals = this.countDecimals(setpoint);
     if (newData.value) {
@@ -477,28 +512,32 @@ class PoolMonitorCard extends LitElement {
     newData.color = "transparent";
     if (Number(newData.value)  < Number(newData.setpoint_class[0])) {
       newData.state = config.show_labels ? translations[config.language]["state"][1]:"";
-      newData.color = "#e17055";
+      newData.color = config.warn_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[0]) && Number(newData.value)  < Number(newData.setpoint_class[1])) {
       newData.state = config.show_labels ? translations[config.language]["state"][2]:"";
-      newData.color = "#fdcb6e";
+      newData.color = config.low_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[1]) && Number(newData.value)  < Number(newData.setpoint_class[2])) {
       newData.state = config.show_labels ? translations[config.language]["state"][3]:"";
-      newData.color = "#00b894";
+      newData.color = config.normal_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[2]) && Number(newData.value)  < Number(newData.setpoint_class[3])) {
       newData.state = config.show_labels ? translations[config.language]["state"][4]:"";
-      newData.color = "#00b894";
+      newData.color = config.normal_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[3]) && Number(newData.value)  < Number(newData.setpoint_class[4])) {
       newData.state = config.show_labels ? translations[config.language]["state"][5]:"";
-      newData.color = "#fdcb6e";
+      newData.color = config.low_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[4])) {
       newData.state = config.show_labels ? translations[config.language]["state"][6]:"";
-      newData.color = "#e17055";
+      newData.color = config.warn_color;
     }
 
     newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
+    newData.pct_min = Math.max(0, Math.min(95, (Math.max(0, newData.min_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
+    newData.pct_max = Math.max(0, Math.min(95, (Math.max(0, newData.max_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
     newData.side_align = newData.value > setpoint ? "right" : "left" ;
-    newData.pct_cursor = newData.value > setpoint ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) -2;    
+    newData.pct_cursor = newData.value > setpoint ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) -2;
     newData.pct_state_step = newData.value > setpoint ? 100 - parseFloat(newData.pct): parseFloat(newData.pct);
+    newData.pct_min = newData.value > setpoint ? 100 - parseFloat(newData.pct_min) : parseFloat(newData.pct_min) -2;
+    newData.pct_max = newData.value > setpoint ? 100 - parseFloat(newData.pct_max) : parseFloat(newData.pct_max) -2;
     return newData
   }
 
@@ -568,7 +607,7 @@ class cardContent {
       `
     }
 
-    static generateBody (data) {
+    static generateBody (config,data) {
       return html`
       <!-- ##### ${data.name} section ##### -->    
       <div class="section" @click=${() => 
@@ -582,17 +621,19 @@ class cardContent {
         <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
         <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
-          <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-          <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
-          <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
-          <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
-          <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
-          <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+          <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+          <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
+          <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
+          <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
+          <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
+          <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .8); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
+          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .8); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
         </div>
         <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
           <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
           <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
           <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
           <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
@@ -603,7 +644,7 @@ class cardContent {
       `
     }
 
-    static generateCompactBody (data) {    
+    static generateCompactBody (config,data) {    
       return html`
       <!-- ##### ${data.name} section ##### -->    
       <div class="section-compact"  @click=${() => 
@@ -611,18 +652,20 @@ class cardContent {
         <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
         <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
-          <div style="background-color: #e17055; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-          <div style="background-color: #fdcb6e; grid-column: 3 ;" class="grid-item item-row"></div>
-          <div style="background-color: #00b894; grid-column: 4 ;" class="grid-item item-row"></div>  
-          <div class="cursor-text" style="border-${data.side_align}: 5px solid black; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.separator} ${data.state}</div>
-          <div style="background-color: #00b894; grid-column: 5 ;" class="grid-item item-row"></div>  
-          <div style="background-color: #fdcb6e; grid-column: 6 ;" class="grid-item item-row"></div>
-          <div style="background-color: #e17055; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+          <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+          <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
+          <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
+          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .6); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
+          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .6); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
+          <div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255,0,0,0.8); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.separator} ${data.state}</div>
+          <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
+          <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
+          <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div>
         <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
           <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:#00b894;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
           <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
           <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
           <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
