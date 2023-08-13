@@ -3,7 +3,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.5.1';
+const CARD_VERSION = '1.5.2';
 
 // eslint-disable-next-line no-console
 console.info(
@@ -314,7 +314,7 @@ class PoolMonitorCard extends LitElement {
     config.temperature_unit = config.temperature_unit.toUpperCase()
     config.temperature_setpoint = this.config.temperature_setpoint ?? (config.temperature_unit === "°F" ? 80 : 27) ;
     config.temperature_step = this.config.temperature_step ?? (config.temperature_unit === "°F" ? 2 : 1) ;
-    config.temperature_override = config.temperature_unit === "°F" ? 80 : 26.5;
+    config.temperature_override = config.temperature_unit === "°F" ? 79 : 26.5;
 
     config.temperature_2 = this.config.temperature_2 ;
     config.temperature_2_min = this.config.temperature_2_min ;
@@ -333,7 +333,7 @@ class PoolMonitorCard extends LitElement {
     config.ph_unit = this.config.ph_unit ?? "pH";
     config.ph_setpoint = this.config.ph_setpoint ?? 7.2;
     config.ph_step = this.config.ph_step ?? 0.2 ;
-    config.ph_override = 7.6;
+    config.ph_override = 7.5;
     
     config.orp = this.config.orp ;
     config.orp_min = this.config.orp_min ;
@@ -342,7 +342,7 @@ class PoolMonitorCard extends LitElement {
     config.orp_unit = this.config.orp_unit ?? "mV";
     config.orp_setpoint = this.config.orp_setpoint ?? 700;
     config.orp_step = this.config.orp_step ?? 50 ;
-    config.orp_override = 800;
+    config.orp_override = 551;
 
     config.tds = this.config.tds ;
     config.tds_min = this.config.tds_min ;
