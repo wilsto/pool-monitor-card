@@ -302,6 +302,8 @@ class PoolMonitorCard extends LitElement {
     config.normal_color = this.config.normal_color ?? "#00b894";
     config.low_color = this.config.low_color ?? "#fdcb6e";
     config.warn_color = this.config.warn_color ?? "#e17055";
+    config.marker_color = this.config.marker_color ?? "rgba(0, 0, 0, 1)";
+    config.hi_low_color = this.config.hi_low_color ?? "rgba(0, 0, 0, .6)";
 
     config.override = this.config.override ?? false;
 
@@ -627,8 +629,8 @@ class cardContent {
           <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
           <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
           <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .8); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
-          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .8); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
+          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
+          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
         </div>
         <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
@@ -655,9 +657,9 @@ class cardContent {
           <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
           <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
           <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
-          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .6); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
-          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255, 0, 0, .6); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
-          <div class="cursor-text" style="border-${data.side_align}: 5px solid rgba(255,0,0,0.8); text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.separator} ${data.state}</div>
+          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
+          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
+          <div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.marker_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.separator} ${data.state}</div>
           <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
           <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
           <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
