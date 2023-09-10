@@ -43,7 +43,7 @@ const translations = {
       "hours": `{hours} hour{plural} ago`,
       "days": `{days} day{plural} ago`
     }
-  },
+   },
     'de': {
     "state": {
       "1": "Zu niedrig",
