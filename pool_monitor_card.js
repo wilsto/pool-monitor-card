@@ -28,6 +28,7 @@ const translations = {
       "ph": "pH",
       "orp": "ORP",
       "tds": "TDS",
+      "magnesium": "Magnesium"
       "salinity": "Salinity",
       "cya": "Cyanuric Acid",
       "calcium": "Calcium",
@@ -58,7 +59,7 @@ const translations = {
       "temperature_2": "Température 2",
       "ph": "pH",
       "orp": "ORP",
-      "tds": "TDS",
+      "magnesium": "Magnesium"
       "salinity": "Salinité",
       "cya": "Acide cyanurique",
       "calcium": "Calcium",
@@ -90,6 +91,7 @@ const translations = {
       "ph": "pH",
       "orp": "ORP",
       "tds": "TDS",
+      "magnesium": "Magnesium"
       "salinity": "Salinidad",
       "cya": "Acido cianúrico",
       "calcium": "Calcio",
@@ -258,7 +260,8 @@ class PoolMonitorCard extends LitElement {
         ${data.temperature_2 !== undefined ? cardContent.generateCompactBody(data.temperature_2): ''}
         ${data.ph !== undefined ? cardContent.generateCompactBody(data.ph): ''}
         ${data.orp !== undefined ? cardContent.generateCompactBody(data.orp): ''}
-        ${data.tds !== undefined ? cardContent.generateCompactBody(data.tds): ''}      
+        ${data.tds !== undefined ? cardContent.generateCompactBody(data.tds): ''}
+        ${data.magnesium !== undefined ? cardContent.generateCompactBody(data.magnesium): ''}
         ${data.salinity !== undefined ? cardContent.generateCompactBody(data.salinity): ''}      
         ${data.cya !== undefined ? cardContent.generateCompactBody(data.cya): ''}      
         ${data.calcium !== undefined ? cardContent.generateCompactBody(data.calcium): ''}      
@@ -277,7 +280,8 @@ class PoolMonitorCard extends LitElement {
         ${data.ph !== undefined ? cardContent.generateBody(data.ph): ''}
         ${data.orp !== undefined ? cardContent.generateBody(data.orp): ''}
         ${data.tds !== undefined ? cardContent.generateBody(data.tds): ''}      
-        ${data.salinity !== undefined ? cardContent.generateBody(data.salinity): ''}      
+        ${data.magnesium !== undefined ? cardContent.generateBody(data.magnesium): ''}
+        ${data.salinity !== undefined ? cardContent.generateBody(data.salinity): ''}   
         ${data.cya !== undefined ? cardContent.generateBody(data.cya): ''}      
         ${data.calcium !== undefined ? cardContent.generateBody(data.calcium): ''}      
         ${data.phosphate !== undefined ? cardContent.generateBody(data.phosphate): ''}      
@@ -338,6 +342,13 @@ class PoolMonitorCard extends LitElement {
     config.tds_setpoint = this.config.tds_setpoint ?? (config.tds_unit === "ppm" ? 4000 : 4) ;
     config.tds_step = this.config.tds_step ?? (config.tds_unit === "ppm" ? 1000 : 1) ;
     config.tds_override = config.tds_unit === "ppm" ? 7000 : 7;
+
+    config.magnesium = this.config.magnesium ;
+    config.magnesium_name = this.config.magnesium_name ?? translations[config.language]["sensor"]["magnesium"];
+    config.magnesium_unit = this.config.magnesium_unit ?? "ppm";
+    config.magnesium_setpoint = this.config.magnesium_setpoint ?? (config.magnesium_unit === "ppm" ? 700 : 0.7) ;
+    config.magnesium_step = this.config.magnesium_step ?? (config.magnesium_unit === "ppm" ? 100 : 0.1)  ;
+    config.magnesium_override = config.magnesium_unit === "ppm" ? 2100 : 2.1;
 
     config.salinity = this.config.salinity ;
     config.salinity_name = this.config.salinity_name ?? translations[config.language]["sensor"]["salinity"];
@@ -418,7 +429,10 @@ class PoolMonitorCard extends LitElement {
     if (config.tds) {
       data.tds = this.calculateData('tds', config.tds_name, config.tds, config.tds_setpoint,config.tds_step, config.tds_unit, config.tds_override, config.override) 
     }
-    if (config.salinity) {
+    if (config.magnesium) {
+      data.magnesium = this.calculateData('magnesium', config.magnesium_name, config.magnesium, config.magnesium_setpoint,config.magnesium_step, config.magnesium_unit, config.magnesium_override, config.override) 
+    }
+     if (config.salinity) {
       data.salinity = this.calculateData('salinity', config.salinity_name, config.salinity, config.salinity_setpoint,config.salinity_step, config.salinity_unit, config.salinity_override, config.override) 
     }
     if (config.cya) {
@@ -451,7 +465,7 @@ class PoolMonitorCard extends LitElement {
 
     newData.name = name;
     newData.title = config.show_names ? title : html`&nbsp;`;
-    newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
+    newData.img_src ="https://raw.githubusercontent.com/JDeighty4/pool-monitor-card/master/resources/"+ name +".png"
     newData.value = parseFloat(this.hass.states[entity].state);
     newData.entity = entity;
     newData.last_updated = this.timeFromNow(this.hass.states[entity].last_updated, config.language);
@@ -539,7 +553,7 @@ class PoolMonitorCard extends LitElement {
 
 
   setConfig(config) {
-    if (!config.temperature && !config.ph && !config.orp && !config.tds && !config.salinity && !config.cya && !config.calcium && !config.phosphate && !config.alkalinity && !config.free_chlorine && !config.total_chlorine && !config.pressure) {
+    if (!config.temperature && !config.ph && !config.orp && !config.tds && !config.magnesium && !config.salinity && !config.cya && !config.calcium && !config.phosphate && !config.alkalinity && !config.free_chlorine && !config.total_chlorine && !config.pressure) {
       throw new Error("You need to define entities");
     }
     this.config =  { ...config };
