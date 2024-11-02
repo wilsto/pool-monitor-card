@@ -38,6 +38,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
       - [Free Chlorine](#free-chlorine)
       - [Total Chlorine](#total-chlorine)
       - [Filter Pressure](#filter-pressure)
+      - [Specific Gravity](#sg)
   - [Hardware](#hardware)
 
 ---
@@ -73,6 +74,7 @@ The "Pool Monitor Card" is a home assistant plugin that display information of *
 
 - **Filter pressure**: This measures the pressure inside the pool filter. A high filter pressure can indicate that the filter is dirty and needs to be cleaned. The ideal filter pressure can vary depending on the make and model of the pool filter.
 
+- **Specific Gravity**: Water has a specific gravity of 1.00000 at 20°C, and this value doesn't change with temperature. Specific gravity is a measure of an object's ability to sink or float in water. Objects with a specific gravity greater than 1 will sink, and objects with a specific gravity less than 1 will float. Since water has a specific gravity of 1 at sea level, liquids and substances with a lower specific gravity will float in water. For example, a float switch with a specific gravity of 0.8 will float in water but sink in alcohol, which has a specific gravity of around 0.72.
 </details>  
 
 <br/>
@@ -323,6 +325,18 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `pressure_step` | Number | **Optional** | Filter Pressure Step  |`10`|
 </details>
 
+
+#### Specific Gravity
+
+<details >
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sg_name` | String | **Optional** | Sensor Name |`Specific Gravity` <small>[Multilanguage]</small>|
+| `sg_setpoint` | Number | **Optional** | Specific Gravity Set Point | `1` |
+| `sg_step` | Number | **Optional** | Specific Gravity Step  |`0.001`|
+</details>
 ---
 
 ## Hardware
