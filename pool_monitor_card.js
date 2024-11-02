@@ -198,7 +198,37 @@ const translations = {
       "hours": "hace {hours} hora{plural}",
       "days": "hace {days} día{plural}"
     }
-  }
+  },
+  'de': {
+    "state": {
+      "1": "zu niedrig",
+      "2": "akzeptabel niedrig",
+      "3": "ideal",
+      "4": "ideal",
+      "5": "akzeptabel hoch",
+      "6": "zu hoch"
+    },
+    "sensor": {
+      "temperature": "Temperatur",
+      "temperature_2": "Temperatur 2",
+      "ph": "pH",
+      "orp": "Redox",
+      "tds": "TDS",
+      "salinity": "Salzgehalt",
+      "cya": "Cyanursäure",
+      "calcium": "Calcium",
+      "phosphate": "Phosphat",
+      "alkalinity": "Alkalinität",
+      "free_chlorine": "freies Chlor",
+      "total_chlorine": "Gesamtchlor",
+      "pressure": "Filterdruck"
+    },
+    "time": {
+      "seconds": "jetzt",
+      "minutes": `vor {minutes} Minute{plural}`,
+      "hours": `vor {hours} Stunde{plural}`,
+      "days": `vor {days} Tage{plural}`
+    }
 }
 
 class PoolMonitorCard extends LitElement {
