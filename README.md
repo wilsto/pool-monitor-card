@@ -38,7 +38,8 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
       - [Free Chlorine](#free-chlorine)
       - [Total Chlorine](#total-chlorine)
       - [Filter Pressure](#filter-pressure)
-      - [Specific Gravity](#sg)
+      - [Specific Gravity](#specific-gravity)
+  - [](#)
   - [Hardware](#hardware)
 
 ---
@@ -163,7 +164,7 @@ You can go further with the card by modifying the user interface (UI).
 | `show_names` | boolean | **Optional** | Display the name of the entity  |`true`|
 | `show_labels` | boolean | **Optional** | Display the state qualification (Low, Ideal, High)  |`true`|
 | `show_last_updated` | boolean | **Optional** | Display the last updated sensor relative date [Only for compact = false]  |`false`|
-| `language` | string | **Optional** | Interface language (en, fr, es)  |`en`|
+| `language` | string | **Optional** | Interface language (🇬🇧 en, 🇫🇷 fr, 🇪🇸 es, 🇩🇪 de, 🇮🇹 it, 🇳🇱 nl, 🇵🇹 pt, 🇧🇷 pt-br, 🇷🇴 ro, 🇸🇰 sk)  |`en`|
 
 Needed to change the unit, setpoint, and steps ? No problem, see additionnal parameters below for each measured entity .
 

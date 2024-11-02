@@ -1,9 +1,8 @@
-
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.6.2'; 
+const CARD_VERSION = '1.6.3'; 
 
 // eslint-disable-next-line no-console
 console.info(
@@ -13,38 +12,6 @@ console.info(
 );
 
 const translations = {
-  'pt-br': {
-    "state": {
-      "1": "Muito Baixo",
-      "2": "Aceitavel Baixo",
-      "3": "Ideal",
-      "4": "Ideal",
-      "5": "AAceitavel Alto",
-      "6": "Muito Alto"
-    },
-    "sensor": {
-      "temperature": "Temperatura",
-      "temperature_2": "Temperatura 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinidade",
-      "cya": "Acidp Cianuronico",
-      "calcium": "Calcio",
-      "phosphate": "fosfate",
-      "alkalinity": "Alcalinidade",
-      "free_chlorine": "Cloro Livre",
-      "total_chlorine": "Cloro Total",
-      "pressure": "Pressáo no  Filtro",
-      "sg": "Gravidade específica"
-    },
-    "time": {
-      "seconds": "Agora mesmo",
-      "minutes": `{minuts} minutos{plural} atras`,
-      "hours": `{hours} horas{plural} atras`,
-      "days": `{days} Dias{plural} atras`
-    }
-  },
   'en': {
     "state": {
       "1": "Too Low",
@@ -67,42 +34,11 @@ const translations = {
       "alkalinity": "Alkalinity",
       "free_chlorine": "Free Chlorine",
       "total_chlorine": "Total Chlorine",
-      "pressure": "filtro de presion",
+      "pressure": "Filter Pressure",
       "sg": "Specific Gravity"
     },
       "time": {
       "seconds": "just now",
-      "minutes": `{minutes} minute{plural} ago`,
-      "hours": `{hours} hour{plural} ago`,
-      "days": `{days} day{plural} ago`
-    }
-  },
-  'de': {
-    "state": {
-      "1": "Zu niedrig",
-      "2": "Akzeptabler Tiefstwert",
-      "3": "Ideal",
-      "4": "Ideal",
-      "5": "Akzeptabler Hochwert",
-      "6": "Zu hoch"
-    },
-    "sensor": {
-      "temperature": "Temperatur",
-      "temperature_2": "Temperatur 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salzgehalt",
-      "cya": "Cyanursäure",
-      "calcium": "Kalzium",
-      "phosphate": "Phosphat",
-      "alkalinity": "Alkalinität",
-      "free_chlorine": "Freies Chlor",
-      "total_chlorine": "Gesamtchlor",
-      "pressure": "Sandfilterdruck"
-    },
-    "time": {
-      "seconds": "gerade erst",
       "minutes": `{minutes} minute{plural} ago`,
       "hours": `{hours} hour{plural} ago`,
       "days": `{days} day{plural} ago`
@@ -233,6 +169,38 @@ const translations = {
       "days": `{days} dias{plural} atrás`
     }
   },  
+  'pt-br': {
+    "state": {
+      "1": "Muito Baixo",
+      "2": "Aceitavel Baixo",
+      "3": "Ideal",
+      "4": "Ideal",
+      "5": "AAceitavel Alto",
+      "6": "Muito Alto"
+    },
+    "sensor": {
+      "temperature": "Temperatura",
+      "temperature_2": "Temperatura 2",
+      "ph": "pH",
+      "orp": "ORP",
+      "tds": "TDS",
+      "salinity": "Salinidade",
+      "cya": "Acidp Cianuronico",
+      "calcium": "Calcio",
+      "phosphate": "fosfate",
+      "alkalinity": "Alcalinidade",
+      "free_chlorine": "Cloro Livre",
+      "total_chlorine": "Cloro Total",
+      "pressure": "Pressáo no  Filtro",
+      "sg": "Gravidade específica"
+    },
+    "time": {
+      "seconds": "Agora mesmo",
+      "minutes": `{minuts} minutos{plural} atras`,
+      "hours": `{hours} horas{plural} atras`,
+      "days": `{days} Dias{plural} atras`
+    }
+  },  
   'es': {
     "state": {
       "1": "Demasiado bajo",
@@ -267,35 +235,99 @@ const translations = {
   },
   'de': {
     "state": {
-      "1": "zu niedrig",
-      "2": "akzeptabel niedrig",
-      "3": "ideal",
-      "4": "ideal",
-      "5": "akzeptabel hoch",
-      "6": "zu hoch"
+      "1": "Zu niedrig",
+      "2": "Akzeptabler Tiefstwert",
+      "3": "Ideal",
+      "4": "Ideal",
+      "5": "Akzeptabler Hochwert",
+      "6": "Zu hoch"
     },
     "sensor": {
       "temperature": "Temperatur",
       "temperature_2": "Temperatur 2",
       "ph": "pH",
-      "orp": "Redox",
+      "orp": "ORP",
       "tds": "TDS",
       "salinity": "Salzgehalt",
       "cya": "Cyanursäure",
-      "calcium": "Calcium",
+      "calcium": "Kalzium",
       "phosphate": "Phosphat",
       "alkalinity": "Alkalinität",
-      "free_chlorine": "freies Chlor",
+      "free_chlorine": "Freies Chlor",
       "total_chlorine": "Gesamtchlor",
-      "pressure": "Filterdruck"
+      "pressure": "Sandfilterdruck"
     },
     "time": {
-      "seconds": "jetzt",
-      "minutes": `vor {minutes} Minute{plural}`,
-      "hours": `vor {hours} Stunde{plural}`,
-      "days": `vor {days} Tage{plural}`
+      "seconds": "gerade erst",
+      "minutes": `{minutes} minute{plural} ago`,
+      "hours": `{hours} hour{plural} ago`,
+      "days": `{days} day{plural} ago`
     }
-}
+  },
+  'it': {
+    "state": {
+      "1": "Troppo basso",
+      "2": "Accettabile basso",
+      "3": "Ideale",
+      "4": "Ideale",
+      "5": "Accettabile alto",
+      "6": "Troppo alto"
+    },
+    "sensor": {
+      "temperature": "Temperatura",
+      "temperature_2": "Temperatura 2",
+      "ph": "pH",
+      "orp": "ORP",
+      "tds": "TDS",
+      "salinity": "Salinità",
+      "cya": "Acido cianurico",
+      "calcium": "Calcio",
+      "phosphate": "Fosfato",
+      "alkalinity": "Alcalinità",
+      "free_chlorine": "Cloro libero",
+      "total_chlorine": "Cloro totale",
+      "pressure": "Pressione filtro",
+      "sg": "Gravità specifica"
+    },
+    "time": {
+      "seconds": "proprio ora",
+      "minutes": `{minutes} minuto{plural} fa`,
+      "hours": `{hours} ora{plural} fa`,
+      "days": `{days} giorno{plural} fa`
+    }
+  },
+  'nl': {
+    "state": {
+      "1": "Te laag",
+      "2": "Acceptabel laag",
+      "3": "Ideaal",
+      "4": "Ideaal",
+      "5": "Acceptabel hoog",
+      "6": "Te hoog"
+    },
+    "sensor": {
+      "temperature": "Temperatuur",
+      "temperature_2": "Temperatuur 2",
+      "ph": "pH",
+      "orp": "ORP",
+      "tds": "TDS",
+      "salinity": "Zoutgehalte",
+      "cya": "Cyanuurzuur",
+      "calcium": "Calcium",
+      "phosphate": "Fosfaat",
+      "alkalinity": "Alkaliteit",
+      "free_chlorine": "Vrij chloor",
+      "total_chlorine": "Totaal chloor",
+      "pressure": "Filterdruk",
+      "sg": "Soortelijk gewicht"
+    },
+    "time": {
+      "seconds": "zojuist",
+      "minutes": `{minutes} minuut{plural} geleden`,
+      "hours": `{hours} uur{plural} geleden`,
+      "days": `{days} dag{plural} geleden`
+    }
+  }
 }
 
 class PoolMonitorCard extends LitElement {
