@@ -3,7 +3,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.5.2';
+const CARD_VERSION = '1.6.0';
 
 // eslint-disable-next-line no-console
 console.info(
@@ -13,6 +13,38 @@ console.info(
 );
 
 const translations = {
+  'pt-br': {
+    "state": {
+      "1": "Muito Baixo",
+      "2": "Aceitavel Baixo",
+      "3": "Ideal",
+      "4": "Ideal",
+      "5": "AAceitavel Alto",
+      "6": "Muito Alto"
+    },
+    "sensor": {
+      "temperature": "Temperatura",
+      "temperature_2": "Temperatura 2",
+      "ph": "pH",
+      "orp": "ORP",
+      "tds": "TDS",
+      "salinity": "Salinidade",
+      "cya": "Acidp Cianuronico",
+      "calcium": "Calcio",
+      "phosphate": "fosfate",
+      "alkalinity": "Alcalinidade",
+      "free_chlorine": "Cloro Livre",
+      "total_chlorine": "Cloro Total",
+      "pressure": "Pressáo no  Filtro",
+      "sg": "Gravidade específica"
+    },
+    "time": {
+      "seconds": "Agora mesmo",
+      "minutes": `{minuts} minutos{plural} atras`,
+      "hours": `{hours} horas{plural} atras`,
+      "days": `{days} Dias{plural} atras`
+    }
+  },
   'en': {
     "state": {
       "1": "Too Low",
@@ -35,7 +67,8 @@ const translations = {
       "alkalinity": "Alkalinity",
       "free_chlorine": "Free Chlorine",
       "total_chlorine": "Total Chlorine",
-      "pressure": "Filter Pressure"
+      "pressure": "filtro de presion",
+      "sg": "Specific Gravity"
     },
     "time": {
       "seconds": "just now",
@@ -159,7 +192,8 @@ const translations = {
       "alkalinity": "Alcalinité",
       "free_chlorine": "Chlore libre",
       "total_chlorine": "Chlore total",
-      "pressure": "Pression du filtre"
+      "pressure": "Pression du filtre",
+      "sg": "specific gravities"
     },
     "time": {
       "seconds": "il y a {seconds} seconde{plural}",
@@ -221,7 +255,8 @@ const translations = {
       "alkalinity": "Alcalinidad",
       "free_chlorine": "Cloro libre",
       "total_chlorine": "Cloro total",
-      "pressure": "Presión del filtro"
+      "pressure": " pressione du filter relativa",
+      "sg": " densidad relativa"
     },
     "time": {
       "seconds": "justo ahora",
@@ -408,6 +443,9 @@ class PoolMonitorCard extends LitElement {
       return html`
       <div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
+   
+
+
         ${data.temperature !== undefined ? cardContent.generateCompactBody(config,data.temperature): ''}
         ${data.temperature_2 !== undefined ? cardContent.generateCompactBody(config,data.temperature_2): ''}
         ${data.ph !== undefined ? cardContent.generateCompactBody(config,data.ph): ''}
@@ -421,11 +459,13 @@ class PoolMonitorCard extends LitElement {
         ${data.free_chlorine !== undefined ? cardContent.generateCompactBody(config,data.free_chlorine): ''}      
         ${data.total_chlorine !== undefined ? cardContent.generateCompactBody(config,data.total_chlorine): ''}      
         ${data.pressure !== undefined ? cardContent.generateCompactBody(config,data.pressure): ''}      
+        ${data.sg !== undefined ? cardContent.generateCompactBody(config,data.sg): ''}      
       </div>`;
     } else {
       return html`
       <div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
+
         ${data.temperature !== undefined ? cardContent.generateBody(config,data.temperature): ''}
         ${data.temperature_2 !== undefined ? cardContent.generateBody(config,data.temperature_2): ''}
         ${data.ph !== undefined ? cardContent.generateBody(config,data.ph): ''}
@@ -439,6 +479,7 @@ class PoolMonitorCard extends LitElement {
         ${data.free_chlorine !== undefined ? cardContent.generateBody(config,data.free_chlorine): ''}      
         ${data.total_chlorine !== undefined ? cardContent.generateBody(config,data.total_chlorine): ''}      
         ${data.pressure !== undefined ? cardContent.generateBody(config,data.pressure): ''}      
+        ${data.sg !== undefined ? cardContent.generateBody(config,data.sg): ''}   
       </div>`;
     }
 
@@ -582,6 +623,14 @@ class PoolMonitorCard extends LitElement {
     config.pressure_step = this.config.pressure_step ?? (config.pressure_unit === "bar" ? 0.5 : 7);
     config.pressure_override = 32  ;
 
+    config.sg = this.config.sg ;
+    config.sg_name = this.config.sg_name ?? translations[config.language]["sensor"]["sg"];
+    config.sg_unit = this.config.sg_unit ?? "";
+    config.sg_setpoint = this.config.sg_setpoint ?? (config.sg_unit === "Ratio" ? 0.5 : 1.5);
+    config.sg_step = this.config.sg_step ?? 0.001;
+    config.sg_override = 1  ;
+
+
     return config;
   }
 
@@ -628,6 +677,9 @@ class PoolMonitorCard extends LitElement {
     }    
     if (config.pressure) {
       data.pressure = this.calculateData('pressure', config.pressure_name, config.pressure, config.pressure_min, config.pressure_max, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
+    }    
+    if (config.sg) {
+      data.sg = this.calculateData('sg', config.sg_name, config.sg, config.sg_setpoint,config.sg_step, config.sg_unit, config.sg_override, config.override) 
     }    
     return data
   }
@@ -740,7 +792,7 @@ class PoolMonitorCard extends LitElement {
 
 
   setConfig(config) {
-    if (!config.temperature && !config.ph && !config.orp && !config.tds && !config.salinity && !config.cya && !config.calcium && !config.phosphate && !config.alkalinity && !config.free_chlorine && !config.total_chlorine && !config.pressure) {
+    if (!config.temperature && !config.ph && !config.orp && !config.tds && !config.salinity && !config.cya && !config.calcium && !config.phosphate && !config.alkalinity && !config.free_chlorine && !config.total_chlorine && !config.pressure && !config.sg) {
       throw new Error("You need to define entities");
     }
     this.config =  { ...config };
