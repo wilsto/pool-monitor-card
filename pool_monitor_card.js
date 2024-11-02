@@ -3,7 +3,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.6.0';
+const CARD_VERSION = '1.6.1'; 
 
 // eslint-disable-next-line no-console
 console.info(
@@ -296,6 +296,7 @@ const translations = {
       "days": `vor {days} Tage{plural}`
     }
 }
+}
 
 class PoolMonitorCard extends LitElement {
   static cardType = 'pool-monitor-card'
@@ -444,8 +445,6 @@ class PoolMonitorCard extends LitElement {
       <div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
    
-
-
         ${data.temperature !== undefined ? cardContent.generateCompactBody(config,data.temperature): ''}
         ${data.temperature_2 !== undefined ? cardContent.generateCompactBody(config,data.temperature_2): ''}
         ${data.ph !== undefined ? cardContent.generateCompactBody(config,data.ph): ''}
@@ -630,7 +629,6 @@ class PoolMonitorCard extends LitElement {
     config.sg_step = this.config.sg_step ?? 0.001;
     config.sg_override = 1  ;
 
-
     return config;
   }
 
@@ -658,7 +656,7 @@ class PoolMonitorCard extends LitElement {
       data.salinity = this.calculateData('salinity', config.salinity_name, config.salinity, config.salinity_min, config.salinity_max, config.salinity_setpoint,config.salinity_step, config.salinity_unit, config.salinity_override, config.override) 
     }
     if (config.cya) {
-      data.cya = this.calculateData('cya', config.cya_name, config.cya_min, config.cya_max, config.cya, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
+      data.cya = this.calculateData('cya', config.cya_name, config.cya, config.cya_min, config.cya_max, config.cya_setpoint,config.cya_step, config.cya_unit, config.cya_override, config.override) 
     }
     if (config.calcium) {
       data.calcium = this.calculateData('calcium', config.calcium_name, config.calcium, config.calcium_min, config.calcium_max, config.calcium_setpoint,config.calcium_step, config.calcium_unit, config.calcium_override, config.override) 
@@ -704,7 +702,7 @@ class PoolMonitorCard extends LitElement {
     newData.max_value = entity_max !== undefined ? parseFloat(this.hass.states[entity_max].state):newData.value;
 
     newData.setpoint = setpoint ;
-    const countDecimals = this.countDecimals(setpoint);
+    const countDecimals = Math.max(this.countDecimals(setpoint), this.countDecimals(setpoint_step));
     if (newData.value) {
       newData.value = (newData.value < 10 ? newData.value.toFixed(2): newData.value < 100 ? newData.value.toFixed(1): newData.value.toFixed(0))
       }
@@ -755,6 +753,11 @@ class PoolMonitorCard extends LitElement {
     return newData
   }
 
+  /**
+   * Count the number of decimal places in a number
+   * @param {number} number - The number to analyze
+   * @returns {number} The number of decimal places (0 if integer)
+   */
   countDecimals(number) {
     if (Math.floor(number) === number) { // si c'est un nombre entier
       return 0;
