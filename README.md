@@ -41,6 +41,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
       - [Specific Gravity](#specific-gravity)
   - [](#)
   - [Hardware](#hardware)
+  - [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -357,3 +358,9 @@ Here is a non-exhaustive, non-tested and non-affiliated list of different materi
 The last column is about info to connect it to Home Assistant.
 
 [Click me to see more hardware](example/hardware.md)
+
+## Acknowledgments
+
+A huge thank you to all contributors who helped me improve this card: @sebaer1976, @djgel, @CosminFRC, @misa1515, @splitti, @gregtakacs and @ViPeR5000. Your contributions, whether translations, bug fixes or feature improvements, are greatly appreciated!
+
+
