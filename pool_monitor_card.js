@@ -3,7 +3,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.6.1'; 
+const CARD_VERSION = '1.6.2'; 
 
 // eslint-disable-next-line no-console
 console.info(
@@ -77,7 +77,7 @@ const translations = {
       "days": `{days} day{plural} ago`
     }
    },
-    'de': {
+  'de': {
     "state": {
       "1": "Zu niedrig",
       "2": "Akzeptabler Tiefstwert",
