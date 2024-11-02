@@ -3,7 +3,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.6.1'; 
+const CARD_VERSION = '1.6.2'; 
 
 // eslint-disable-next-line no-console
 console.info(
@@ -70,7 +70,7 @@ const translations = {
       "pressure": "filtro de presion",
       "sg": "Specific Gravity"
     },
-    "time": {
+      "time": {
       "seconds": "just now",
       "minutes": `{minutes} minute{plural} ago`,
       "hours": `{hours} hour{plural} ago`,
@@ -677,7 +677,7 @@ class PoolMonitorCard extends LitElement {
       data.pressure = this.calculateData('pressure', config.pressure_name, config.pressure, config.pressure_min, config.pressure_max, config.pressure_setpoint,config.pressure_step, config.pressure_unit, config.pressure_override, config.override) 
     }    
     if (config.sg) {
-      data.sg = this.calculateData('sg', config.sg_name, config.sg, config.sg_setpoint,config.sg_step, config.sg_unit, config.sg_override, config.override) 
+      data.sg = this.calculateData('sg', config.sg_name, config.sg, config.sg_min, config.sg_max, config.sg_setpoint,config.sg_step, config.sg_unit, config.sg_override, config.override) 
     }    
     return data
   }
