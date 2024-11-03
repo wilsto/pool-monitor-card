@@ -1,6 +1,5 @@
 # Pool Monitor Card
-
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+[![version](https://img.shields.io/github/v/release/wilsto/pool-monitor-card?color=green&include_prereleases&style=for-the-badge)](https://github.com/wilsto/pool-monitor-card/releases)  [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
 ![all](example/hero.png)
 [Click me to see more screenshots](example/screenshots.md)
@@ -46,6 +45,9 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
   - [Min / Max Tickers](#min--max-tickers)
   - [Hardware](#hardware)
   - [Acknowledgments](#acknowledgments)
+  - [Roadmap](#roadmap)
+    - [Minor Evolutions (No Breaking Changes)](#minor-evolutions-no-breaking-changes)
+    - [Major Evolutions (Breaking Changes)](#major-evolutions-breaking-changes)
   
 </details>
 
@@ -176,7 +178,7 @@ You can go further with the card by modifying the user interface (UI).
 | `show_names` | boolean | **Optional** | Display the name of the entity  |`true`|
 | `show_labels` | boolean | **Optional** | Display the state qualification (Low, Ideal, High)  |`true`|
 | `show_last_updated` | boolean | **Optional** | Display the last updated sensor relative date [Only for compact = false]  |`false`|
-| `language` | string | **Optional** | Interface language (11 languages supported) - (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk, ![IL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/il.png) he)  |`en`|
+| `language` | string | **Optional** | Interface language (12 languages supported) - (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk, ![IL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/il.png) he, ![RU](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ru.png) ru)  |`en`|
 
 **Bar Colors Customisation**
 | Name | Type | Requirement | Description | Default |
@@ -208,6 +210,22 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
+<details>
+  <summary> NOTE: I added a second parameter called temperature_2 (with the same logic for name, unit, setpoint, step) for those who have multiple temperature sensors. Click me to open. </summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `temperature_2_name` | String | **Optional** | Sensor Name |`Temperature 2` <small>[Multilanguage]</small>|
+| `temperature_2_unit` | String | **Optional** | Temperature Unit (°C or °F) |`°C`|
+| `temperature_2_setpoint` | Number | **Optional** | Temperature Set Point |If unit=°C:`27` <br/> If unit=°F:`80`|
+| `temperature_2_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
+| `temperature_2_min` | String | **Optional** | Entity ID for daily minimum temperature |`none`|
+| `temperature_2_max` | String | **Optional** | Entity ID for daily maximum temperature |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+
+</details>
+
 #### pH
 
 <details>
@@ -223,6 +241,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `ph_max` | String | **Optional** | Entity ID for daily maximum pH |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+
 </details>
 
 #### ORP
@@ -404,6 +423,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `sg_name` | String | **Optional** | Sensor Name |`Specific Gravity` <small>[Multilanguage]</small>|
+| `sg_unit` | String | **Optional** | Specific Gravity Unit |`g/cm³`|
 | `sg_setpoint` | Number | **Optional** | Specific Gravity Set Point | `1` |
 | `sg_step` | Number | **Optional** | Specific Gravity Step  |`0.001`|
 | `sg_min` | String | **Optional** | Entity ID for daily minimum specific gravity |`none`|
@@ -472,6 +492,7 @@ Here is a non-exhaustive, non-tested and non-affiliated list of different materi
 
 | Brand | Model  | Temp | pH | ORP | TDS | HA Support |
 | -------------- | ----------- | ------------ |  ------------ |  ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Bluerriot | [Blue Connect](https://www.blueriiot.com/us-en) |✔️ | ✔️ |✔️ | ❌|  [Blog](https://blog.mikejmcguire.com/2021/12/30/home-assistant-add-on-for-blueriiot-blue-connect-plus/) |
 | Bluerriot | [Blue Connect Plus Gold](https://www.blueriiot.com/us-en) |✔️ | ✔️ |✔️ | ✔️|  [Blog](https://blog.mikejmcguire.com/2021/12/30/home-assistant-add-on-for-blueriiot-blue-connect-plus/) |
 | Flipr | [AnalysR](https://goflipr.com/flipr-analysr-3/) |✔️ | ✔️ |✔️ | ❌ | [Component](https://www.home-assistant.io/integrations/flipr/) |
 | Inkbird | [IBS-P01R Bluetooth](https://pool-thermometer.eu/shop/wifi-swimming-pool-thermometer-bundle-weather-station/?lang=en) |  ✔️ | ❌ | ❌| ❌ | [Component](https://www.home-assistant.io/integrations/inkbird/) |
@@ -494,11 +515,55 @@ This card wouldn't be what it is today without our amazing contributors! I'm inc
 > - [Gregtakacs](https://github.com/gregtakacs) for adding those awesome Min/Max Tickers and letting users customize their bar colors
 > - [Djgel](https://github.com/djgel) for implementing specific gravity measurements
 > - [JDeighty4](https://github.com/JDeighty4) for adding magnesium sensor support
-> 
-> And a special shoutout to our translation heroes who helped make this card available in multiple languages! 🌍
+>  
+> And a huge thank you to our translators for making this map available in so many languages! 🌐
 > - [Sebaer1976](https://github.com/sebaer1976) and [Splitti](https://github.com/splitti) for bringing it to German speakers
-> - [Djgel](https://github.com/djgel) for the Portuguese translation
+> - [Djgel](https://github.com/djgel) and [jorgemiguel4](https://github.com/jorgemiguel4) for the Portuguese translation
 > - [CosminFRC](https://github.com/CosminFRC) for the Romanian version
 > - [Misa1515](https://github.com/misa1515) for Slovak support
 > - [ViPeR5000](https://github.com/ViPeR5000) for the Polish translation
 > - [Yehuda](https://github.com/Yehuda) for making it accessible to Hebrew users
+> - [MrSnakeSPb](https://github.com/MrSnakeSPb) for the Russian translation
+>
+> Special thanks to those who helped expand hardware support and compatibility:
+> - [hlaffez](https://github.com/hlaffez) for Tuya BLE-YL01 compatibility
+> - [DAVIZINH0](https://github.com/DAVIZINH0) for bluerriot compatibility information
+
+---
+
+## Roadmap
+
+Here's what's coming up for Pool Monitor Card! We're constantly working to improve and add new features.
+
+### Minor Evolutions (No Breaking Changes)
+
+These updates won't require any changes to your existing configuration:
+
+- 🎨 Additional customization options for the UI
+  - [Issue #48](https://github.com/wilsto/pool-monitor-card/issues/48) : Gradient bar and layout options
+  - [Issue #44](https://github.com/wilsto/pool-monitor-card/issues/44) : Icon selection (or option for no icon)
+  - [Issue #37](https://github.com/wilsto/pool-monitor-card/issues/37) : hints on how to improve water quality
+  - [Issue #21](https://github.com/wilsto/pool-monitor-card/issues/21) : Add Multiple new measurement sensors
+  - [Issue #20](https://github.com/wilsto/pool-monitor-card/issues/20) : Add water level sensor
+  - [Issue #12](https://github.com/wilsto/pool-monitor-card/issues/12) : Minimum limit value
+- 🌐 More language translations
+- 🔧 Additional hardware support
+- 🐛 Ongoing bug fixes and performance improvements
+- 📝 Improving documentation
+  
+### Major Evolutions (Breaking Changes)
+
+These updates may require configuration changes when implemented:
+
+- 🔄 Complete rewrite to improve maintainability and add new features 
+  - [Issue #25](https://github.com/wilsto/pool-monitor-card/issues/25) : yaml config arrays VS single configurables
+  - [Issue #43](https://github.com/wilsto/pool-monitor-card/issues/43) : multiple ph link to #25
+  - [Issue #11](https://github.com/wilsto/pool-monitor-card/issues/11) : Reorder the sensors
+  - [Issue #14](https://github.com/wilsto/pool-monitor-card/issues/14) : Set Pool Ideal Range Value
+- 🔍 Moving to TypeScript for better code quality
+- 🏗️ Implementing a more modular architecture 
+- ✅ Adding comprehensive testing
+
+
+> **Note:** This roadmap is subject to change based on community feedback and needs. Feel free to contribute ideas by opening issues on GitHub!
+
