@@ -630,7 +630,6 @@ These updates won't require any changes to your existing configuration:
 
 - 🎨 Additional customization options for the UI
   - [Issue #48](https://github.com/wilsto/pool-monitor-card/issues/48) : Gradient bar and layout options
-  - [Issue #44](https://github.com/wilsto/pool-monitor-card/issues/44) : Icon selection (or option for no icon)
   - [Issue #37](https://github.com/wilsto/pool-monitor-card/issues/37) : hints on how to improve water quality
   - [Issue #12](https://github.com/wilsto/pool-monitor-card/issues/12) : Minimum limit value
 - 🌐 More language translations
