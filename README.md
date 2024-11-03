@@ -42,6 +42,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
       - [Total Chlorine](#total-chlorine)
       - [Filter Pressure](#filter-pressure)
       - [Specific Gravity](#specific-gravity)
+      - [Magnesium](#magnesium)
   - [Min / Max Tickers](#min--max-tickers)
   - [Hardware](#hardware)
   - [Acknowledgments](#acknowledgments)
@@ -52,7 +53,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
 
 ## Description
 
-The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">13 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure, specific gravity**
+The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">14 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure, specific gravity**
 
 - **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
@@ -82,6 +83,9 @@ The "Pool Monitor Card" is a home assistant plugin that display information of *
 - **Filter pressure**: This measures the pressure inside the pool filter. A high filter pressure can indicate that the filter is dirty and needs to be cleaned. The ideal filter pressure can vary depending on the make and model of the pool filter.
 
 - **Specific Gravity**: A measure that indicates if an object will float or sink in water. Water has a specific gravity of 1.0 at 20°C. This reference point helps determine if substances will float (specific gravity < 1) or sink (specific gravity > 1) in water. This property is important for pool equipment and chemical management.
+
+- **Magnesium**: A mineral that helps prevent scaling and staining in pools. The ideal range for magnesium in a pool is between 20 and 40 ppm. Proper magnesium levels can help improve water clarity and reduce chemical usage.
+
 </details>  
 
 <br/>
@@ -157,6 +161,7 @@ ph: sensor.your_ph_sensor
 | `alkalinity` | String | **Optional*** | The entity that measures the alkalinity of the water. |`none`|
 | `pressure` | String | **Optional*** | The entity that measures the filter pressure in the pool. |`none`|
 | `sg` | String | **Optional*** | The entity that measures the specific gravity of the water. |`none`|
+| `magnesium` | String | **Optional*** | The entity that measures the magnesium level in the water. |`none`|
 
 ### Advanced options
 
@@ -403,6 +408,23 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `sg_step` | Number | **Optional** | Specific Gravity Step  |`0.001`|
 | `sg_min` | String | **Optional** | Entity ID for daily minimum specific gravity |`none`|
 | `sg_max` | String | **Optional** | Entity ID for daily maximum specific gravity |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+</details>
+
+#### Magnesium
+
+<details>
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `magnesium_name` | String | **Optional** | Sensor Name |`Magnesium` <small>[Multilanguage]</small>|
+| `magnesium_unit` | String | **Optional** | Magnesium Unit |`ppm`|
+| `magnesium_setpoint` | Number | **Optional** | Magnesium Set Point | `700` |
+| `magnesium_step` | Number | **Optional** | Magnesium Step  |`100`|
+| `magnesium_min` | String | **Optional** | Entity ID for daily minimum magnesium |`none`|
+| `magnesium_max` | String | **Optional** | Entity ID for daily maximum magnesium |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
