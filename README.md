@@ -42,6 +42,11 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
       - [Filter Pressure](#filter-pressure)
       - [Specific Gravity](#specific-gravity)
       - [Magnesium](#magnesium)
+      - [Water Level](#water-level)
+      - [Flow Rate](#flow-rate)
+      - [UV Radiation](#uv-radiation)
+      - [Product Volume](#product-volume)
+      - [Product Weight](#product-weight)
   - [Min / Max Tickers](#min--max-tickers)
   - [Hardware](#hardware)
   - [Acknowledgments](#acknowledgments)
@@ -55,7 +60,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
 
 ## Description
 
-The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">14 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure, specific gravity**
+The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">19 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure, specific gravity**
 
 - **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
@@ -87,6 +92,16 @@ The "Pool Monitor Card" is a home assistant plugin that display information of *
 - **Specific Gravity**: A measure that indicates if an object will float or sink in water. Water has a specific gravity of 1.0 at 20°C. This reference point helps determine if substances will float (specific gravity < 1) or sink (specific gravity > 1) in water. This property is important for pool equipment and chemical management.
 
 - **Magnesium**: A mineral that helps prevent scaling and staining in pools. The ideal range for magnesium in a pool is between 20 and 40 ppm. Proper magnesium levels can help improve water clarity and reduce chemical usage.
+
+- **Water Level**: This measures the water level in your pool. Maintaining proper water level is crucial for optimal pool operation. The water level should typically be kept at the middle of the skimmer opening (about halfway up the skimmer opening) for proper filtration. Too low water levels can damage pumps, while too high levels reduce skimmer efficiency. Many pools use sensors to monitor this automatically and some systems can even automatically add water when levels drop too low.
+
+- **Flow Rate**: This measures the volume of water flowing through your pool's filtration system per minute. For small residential pools, the ideal flow rate is around 200 L/min, while larger commercial pools may require up to 500 L/min. Monitoring flow rate is crucial as variations can indicate filter blockages or pump issues. Daily checks should ensure the rate stays within 10% of the setpoint.
+
+- **UV Radiation**: This measures the ultraviolet light output in your pool's UV sanitization system. The optimal wavelength is 254 nanometers (nm) for effective microbial inactivation. The UV output should be monitored weekly to ensure it remains within ±5 nm of this setpoint for maximum effectiveness.
+
+- **Product Volume**: This tracks the volume of liquid chemical products (like pH+ and pH- solutions) in storage. A minimum volume of 10 liters per chemical type should be maintained to prevent shortages. Weekly inventory checks and usage tracking help optimize reorder timing and maintain adequate chemical supplies.
+
+- **Product Weight**: This monitors the weight of powdered chemical products in storage. A minimum of 5 kg should be maintained for essential powdered chemicals. Weekly weight logging and consumption tracking help predict future needs and prevent stock-outs.
 
 </details>  
 
@@ -164,6 +179,11 @@ ph: sensor.your_ph_sensor
 | `pressure` | String | **Optional*** | The entity that measures the filter pressure in the pool. |`none`|
 | `sg` | String | **Optional*** | The entity that measures the specific gravity of the water. |`none`|
 | `magnesium` | String | **Optional*** | The entity that measures the magnesium level in the water. |`none`|
+| `water_level` | String | **Optional*** | The entity that measures the water level in your pool. |`none`|
+| `flow_rate` | String | **Optional*** | The entity that measures the flow rate through your pool's filtration system. |`none`|
+| `uv_radiation` | String | **Optional*** | The entity that measures the UV light output in your pool's sanitization system. |`none`|
+| `product_volume` | String | **Optional*** | The entity that tracks the volume of liquid chemical products in storage. |`none`|
+| `product_weight` | String | **Optional*** | The entity that monitors the weight of powdered chemical products in storage. |`none`|
 
 ### Advanced options
 
@@ -449,6 +469,92 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
+#### Water Level
+
+<details>
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `waterlevel_name` | String | **Optional** | Sensor Name |`Water Level` <small>[Multilanguage]</small>|
+| `waterlevel_unit` | String | **Optional** | Water Level Unit |`cm`|
+| `waterlevel_setpoint` | Number | **Optional** | Water Level Set Point | `15` |
+| `waterlevel_step` | Number | **Optional** | Water Level Step  |`5`|
+| `waterlevel_min` | String | **Optional** | Entity ID for daily minimum water level |`none`|
+| `waterlevel_max` | String | **Optional** | Entity ID for daily maximum water level |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+</details>
+
+#### Flow Rate
+
+<details>
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `flowrate_name` | String | **Optional** | Sensor Name |`Flow Rate` <small>[Multilanguage]</small>|
+| `flowrate_unit` | String | **Optional** | Flow Rate Unit |`L/min`|
+| `flowrate_setpoint` | Number | **Optional** | Flow Rate Set Point | `200` |
+| `flowrate_step` | Number | **Optional** | Flow Rate Step  |`50`|
+| `flowrate_min` | String | **Optional** | Entity ID for daily minimum flow rate |`none`|
+| `flowrate_max` | String | **Optional** | Entity ID for daily maximum flow rate |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+</details>
+
+#### UV Radiation
+
+<details>
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uv_name` | String | **Optional** | Sensor Name |`UV Radiation` <small>[Multilanguage]</small>|
+| `uv_unit` | String | **Optional** | UV Radiation Unit |`nm`|
+| `uv_setpoint` | Number | **Optional** | UV Radiation Set Point | `254` |
+| `uv_step` | Number | **Optional** | UV Radiation Step  |`5`|
+| `uv_min` | String | **Optional** | Entity ID for daily minimum UV radiation |`none`|
+| `uv_max` | String | **Optional** | Entity ID for daily maximum UV radiation |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+</details>
+
+#### Product Volume
+
+<details>
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `volume_name` | String | **Optional** | Sensor Name |`Product Volume` <small>[Multilanguage]</small>|
+| `volume_unit` | String | **Optional** | Product Volume Unit |`L`|
+| `volume_setpoint` | Number | **Optional** | Product Volume Set Point | `10` |
+| `volume_step` | Number | **Optional** | Product Volume Step  |`2`|
+| `volume_min` | String | **Optional** | Entity ID for daily minimum product volume |`none`|
+| `volume_max` | String | **Optional** | Entity ID for daily maximum product volume |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+</details>
+
+#### Product Weight
+
+<details>
+  <summary> click me to open</summary>
+
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `weight_name` | String | **Optional** | Sensor Name |`Product Weight` <small>[Multilanguage]</small>|
+| `weight_unit` | String | **Optional** | Product Weight Unit |`kg`|
+| `weight_setpoint` | Number | **Optional** | Product Weight Set Point | `5` |
+| `weight_step` | Number | **Optional** | Product Weight Step  |`1`|
+| `weight_min` | String | **Optional** | Entity ID for daily minimum product weight |`none`|
+| `weight_max` | String | **Optional** | Entity ID for daily maximum product weight |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+</details>
+
+
 ---
 
 ## Min / Max Tickers
@@ -543,8 +649,6 @@ These updates won't require any changes to your existing configuration:
   - [Issue #48](https://github.com/wilsto/pool-monitor-card/issues/48) : Gradient bar and layout options
   - [Issue #44](https://github.com/wilsto/pool-monitor-card/issues/44) : Icon selection (or option for no icon)
   - [Issue #37](https://github.com/wilsto/pool-monitor-card/issues/37) : hints on how to improve water quality
-  - [Issue #21](https://github.com/wilsto/pool-monitor-card/issues/21) : Add Multiple new measurement sensors
-  - [Issue #20](https://github.com/wilsto/pool-monitor-card/issues/20) : Add water level sensor
   - [Issue #12](https://github.com/wilsto/pool-monitor-card/issues/12) : Minimum limit value
 - 🌐 More language translations
 - 🔧 Additional hardware support
