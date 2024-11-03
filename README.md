@@ -11,13 +11,16 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
 
 ## TOC <!-- omit in toc -->
 
+<details>
+  <summary> click me to open</summary>
+
 - [Pool Monitor Card](#pool-monitor-card)
   - [Multilanguage ReadMe](#multilanguage-readme)
   - [Description](#description)
   - [Support](#support)
   - [Install](#install)
-      - [via HACS](#via-hacs)
-      - [Manualy](#manualy)
+    - [via HACS](#via-hacs)
+    - [Manualy](#manualy)
   - [Lovelace Set up](#lovelace-set-up)
     - [Using UI](#using-ui)
     - [Using YAML](#using-yaml)
@@ -42,6 +45,8 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
   - [Min / Max Tickers](#min--max-tickers)
   - [Hardware](#hardware)
   - [Acknowledgments](#acknowledgments)
+  
+</details>
 
 ---
 
@@ -94,12 +99,12 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 
 ## Install
 
-#### via HACS
+### via HACS
 
 Until the Home Assistant Pool Monitor card is available by default in the HACS directory, click on:
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor-card&category=plugin)
 
-#### Manualy
+### Manualy
 
 1. Download the `pool_monitor_card.js` file from the [latest release available](https://github.com/wilsto/pool-monitor-card/releases) and save it in your `configuration/www` folder.
 1. Go to `Configuration > Lovelace dashboard > Resources` in Home Assistant and click on `Add resource`.
