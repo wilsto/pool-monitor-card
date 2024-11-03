@@ -39,7 +39,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
       - [Total Chlorine](#total-chlorine)
       - [Filter Pressure](#filter-pressure)
       - [Specific Gravity](#specific-gravity)
-  - [](#)
+  - [Min / Max Tickers](#min--max-tickers)
   - [Hardware](#hardware)
   - [Acknowledgments](#acknowledgments)
 
@@ -47,7 +47,7 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
 
 ## Description
 
-The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">12 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure**
+The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">13 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure, specific gravity**
 
 - **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
@@ -76,7 +76,7 @@ The "Pool Monitor Card" is a home assistant plugin that display information of *
 
 - **Filter pressure**: This measures the pressure inside the pool filter. A high filter pressure can indicate that the filter is dirty and needs to be cleaned. The ideal filter pressure can vary depending on the make and model of the pool filter.
 
-- **Specific Gravity**: Water has a specific gravity of 1.00000 at 20°C, and this value doesn't change with temperature. Specific gravity is a measure of an object's ability to sink or float in water. Objects with a specific gravity greater than 1 will sink, and objects with a specific gravity less than 1 will float. Since water has a specific gravity of 1 at sea level, liquids and substances with a lower specific gravity will float in water. For example, a float switch with a specific gravity of 0.8 will float in water but sink in alcohol, which has a specific gravity of around 0.72.
+- **Specific Gravity**: A measure that indicates if an object will float or sink in water. Water has a specific gravity of 1.0 at 20°C. This reference point helps determine if substances will float (specific gravity < 1) or sink (specific gravity > 1) in water. This property is important for pool equipment and chemical management.
 </details>  
 
 <br/>
@@ -151,6 +151,7 @@ ph: sensor.your_ph_sensor
 | `total_chlorine` | String | **Optional*** | The entity that measures the concentration of both free chlorine and combined chlorine in the water. |`none`|
 | `alkalinity` | String | **Optional*** | The entity that measures the alkalinity of the water. |`none`|
 | `pressure` | String | **Optional*** | The entity that measures the filter pressure in the pool. |`none`|
+| `sg` | String | **Optional*** | The entity that measures the specific gravity of the water. |`none`|
 
 ### Advanced options
 
@@ -167,6 +168,17 @@ You can go further with the card by modifying the user interface (UI).
 | `show_last_updated` | boolean | **Optional** | Display the last updated sensor relative date [Only for compact = false]  |`false`|
 | `language` | string | **Optional** | Interface language (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk)  |`en`|
 
+**Bar Colors Customisation**
+| Name | Type | Requirement | Description | Default |
+| -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `normal_color` | String | **Optional** | Color for normal range values (e.g. `var(--dark-primary-color)`) | `#00b894` |
+| `low_color` | String | **Optional** | Color for low range values (e.g. `var(--primary-color)`) | `#Fdcb6e` |
+| `warn_color` | String | **Optional** | Color for warning range values (e.g. `var(--light-primary-color)`) | `#e17055` |
+| `marker_color` | String | **Optional** | Color for min/max markers (e.g. `black`) | `rgb(0, 0, 0, 1)` |
+| `hi_low_color` | String | **Optional** | Color for high/low range values (e.g. `red`) | `rgb(0, 0, 0, .6)` |
+
+
+
 Needed to change the unit, setpoint, and steps ? No problem, see additionnal parameters below for each measured entity .
 
 #### Temperature
@@ -180,13 +192,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `temperature_unit` | String | **Optional** | Temperature Unit (°C or °F) |`°C`|
 | `temperature_setpoint` | Number | **Optional** | Temperature Set Point |If unit=°C:`27` <br/> If unit=°F:`80`|
 | `temperature_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
-</details>
+| `temperature_min` | String | **Optional** | Entity ID for daily minimum temperature |`none`|
+| `temperature_max` | String | **Optional** | Entity ID for daily maximum temperature |`none`|
 
-> **_NOTE:_**  I added a second parameter named temperature_2 (with same logic for unit, setpoint, step) for thoses who have multiple temperature sensors.
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
+</details>
 
 #### pH
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -195,11 +209,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `ph_unit` | String | **Optional** | pH Unit |`pH`|
 | `ph_setpoint` | Number | **Optional** | pH Set Point |`7.2`|
 | `ph_step` | Number | **Optional** | pH Step |`0.2`|
+| `ph_min` | String | **Optional** | Entity ID for daily minimum pH |`none`|
+| `ph_max` | String | **Optional** | Entity ID for daily maximum pH |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### ORP
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -208,11 +226,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `orp_unit` | String | **Optional** | ORP Unit |`mV`|
 | `orp_setpoint` | Number | **Optional** | ORP Set Point |`700`|
 | `orp_step` | Number | **Optional** | ORP Step |`50`|
+| `orp_min` | String | **Optional** | Entity ID for daily minimum ORP |`none`|
+| `orp_max` | String | **Optional** | Entity ID for daily maximum ORP |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### TDS
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -221,11 +243,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `tds_unit` | String | **Optional** | TDS Unit (g/L or ppm) |`g/L`|
 | `tds_setpoint` | Number | **Optional** | TDS Set Point |If unit=g/L:`4` <br/> If unit=ppm:`4000`|
 | `tds_step` | Number | **Optional** | TDS Step  |If unit=g/L:`1` <br/> If unit=ppm:`1000`|
+| `tds_min` | String | **Optional** | Entity ID for daily minimum TDS |`none`|
+| `tds_max` | String | **Optional** | Entity ID for daily maximum TDS |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Salinity
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -234,11 +260,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `salinity_unit` | String | **Optional** | Salinity Unit (ppm or g/L) |`ppm`|
 | `salinity_setpoint` | Number | **Optional** | Salinity Set Point |If unit=g/L:`4.5` <br/> If unit=ppm:`3000`|
 | `salinity_step` | Number | **Optional** | Salinity Step  |If unit=g/L:`0.5` <br/> If unit=ppm:`500`|
+| `salinity_min` | String | **Optional** | Entity ID for daily minimum salinity |`none`|
+| `salinity_max` | String | **Optional** | Entity ID for daily maximum salinity |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Cyanuric Acid
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -247,11 +277,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `cya_unit` | String | **Optional** | Cyanuric Acid Unit |`ppm`|
 | `cya_setpoint` | Number | **Optional** | Cyanuric Acid Set Point | `40` |
 | `cya_step` | Number | **Optional** | Cyanuric Acid Step  |`10`|
+| `cya_min` | String | **Optional** | Entity ID for daily minimum Cyanuric Acid |`none`|
+| `cya_max` | String | **Optional** | Entity ID for daily maximum Cyanuric Acid |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Calcium
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -260,11 +294,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `calcium_unit` | String | **Optional** | Calcium Unit |`ppm`|
 | `calcium_setpoint` | Number | **Optional** | Calcium Set Point | `300` |
 | `calcium_step` | Number | **Optional** | Calcium Step  |`100`|
+| `calcium_min` | String | **Optional** | Entity ID for daily minimum calcium |`none`|
+| `calcium_max` | String | **Optional** | Entity ID for daily maximum calcium |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Phosphate
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -273,11 +311,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `phosphate_unit` | String | **Optional** | Phosphate Unit |`ppb`|
 | `phosphate_setpoint` | Number | **Optional** | Phosphate Set Point | `100` |
 | `phosphate_step` | Number | **Optional** | Phosphate Step  |`100`|
+| `phosphate_min` | String | **Optional** | Entity ID for daily minimum phosphate |`none`|
+| `phosphate_max` | String | **Optional** | Entity ID for daily maximum phosphate |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Alkalinity
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -286,11 +328,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `alkalinity_unit` | String | **Optional** | Alkalinity Unit |`ppm`|
 | `alkalinity_setpoint` | Number | **Optional** | Alkalinity Set Point | `100` |
 | `alkalinity_step` | Number | **Optional** | Alkalinity Step  |`20`|
+| `alkalinity_min` | String | **Optional** | Entity ID for daily minimum alkalinity |`none`|
+| `alkalinity_max` | String | **Optional** | Entity ID for daily maximum alkalinity |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Free Chlorine
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -299,11 +345,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `free_chlorine_unit` | String | **Optional** | Free Chlorine Unit |`ppm`|
 | `free_chlorine_setpoint` | Number | **Optional** | Free Chlorine Set Point | `2` |
 | `free_chlorine_step` | Number | **Optional** | Free Chlorine Step  |`1`|
+| `free_chlorine_min` | String | **Optional** | Entity ID for daily minimum free chlorine |`none`|
+| `free_chlorine_max` | String | **Optional** | Entity ID for daily maximum free chlorine |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Total Chlorine
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -312,11 +362,15 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `total_chlorine_unit` | String | **Optional** | Total Chlorine Unit |`ppm`|
 | `total_chlorine_setpoint` | Number | **Optional** | Total Chlorine Set Point | `3` |
 | `total_chlorine_step` | Number | **Optional** | Total Chlorine Step  |`1`|
+| `total_chlorine_min` | String | **Optional** | Entity ID for daily minimum total chlorine |`none`|
+| `total_chlorine_max` | String | **Optional** | Entity ID for daily maximum total chlorine |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 #### Filter Pressure
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -325,12 +379,16 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `pressure_unit` | String | **Optional** | Filter Pressure Unit (psi or bar) |`psi`|
 | `pressure_setpoint` | Number | **Optional** | Filter Pressure Set Point | `20` |
 | `pressure_step` | Number | **Optional** | Filter Pressure Step  |`10`|
+| `pressure_min` | String | **Optional** | Entity ID for daily minimum filter pressure |`none`|
+| `pressure_max` | String | **Optional** | Entity ID for daily maximum filter pressure |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
 
 
 #### Specific Gravity
 
-<details >
+<details>
   <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
@@ -338,9 +396,49 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `sg_name` | String | **Optional** | Sensor Name |`Specific Gravity` <small>[Multilanguage]</small>|
 | `sg_setpoint` | Number | **Optional** | Specific Gravity Set Point | `1` |
 | `sg_step` | Number | **Optional** | Specific Gravity Step  |`0.001`|
+| `sg_min` | String | **Optional** | Entity ID for daily minimum specific gravity |`none`|
+| `sg_max` | String | **Optional** | Entity ID for daily maximum specific gravity |`none`|
+
+> **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
+
 ---
 
+## Min / Max Tickers
+
+Min/max entities defined in the YAML configuration will be displayed as tick marks on the bar chart, as shown in the example below:
+
+ ```yaml
+ph: sensor.iopool_ph
+ph_min: sensor.daily_ph_min
+ph_max: sensor.daily_ph_max
+ ```
+
+They will display as tick marks on the bar chart.
+
+![all](example/minmax.png)
+
+For the sensors I use the statistics platform:
+ ```yaml
+sensor:
+  - platform: statistics
+    name: "Daily pH Min"
+    unique_id: <UUID>
+    entity_id: sensor.iopool_ph
+    state_characteristic: value_min
+    max_age:
+      hours: 24
+  - platform: statistics
+    name: "Daily pH Max"
+    unique_id: <UUID>
+    entity_id: sensor.iopool_ph
+    state_characteristic: value_max
+    max_age:
+      hours: 24
+ ```
+
+---
+  
 ## Hardware
 
 Here is a non-exhaustive, non-tested and non-affiliated list of different materials that may capture some of the above values:
@@ -353,14 +451,22 @@ Here is a non-exhaustive, non-tested and non-affiliated list of different materi
 | iopool | [ECO](https://iopool.com/pages/pool-monitor) |  ✔️ | ✔️ | ✔️ | ❌ | [Tuto fr @mguyard](https://forum.hacf.fr/t/tuto-gestion-de-sa-piscine-avec-sonde-iopool/24292) |
 | Ondilo |  [ICO Pool](https://ondilo.com/en/ico-pool/) |✔️ | ✔️ |✔️ | ✔️| [Component](https://www.home-assistant.io/integrations/ondilo_ico/) |
 | Zodiac  | [iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq)  |  ✔️  | ✔️ | ✔️ |❌ | [Tuto via nodeRED](example/zodiac.md) |
+| Tuya | [BLE-YL01](https://www.zigbee2mqtt.io/devices/BLE-YL01.html) | ✔️ | ✔️ | ✔️ | ✔️ | [Tuto](https://community.home-assistant.io/t/pool-monitoring-device-yieryi-ble-yl01-zigbee-ph-orp-free-chlorine-salinity-etc/659545) |
 
 > **_NOTE:_**  ✔️ indicates that the model is able to measure the specified parameter, while ❌ indicates it is not.
 The last column is about info to connect it to Home Assistant.
 
 [Click me to see more hardware](example/hardware.md)
 
+---
 ## Acknowledgments
 
-A huge thank you to all contributors who helped me improve this card: @sebaer1976, @djgel, @CosminFRC, @misa1515, @splitti, @gregtakacs and @ViPeR5000. Your contributions, whether translations, bug fixes or feature improvements, are greatly appreciated!
+A huge thank you to all contributors who helped me improve this card. Your contributions, whether translations, bug fixes or feature improvements, are greatly appreciated!
 
-
+> **Thank you to:**
+> - [@gregtakacs](https://github.com/gregtakacs) for the Min/Max Tickers and color customisation of the bars
+> - [@sebaer1976](https://github.com/sebaer1976) and [@splitti](https://github.com/splitti) for german translation
+> - [@djgel](https://github.com/djgel) for portuguese translation and specific gravity
+> - [@CosminFRC](https://github.com/CosminFRC) for Romanian translation
+> - [@misa1515](https://github.com/misa1515) for slovak translation
+> - [@ViPeR5000](https://github.com/ViPeR5000) for polish translation
