@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.7.0'; 
+const CARD_VERSION = '1.7.1'; 
 
 // eslint-disable-next-line no-console
 console.info(
@@ -370,6 +370,39 @@ const translations = {
       "minutes": "לפני {minutes} דקות",
       "hours": "לפני {hours} שעות",
       "days": "לפני {days} ימים"
+    }
+  },
+  'ru': {
+    "state": {
+    "1": "Слишком низкий",
+    "2": "Приемлемо низкий",
+    "3": "Идеальный",
+    "4": "Идеальный вариант",
+    "5": "Приемлемо высокий",
+    "6": "Слишком высокий"
+    },
+    "sensor": {
+    "temperature": "Температура",
+    "temperature_2": "Температура 2",
+    "ph": "pH",
+    "orp": "ORP",
+    "tds": "TDS",
+    "salinity": "Соленость",
+    "cya": "Циануровая кислота",
+    "calcium": "Кальций",
+    "phosphate": "Фосфаты",
+    "alkalinity": "Щелочность",
+    "free_chlorine": "Свободный хлор",
+    "total_chlorine": "Общий хлор",
+    "pressure": "Давление фильтра",
+    "sg": "Удельный вес",
+    "magnesium": "Магний"
+    },
+    "time": {
+      "seconds": "{seconds} секунд{plural}",
+      "minutes": "{minutes} минут{plural} назад",
+      "hours": "{hours} часов{plural} назад",
+      "days": "{days} дней{plural} назад"
     }
   }
 }
@@ -794,13 +827,13 @@ class PoolMonitorCard extends LitElement {
     newData.setpoint = setpoint ;
     const countDecimals = Math.max(this.countDecimals(setpoint), this.countDecimals(setpoint_step));
     if (newData.value) {
-      newData.value = (newData.value < 10 ? newData.value.toFixed(2): newData.value < 100 ? newData.value.toFixed(1): newData.value.toFixed(0))
-      }
+      newData.value = this.hass.states[entity].state;
+    }
     if (newData.min_value) {
-      newData.min_value = (newData.min_value < 10 ? newData.min_value.toFixed(2): newData.min_value < 100 ? newData.min_value.toFixed(1): newData.min_value.toFixed(0))
+      newData.min_value = entity_min !== undefined ? this.hass.states[entity_min].state : newData.value;
     }
     if (newData.max_value) {
-      newData.max_value = (newData.max_value < 10 ? newData.max_value.toFixed(2): newData.max_value < 100 ? newData.max_value.toFixed(1): newData.max_value.toFixed(0))
+      newData.max_value = entity_max !== undefined ? this.hass.states[entity_max].state : newData.value;
     }
     newData.setpoint_class = [
       (setpoint - 2 *setpoint_step).toFixed(countDecimals),
