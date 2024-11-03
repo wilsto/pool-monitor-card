@@ -176,7 +176,7 @@ You can go further with the card by modifying the user interface (UI).
 | `show_names` | boolean | **Optional** | Display the name of the entity  |`true`|
 | `show_labels` | boolean | **Optional** | Display the state qualification (Low, Ideal, High)  |`true`|
 | `show_last_updated` | boolean | **Optional** | Display the last updated sensor relative date [Only for compact = false]  |`false`|
-| `language` | string | **Optional** | Interface language (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk)  |`en`|
+| `language` | string | **Optional** | Interface language (11 languages supported) - (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk, ![IL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/il.png) he)  |`en`|
 
 **Bar Colors Customisation**
 | Name | Type | Requirement | Description | Default |
@@ -488,12 +488,17 @@ The last column is about info to connect it to Home Assistant.
 ---
 ## Acknowledgments
 
-A huge thank you to all contributors who helped me improve this card. Your contributions, whether translations, bug fixes or feature improvements, are greatly appreciated!
+This card wouldn't be what it is today without our amazing contributors! I'm incredibly grateful for everyone who has helped make it better. Whether you've added features, fixed bugs, or helped with translations - you rock! 🌟
 
-> **Thank you to:**
-> - [@gregtakacs](https://github.com/gregtakacs) for the Min/Max Tickers and color customisation of the bars
-> - [@sebaer1976](https://github.com/sebaer1976) and [@splitti](https://github.com/splitti) for german translation
-> - [@djgel](https://github.com/djgel) for portuguese translation and specific gravity
-> - [@CosminFRC](https://github.com/CosminFRC) for Romanian translation
-> - [@misa1515](https://github.com/misa1515) for slovak translation
-> - [@ViPeR5000](https://github.com/ViPeR5000) for polish translation
+> **A Big Thank You To:**
+> - [Gregtakacs](https://github.com/gregtakacs) for adding those awesome Min/Max Tickers and letting users customize their bar colors
+> - [Djgel](https://github.com/djgel) for implementing specific gravity measurements
+> - [JDeighty4](https://github.com/JDeighty4) for adding magnesium sensor support
+> 
+> And a special shoutout to our translation heroes who helped make this card available in multiple languages! 🌍
+> - [Sebaer1976](https://github.com/sebaer1976) and [Splitti](https://github.com/splitti) for bringing it to German speakers
+> - [Djgel](https://github.com/djgel) for the Portuguese translation
+> - [CosminFRC](https://github.com/CosminFRC) for the Romanian version
+> - [Misa1515](https://github.com/misa1515) for Slovak support
+> - [ViPeR5000](https://github.com/ViPeR5000) for the Polish translation
+> - [Yehuda](https://github.com/Yehuda) for making it accessible to Hebrew users
