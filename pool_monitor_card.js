@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.8.0'; 
+const CARD_VERSION = '1.9.0';
 
 // eslint-disable-next-line no-console
 console.info(
@@ -516,8 +516,9 @@ class PoolMonitorCard extends LitElement {
     display: grid;
     grid-template-columns: 10% repeat(6, 1fr) 5%;
     padding: 5px;
+    height: 20px;
   }
-
+  
   .pool-monitor-container-values {
     display: grid;
     grid-template-columns:12% repeat(6, 1fr) 2% ;
@@ -672,6 +673,10 @@ class PoolMonitorCard extends LitElement {
     config.compact = this.config.compact ?? false;
     config.show_names = this.config.show_names ?? true;
     config.show_labels = this.config.show_labels ?? true;
+    config.show_icons = this.config.show_icons ?? true;
+    config.show_last_updated = this.config.show_last_updated ?? false;
+    config.show_units = this.config.show_units ?? true;
+    
     config.language = this.config.language ?? 'en';
 
     config.normal_color = this.config.normal_color ?? "#00b894";
@@ -941,12 +946,31 @@ class PoolMonitorCard extends LitElement {
 
     newData.name = name;
     newData.title = config.show_names ? title : html`&nbsp;`;
-    newData.img_src ="https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png"
+    
+    // Modification pour gérer les différents types d'icônes
+    if (!config.show_icons) {
+      newData.hide_icon = true;
+    } else {
+      const iconConfig = this.config[`${name}_icon`] || {};
+      if (iconConfig.hide) {
+        newData.hide_icon = true;
+      } else if (iconConfig.image_url) {
+        newData.img_src = iconConfig.image_url;
+      } else if (iconConfig.mdi) {
+        newData.is_mdi = true;
+        newData.mdi_icon = iconConfig.mdi;
+      } else {
+        newData.img_src = "https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/"+ name +".png";
+      }
+    }
+
     newData.value = parseFloat(this.hass.states[entity].state);
     newData.entity = entity;
-    newData.last_updated = this.timeFromNow(this.hass.states[entity].last_updated, config.language);
+    if (config.show_last_updated) {
+      newData.last_updated = this.timeFromNow(this.hass.states[entity].last_updated, config.language);
+    }
 
-    newData.unit = unit;
+    newData.unit = config.show_units ? unit : '';
     if (override){
       newData.value = override_value;
     }
@@ -1078,7 +1102,7 @@ class cardContent {
       `
     }
 
-    static generateBody (config,data) {
+    static generateBody (config, data) {
       return html`
       <!-- ##### ${data.name} section ##### -->    
       <div class="section" @click=${() => 
@@ -1089,7 +1113,15 @@ class cardContent {
           <div class="marker-state" style="padding-${data.side_align}:40px;text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_state_step}%;">${data.state}</div>
           <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
         </div>
-        <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
+        ${!data.hide_icon ? html`
+          <div class="pool-monitor-entity-img">
+            ${data.is_mdi ? html`
+              <ha-icon icon="${data.mdi_icon}" style="width: 32px; height: 32px;"></ha-icon>
+            ` : html`
+              <img src="${data.img_src}" style="width: 32px; height: 32px;">
+            `}
+          </div>
+        ` : ''}
         <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
@@ -1115,12 +1147,20 @@ class cardContent {
       `
     }
 
-    static generateCompactBody (config,data) {    
+    static generateCompactBody (config, data) {
       return html`
       <!-- ##### ${data.name} section ##### -->    
-      <div class="section-compact"  @click=${() => 
+      <div class="section-compact" @click=${() => 
           PoolMonitorCard._moreinfo(data.entity)}>   
-        <div class="pool-monitor-entity-img"><img src="${data.img_src}"></div>
+        ${!data.hide_icon ? html`
+          <div class="pool-monitor-entity-img">
+            ${data.is_mdi ? html`
+              <ha-icon icon="${data.mdi_icon}" style="width: 32px; height: 32px;"></ha-icon>
+            ` : html`
+              <img src="${data.img_src}" style="width: 32px; height: 32px;">
+            `}
+          </div>
+        ` : ''}
         <div class="pool-monitor-container">
           <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
           <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
