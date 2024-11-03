@@ -242,6 +242,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `temperature_icon` | Object | **Optional** | Configure the icon for temperature. Use `image_url` for a custom image, `mdi` for an MDI icon, or `hide` to hide the icon. |`none`|
 
 ***Icon Configuration***
+
 For each sensor, you have the flexibility to customize the icon in your YAML configuration using one of four methods (illustrated here with the temperature sensor example):
 
 1. Hide the icon completely:
