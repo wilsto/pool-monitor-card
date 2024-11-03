@@ -4,14 +4,116 @@
 ![all](example/hero.png)
 [Cliquez sur moi pour voir d'autres captures d'écran](example/screenshots.md)
 
+
+## Description
+
+
+Le "Pool Monitor Card" est un plugin Home Assistant qui affiche les informations de **<span style="color:orange">19 capteurs prédéfinis pour votre piscine</span>** :
+
+<div style="display:flex; flex-direction:column; gap:15px; margin:20px 0">
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/temperature.png" height="24" title="Température">
+    <img src="resources/ph.png" height="24" title="pH">
+    <img src="resources/orp.png" height="24" title="ORP">
+    <img src="resources/tds.png" height="24" title="TDS">
+  </div>
+  <strong>Paramètres essentiels :</strong> température, pH, ORP et TDS
+</div>
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/salinity.png" height="24" title="Salinité">
+    <img src="resources/cya.png" height="24" title="Acide cyanurique">
+    <img src="resources/calcium.png" height="24" title="Calcium">
+    <img src="resources/phosphate.png" height="24" title="Phosphate">
+    <img src="resources/alkalinity.png" height="24" title="Alcalinité">
+  </div>
+  <strong>Équilibre chimique :</strong> salinité, acide cyanurique, calcium, phosphate et alcalinité
+</div>
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/free_chlorine.png" height="24" title="Chlore libre">
+    <img src="resources/total_chlorine.png" height="24" title="Chlore total">
+    <img src="resources/pressure.png" height="24" title="Pression filtre">
+    <img src="resources/sg.png" height="24" title="Densité">
+    <img src="resources/magnesium.png" height="24" title="Magnésium">
+  </div>
+  <strong>Traitement :</strong> chlore libre/total, pression filtre, densité et magnésium
+</div>
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/water_level.png" height="24" title="Niveau d'eau">
+    <img src="resources/flow_rate.png" height="24" title="Débit">
+    <img src="resources/uv_radiation.png" height="24" title="Radiation UV">
+    <img src="resources/product_volume.png" height="24" title="Volume produit">
+    <img src="resources/product_weight.png" height="24" title="Poids produit">
+  </div>
+  <strong>Maintenance :</strong> niveau d'eau, débit, radiation UV et gestion des produits
+</div>
+
+</div>
+
+<details>
+  <summary><span style="color:blue">Cliquez sur moi pour voir les détails</span></summary>
+
+- **Température** : Il s'agit de la température de l'eau de votre piscine. La température idéale d'une piscine se situe entre 26°C et 28°C.  Connaître la température peut vous aider à décider si l'eau est suffisamment chaude pour nager ou si elle est trop froide et doit être chauffée.
+
+- **pH** : Il s'agit d'une mesure de l'acidité ou de l'alcalinité de l'eau de votre piscine. Le pH idéal d'une piscine se situe entre 7,0 et 7,4. Le maintien d'un niveau de pH approprié permet d'éviter les irritations de la peau et des yeux et de garder l'eau de la piscine propre à la baignade.
+
+- **ORP** : Il s'agit du potentiel d'oxydo-réduction, qui mesure la capacité de l'eau à oxyder ou à réduire les substances présentes dans la piscine. Le niveau de ORP est lié à la quantité de chlore ou d'autres désinfectants dans la piscine.  La plage idéale pour le chlore dans une piscine se situe entre 650 et 750 mV. Le maintien d'un niveau ORP correct permet de s'assurer que l'eau de la piscine est correctement assainie et exempte de bactéries nocives.
+
+- **TDS**: Il s'agit du total des solides dissous, qui mesure la quantité de substances inorganiques et organiques présentes dans l'eau, telles que les minéraux, les sels et d'autres particules. Des niveaux élevés de TDS peuvent affecter la clarté de l'eau et rendre difficile l'équilibre des produits chimiques dans la piscine. La plage idéale pour le TDS dans une piscine d'eau salée se situe entre 3 000 et 5 000 parties par million (ppm) (3 et 5 g/L).
+
+- **Salinité** : Elle mesure la quantité de sel dans l'eau. Une piscine d'eau salée a besoin d'une certaine quantité de sel pour fonctionner correctement. La plage idéale de sel dans une piscine d'eau salée se situe entre 2 500 et 3 500 ppm.
+
+- **CYA** : Il s'agit de l'acide cyanurique qui mesure la quantité de stabilisant dans l'eau. Le stabilisateur aide à protéger le chlore de la dégradation par la lumière du soleil. Le taux idéal de CYA dans une piscine se situe entre 30 et 50 ppm.
+
+- **Calcium** : Ce paramètre mesure la quantité de calcium dans l'eau. Des niveaux élevés de calcium peuvent entraîner l'entartrage des surfaces et des équipements de la piscine. La dureté calcique idéale d'une piscine se situe entre 200 et 400 ppm.
+
+- **Phosphate** : Ce paramètre mesure la quantité de phosphate dans l'eau. Les phosphates présents dans l'eau peuvent servir de nourriture à la croissance des algues. Le taux idéal de phosphate dans une piscine se situe entre 200 et 300 ppm.
+
+- **Alcalinité** : Elle mesure la capacité de l'eau à résister aux changements de pH. Une alcalinité adéquate permet d'éviter que l'eau ne devienne trop acide ou trop alcaline. L'alcalinité idéale d'une piscine se situe entre 80 et 120 ppm.
+
+- **Chlore libre** : Il s'agit de la quantité de chlore actif dans l'eau qui est disponible pour désinfecter la piscine. La plage idéale de chlore libre dans une piscine se situe entre 1 et 3 ppm.
+
+- **Chlore total** : Il s'agit de la concentration combinée du chlore libre et du chlore qui s'est combiné aux contaminants présents dans l'eau. La plage idéale pour le chlore total dans une piscine est de 5 ppm.
+
+- **Pression du filtre** : Elle mesure la pression à l'intérieur du filtre de la piscine. Une pression de filtre élevée peut indiquer que le filtre est sale et doit être nettoyé. La pression idéale du filtre peut varier en fonction de la marque et du modèle du filtre de la piscine.
+
+- **Gravité spécifique** : Une mesure qui indique si un objet flottera ou coulera dans l'eau. L'eau a une gravité spécifique de 1,0 à 20°C. Ce point de référence aide à déterminer si des substances flotteront (gravité spécifique < 1) ou couleront (gravité spécifique > 1) dans l'eau. Cette propriété est importante pour la gestion des équipements et des produits chimiques de la piscine.
+
+- **Magnésium** : Un minéral qui aide à prévenir l'entartrage et les taches dans les piscines. La plage idéale pour le magnésium dans une piscine est comprise entre 20 et 40 ppm. Des niveaux appropriés de magnésium peuvent aider à améliorer la clarté de l'eau et à réduire l'utilisation de produits chimiques.
+
+</details>  
+<br/>
+Avec la "Pool Monitor Card", vous pouvez facilement contrôler ces aspects importants de votre piscine et faire les ajustements nécessaires pour que l'eau soit sûre et agréable à la baignade.
+
+---
+
+## Support
+
+Hey mec ! Aide-moi pour quelques :beers: ou un :coffee:!
+
+[![coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://bmc.link/wilsto)
+
+---
+
 ## ReadMe multilingue
 
 Clique sur les boutons suivants pour choisir la langue de ton ReadMe : [![fr](https://img.shields.io/badge/lang-fr-green.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README-fr.md) [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README.md)
 
 ## Table des matières <!-- omit in toc -->
 
+<details >
+  <summary> cliquez pour ouvrir</summary>
+
 - [Pool Monitor Card](#pool-monitor-card)
   - [ReadMe multilingue](#readme-multilingue)
+  - [](#)
   - [Description](#description)
   - [Support](#support)
   - [Installation](#installation)
@@ -41,52 +143,10 @@ Clique sur les boutons suivants pour choisir la langue de ton ReadMe : [![fr](ht
   - [Matériels](#matériels)
   - [Remerciements](#remerciements)
 
+</details>
+
 ---
 
-## Description
-
-La "Pool Monitor Card" est un plugin d'Home Assistant qui affiche les informations de **<span style="color:orange">14 capteurs prédéfinis de votre piscine</span>** : **température, pH, ORP et TDS** mais aussi si vous en avez besoin : **salinité, CYA, calcium, phosphate, alcalinité, chlore libre, chlore total, pression du filtre, gravité spécifique, magnésium**.
-
-- **Température** : Il s'agit de la température de l'eau de votre piscine. La température idéale d'une piscine se situe entre 26°C et 28°C.  Connaître la température peut vous aider à décider si l'eau est suffisamment chaude pour nager ou si elle est trop froide et doit être chauffée.
-
-- **pH** : Il s'agit d'une mesure de l'acidité ou de l'alcalinité de l'eau de votre piscine. Le pH idéal d'une piscine se situe entre 7,0 et 7,4. Le maintien d'un niveau de pH approprié permet d'éviter les irritations de la peau et des yeux et de garder l'eau de la piscine propre à la baignade.
-
-- **ORP** : Il s'agit du potentiel d'oxydo-réduction, qui mesure la capacité de l'eau à oxyder ou à réduire les substances présentes dans la piscine. Le niveau de ORP est lié à la quantité de chlore ou d'autres désinfectants dans la piscine.  La plage idéale pour le chlore dans une piscine se situe entre 650 et 750 mV. Le maintien d'un niveau ORP correct permet de s'assurer que l'eau de la piscine est correctement assainie et exempte de bactéries nocives.
-
-- **TDS**: Il s'agit du total des solides dissous, qui mesure la quantité de substances inorganiques et organiques présentes dans l'eau, telles que les minéraux, les sels et d'autres particules. Des niveaux élevés de TDS peuvent affecter la clarté de l'eau et rendre difficile l'équilibre des produits chimiques dans la piscine. La plage idéale pour le TDS dans une piscine d'eau salée se situe entre 3 000 et 5 000 parties par million (ppm) (3 et 5 g/L).
-
-<details>
-  <summary><span style="color:blue">Cliquez sur moi pour poursuivre la liste des 10 autres capteurs possibles</span></summary>
-
-- **Salinité** : Elle mesure la quantité de sel dans l'eau. Une piscine d'eau salée a besoin d'une certaine quantité de sel pour fonctionner correctement. La plage idéale de sel dans une piscine d'eau salée se situe entre 2 500 et 3 500 ppm.
-
-- **CYA** : Il s'agit de l'acide cyanurique qui mesure la quantité de stabilisant dans l'eau. Le stabilisateur aide à protéger le chlore de la dégradation par la lumière du soleil. Le taux idéal de CYA dans une piscine se situe entre 30 et 50 ppm.
-
-- **Calcium** : Ce paramètre mesure la quantité de calcium dans l'eau. Des niveaux élevés de calcium peuvent entraîner l'entartrage des surfaces et des équipements de la piscine. La dureté calcique idéale d'une piscine se situe entre 200 et 400 ppm.
-
-- **Phosphate** : Ce paramètre mesure la quantité de phosphate dans l'eau. Les phosphates présents dans l'eau peuvent servir de nourriture à la croissance des algues. Le taux idéal de phosphate dans une piscine se situe entre 200 et 300 ppm.
-
-- **Alcalinité** : Elle mesure la capacité de l'eau à résister aux changements de pH. Une alcalinité adéquate permet d'éviter que l'eau ne devienne trop acide ou trop alcaline. L'alcalinité idéale d'une piscine se situe entre 80 et 120 ppm.
-
-- **Chlore libre** : Il s'agit de la quantité de chlore actif dans l'eau qui est disponible pour désinfecter la piscine. La plage idéale de chlore libre dans une piscine se situe entre 1 et 3 ppm.
-
-- **Chlore total** : Il s'agit de la concentration combinée du chlore libre et du chlore qui s'est combiné aux contaminants présents dans l'eau. La plage idéale pour le chlore total dans une piscine est de 5 ppm.
-
-- **Pression du filtre** : Elle mesure la pression à l'intérieur du filtre de la piscine. Une pression de filtre élevée peut indiquer que le filtre est sale et doit être nettoyé. La pression idéale du filtre peut varier en fonction de la marque et du modèle du filtre de la piscine.
-
-- **Gravité spécifique** : Une mesure qui indique si un objet flottera ou coulera dans l'eau. L'eau a une gravité spécifique de 1,0 à 20°C. Ce point de référence aide à déterminer si des substances flotteront (gravité spécifique < 1) ou couleront (gravité spécifique > 1) dans l'eau. Cette propriété est importante pour la gestion des équipements et des produits chimiques de la piscine.
-
-- **Magnésium** : Un minéral qui aide à prévenir l'entartrage et les taches dans les piscines. La plage idéale pour le magnésium dans une piscine est comprise entre 20 et 40 ppm. Des niveaux appropriés de magnésium peuvent aider à améliorer la clarté de l'eau et à réduire l'utilisation de produits chimiques.
-
-</details>  
-<br/>
-Avec la "Pool Monitor Card", vous pouvez facilement contrôler ces aspects importants de votre piscine et faire les ajustements nécessaires pour que l'eau soit sûre et agréable à la baignade.
-
-## Support
-
-Hey mec ! Aide-moi pour quelques :beers: ou un :coffee:!
-
-[![coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://bmc.link/wilsto)
 
 ## Installation
 
@@ -102,6 +162,7 @@ En attendant que la carte "Pool Monitor Card" soit disponible par défaut dans l
     1. Ajoutez `/local/community/pool-monitor-card/pool_monitor_card.js` à l'URL.
     1. Choisissez `Javascript Module` comme Resource type.
 
+---
 ## Mise en place sous Lovelace
 
 ### Utilisation de l'interface utilisateur
@@ -174,9 +235,8 @@ Besoin de changer l'unité, le point de consigne et les étapes ? Pas de problè
 
 #### Température
 
-<details open>
-  <summary> click me to open</summary>
-
+<details >
+  <summary> cliquez pour ouvrir</summary>
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `temperature_name` | String | **Optional** | Nom du capteur |`Temperature` <small>[Multilingue]</small>|
@@ -194,7 +254,7 @@ Besoin de changer l'unité, le point de consigne et les étapes ? Pas de problè
 #### pH
 
 <details >
-  <summary> click me to open</summary>
+  <summary> cliquez pour ouvrir</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -436,6 +496,8 @@ Voici une liste non exhaustive, non testée et non affiliée de différents mat�
 La dernière colonne concerne des infos pour le connecter à Home Assistant.
 
 [Cliquez sur moi pour voir plus de matériel](example/hardware.md)
+
+---
 
 ## Remerciements
 

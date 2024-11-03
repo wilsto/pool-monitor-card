@@ -4,63 +4,65 @@
 ![all](example/hero.png)
 [Click me to see more screenshots](example/screenshots.md)
 
-## Multilanguage ReadMe
-
-Click on the following button to choose the language of your ReadMe : [![fr](https://img.shields.io/badge/lang-fr-green.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README-fr.md) [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README.md)
-
-## TOC <!-- omit in toc -->
-
-<details>
-  <summary> click me to open</summary>
-
-- [Pool Monitor Card](#pool-monitor-card)
-  - [Multilanguage ReadMe](#multilanguage-readme)
-  - [Description](#description)
-  - [Support](#support)
-  - [Install](#install)
-    - [via HACS](#via-hacs)
-    - [Manualy](#manualy)
-  - [Lovelace Set up](#lovelace-set-up)
-    - [Using UI](#using-ui)
-    - [Using YAML](#using-yaml)
-      - [Example of code](#example-of-code)
-  - [Parameters](#parameters)
-    - [Sensors Options](#sensors-options)
-    - [Advanced options](#advanced-options)
-      - [User eXperience (UX)](#user-experience-ux)
-      - [Temperature](#temperature)
-      - [pH](#ph)
-      - [ORP](#orp)
-      - [TDS](#tds)
-      - [Salinity](#salinity)
-      - [Cyanuric Acid](#cyanuric-acid)
-      - [Calcium](#calcium)
-      - [Phosphate](#phosphate)
-      - [Alkalinity](#alkalinity)
-      - [Free Chlorine](#free-chlorine)
-      - [Total Chlorine](#total-chlorine)
-      - [Filter Pressure](#filter-pressure)
-      - [Specific Gravity](#specific-gravity)
-      - [Magnesium](#magnesium)
-      - [Water Level](#water-level)
-      - [Flow Rate](#flow-rate)
-      - [UV Radiation](#uv-radiation)
-      - [Product Volume](#product-volume)
-      - [Product Weight](#product-weight)
-  - [Min / Max Tickers](#min--max-tickers)
-  - [Hardware](#hardware)
-  - [Acknowledgments](#acknowledgments)
-  - [Roadmap](#roadmap)
-    - [Minor Evolutions (No Breaking Changes)](#minor-evolutions-no-breaking-changes)
-    - [Major Evolutions (Breaking Changes)](#major-evolutions-breaking-changes)
-  
-</details>
 
 ---
 
 ## Description
 
-The "Pool Monitor Card" is a home assistant plugin that display information of **<span style="color:orange">19 pre-defined sensors of your swimming pool</span>** : **temperature, pH, ORP levels and TDS**  but also if you need them : **salinity, CYA, calcium, phosphate, alkalinity, free chlorine, total chlorine, filter pressure, specific gravity**
+The "Pool Monitor Card" is a Home Assistant plugin that displays information from **<span style="color:orange">19 predefined sensors for your pool</span>**:
+
+<div style="display:flex; flex-direction:column; gap:15px; margin:20px 0">
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/temperature.png" height="24" title="Temperature">
+    <img src="resources/ph.png" height="24" title="pH">
+    <img src="resources/orp.png" height="24" title="ORP">
+    <img src="resources/tds.png" height="24" title="TDS">
+  </div>
+  <strong>Essential parameters:</strong> temperature, pH, ORP and TDS
+</div>
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/salinity.png" height="24" title="Salinity">
+    <img src="resources/cya.png" height="24" title="Cyanuric acid">
+    <img src="resources/calcium.png" height="24" title="Calcium">
+    <img src="resources/phosphate.png" height="24" title="Phosphate">
+    <img src="resources/alkalinity.png" height="24" title="Alkalinity">
+  </div>
+  <strong>Chemical balance:</strong> salinity, cyanuric acid, calcium, phosphate and alkalinity
+</div>
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/free_chlorine.png" height="24" title="Free chlorine">
+    <img src="resources/total_chlorine.png" height="24" title="Total chlorine">
+    <img src="resources/pressure.png" height="24" title="Filter pressure">
+    <img src="resources/sg.png" height="24" title="Specific gravity">
+    <img src="resources/magnesium.png" height="24" title="Magnesium">
+  </div>
+  <strong>Treatment:</strong> free/total chlorine, filter pressure, specific gravity and magnesium
+</div>
+
+<div style="display:flex; align-items:center; gap:10px">
+  <div style="display:flex; gap:5px">
+    <img src="resources/water_level.png" height="24" title="Water level">
+    <img src="resources/flow_rate.png" height="24" title="Flow rate">
+    <img src="resources/uv_radiation.png" height="24" title="UV radiation">
+    <img src="resources/product_volume.png" height="24" title="Product volume">
+    <img src="resources/product_weight.png" height="24" title="Product weight">
+  </div>
+  <strong>Maintenance:</strong> water level, flow rate, UV radiation and product management
+</div>
+
+</div>
+
+
+
+
+<details>
+  <summary><span style="color:blue">Click me to see details of sensors</span></summary>
 
 - **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
@@ -69,9 +71,6 @@ The "Pool Monitor Card" is a home assistant plugin that display information of *
 - **ORP**: This stands for Oxidation Reduction Potential and measures the ability of the water to oxidize or reduce substances in the pool. The ORP level is related to the amount of chlorine or other sanitizers in the pool.  The ideal range for chlorine in a pool is between 650 and 750 mV. Maintaining the correct ORP level can help ensure that the pool water is properly sanitized and free of harmful bacteria.
 
 - **TDS**: This stands for Total Dissolved Solids and measures the amount of inorganic and organic substances in the water, such as minerals, salts, and other particles. High levels of TDS can affect water clarity and make it difficult to balance chemicals in the pool. The ideal range for TDS in a saltwater pool is between 3000 and 5000 parts per million (ppm) (3 and 5 g/L).
-
-<details>
-  <summary><span style="color:blue">Click me to continue to list 8 other possible sensors</span></summary>
 
 - **Salinity**: This measures the amount of salt in the water. A saltwater pool requires a specific range of salt to function properly. The ideal range for salt in a saltwater pool is between 2500 and 3500 ppm.
 
@@ -115,6 +114,61 @@ With the "Pool Monitor Card", you can easily monitor these important aspects of 
 Hey dude! Help me out for a couple of :beers: or a :coffee:!
 
 [![coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://bmc.link/wilsto)
+
+---
+
+
+## Multilanguage ReadMe
+
+Click on the following button to choose the language of your ReadMe : [![fr](https://img.shields.io/badge/lang-fr-green.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README-fr.md) [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/wilsto/pool-monitor-card/blob/master/README.md)
+
+## Table of Contents <!-- omit in toc -->
+
+<details>
+  <summary> click me to open</summary>
+
+- [Pool Monitor Card](#pool-monitor-card)
+  - [Description](#description)
+  - [Support](#support)
+  - [Multilanguage ReadMe](#multilanguage-readme)
+  - [Install](#install)
+    - [via HACS](#via-hacs)
+    - [Manualy](#manualy)
+  - [Lovelace Set up](#lovelace-set-up)
+    - [Using UI](#using-ui)
+    - [Using YAML](#using-yaml)
+      - [Example of code](#example-of-code)
+  - [Parameters](#parameters)
+    - [Sensors Options](#sensors-options)
+    - [Advanced options](#advanced-options)
+      - [User eXperience (UX)](#user-experience-ux)
+      - [Temperature](#temperature)
+      - [pH](#ph)
+      - [ORP](#orp)
+      - [TDS](#tds)
+      - [Salinity](#salinity)
+      - [Cyanuric Acid](#cyanuric-acid)
+      - [Calcium](#calcium)
+      - [Phosphate](#phosphate)
+      - [Alkalinity](#alkalinity)
+      - [Free Chlorine](#free-chlorine)
+      - [Total Chlorine](#total-chlorine)
+      - [Filter Pressure](#filter-pressure)
+      - [Specific Gravity](#specific-gravity)
+      - [Magnesium](#magnesium)
+      - [Water Level](#water-level)
+      - [Flow Rate](#flow-rate)
+      - [UV Radiation](#uv-radiation)
+      - [Product Volume](#product-volume)
+      - [Product Weight](#product-weight)
+  - [Min / Max Tickers](#min--max-tickers)
+  - [Hardware](#hardware)
+  - [Acknowledgments](#acknowledgments)
+  - [Roadmap](#roadmap)
+    - [Minor Evolutions (No Breaking Changes)](#minor-evolutions-no-breaking-changes)
+    - [Major Evolutions (Breaking Changes)](#major-evolutions-breaking-changes)
+  
+</details>
 
 ---
 
