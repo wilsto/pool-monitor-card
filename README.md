@@ -14,10 +14,10 @@ The "Pool Monitor Card" is a Home Assistant plugin that displays information fro
 
 | Icons | Category | Parameters |
 |--------|-----------|------------|
-| ![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) | **Essential Parameters:** | temperature, pH, ORP and TDS |
-| ![Salinity](resources/salinity.png) ![Cyanuric acid](resources/cya.png) ![Calcium](resources/calcium.png) ![Phosphate](resources/phosphate.png) ![Alkalinity](resources/alkalinity.png) | **Chemical Balance:** | salinity, cyanuric acid, calcium, phosphate and alkalinity |
-| ![Free chlorine](resources/free_chlorine.png) ![Total chlorine](resources/total_chlorine.png) ![Filter pressure](resources/pressure.png) ![Specific gravity](resources/sg.png) ![Magnesium](resources/magnesium.png) | **Treatment:** | free/total chlorine, filter pressure, specific gravity and magnesium |
-| ![Water level](resources/water_level.png) ![Flow rate](resources/flow_rate.png) ![UV radiation](resources/uv_radiation.png) ![Product volume](resources/product_volume.png) ![Product weight](resources/product_weight.png) | **Maintenance:** | water level, flow rate, UV radiation and product management |
+| ![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) | **Essential Parameters** | temperature, pH, ORP and TDS |
+| ![Salinity](resources/salinity.png) ![Cyanuric acid](resources/cya.png) ![Calcium](resources/calcium.png) ![Phosphate](resources/phosphate.png) ![Alkalinity](resources/alkalinity.png) | **Chemical Balance** | salinity, cyanuric acid, calcium, phosphate and alkalinity |
+| ![Free chlorine](resources/free_chlorine.png) ![Total chlorine](resources/total_chlorine.png) ![Filter pressure](resources/pressure.png) ![Specific gravity](resources/sg.png) ![Magnesium](resources/magnesium.png) | **Treatment** | free/total chlorine, filter pressure, specific gravity and magnesium |
+| ![Water level](resources/water_level.png) ![Flow rate](resources/flow_rate.png) ![UV radiation](resources/uv_radiation.png) ![Product volume](resources/product_volume.png) ![Product weight](resources/product_weight.png) | **Maintenance** | water level, flow rate, UV radiation and product management |
 
 <br/>
 
