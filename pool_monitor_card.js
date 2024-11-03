@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.6.3'; 
+const CARD_VERSION = '1.7.0'; 
 
 // eslint-disable-next-line no-console
 console.info(
@@ -35,7 +35,8 @@ const translations = {
       "free_chlorine": "Free Chlorine",
       "total_chlorine": "Total Chlorine",
       "pressure": "Filter Pressure",
-      "sg": "Specific Gravity"
+      "sg": "Specific Gravity",
+      "magnesium": "Magnesium",
     },
       "time": {
       "seconds": "just now",
@@ -66,7 +67,8 @@ const translations = {
       "alkalinity": "Alcalinitate",
       "free_chlorine": "Clor liber",
       "total_chlorine": "Clor total",
-      "pressure": "Presiune filtru"
+      "pressure": "Presiune filtru",
+      "magnesium": "Magneziu",
     },
     "time": {
       "seconds": "acum",
@@ -97,7 +99,8 @@ const translations = {
       "alkalinity": "Alkalinita",
       "free_chlorine": "Voľný chlór",
       "total_chlorine": "Celkový chlór",
-      "pressure": "Tlak filtra"
+      "pressure": "Tlak filtra",
+      "magnesium": "Magnezium",
     },
     "time": {
       "seconds": "práve teraz",
@@ -129,7 +132,8 @@ const translations = {
       "free_chlorine": "Chlore libre",
       "total_chlorine": "Chlore total",
       "pressure": "Pression du filtre",
-      "sg": "specific gravities"
+      "sg": "Densité spécifique",
+      "magnesium": "Magnésium",
     },
     "time": {
       "seconds": "il y a {seconds} seconde{plural}",
@@ -149,18 +153,20 @@ const translations = {
     },
     "sensor": {
       "temperature": "Temperatura",
-      "temperature_2": "Temperatura 2",
+      "temperature_2": "Temperatura 2", 
       "ph": "pH",
       "orp": "ORP",
       "tds": "TDS",
       "salinity": "Salinidade",
       "cya": "ácido cianúrico",
       "calcium": "Calcio",
-      "phosphate": "Fosfato",
+      "phosphate": "Fosfato", 
       "alkalinity": "Alcalinidade",
       "free_chlorine": "Cloro livres",
       "total_chlorine": "Cloro total",
-      "pressure": "Pressão do filtro"
+      "pressure": "Pressão do filtro",
+      "sg": "Gravidade específica",
+      "magnesium": "Magnésio",
     },
     "time": {
       "seconds": "Agora",
@@ -192,7 +198,8 @@ const translations = {
       "free_chlorine": "Cloro Livre",
       "total_chlorine": "Cloro Total",
       "pressure": "Pressáo no  Filtro",
-      "sg": "Gravidade específica"
+      "sg": "Gravidade específica",
+      "magnesium": "Magnésio",
     },
     "time": {
       "seconds": "Agora mesmo",
@@ -224,7 +231,8 @@ const translations = {
       "free_chlorine": "Cloro libre",
       "total_chlorine": "Cloro total",
       "pressure": " pressione du filter relativa",
-      "sg": " densidad relativa"
+      "sg": " densidad relativa",
+      "magnesium": "Magnesio",
     },
     "time": {
       "seconds": "justo ahora",
@@ -255,13 +263,14 @@ const translations = {
       "alkalinity": "Alkalinität",
       "free_chlorine": "Freies Chlor",
       "total_chlorine": "Gesamtchlor",
-      "pressure": "Sandfilterdruck"
+      "pressure": "Sandfilterdruck",
+      "magnesium": "Magnesium",
     },
     "time": {
       "seconds": "gerade erst",
-      "minutes": `{minutes} minute{plural} ago`,
-      "hours": `{hours} hour{plural} ago`,
-      "days": `{days} day{plural} ago`
+      "minutes": `vor {minutes} Minute{plural}`,
+      "hours": `vor {hours} Stunde{plural}`,
+      "days": `vor {days} Tag{plural}`
     }
   },
   'it': {
@@ -287,7 +296,8 @@ const translations = {
       "free_chlorine": "Cloro libero",
       "total_chlorine": "Cloro totale",
       "pressure": "Pressione filtro",
-      "sg": "Gravità specifica"
+      "sg": "Gravità specifica",
+      "magnesium": "Magnesio",
     },
     "time": {
       "seconds": "proprio ora",
@@ -319,7 +329,8 @@ const translations = {
       "free_chlorine": "Vrij chloor",
       "total_chlorine": "Totaal chloor",
       "pressure": "Filterdruk",
-      "sg": "Soortelijk gewicht"
+      "sg": "Soortelijk gewicht",
+      "magnesium": "Magnesium",
     },
     "time": {
       "seconds": "zojuist",
@@ -491,6 +502,7 @@ class PoolMonitorCard extends LitElement {
         ${data.total_chlorine !== undefined ? cardContent.generateCompactBody(config,data.total_chlorine): ''}      
         ${data.pressure !== undefined ? cardContent.generateCompactBody(config,data.pressure): ''}      
         ${data.sg !== undefined ? cardContent.generateCompactBody(config,data.sg): ''}      
+        ${data.magnesium !== undefined ? cardContent.generateCompactBody(config,data.magnesium): ''}      
       </div>`;
     } else {
       return html`
@@ -510,7 +522,8 @@ class PoolMonitorCard extends LitElement {
         ${data.free_chlorine !== undefined ? cardContent.generateBody(config,data.free_chlorine): ''}      
         ${data.total_chlorine !== undefined ? cardContent.generateBody(config,data.total_chlorine): ''}      
         ${data.pressure !== undefined ? cardContent.generateBody(config,data.pressure): ''}      
-        ${data.sg !== undefined ? cardContent.generateBody(config,data.sg): ''}   
+        ${data.sg !== undefined ? cardContent.generateBody(config,data.sg): ''}
+        ${data.magnesium !== undefined ? cardContent.generateBody(config,data.magnesium): ''}
       </div>`;
     }
 
@@ -661,6 +674,15 @@ class PoolMonitorCard extends LitElement {
     config.sg_step = this.config.sg_step ?? 0.001;
     config.sg_override = 1  ;
 
+    config.magnesium = this.config.magnesium;
+    config.magnesium_min = this.config.magnesium_min;
+    config.magnesium_max = this.config.magnesium_max;
+    config.magnesium_name = this.config.magnesium_name ?? translations[config.language]["sensor"]["magnesium"];
+    config.magnesium_unit = this.config.magnesium_unit ?? "ppm";
+    config.magnesium_setpoint = this.config.magnesium_setpoint ?? 700;
+    config.magnesium_step = this.config.magnesium_step ?? 100;
+    config.magnesium_override = config.magnesium_unit === "ppm" ? 2100 : 2.1;
+
     return config;
   }
 
@@ -711,6 +733,9 @@ class PoolMonitorCard extends LitElement {
     if (config.sg) {
       data.sg = this.calculateData('sg', config.sg_name, config.sg, config.sg_min, config.sg_max, config.sg_setpoint,config.sg_step, config.sg_unit, config.sg_override, config.override) 
     }    
+    if (config.magnesium) {
+      data.magnesium = this.calculateData('magnesium', config.magnesium_name, config.magnesium, config.magnesium_min, config.magnesium_max, config.magnesium_setpoint, config.magnesium_step, config.magnesium_unit, config.magnesium_override, config.override)
+    }
     return data
   }
 
