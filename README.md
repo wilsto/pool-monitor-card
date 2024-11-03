@@ -10,56 +10,16 @@
 ## Description
 
 The "Pool Monitor Card" is a Home Assistant plugin that displays information from **<span style="color:orange">19 predefined sensors for your pool</span>**:
+<div style="display: flex; flex-direction: column; gap: 15px; margin: 20px 0; font-family: Arial, sans-serif; color: #333;">
 
-<div style="display:flex; flex-direction:column; gap:15px; margin:20px 0">
+| Icons | Category | Parameters |
+|--------|-----------|------------|
+| ![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) | **Essential Parameters:** | temperature, pH, ORP and TDS |
+| ![Salinity](resources/salinity.png) ![Cyanuric acid](resources/cya.png) ![Calcium](resources/calcium.png) ![Phosphate](resources/phosphate.png) ![Alkalinity](resources/alkalinity.png) | **Chemical Balance:** | salinity, cyanuric acid, calcium, phosphate and alkalinity |
+| ![Free chlorine](resources/free_chlorine.png) ![Total chlorine](resources/total_chlorine.png) ![Filter pressure](resources/pressure.png) ![Specific gravity](resources/sg.png) ![Magnesium](resources/magnesium.png) | **Treatment:** | free/total chlorine, filter pressure, specific gravity and magnesium |
+| ![Water level](resources/water_level.png) ![Flow rate](resources/flow_rate.png) ![UV radiation](resources/uv_radiation.png) ![Product volume](resources/product_volume.png) ![Product weight](resources/product_weight.png) | **Maintenance:** | water level, flow rate, UV radiation and product management |
 
-<div style="display:flex; align-items:center; gap:10px">
-  <div style="display:flex; gap:5px">
-    <img src="resources/temperature.png" height="24" title="Temperature">
-    <img src="resources/ph.png" height="24" title="pH">
-    <img src="resources/orp.png" height="24" title="ORP">
-    <img src="resources/tds.png" height="24" title="TDS">
-  </div>
-  <strong>Essential parameters:</strong> temperature, pH, ORP and TDS
-</div>
-
-<div style="display:flex; align-items:center; gap:10px">
-  <div style="display:flex; gap:5px">
-    <img src="resources/salinity.png" height="24" title="Salinity">
-    <img src="resources/cya.png" height="24" title="Cyanuric acid">
-    <img src="resources/calcium.png" height="24" title="Calcium">
-    <img src="resources/phosphate.png" height="24" title="Phosphate">
-    <img src="resources/alkalinity.png" height="24" title="Alkalinity">
-  </div>
-  <strong>Chemical balance:</strong> salinity, cyanuric acid, calcium, phosphate and alkalinity
-</div>
-
-<div style="display:flex; align-items:center; gap:10px">
-  <div style="display:flex; gap:5px">
-    <img src="resources/free_chlorine.png" height="24" title="Free chlorine">
-    <img src="resources/total_chlorine.png" height="24" title="Total chlorine">
-    <img src="resources/pressure.png" height="24" title="Filter pressure">
-    <img src="resources/sg.png" height="24" title="Specific gravity">
-    <img src="resources/magnesium.png" height="24" title="Magnesium">
-  </div>
-  <strong>Treatment:</strong> free/total chlorine, filter pressure, specific gravity and magnesium
-</div>
-
-<div style="display:flex; align-items:center; gap:10px">
-  <div style="display:flex; gap:5px">
-    <img src="resources/water_level.png" height="24" title="Water level">
-    <img src="resources/flow_rate.png" height="24" title="Flow rate">
-    <img src="resources/uv_radiation.png" height="24" title="UV radiation">
-    <img src="resources/product_volume.png" height="24" title="Product volume">
-    <img src="resources/product_weight.png" height="24" title="Product weight">
-  </div>
-  <strong>Maintenance:</strong> water level, flow rate, UV radiation and product management
-</div>
-
-</div>
-
-
-
+<br/>
 
 <details>
   <summary><span style="color:blue">Click me to see details of sensors</span></summary>
