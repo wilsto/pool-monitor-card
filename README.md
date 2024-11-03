@@ -120,7 +120,6 @@ Click on the following button to choose the language of your ReadMe : [![fr](htt
       - [Flow Rate](#flow-rate)
       - [UV Radiation](#uv-radiation)
       - [Product Volume](#product-volume)
-      - [Product Weight](#product-weight)
   - [Min / Max Tickers](#min--max-tickers)
   - [Hardware](#hardware)
   - [Acknowledgments](#acknowledgments)
@@ -212,6 +211,8 @@ You can go further with the card by modifying the user interface (UI).
 | `show_names` | boolean | **Optional** | Display the name of the entity  |`true`|
 | `show_labels` | boolean | **Optional** | Display the state qualification (Low, Ideal, High)  |`true`|
 | `show_last_updated` | boolean | **Optional** | Display the last updated sensor relative date [Only for compact = false]  |`false`|
+| `show_icons` | boolean | **Optional** | Display the icons of the entities  |`true`|
+| `show_units` | boolean | **Optional** | Display the units of the entities  |`true`|
 | `language` | string | **Optional** | Interface language (12 languages supported) - (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk, ![IL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/il.png) he, ![RU](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ru.png) ru)  |`en`|
 
 **Bar Colors Customisation**
@@ -225,13 +226,11 @@ You can go further with the card by modifying the user interface (UI).
 
 
 
+
+
 Needed to change the unit, setpoint, and steps ? No problem, see additionnal parameters below for each measured entity .
 
 #### Temperature
-
-<details open>
-  <summary> click me to open</summary>
-
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `temperature_name` | String | **Optional** | Sensor Name |`Temperature` <small>[Multilanguage]</small>|
@@ -240,12 +239,39 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `temperature_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
 | `temperature_min` | String | **Optional** | Entity ID for daily minimum temperature |`none`|
 | `temperature_max` | String | **Optional** | Entity ID for daily maximum temperature |`none`|
+| `temperature_icon` | Object | **Optional** | Configure the icon for temperature. Use `image_url` for a custom image, `mdi` for an MDI icon, or `hide` to hide the icon. |`none`|
+
+***Icon Configuration***
+For each sensor, you have the flexibility to customize the icon in your YAML configuration using one of four methods (illustrated here with the temperature sensor example):
+
+1. Hide the icon completely:
+```yaml
+temperature_icon:
+  hide: true
+```
+
+2. Use a custom image URL:
+```yaml
+temperature_icon:
+  image_url: "https://example.com/temperature-icon.png"
+```
+
+3. Use an MDI icon:
+```yaml
+temperature_icon:
+  mdi: "mdi:thermometer"
+   ```
+
+4. By default (if no configuration is specified), it will use the images from the resources directory as before.
+
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
+
 
 <details>
-  <summary> NOTE: I added a second parameter called temperature_2 (with the same logic for name, unit, setpoint, step) for those who have multiple temperature sensors. Click me to open. </summary>
+  <summary> click me to open and see all the parameters </summary>
+
+> **NOTE:** I added a second parameter called temperature_2 (with the same logic for name, unit, setpoint, step) for those who have multiple temperature sensors. Click me to open. 
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -255,15 +281,12 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `temperature_2_step` | Number | **Optional** | Temperature Step |If unit=°C:`1` <br/> If unit=°F:`2`|
 | `temperature_2_min` | String | **Optional** | Entity ID for daily minimum temperature |`none`|
 | `temperature_2_max` | String | **Optional** | Entity ID for daily maximum temperature |`none`|
+| `temperature_2_icon` | Object | **Optional** | Configure the icon for temperature_2. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 
-</details>
-
 #### pH
 
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -273,15 +296,10 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `ph_step` | Number | **Optional** | pH Step |`0.2`|
 | `ph_min` | String | **Optional** | Entity ID for daily minimum pH |`none`|
 | `ph_max` | String | **Optional** | Entity ID for daily maximum pH |`none`|
+| `ph_icon` | Object | **Optional** | Configure the icon for pH. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-
-</details>
-
 #### ORP
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -291,14 +309,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `orp_step` | Number | **Optional** | ORP Step |`50`|
 | `orp_min` | String | **Optional** | Entity ID for daily minimum ORP |`none`|
 | `orp_max` | String | **Optional** | Entity ID for daily maximum ORP |`none`|
+| `orp_icon` | Object | **Optional** | Configure the icon for ORP. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### TDS
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -308,14 +323,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `tds_step` | Number | **Optional** | TDS Step  |If unit=g/L:`1` <br/> If unit=ppm:`1000`|
 | `tds_min` | String | **Optional** | Entity ID for daily minimum TDS |`none`|
 | `tds_max` | String | **Optional** | Entity ID for daily maximum TDS |`none`|
+| `tds_icon` | Object | **Optional** | Configure the icon for TDS. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Salinity
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -325,14 +337,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `salinity_step` | Number | **Optional** | Salinity Step  |If unit=g/L:`0.5` <br/> If unit=ppm:`500`|
 | `salinity_min` | String | **Optional** | Entity ID for daily minimum salinity |`none`|
 | `salinity_max` | String | **Optional** | Entity ID for daily maximum salinity |`none`|
+| `salinity_icon` | Object | **Optional** | Configure the icon for salinity. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Cyanuric Acid
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -342,14 +351,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `cya_step` | Number | **Optional** | Cyanuric Acid Step  |`10`|
 | `cya_min` | String | **Optional** | Entity ID for daily minimum Cyanuric Acid |`none`|
 | `cya_max` | String | **Optional** | Entity ID for daily maximum Cyanuric Acid |`none`|
+| `cya_icon` | Object | **Optional** | Configure the icon for Cyanuric Acid. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Calcium
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -359,14 +365,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `calcium_step` | Number | **Optional** | Calcium Step  |`100`|
 | `calcium_min` | String | **Optional** | Entity ID for daily minimum calcium |`none`|
 | `calcium_max` | String | **Optional** | Entity ID for daily maximum calcium |`none`|
+| `calcium_icon` | Object | **Optional** | Configure the icon for calcium. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Phosphate
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -376,14 +379,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `phosphate_step` | Number | **Optional** | Phosphate Step  |`100`|
 | `phosphate_min` | String | **Optional** | Entity ID for daily minimum phosphate |`none`|
 | `phosphate_max` | String | **Optional** | Entity ID for daily maximum phosphate |`none`|
+| `phosphate_icon` | Object | **Optional** | Configure the icon for phosphate. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Alkalinity
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -393,14 +393,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `alkalinity_step` | Number | **Optional** | Alkalinity Step  |`20`|
 | `alkalinity_min` | String | **Optional** | Entity ID for daily minimum alkalinity |`none`|
 | `alkalinity_max` | String | **Optional** | Entity ID for daily maximum alkalinity |`none`|
+| `alkalinity_icon` | Object | **Optional** | Configure the icon for alkalinity. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Free Chlorine
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -410,14 +407,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `free_chlorine_step` | Number | **Optional** | Free Chlorine Step  |`1`|
 | `free_chlorine_min` | String | **Optional** | Entity ID for daily minimum free chlorine |`none`|
 | `free_chlorine_max` | String | **Optional** | Entity ID for daily maximum free chlorine |`none`|
+| `free_chlorine_icon` | Object | **Optional** | Configure the icon for free chlorine. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Total Chlorine
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -427,14 +421,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `total_chlorine_step` | Number | **Optional** | Total Chlorine Step  |`1`|
 | `total_chlorine_min` | String | **Optional** | Entity ID for daily minimum total chlorine |`none`|
 | `total_chlorine_max` | String | **Optional** | Entity ID for daily maximum total chlorine |`none`|
+| `total_chlorine_icon` | Object | **Optional** | Configure the icon for total chlorine. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Filter Pressure
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -444,15 +435,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `pressure_step` | Number | **Optional** | Filter Pressure Step  |`10`|
 | `pressure_min` | String | **Optional** | Entity ID for daily minimum filter pressure |`none`|
 | `pressure_max` | String | **Optional** | Entity ID for daily maximum filter pressure |`none`|
+| `pressure_icon` | Object | **Optional** | Configure the icon for filter pressure. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
-
 
 #### Specific Gravity
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -462,14 +449,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `sg_step` | Number | **Optional** | Specific Gravity Step  |`0.001`|
 | `sg_min` | String | **Optional** | Entity ID for daily minimum specific gravity |`none`|
 | `sg_max` | String | **Optional** | Entity ID for daily maximum specific gravity |`none`|
+| `sg_icon` | Object | **Optional** | Configure the icon for specific gravity. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Magnesium
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -479,14 +463,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `magnesium_step` | Number | **Optional** | Magnesium Step  |`100`|
 | `magnesium_min` | String | **Optional** | Entity ID for daily minimum magnesium |`none`|
 | `magnesium_max` | String | **Optional** | Entity ID for daily maximum magnesium |`none`|
+| `magnesium_icon` | Object | **Optional** | Configure the icon for magnesium. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Water Level
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -496,14 +477,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `waterlevel_step` | Number | **Optional** | Water Level Step  |`5`|
 | `waterlevel_min` | String | **Optional** | Entity ID for daily minimum water level |`none`|
 | `waterlevel_max` | String | **Optional** | Entity ID for daily maximum water level |`none`|
+| `waterlevel_icon` | Object | **Optional** | Configure the icon for water level. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Flow Rate
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -513,14 +491,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `flowrate_step` | Number | **Optional** | Flow Rate Step  |`50`|
 | `flowrate_min` | String | **Optional** | Entity ID for daily minimum flow rate |`none`|
 | `flowrate_max` | String | **Optional** | Entity ID for daily maximum flow rate |`none`|
+| `flowrate_icon` | Object | **Optional** | Configure the icon for flow rate. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### UV Radiation
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -530,14 +505,11 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `uv_step` | Number | **Optional** | UV Radiation Step  |`5`|
 | `uv_min` | String | **Optional** | Entity ID for daily minimum UV radiation |`none`|
 | `uv_max` | String | **Optional** | Entity ID for daily maximum UV radiation |`none`|
+| `uv_icon` | Object | **Optional** | Configure the icon for UV radiation. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
 
 #### Product Volume
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -547,14 +519,9 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `volume_step` | Number | **Optional** | Product Volume Step  |`2`|
 | `volume_min` | String | **Optional** | Entity ID for daily minimum product volume |`none`|
 | `volume_max` | String | **Optional** | Entity ID for daily maximum product volume |`none`|
+| `volume_icon` | Object | **Optional** | Configure the icon for product volume. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
-</details>
-
-#### Product Weight
-
-<details>
-  <summary> click me to open</summary>
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -564,6 +531,7 @@ Needed to change the unit, setpoint, and steps ? No problem, see additionnal par
 | `weight_step` | Number | **Optional** | Product Weight Step  |`1`|
 | `weight_min` | String | **Optional** | Entity ID for daily minimum product weight |`none`|
 | `weight_max` | String | **Optional** | Entity ID for daily maximum product weight |`none`|
+| `weight_icon` | Object | **Optional** | Configure the icon for product weight. Use `image_url` for a custom image or `mdi` for an MDI icon. |`none`|
 
 > **Note:** If min/max entities are defined, they will appear as tick marks on the bar chart.
 </details>
