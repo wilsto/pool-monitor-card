@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.7.1'; 
+const CARD_VERSION = '1.8.0'; 
 
 // eslint-disable-next-line no-console
 console.info(
@@ -37,6 +37,11 @@ const translations = {
       "pressure": "Filter Pressure",
       "sg": "Specific Gravity",
       "magnesium": "Magnesium",
+      "water_level": "Water Level",
+      "flow_rate": "Flow Rate",
+      "uv_radiation": "UV Radiation",
+      "product_volume": "Product Volume",
+      "product_weight": "Product Weight",
     },
       "time": {
       "seconds": "just now",
@@ -69,6 +74,11 @@ const translations = {
       "total_chlorine": "Clor total",
       "pressure": "Presiune filtru",
       "magnesium": "Magneziu",
+      "water_level": "Nivel d'eau",
+      "flow_rate": "Débit",
+      "uv_radiation": "Radiation UV",
+      "product_volume": "Volume Produit",
+      "product_weight": "Poids Produit",
     },
     "time": {
       "seconds": "acum",
@@ -101,6 +111,11 @@ const translations = {
       "total_chlorine": "Celkový chlór",
       "pressure": "Tlak filtra",
       "magnesium": "Magnezium",
+      "water_level": "Nivel de agua",
+      "flow_rate": "Caudal",
+      "uv_radiation": "Radiación UV",
+      "product_volume": "Volumen Producto",
+      "product_weight": "Peso Producto",
     },
     "time": {
       "seconds": "práve teraz",
@@ -134,6 +149,11 @@ const translations = {
       "pressure": "Pression du filtre",
       "sg": "Densité spécifique",
       "magnesium": "Magnésium",
+      "water_level": "Niveau d'eau",
+      "flow_rate": "Débit",
+      "uv_radiation": "Radiation UV",
+      "product_volume": "Volume Produit",
+      "product_weight": "Poids Produit",
     },
     "time": {
       "seconds": "il y a {seconds} seconde{plural}",
@@ -167,6 +187,11 @@ const translations = {
       "pressure": "Pressão do filtro",
       "sg": "Gravidade específica",
       "magnesium": "Magnésio",
+      "water_level": "Nivel de agua",
+      "flow_rate": "Caudal",
+      "uv_radiation": "Radiación UV",
+      "product_volume": "Volumen Producto",
+      "product_weight": "Peso Producto",
     },
     "time": {
       "seconds": "Agora",
@@ -200,6 +225,11 @@ const translations = {
       "pressure": "Pressáo no  Filtro",
       "sg": "Gravidade específica",
       "magnesium": "Magnésio",
+      "water_level": "Nivel de agua",
+      "flow_rate": "Caudal",
+      "uv_radiation": "Radiación UV",
+      "product_volume": "Volumen Producto",
+      "product_weight": "Peso Producto",
     },
     "time": {
       "seconds": "Agora mesmo",
@@ -233,6 +263,11 @@ const translations = {
       "pressure": " pressione du filter relativa",
       "sg": " densidad relativa",
       "magnesium": "Magnesio",
+      "water_level": "Nivel de agua",
+      "flow_rate": "Caudal",
+      "uv_radiation": "Radiación UV",
+      "product_volume": "Volumen Producto",
+      "product_weight": "Peso Producto",
     },
     "time": {
       "seconds": "justo ahora",
@@ -265,6 +300,11 @@ const translations = {
       "total_chlorine": "Gesamtchlor",
       "pressure": "Sandfilterdruck",
       "magnesium": "Magnesium",
+      "water_level": "Wasserstand",
+      "flow_rate": "Durchfluss",
+      "uv_radiation": "UV-Strahlung", 
+      "product_volume": "Produktvolumen",
+      "product_weight": "Produktgewicht",
     },
     "time": {
       "seconds": "gerade erst",
@@ -298,6 +338,11 @@ const translations = {
       "pressure": "Pressione filtro",
       "sg": "Gravità specifica",
       "magnesium": "Magnesio",
+      "water_level": "Livello dell'acqua",
+      "flow_rate": "Portata",
+      "uv_radiation": "Radiazione UV",
+      "product_volume": "Volume prodotto",
+      "product_weight": "Peso prodotto",
     },
     "time": {
       "seconds": "proprio ora",
@@ -331,6 +376,11 @@ const translations = {
       "pressure": "Filterdruk",
       "sg": "Soortelijk gewicht",
       "magnesium": "Magnesium",
+      "water_level": "Waterniveau",
+      "flow_rate": "Debiet",
+      "uv_radiation": "UV-straling",
+      "product_volume": "Productvolume",
+      "product_weight": "Productgewicht",
     },
     "time": {
       "seconds": "zojuist",
@@ -363,7 +413,12 @@ const translations = {
       "total_chlorine": "כלור כולל",
       "pressure": "לחץ מסנן",
       "sg": "משקל סגולי",
-      "magnesium": "מגנזיום"
+      "magnesium": "מגנזיום",
+      "water_level": "מפלס מים",
+      "flow_rate": "קצב זרימה", 
+      "uv_radiation": "קרינת UV",
+      "product_volume": "נפח מוצר",
+      "product_weight": "משקל מוצר",
     },
     "time": {
       "seconds": "הרגע",
@@ -396,7 +451,12 @@ const translations = {
     "total_chlorine": "Общий хлор",
     "pressure": "Давление фильтра",
     "sg": "Удельный вес",
-    "magnesium": "Магний"
+    "magnesium": "Магний",
+    "water_level": "Уровень воды",
+    "flow_rate": "Расход воды",
+    "uv_radiation": "УФ-излучение",
+    "product_volume": "Объем продукта",
+    "product_weight": "Вес продукта",
     },
     "time": {
       "seconds": "{seconds} секунд{plural}",
@@ -568,7 +628,12 @@ class PoolMonitorCard extends LitElement {
         ${data.total_chlorine !== undefined ? cardContent.generateCompactBody(config,data.total_chlorine): ''}      
         ${data.pressure !== undefined ? cardContent.generateCompactBody(config,data.pressure): ''}      
         ${data.sg !== undefined ? cardContent.generateCompactBody(config,data.sg): ''}      
-        ${data.magnesium !== undefined ? cardContent.generateCompactBody(config,data.magnesium): ''}      
+        ${data.magnesium !== undefined ? cardContent.generateCompactBody(config,data.magnesium): ''}
+        ${data.water_level !== undefined ? cardContent.generateCompactBody(config,data.water_level): ''}
+        ${data.flow_rate !== undefined ? cardContent.generateCompactBody(config,data.flow_rate): ''}
+        ${data.uv_radiation !== undefined ? cardContent.generateCompactBody(config,data.uv_radiation): ''}
+        ${data.product_volume !== undefined ? cardContent.generateCompactBody(config,data.product_volume): ''}
+        ${data.product_weight !== undefined ? cardContent.generateCompactBody(config,data.product_weight): ''}      
       </div>`;
     } else {
       return html`
@@ -590,6 +655,11 @@ class PoolMonitorCard extends LitElement {
         ${data.pressure !== undefined ? cardContent.generateBody(config,data.pressure): ''}      
         ${data.sg !== undefined ? cardContent.generateBody(config,data.sg): ''}
         ${data.magnesium !== undefined ? cardContent.generateBody(config,data.magnesium): ''}
+        ${data.water_level !== undefined ? cardContent.generateBody(config,data.water_level): ''}
+        ${data.flow_rate !== undefined ? cardContent.generateBody(config,data.flow_rate): ''}
+        ${data.uv_radiation !== undefined ? cardContent.generateBody(config,data.uv_radiation): ''}
+        ${data.product_volume !== undefined ? cardContent.generateBody(config,data.product_volume): ''}
+        ${data.product_weight !== undefined ? cardContent.generateBody(config,data.product_weight): ''}
       </div>`;
     }
 
@@ -735,7 +805,7 @@ class PoolMonitorCard extends LitElement {
 
     config.sg = this.config.sg ;
     config.sg_name = this.config.sg_name ?? translations[config.language]["sensor"]["sg"];
-    config.sg_unit = this.config.sg_unit ?? "";
+    config.sg_unit = this.config.sg_unit ?? "g/cm³";
     config.sg_setpoint = this.config.sg_setpoint ?? (config.sg_unit === "Ratio" ? 0.5 : 1.5);
     config.sg_step = this.config.sg_step ?? 0.001;
     config.sg_override = 1  ;
@@ -748,6 +818,51 @@ class PoolMonitorCard extends LitElement {
     config.magnesium_setpoint = this.config.magnesium_setpoint ?? 700;
     config.magnesium_step = this.config.magnesium_step ?? 100;
     config.magnesium_override = config.magnesium_unit === "ppm" ? 2100 : 2.1;
+
+    config.water_level = this.config.water_level;
+    config.water_level_min = this.config.water_level_min;
+    config.water_level_max = this.config.water_level_max;
+    config.water_level_name = this.config.water_level_name ?? translations[config.language]["sensor"]["water_level"];
+    config.water_level_unit = this.config.water_level_unit ?? "%";
+    config.water_level_setpoint = this.config.water_level_setpoint ?? 50;
+    config.water_level_step = this.config.water_level_step ?? 10;
+    config.water_level_override = 75;
+
+    config.flow_rate = this.config.flow_rate;
+    config.flow_rate_min = this.config.flow_rate_min;
+    config.flow_rate_max = this.config.flow_rate_max;
+    config.flow_rate_name = this.config.flow_rate_name ?? translations[config.language]["sensor"]["flow_rate"];
+    config.flow_rate_unit = this.config.flow_rate_unit ?? "L/min";
+    config.flow_rate_setpoint = this.config.flow_rate_setpoint ?? 100;
+    config.flow_rate_step = this.config.flow_rate_step ?? 20;
+    config.flow_rate_override = 150;
+
+    config.uv_radiation = this.config.uv_radiation;
+    config.uv_radiation_min = this.config.uv_radiation_min;
+    config.uv_radiation_max = this.config.uv_radiation_max;
+    config.uv_radiation_name = this.config.uv_radiation_name ?? translations[config.language]["sensor"]["uv_radiation"];
+    config.uv_radiation_unit = this.config.uv_radiation_unit ?? "mW/cm²";
+    config.uv_radiation_setpoint = this.config.uv_radiation_setpoint ?? 30;
+    config.uv_radiation_step = this.config.uv_radiation_step ?? 5;
+    config.uv_radiation_override = 40;
+
+    config.product_volume = this.config.product_volume;
+    config.product_volume_min = this.config.product_volume_min;
+    config.product_volume_max = this.config.product_volume_max;
+    config.product_volume_name = this.config.product_volume_name ?? translations[config.language]["sensor"]["product_volume"];
+    config.product_volume_unit = this.config.product_volume_unit ?? "L";
+    config.product_volume_setpoint = this.config.product_volume_setpoint ?? 20;
+    config.product_volume_step = this.config.product_volume_step ?? 5;
+    config.product_volume_override = 15;
+
+    config.product_weight = this.config.product_weight;
+    config.product_weight_min = this.config.product_weight_min;
+    config.product_weight_max = this.config.product_weight_max;
+    config.product_weight_name = this.config.product_weight_name ?? translations[config.language]["sensor"]["product_weight"];
+    config.product_weight_unit = this.config.product_weight_unit ?? "kg";
+    config.product_weight_setpoint = this.config.product_weight_setpoint ?? 25;
+    config.product_weight_step = this.config.product_weight_step ?? 5;
+    config.product_weight_override = 20;
 
     return config;
   }
@@ -801,6 +916,21 @@ class PoolMonitorCard extends LitElement {
     }    
     if (config.magnesium) {
       data.magnesium = this.calculateData('magnesium', config.magnesium_name, config.magnesium, config.magnesium_min, config.magnesium_max, config.magnesium_setpoint, config.magnesium_step, config.magnesium_unit, config.magnesium_override, config.override)
+    }
+    if (config.water_level) {
+      data.water_level = this.calculateData('water_level', config.water_level_name, config.water_level, config.water_level_min, config.water_level_max, config.water_level_setpoint, config.water_level_step, config.water_level_unit, config.water_level_override, config.override)
+    }
+    if (config.flow_rate) {
+      data.flow_rate = this.calculateData('flow_rate', config.flow_rate_name, config.flow_rate, config.flow_rate_min, config.flow_rate_max, config.flow_rate_setpoint, config.flow_rate_step, config.flow_rate_unit, config.flow_rate_override, config.override)
+    }
+    if (config.uv_radiation) {
+      data.uv_radiation = this.calculateData('uv_radiation', config.uv_radiation_name, config.uv_radiation, config.uv_radiation_min, config.uv_radiation_max, config.uv_radiation_setpoint, config.uv_radiation_step, config.uv_radiation_unit, config.uv_radiation_override, config.override)
+    }
+    if (config.product_volume) {
+      data.product_volume = this.calculateData('product_volume', config.product_volume_name, config.product_volume, config.product_volume_min, config.product_volume_max, config.product_volume_setpoint, config.product_volume_step, config.product_volume_unit, config.product_volume_override, config.override)
+    }
+    if (config.product_weight) {
+      data.product_weight = this.calculateData('product_weight', config.product_weight_name, config.product_weight, config.product_weight_min, config.product_weight_max, config.product_weight_setpoint, config.product_weight_step, config.product_weight_unit, config.product_weight_override, config.override)
     }
     return data
   }
@@ -868,6 +998,7 @@ class PoolMonitorCard extends LitElement {
     newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
     newData.pct_min = Math.max(0, Math.min(95, (Math.max(0, newData.min_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
     newData.pct_max = Math.max(0, Math.min(95, (Math.max(0, newData.max_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
+    newData.pct_marker = newData.pct -5;
     newData.side_align = newData.value > setpoint ? "right" : "left" ;
     newData.pct_cursor = newData.value > setpoint ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) -2;
     newData.pct_state_step = newData.value > setpoint ? 100 - parseFloat(newData.pct): parseFloat(newData.pct);
@@ -918,7 +1049,7 @@ class PoolMonitorCard extends LitElement {
 
 
   setConfig(config) {
-    if (!config.temperature && !config.ph && !config.orp && !config.tds && !config.salinity && !config.cya && !config.calcium && !config.phosphate && !config.alkalinity && !config.free_chlorine && !config.total_chlorine && !config.pressure && !config.sg) {
+    if (!config.temperature && !config.ph && !config.orp && !config.tds && !config.salinity && !config.cya && !config.calcium && !config.phosphate && !config.alkalinity && !config.free_chlorine && !config.total_chlorine && !config.pressure && !config.sg && !config.water_level && !config.flow_rate && !config.uv_radiation && !config.product_volume && !config.product_weight) {
       throw new Error("You need to define entities");
     }
     this.config =  { ...config };
@@ -954,7 +1085,7 @@ class cardContent {
           PoolMonitorCard._moreinfo(data.entity)}>   
 
         <div class="pool-monitor-container-marker" >
-          <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct-5}%;">${data.value}</div>
+          <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct_marker}%;">${data.value}</div>
           <div class="marker-state" style="padding-${data.side_align}:40px;text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_state_step}%;">${data.state}</div>
           <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
         </div>
