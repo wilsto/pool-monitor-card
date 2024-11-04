@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.9.0';
+const CARD_VERSION = '1.10.2';
 
 // eslint-disable-next-line no-console
 console.info(
@@ -60,8 +60,8 @@ const translations = {
       "6": "Prea mare"
     },
     "sensor": {
-      "temperatură": "Temperatură",
-      "temperatură_2": "Temperatură 2",
+      "temperature": "Temperatură",
+      "temperature_2": "Temperatură 2",
       "ph": "pH",
       "orp": "ORP",
       "tds": "TDS",
@@ -497,6 +497,7 @@ class PoolMonitorCard extends LitElement {
 
   .section{
     padding-bottom:10px;
+    padding:15px;
   }
 
   .pool-monitor-title{
@@ -514,15 +515,14 @@ class PoolMonitorCard extends LitElement {
   }
   .pool-monitor-container {
     display: grid;
-    grid-template-columns: 10% repeat(6, 1fr) 5%;
     padding: 5px;
-    height: 20px;
+    height: 15px;
   }
-  
+
   .pool-monitor-container-values {
     display: grid;
-    grid-template-columns:12% repeat(6, 1fr) 2% ;
-    padding: 5px;
+    grid-template-columns: repeat(5,2fr) 1fr;
+    padding-top: 0px;
   }
 
   .pool-monitor-container-marker {
@@ -537,7 +537,7 @@ class PoolMonitorCard extends LitElement {
   .pool-monitor-container-marker .marker {
     text-align: center;
     justify-self: center;
-    width: 40px;
+    width: 70px;
     height:20px;
     padding-top:5px;
     border-radius: 5px;
@@ -580,27 +580,43 @@ class PoolMonitorCard extends LitElement {
   .cursor{
     text-align: center;
     justify-self: center;
-    font-size:20px;
-    font-weight: 900;
+    font-size:13px;
+    font-weight: 600;
     color: black;
     position: absolute;
     z-index: 1;
   }
   .cursor-text{
     width: 150px;
-    height: 22px;
+    height: 17px;
     padding-left: 3px;
     padding-right: 3px;
-    padding-top:2px;
-    font-size: 12px;
-    font-weight: 700;
+    padding-top:0px;
+    margin-top: -1px;
+    font-size: 11px;
+    font-weight: 500;
     text-align: right;
     color: black;
     justify-self: right;
     position: absolute;
     z-index: 1;
   }
-  
+
+  .progress {
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #e17055 5%, #fdcb6e 30%, #00b894, #00b894, #fdcb6e 70%, #e17055 95%);
+  }
+  .progress-temp {
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #69AEFF 15%,#ffdb3a 30%, #ffdb3a 60%, #e5405e 95%);
+  }
+  .progress-bar-child {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+  }
+
+
 `
   ];
 
@@ -676,7 +692,7 @@ class PoolMonitorCard extends LitElement {
     config.show_icons = this.config.show_icons ?? true;
     config.show_last_updated = this.config.show_last_updated ?? false;
     config.show_units = this.config.show_units ?? true;
-    
+    config.gradient = this.config.gradient ?? true;
     config.language = this.config.language ?? 'en';
 
     config.normal_color = this.config.normal_color ?? "#00b894";
@@ -1018,14 +1034,15 @@ class PoolMonitorCard extends LitElement {
       newData.state = config.show_labels ? translations[config.language]["state"][6]:"";
       newData.color = config.warn_color;
     }
+    newData.progressClass = name === "temperature" ? "progress-temp" : "progress";
 
-    newData.pct = Math.max(0, Math.min(95, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
-    newData.pct_min = Math.max(0, Math.min(95, (Math.max(0, newData.min_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
-    newData.pct_max = Math.max(0, Math.min(95, (Math.max(0, newData.max_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.73 * 100 + 22)).toFixed(0);
-    newData.pct_marker = newData.pct -5;
+    newData.pct = Math.max(0, Math.min(98.5, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 13)).toFixed(0);
+    newData.pct_min = Math.max(0, Math.min(98.5, (Math.max(0, newData.min_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 13)).toFixed(0);
+    newData.pct_max = Math.max(0, Math.min(98.5, (Math.max(0, newData.max_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 13)).toFixed(0);
+    newData.pct_marker = newData.value > newData.setpoint ? newData.pct - 13 : newData.pct - 5;
     newData.side_align = newData.value > setpoint ? "right" : "left" ;
     newData.pct_cursor = newData.value > setpoint ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) -2;
-    newData.pct_state_step = newData.value > setpoint ? 100 - parseFloat(newData.pct): parseFloat(newData.pct);
+    newData.pct_state_step = newData.value > setpoint ? 105 - parseFloat(newData.pct): parseFloat(newData.pct)+5;
     newData.pct_min = newData.value > setpoint ? 100 - parseFloat(newData.pct_min) : parseFloat(newData.pct_min) -2;
     newData.pct_max = newData.value > setpoint ? 100 - parseFloat(newData.pct_max) : parseFloat(newData.pct_max) -2;
     return newData
@@ -1109,7 +1126,7 @@ class cardContent {
           PoolMonitorCard._moreinfo(data.entity)}>   
 
         <div class="pool-monitor-container-marker" >
-          <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct_marker}%;">${data.value}</div>
+          <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct_marker}%;">${data.value} ${data.unit}</div>
           <div class="marker-state" style="padding-${data.side_align}:40px;text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_state_step}%;">${data.state}</div>
           <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
         </div>
@@ -1123,23 +1140,27 @@ class cardContent {
           </div>
         ` : ''}
         <div class="pool-monitor-container">
-          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
-          <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-          <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
-          <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
-          <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
-          <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
-          <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
-          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
+          ${config.gradient ? html`
+            <div class="progress-bar-child ${data.progressClass}"></div>
+          ` : html`
+            <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 "></div></div> -->
+            <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+            <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+            ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
+            ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
+          `}
         </div>
         <div class="pool-monitor-container-values">
-          <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
-          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
-          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
-          <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
-          <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+          <div style="background-color: transparent; grid-column: 1 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
+          <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
+          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
+          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
+          <div style="background-color: transparent; grid-column: 6 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div> 
       </div> 
       <div style="position: relative;top:-25px;margin-bottom:-25px;text-align:left;left:15px;">${data.title}<br/><small style="position: relative;top:-5px;font-size:9px;color:lightgrey">${data.last_updated}</small></div>
@@ -1155,35 +1176,40 @@ class cardContent {
         ${!data.hide_icon ? html`
           <div class="pool-monitor-entity-img">
             ${data.is_mdi ? html`
-              <ha-icon icon="${data.mdi_icon}" style="width: 32px; height: 32px;"></ha-icon>
+              <ha-icon icon="${data.mdi_icon}" style="width: 24px; height: 24px;"></ha-icon>
             ` : html`
-              <img src="${data.img_src}" style="width: 32px; height: 32px;">
+              <img src="${data.img_src}" style="width: 24px; height: 24px;">
             `}
           </div>
         ` : ''}
         <div class="pool-monitor-container">
-          <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div>
-          <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-          <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
-          <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
+          ${config.gradient ? html`
+            <div class="progress-bar-child ${data.progressClass}"></div>
+          ` : html`
+            <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div> -->
+            <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+            <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+          `}
+          <div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.marker_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.unit} ${data.separator} ${data.state}</div>
           ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
           ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
-          <div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.marker_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.separator} ${data.state}</div>
-          <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
-          <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
-          <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+
         </div>
         <div class="pool-monitor-container-values">
-          <div style="background-color: transparent; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
-          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
-          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
-          <div style="background-color: transparent; grid-column: 6 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
-          <div style="background-color: transparent; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+          <div style="background-color: transparent; grid-column: 1 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
+          <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
+          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
+          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
+          <div style="background-color: transparent; grid-column: 6 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
         </div> 
       </div> 
           
-      <div style="position: relative;margin-top:-30px;text-align:left;left:-30px;font-size:9px;padding-bottom: 5px;">${data.title}</div>
+      <div style="position: relative;margin-top:-21px;text-align:left;left:-30px;font-size:9px;padding-bottom: 5px;">${data.title}</div>
 
       `
     }    

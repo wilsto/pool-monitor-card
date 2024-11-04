@@ -1,0 +1,175 @@
+---
+title: "Tests Multilingues Pool Monitor"
+path: pool-tests-multilingual
+icon: "mdi:translate"
+type: 'custom:grid-layout'
+layout: 
+  grid-template-columns: 'repeat(4, [col-start] minmax(360px, 1fr) [col-end])'
+  grid-template-rows: auto
+  grid-column-gap: 32px
+  margin: -1px
+  mediaquery:
+    '(max-width: 800px)':
+      margin: -1
+cards:
+
+  # Test Français
+  - type: "custom:pool-monitor-card"
+    template: "card_generic"
+    title: "🇫🇷 French Test Configuration"
+    temperature: sensor.pool_temperature
+    ph: sensor.pool_ph
+    orp: sensor.pool_orp
+    tds: sensor.pool_tds
+    salinity: sensor.pool_salinity
+    cya: sensor.pool_cya
+    calcium: sensor.pool_calcium
+    phosphate: sensor.pool_phosphate
+    alkalinity: sensor.pool_alkalinity
+    free_chlorine: sensor.pool_free_chlorine
+    total_chlorine: sensor.pool_total_chlorine
+    pressure: sensor.pool_pressure
+    sg: sensor.pool_sg
+    magnesium: sensor.pool_magnesium
+    water_level: sensor.pool_water_level
+    flow_rate: sensor.pool_flow_rate
+    uv_radiation: sensor.pool_uv
+    product_volume: sensor.pool_product_volume
+    product_weight: sensor.pool_product_weight
+    language: "fr"
+    show_names: true
+    show_labels: true
+    show_last_updated: true
+
+  # Test Anglais
+  - type: "custom:pool-monitor-card"
+    template: "card_generic"
+    title: "🇬🇧 English Test Configuration"
+    temperature: sensor.pool_temperature
+    ph: sensor.pool_ph
+    orp: sensor.pool_orp
+    tds: sensor.pool_tds
+    salinity: sensor.pool_salinity
+    cya: sensor.pool_cya
+    calcium: sensor.pool_calcium
+    phosphate: sensor.pool_phosphate
+    alkalinity: sensor.pool_alkalinity
+    free_chlorine: sensor.pool_free_chlorine
+    total_chlorine: sensor.pool_total_chlorine
+    pressure: sensor.pool_pressure
+    sg: sensor.pool_sg
+    magnesium: sensor.pool_magnesium
+    water_level: sensor.pool_water_level
+    flow_rate: sensor.pool_flow_rate
+    uv_radiation: sensor.pool_uv
+    product_volume: sensor.pool_product_volume
+    product_weight: sensor.pool_product_weight
+    language: "en"
+    show_names: true
+    show_labels: true
+    show_last_updated: true
+
+  # Test Allemand
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇩🇪 German Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "de"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Espagnol
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇪🇸 Spanish Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "es"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Italien
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇮🇹 Italian Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "it"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Néerlandais
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇳🇱 Dutch Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "nl"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Portugais
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇵🇹 Portuguese Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "pt"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+  - type: "vertical-stack"
+    cards:
+
+      # Test Portugais Brésilien
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇧🇷 Brazilian Portuguese Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "pt-br"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Roumain
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇷🇴 Romanian Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "ro"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Slovaque
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇸🇰 Slovak Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "sk"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Hébreu
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇮🇱 Hebrew Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "he"
+        show_names: true
+        show_labels: true
+        show_last_updated: true
+
+      # Test Russe
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "🇷🇺 Russian Test Configuration"
+        temperature: sensor.pool_temperature
+        language: "ru"
+        show_names: true
+        show_labels: true
+        show_last_updated: true

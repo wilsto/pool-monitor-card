@@ -1,0 +1,433 @@
+---
+title: "Tests d'Affichage Pool Monitor - Compact"
+path: pool-tests-display-compact
+icon: "mdi:monitor-dashboard"
+cards:
+  # Titre de la page
+  - type: "custom:button-card"
+    template: "card_title"
+    name: "Tests d'Affichage Pool Monitor - Mode Compact"
+    label: "Options d'affichage et personnalisation des couleurs en mode compact"
+
+  # Section 1: Options d'affichage
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "1. Options d'affichage"
+        label: "Tests des différentes options d'affichage en mode compact"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Options Activées"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            show_names: true
+            show_labels: true
+            show_last_updated: true
+            show_icons: true
+            show_units: true
+            language: "fr"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Options Activées"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              show_names: true
+              show_labels: true
+              show_last_updated: true
+              show_icons: true
+              show_units: true
+              language: "fr"
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Options Désactivées - Noms"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            show_names: false
+            show_labels: true
+            show_last_updated: true
+            show_icons: true
+            show_units: true
+            language: "en"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Options Désactivées - Noms"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              show_names: false
+              show_labels: true
+              show_last_updated: true
+              show_icons: true
+              show_units: true
+              language: "en"
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Options Désactivées - Étiquettes"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            show_names: true
+            show_labels: false
+            show_last_updated: true
+            show_icons: true
+            show_units: true
+            language: "en"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Options Désactivées - Étiquettes"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              show_names: true
+              show_labels: false
+              show_last_updated: true
+              show_icons: true
+              show_units: true
+              language: "en"
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Options Désactivées - Dernière mise à jour"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            show_names: true
+            show_labels: true
+            show_last_updated: false
+            show_icons: true
+            show_units: true
+            language: "en"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Options Désactivées - Dernière mise à jour"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              show_names: true
+              show_labels: true
+              show_last_updated: false
+              show_icons: true
+              show_units: true
+              language: "en"
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Options Désactivées - Icônes"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            show_names: true
+            show_labels: true
+            show_last_updated: true
+            show_icons: false
+            show_units: true
+            language: "en"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Options Désactivées - Icônes"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              show_names: true
+              show_labels: true
+              show_last_updated: true
+              show_icons: false
+              show_units: true
+              language: "en"
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Options Désactivées - Unités"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            show_names: true
+            show_labels: true
+            show_last_updated: true
+            show_icons: true
+            show_units: false
+            language: "en"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Options Désactivées - Unités"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              show_names: true
+              show_labels: true
+              show_last_updated: true
+              show_icons: true
+              show_units: false
+              language: "en"
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Options Désactivées - Toutes"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            show_names: false
+            show_labels: false
+            show_last_updated: false
+            show_icons: false
+            show_units: false
+            language: "en"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Options Désactivées - Toutes"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              show_names: false
+              show_labels: false
+              show_last_updated: false
+              show_icons: false
+              show_units: false
+              language: "en"
+              ```
+  # Section 2: Couleurs personnalisées
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "2. Couleurs personnalisées"
+        label: "Tests des différentes options de couleurs en mode compact"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Thème Clair"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            normal_color: "#2196F3"
+            low_color: "#FFC107"
+            warn_color: "#F44336"
+            marker_color: "#000000"
+            hi_low_color: "#757575"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Thème Clair"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              normal_color: "#2196F3"
+              low_color: "#FFC107"
+              warn_color: "#F44336"
+              marker_color: "#000000"
+              hi_low_color: "#757575"
+              ```
+
+          # ... [Continuer avec les autres cartes de couleurs]
+
+  # Section 3: Gradient
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "3. Gradient"
+        label: "Tests des options de gradient en mode compact"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Gradient Activé"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            gradient: true
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Gradient Activé"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              gradient: true
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Gradient Désactivé"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            gradient: false 
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Gradient Désactivé"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              gradient: false
+              ```
+
+  # Section 4: Icônes et Images Personnalisées
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "4. Icônes et Images Personnalisées"
+        label: "Tests des icônes et images personnalisées en mode compact"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Icônes Personnalisées"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            temperature_icon: "mdi:thermometer-water"
+            ph_icon: "mdi:flask"
+            orp_icon: "mdi:lightning-bolt"
+            show_icons: true
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Icônes Personnalisées"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              temperature_icon: "mdi:thermometer-water"
+              ph_icon: "mdi:flask"
+              orp_icon: "mdi:lightning-bolt"
+              show_icons: true
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Images Personnalisées"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            temperature_image: "/local/images/temperature.png"
+            ph_image: "/local/images/ph.png"
+            orp_image: "/local/images/orp.png"
+            show_icons: true
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Images Personnalisées"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              temperature_image: "/local/images/temperature.png"
+              ph_image: "/local/images/ph.png"
+              orp_image: "/local/images/orp.png"
+              show_icons: true
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Mélange Icônes et Images"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            compact: true
+            temperature_icon: "mdi:thermometer-water"
+            ph_image: "/local/images/ph.png"
+            orp_icon: "mdi:lightning-bolt"
+            show_icons: true
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Mélange Icônes et Images"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              compact: true
+              temperature_icon: "mdi:thermometer-water"
+              ph_image: "/local/images/ph.png"
+              orp_icon: "mdi:lightning-bolt"
+              show_icons: true
+              ```

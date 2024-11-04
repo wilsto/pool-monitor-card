@@ -1,0 +1,11 @@
+---
+button_card_templates: !include_dir_merge_named "../../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
+
+title: "UI Lovelace Minimalist"
+theme: "minimalist-desktop"
+background: "var(--background-image)"
+views:
+  - !include views/pool-tests.yaml
+  - !include views/pool-tests-display.yaml
+  - !include views/pool-tests-display-compact.yaml
+  - !include views/pool-tests-multilingual.yaml
