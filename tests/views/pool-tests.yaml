@@ -1,0 +1,163 @@
+---
+title: "Pool Monitor Test Configurations"
+path: pool-tests
+icon: "mdi:pool"
+cards:
+  # Section Title
+  - type: "custom:button-card"
+    template: "card_title"
+    name: "Pool Monitor Card Tests"
+    label: "Basic Configuration Tests"
+
+  # Section 1: Basic Configuration Tests
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "1. Basic Configuration"
+        label: "Tests for incomplete and minimal configurations"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Test Without Sensor"
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Test Without Sensor"
+              ```
+
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Minimal Test"
+            temperature: sensor.pool_temperature
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Minimal Test"
+              temperature: sensor.pool_temperature
+              ```
+
+  # Section 2: Complete Configuration Tests
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "2. Complete Configuration"
+        label: "Tests for complete configurations"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Complete Test"
+            temperature: sensor.pool_temperature
+            ph: sensor.pool_ph
+            orp: sensor.pool_orp
+            tds: sensor.pool_tds
+            salinity: sensor.pool_salinity
+            cya: sensor.pool_cya
+            calcium: sensor.pool_calcium
+            phosphate: sensor.pool_phosphate
+            alkalinity: sensor.pool_alkalinity
+            free_chlorine: sensor.pool_free_chlorine
+            total_chlorine: sensor.pool_total_chlorine
+            pressure: sensor.pool_pressure
+            sg: sensor.pool_sg
+            magnesium: sensor.pool_magnesium
+            water_level: sensor.pool_water_level
+            flow_rate: sensor.pool_flow_rate
+            uv_radiation: sensor.pool_uv
+            product_volume: sensor.pool_product_volume
+            product_weight: sensor.pool_product_weight
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Complete Test"
+              temperature: sensor.pool_temperature
+              ph: sensor.pool_ph
+              orp: sensor.pool_orp
+              tds: sensor.pool_tds
+              salinity: sensor.pool_salinity
+              cya: sensor.pool_cya
+              calcium: sensor.pool_calcium
+              phosphate: sensor.pool_phosphate
+              alkalinity: sensor.pool_alkalinity
+              free_chlorine: sensor.pool_free_chlorine
+              total_chlorine: sensor.pool_total_chlorine
+              pressure: sensor.pool_pressure
+              sg: sensor.pool_sg
+              magnesium: sensor.pool_magnesium
+              water_level: sensor.pool_water_level
+              flow_rate: sensor.pool_flow_rate
+              uv_radiation: sensor.pool_uv
+              product_volume: sensor.pool_product_volume
+              product_weight: sensor.pool_product_weight
+              ```
+
+  # Section 3: Min/Max Indicators Tests
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "3. Min/Max Indicators"
+        label: "Tests for min/max indicators"
+        
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: "Min/Max Test"
+        temperature: sensor.pool_temperature
+        temperature_min: sensor.pool_temperature_min
+        temperature_max: sensor.pool_temperature_max
+
+      - type: "markdown"
+        content: |
+          ```yaml
+          type: "custom:pool-monitor-card"
+          template: "card_generic"
+          title: "Min/Max Test"
+          temperature: sensor.pool_temperature
+          temperature_min: sensor.pool_temperature_min
+          temperature_max: sensor.pool_temperature_max
+          ```
+
+  # Section 4: Additional Parameters Tests
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "4. Additional Parameters"
+        label: "Tests for additional sensor parameters"
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Temperature Parameters Test"
+            temperature: sensor.pool_temperature
+            temperature_name: "Pool Temperature"
+            temperature_unit: "°F"
+            temperature_setpoint: 82
+            temperature_step: 0.5
+
+          - type: "markdown"
+            content: |
+              ```yaml
+              type: "custom:pool-monitor-card"
+              template: "card_generic"
+              title: "Temperature Parameters Test"
+              temperature: sensor.pool_temperature
+              temperature_name: "Pool Temperature"
+              temperature_unit: "°F"
+              temperature_setpoint: 82
+              temperature_step: 0.5
+              ```
