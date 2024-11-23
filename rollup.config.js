@@ -6,7 +6,7 @@ import replace from '@rollup/plugin-replace';
 const BUILD_TIMESTAMP = new Date().toISOString().replace(/[:.T]/g, '-').substring(0, 16);
 
 export default {
-  input: 'pool_monitor_card.js',
+  input: 'src/pool_monitor_card.js',
   output: {
     file: 'dist/pool-monitor-card.js',
     format: 'iife',
