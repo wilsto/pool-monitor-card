@@ -2,7 +2,7 @@ var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-pane
 var html = LitElement.prototype.html;
 
 import { getTranslation, formatTranslation } from './locales/translations.js';
-import { CARD_VERSION, CARD_INFO, CONSOLE_STYLE } from './components/constants.js';
+import { CARD_VERSION, CARD_INFO, CONSOLE_STYLE } from './constants.js';
 import { styles } from './styles/styles.js';
 import { cardContent } from './components/card-content.js';
 
