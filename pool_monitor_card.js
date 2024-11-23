@@ -1,476 +1,21 @@
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
 var html = LitElement.prototype.html;
-var css = LitElement.prototype.css;
 
-const CARD_VERSION = '1.10.2';
+import { getTranslation, formatTranslation } from './locales/translations.js';
+import { CARD_VERSION, CARD_INFO, CONSOLE_STYLE } from './components/constants.js';
+import { styles } from './styles/styles.js';
+import { cardContent } from './components/card-content.js';
 
-// eslint-disable-next-line no-console
 console.info(
   `%c POOL-MONITORING-CARD %c ${CARD_VERSION} `,
-  'color: white; background: green; font-weight: 700;',
-  'color: green; background: white; font-weight: 700;',
+  CONSOLE_STYLE.title,
+  CONSOLE_STYLE.version,
 );
 
-const translations = {
-  'en': {
-    "state": {
-      "1": "Too Low",
-      "2": "Acceptable Low",
-      "3": "Ideal",
-      "4": "Ideal",
-      "5": "Acceptable High",
-      "6": "Too High"
-    },
-    "sensor": {
-      "temperature": "Temperature",
-      "temperature_2": "Temperature 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinity",
-      "cya": "Cyanuric Acid",
-      "calcium": "Calcium",
-      "phosphate": "Phosphate",
-      "alkalinity": "Alkalinity",
-      "free_chlorine": "Free Chlorine",
-      "total_chlorine": "Total Chlorine",
-      "pressure": "Filter Pressure",
-      "sg": "Specific Gravity",
-      "magnesium": "Magnesium",
-      "water_level": "Water Level",
-      "flow_rate": "Flow Rate",
-      "uv_radiation": "UV Radiation",
-      "product_volume": "Product Volume",
-      "product_weight": "Product Weight",
-    },
-      "time": {
-      "seconds": "just now",
-      "minutes": `{minutes} minute{plural} ago`,
-      "hours": `{hours} hour{plural} ago`,
-      "days": `{days} day{plural} ago`
-    }
-  },
-  'ro': {
-    "state": {
-      "1": "Prea mic",
-      "2": "Mic",
-      "3": "Ideal",
-      "4": "Ideal",
-      "5": "Mare",
-      "6": "Prea mare"
-    },
-    "sensor": {
-      "temperature": "Temperatură",
-      "temperature_2": "Temperatură 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinitate",
-      "cya": "Acid cianuric",
-      "calcium": "Calciu",
-      "phosphate": "Fosfat",
-      "alkalinity": "Alcalinitate",
-      "free_chlorine": "Clor liber",
-      "total_chlorine": "Clor total",
-      "pressure": "Presiune filtru",
-      "magnesium": "Magneziu",
-      "water_level": "Nivel d'eau",
-      "flow_rate": "Débit",
-      "uv_radiation": "Radiation UV",
-      "product_volume": "Volume Produit",
-      "product_weight": "Poids Produit",
-    },
-    "time": {
-      "seconds": "acum",
-      "minutes": `acum {minutes} minut{plural}`,
-      "hours": `acum {hours} oră{plural}`,
-      "days": `acum {days} zi{plural}`
-    }
-  },
-  'sk': {
-    "state": {
-      "1": "Príliš nízky",
-      "2": "Akceptovateľne nízky",
-      "3": "Ideálny",
-      "4": "Ideálny",
-      "5": "Akceptovateľne vysoký",
-      "6": "Príliš vysoký"
-    },
-    "sensor": {
-      "temperature": "Teplota",
-      "temperature_2": "Templota 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinita",
-      "cya": "Kyselina kyanurová",
-      "calcium": "Vápnik",
-      "phosphate": "Fosfát",
-      "alkalinity": "Alkalinita",
-      "free_chlorine": "Voľný chlór",
-      "total_chlorine": "Celkový chlór",
-      "pressure": "Tlak filtra",
-      "magnesium": "Magnezium",
-      "water_level": "Nivel de agua",
-      "flow_rate": "Caudal",
-      "uv_radiation": "Radiación UV",
-      "product_volume": "Volumen Producto",
-      "product_weight": "Peso Producto",
-    },
-    "time": {
-      "seconds": "práve teraz",
-      "minutes": `{minutes} minút{plural} pred`,
-      "hours": `{hours} hodín{plural} pred`,
-      "days": `{days} dní {plural} pred`
-    }
-  },  
-  'fr': {
-    "state": {
-      "1": "Trop bas",
-      "2": "Acceptable bas",
-      "3": "Idéal",
-      "4": "Idéal",
-      "5": "Acceptable élevé",
-      "6": "Trop élevé"
-    },
-    "sensor": {
-      "temperature": "Température",
-      "temperature_2": "Température 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinité",
-      "cya": "Acide cyanurique",
-      "calcium": "Calcium",
-      "phosphate": "Phosphate",
-      "alkalinity": "Alcalinité",
-      "free_chlorine": "Chlore libre",
-      "total_chlorine": "Chlore total",
-      "pressure": "Pression du filtre",
-      "sg": "Densité spécifique",
-      "magnesium": "Magnésium",
-      "water_level": "Niveau d'eau",
-      "flow_rate": "Débit",
-      "uv_radiation": "Radiation UV",
-      "product_volume": "Volume Produit",
-      "product_weight": "Poids Produit",
-    },
-    "time": {
-      "seconds": "il y a {seconds} seconde{plural}",
-      "minutes": `il y a {minutes} minute{plural}`,
-      "hours": `il y a {hours} heure{plural}`,
-      "days": `il y a {days} jour{plural}`
-    }
-  },
-  'pt': {
-    "state": {
-      "1": "Muito Baixo",
-      "2": "Torelavel mas Baixo",
-      "3": "Ideal",
-      "4": "Ideal",
-      "5": "Toleravel mas Alto",
-      "6": "Muito Alto"
-    },
-    "sensor": {
-      "temperature": "Temperatura",
-      "temperature_2": "Temperatura 2", 
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinidade",
-      "cya": "ácido cianúrico",
-      "calcium": "Calcio",
-      "phosphate": "Fosfato", 
-      "alkalinity": "Alcalinidade",
-      "free_chlorine": "Cloro livres",
-      "total_chlorine": "Cloro total",
-      "pressure": "Pressão do filtro",
-      "sg": "Gravidade específica",
-      "magnesium": "Magnésio",
-      "water_level": "Nivel de agua",
-      "flow_rate": "Caudal",
-      "uv_radiation": "Radiación UV",
-      "product_volume": "Volumen Producto",
-      "product_weight": "Peso Producto",
-    },
-    "time": {
-      "seconds": "Agora",
-      "minutes": `{minutes} Muntos{plural} atrás`,
-      "hours": `{hours} horas{plural} atrás`,
-      "days": `{days} dias{plural} atrás`
-    }
-  },  
-  'pt-br': {
-    "state": {
-      "1": "Muito Baixo",
-      "2": "Aceitavel Baixo",
-      "3": "Ideal",
-      "4": "Ideal",
-      "5": "AAceitavel Alto",
-      "6": "Muito Alto"
-    },
-    "sensor": {
-      "temperature": "Temperatura",
-      "temperature_2": "Temperatura 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinidade",
-      "cya": "Acidp Cianuronico",
-      "calcium": "Calcio",
-      "phosphate": "fosfate",
-      "alkalinity": "Alcalinidade",
-      "free_chlorine": "Cloro Livre",
-      "total_chlorine": "Cloro Total",
-      "pressure": "Pressáo no  Filtro",
-      "sg": "Gravidade específica",
-      "magnesium": "Magnésio",
-      "water_level": "Nivel de agua",
-      "flow_rate": "Caudal",
-      "uv_radiation": "Radiación UV",
-      "product_volume": "Volumen Producto",
-      "product_weight": "Peso Producto",
-    },
-    "time": {
-      "seconds": "Agora mesmo",
-      "minutes": `{minuts} minutos{plural} atras`,
-      "hours": `{hours} horas{plural} atras`,
-      "days": `{days} Dias{plural} atras`
-    }
-  },  
-  'es': {
-    "state": {
-      "1": "Demasiado bajo",
-      "2": "Aceptable bajo",
-      "3": "Perfecto",
-      "4": "Perfecto",
-      "5": "Aceptable alto",
-      "6": "Demasiado alto"
-    },
-    "sensor": {
-      "temperature": "Temperatura",
-      "temperature_2": "Temperatura 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinidad",
-      "cya": "Acido cianúrico",
-      "calcium": "Calcio",
-      "phosphate": "Fosfato",
-      "alkalinity": "Alcalinidad",
-      "free_chlorine": "Cloro libre",
-      "total_chlorine": "Cloro total",
-      "pressure": " pressione du filter relativa",
-      "sg": " densidad relativa",
-      "magnesium": "Magnesio",
-      "water_level": "Nivel de agua",
-      "flow_rate": "Caudal",
-      "uv_radiation": "Radiación UV",
-      "product_volume": "Volumen Producto",
-      "product_weight": "Peso Producto",
-    },
-    "time": {
-      "seconds": "justo ahora",
-      "minutes": "hace {minutes} minuto{plural}",
-      "hours": "hace {hours} hora{plural}",
-      "days": "hace {days} día{plural}"
-    }
-  },
-  'de': {
-    "state": {
-      "1": "Zu niedrig",
-      "2": "Akzeptabler Tiefstwert",
-      "3": "Ideal",
-      "4": "Ideal",
-      "5": "Akzeptabler Hochwert",
-      "6": "Zu hoch"
-    },
-    "sensor": {
-      "temperature": "Temperatur",
-      "temperature_2": "Temperatur 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salzgehalt",
-      "cya": "Cyanursäure",
-      "calcium": "Kalzium",
-      "phosphate": "Phosphat",
-      "alkalinity": "Alkalinität",
-      "free_chlorine": "Freies Chlor",
-      "total_chlorine": "Gesamtchlor",
-      "pressure": "Sandfilterdruck",
-      "magnesium": "Magnesium",
-      "water_level": "Wasserstand",
-      "flow_rate": "Durchfluss",
-      "uv_radiation": "UV-Strahlung", 
-      "product_volume": "Produktvolumen",
-      "product_weight": "Produktgewicht",
-    },
-    "time": {
-      "seconds": "gerade erst",
-      "minutes": `vor {minutes} Minute{plural}`,
-      "hours": `vor {hours} Stunde{plural}`,
-      "days": `vor {days} Tag{plural}`
-    }
-  },
-  'it': {
-    "state": {
-      "1": "Troppo basso",
-      "2": "Accettabile basso",
-      "3": "Ideale",
-      "4": "Ideale",
-      "5": "Accettabile alto",
-      "6": "Troppo alto"
-    },
-    "sensor": {
-      "temperature": "Temperatura",
-      "temperature_2": "Temperatura 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Salinità",
-      "cya": "Acido cianurico",
-      "calcium": "Calcio",
-      "phosphate": "Fosfato",
-      "alkalinity": "Alcalinità",
-      "free_chlorine": "Cloro libero",
-      "total_chlorine": "Cloro totale",
-      "pressure": "Pressione filtro",
-      "sg": "Gravità specifica",
-      "magnesium": "Magnesio",
-      "water_level": "Livello dell'acqua",
-      "flow_rate": "Portata",
-      "uv_radiation": "Radiazione UV",
-      "product_volume": "Volume prodotto",
-      "product_weight": "Peso prodotto",
-    },
-    "time": {
-      "seconds": "proprio ora",
-      "minutes": `{minutes} minuto{plural} fa`,
-      "hours": `{hours} ora{plural} fa`,
-      "days": `{days} giorno{plural} fa`
-    }
-  },
-  'nl': {
-    "state": {
-      "1": "Te laag",
-      "2": "Acceptabel laag",
-      "3": "Ideaal",
-      "4": "Ideaal",
-      "5": "Acceptabel hoog",
-      "6": "Te hoog"
-    },
-    "sensor": {
-      "temperature": "Temperatuur",
-      "temperature_2": "Temperatuur 2",
-      "ph": "pH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "Zoutgehalte",
-      "cya": "Cyanuurzuur",
-      "calcium": "Calcium",
-      "phosphate": "Fosfaat",
-      "alkalinity": "Alkaliteit",
-      "free_chlorine": "Vrij chloor",
-      "total_chlorine": "Totaal chloor",
-      "pressure": "Filterdruk",
-      "sg": "Soortelijk gewicht",
-      "magnesium": "Magnesium",
-      "water_level": "Waterniveau",
-      "flow_rate": "Debiet",
-      "uv_radiation": "UV-straling",
-      "product_volume": "Productvolume",
-      "product_weight": "Productgewicht",
-    },
-    "time": {
-      "seconds": "zojuist",
-      "minutes": `{minutes} minuut{plural} geleden`,
-      "hours": `{hours} uur{plural} geleden`,
-      "days": `{days} dag{plural} geleden`
-    }
-  },
-  'he': {
-    "state": {
-      "1": "נמוך מדי",
-      "2": "נמוך מאוד",
-      "3": "אידיאלי",
-      "4": "אידיאלי",
-      "5": "גבוה מאוד",
-      "6": "גבוה מדי"
-    },
-    "sensor": {
-      "temperature": "טמפרטורה",
-      "temperature_2": "טמפרטורה 2", 
-      "ph": "PH",
-      "orp": "ORP",
-      "tds": "TDS",
-      "salinity": "מליחות",
-      "cya": "חומצה ציאנורית",
-      "calcium": "סידן",
-      "phosphate": "פוספט",
-      "alkalinity": "אלקליניות",
-      "free_chlorine": "כלור חופשי",
-      "total_chlorine": "כלור כולל",
-      "pressure": "לחץ מסנן",
-      "sg": "משקל סגולי",
-      "magnesium": "מגנזיום",
-      "water_level": "מפלס מים",
-      "flow_rate": "קצב זרימה", 
-      "uv_radiation": "קרינת UV",
-      "product_volume": "נפח מוצר",
-      "product_weight": "משקל מוצר",
-    },
-    "time": {
-      "seconds": "הרגע",
-      "minutes": "לפני {minutes} דקות",
-      "hours": "לפני {hours} שעות",
-      "days": "לפני {days} ימים"
-    }
-  },
-  'ru': {
-    "state": {
-    "1": "Слишком низкий",
-    "2": "Приемлемо низкий",
-    "3": "Идеальный",
-    "4": "Идеальный вариант",
-    "5": "Приемлемо высокий",
-    "6": "Слишком высокий"
-    },
-    "sensor": {
-    "temperature": "Температура",
-    "temperature_2": "Температура 2",
-    "ph": "pH",
-    "orp": "ORP",
-    "tds": "TDS",
-    "salinity": "Соленость",
-    "cya": "Циануровая кислота",
-    "calcium": "Кальций",
-    "phosphate": "Фосфаты",
-    "alkalinity": "Щелочность",
-    "free_chlorine": "Свободный хлор",
-    "total_chlorine": "Общий хлор",
-    "pressure": "Давление фильтра",
-    "sg": "Удельный вес",
-    "magnesium": "Магний",
-    "water_level": "Уровень воды",
-    "flow_rate": "Расход воды",
-    "uv_radiation": "УФ-излучение",
-    "product_volume": "Объем продукта",
-    "product_weight": "Вес продукта",
-    },
-    "time": {
-      "seconds": "{seconds} секунд{plural}",
-      "minutes": "{minutes} минут{plural} назад",
-      "hours": "{hours} часов{plural} назад",
-      "days": "{days} дней{plural} назад"
-    }
-  }
-}
-
 class PoolMonitorCard extends LitElement {
-  static cardType = 'pool-monitor-card'
-  static cardName = 'Pool Monitor Card'
-  static cardDescription = 'The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, and ORP levels of your swimming pool'
+  static cardType = CARD_INFO.cardType
+  static cardName = CARD_INFO.cardName
+  static cardDescription = CARD_INFO.cardDescription
 
   static get properties() {
     return {
@@ -479,146 +24,7 @@ class PoolMonitorCard extends LitElement {
     };
   }
 
-  static styles = [
-    css`
-  :host {
-    background: var(--ha-card-background, var(--card-background-color, white));
-    border-radius: var(--ha-card-border-radius, 12px);
-    border-width: var(--ha-card-border-width,4px);
-    box-shadow: var(
-      --ha-card-box-shadow
-    );
-    color: var(--primary-text-color);
-    display: block;
-    transition: all 0.3s ease-out 0s;
-    position: relative;
-    padding-top: 25px;
-  }
-
-  .section{
-    padding-bottom:10px;
-    padding:15px;
-  }
-
-  .pool-monitor-title{
-    font-size: 1.5rem;
-    font-weight: 500;
-    padding-left: 15px;
-    padding-bottom: 15px;
-    margin: 0;
-  }
-  
-  .pool-monitor-entity-img {
-    text-align:right;
-    width:10%;
-    float:left;
-  }
-  .pool-monitor-container {
-    display: grid;
-    padding: 5px;
-    height: 15px;
-  }
-
-  .pool-monitor-container-values {
-    display: grid;
-    grid-template-columns: repeat(5,2fr) 1fr;
-    padding-top: 0px;
-  }
-
-  .pool-monitor-container-marker {
-    display: grid;
-    grid-template-columns: 10% repeat(6, 1fr) 5%;
-    padding: 10px;
-    grid-template-rows:15px;
-    line-height: 15px;
-    position: relative;
-  }
-
-  .pool-monitor-container-marker .marker {
-    text-align: center;
-    justify-self: center;
-    width: 70px;
-    height:20px;
-    padding-top:5px;
-    border-radius: 5px;
-    position: absolute;
-    z-index: 1;
-  }
-  
-  .pool-monitor-container-marker .marker-state {
-    width: 60px;
-    position: absolute;
-    z-index: 1;
-  }
-
-  .pool-monitor-container-marker .triangle {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: absolute;
-    bottom: 0px;
-    transform: translateX(-50%);
-  }
-
-  .grid-item {
-    padding-top: 150%;
-    padding-bottom: 20%;
-    padding: 0;
-  }
-
-  .grid-item-text-box {
-    font-size: 0.8em;
-    text-align: center;
-    font-weight: 700;
-  }
-  
-  .item-row {
-    grid-row: 1;
-  }
-
-  .cursor{
-    text-align: center;
-    justify-self: center;
-    font-size:13px;
-    font-weight: 600;
-    color: black;
-    position: absolute;
-    z-index: 1;
-  }
-  .cursor-text{
-    width: 150px;
-    height: 17px;
-    padding-left: 3px;
-    padding-right: 3px;
-    padding-top:0px;
-    margin-top: -1px;
-    font-size: 11px;
-    font-weight: 500;
-    text-align: right;
-    color: black;
-    justify-self: right;
-    position: absolute;
-    z-index: 1;
-  }
-
-  .progress {
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #e17055 5%, #fdcb6e 30%, #00b894, #00b894, #fdcb6e 70%, #e17055 95%);
-  }
-  .progress-temp {
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #69AEFF 15%,#ffdb3a 30%, #ffdb3a 60%, #e5405e 95%);
-  }
-  .progress-bar-child {
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-  }
-
-
-`
-  ];
+  static styles = styles;
 
   constructor() {
     super();
@@ -650,7 +56,7 @@ class PoolMonitorCard extends LitElement {
         ${data.flow_rate !== undefined ? cardContent.generateCompactBody(config,data.flow_rate): ''}
         ${data.uv_radiation !== undefined ? cardContent.generateCompactBody(config,data.uv_radiation): ''}
         ${data.product_volume !== undefined ? cardContent.generateCompactBody(config,data.product_volume): ''}
-        ${data.product_weight !== undefined ? cardContent.generateCompactBody(config,data.product_weight): ''}      
+        ${data.product_weight !== undefined ? cardContent.generateCompactBody(config,data.product_weight): ''}
       </div>`;
     } else {
       return html`
@@ -707,7 +113,7 @@ class PoolMonitorCard extends LitElement {
     config.temperature_min = this.config.temperature_min ;
     config.temperature_max = this.config.temperature_max ;
     config.temperature = this.config.temperature ;
-    config.temperature_name = this.config.temperature_name ?? translations[config.language]["sensor"]["temperature"];
+    config.temperature_name = this.getTranslatedText('sensor.temperature');
     config.temperature_unit = this.config.temperature_unit ?? "°C";
     config.temperature_unit = config.temperature_unit.toUpperCase()
     config.temperature_setpoint = this.config.temperature_setpoint ?? (config.temperature_unit === "°F" ? 80 : 27) ;
@@ -717,7 +123,7 @@ class PoolMonitorCard extends LitElement {
     config.temperature_2 = this.config.temperature_2 ;
     config.temperature_2_min = this.config.temperature_2_min ;
     config.temperature_2_max = this.config.temperature_2_max ;
-    config.temperature_2_name = this.config.temperature_2_name ?? translations[config.language]["sensor"]["temperature_2"];
+    config.temperature_2_name = this.getTranslatedText('sensor.temperature_2');
     config.temperature_2_unit = this.config.temperature_2_unit ?? "°C";
     config.temperature_2_unit = config.temperature_2_unit.toUpperCase()
     config.temperature_2_setpoint = this.config.temperature_2_setpoint ?? (config.temperature_2_unit === "°F" ? 80 : 27) ;
@@ -727,7 +133,7 @@ class PoolMonitorCard extends LitElement {
     config.ph = this.config.ph;
     config.ph_min = this.config.ph_min;
     config.ph_max = this.config.ph_max;
-    config.ph_name = this.config.ph_name ?? translations[config.language]["sensor"]["ph"];
+    config.ph_name = this.getTranslatedText('sensor.ph');
     config.ph_unit = this.config.ph_unit ?? "pH";
     config.ph_setpoint = this.config.ph_setpoint ?? 7.2;
     config.ph_step = this.config.ph_step ?? 0.2 ;
@@ -736,7 +142,7 @@ class PoolMonitorCard extends LitElement {
     config.orp = this.config.orp ;
     config.orp_min = this.config.orp_min ;
     config.orp_max = this.config.orp_max ;
-    config.orp_name = this.config.orp_name ?? translations[config.language]["sensor"]["orp"];
+    config.orp_name = this.getTranslatedText('sensor.orp');
     config.orp_unit = this.config.orp_unit ?? "mV";
     config.orp_setpoint = this.config.orp_setpoint ?? 700;
     config.orp_step = this.config.orp_step ?? 50 ;
@@ -745,7 +151,7 @@ class PoolMonitorCard extends LitElement {
     config.tds = this.config.tds ;
     config.tds_min = this.config.tds_min ;
     config.tds_max = this.config.tds_max ;
-    config.tds_name = this.config.tds_name ?? translations[config.language]["sensor"]["tds"];
+    config.tds_name = this.getTranslatedText('sensor.tds');
     config.tds_unit = this.config.tds_unit ?? "g/L";
     config.tds_unit = config.tds_unit.toLowerCase()
     config.tds_setpoint = this.config.tds_setpoint ?? (config.tds_unit === "ppm" ? 4000 : 4) ;
@@ -755,7 +161,7 @@ class PoolMonitorCard extends LitElement {
     config.salinity = this.config.salinity ;
     config.salinity_min = this.config.salinity_min ;
     config.salinity_max = this.config.salinity_max ;
-    config.salinity_name = this.config.salinity_name ?? translations[config.language]["sensor"]["salinity"];
+    config.salinity_name = this.getTranslatedText('sensor.salinity');
     config.salinity_unit = this.config.salinity_unit ?? "ppm";
     config.salinity_setpoint = this.config.salinity_setpoint ?? (config.salinity_unit === "ppm" ? 3000 : 4.5) ;
     config.salinity_step = this.config.salinity_step ?? (config.salinity_unit === "ppm" ? 500 : 0.5)  ;
@@ -764,7 +170,7 @@ class PoolMonitorCard extends LitElement {
     config.cya = this.config.cya ;
     config.cya_min = this.config.cya_min ;
     config.cya_max = this.config.cya_max ;
-    config.cya_name = this.config.cya_name ?? translations[config.language]["sensor"]["cya"];
+    config.cya_name = this.getTranslatedText('sensor.cya');
     config.cya_unit = this.config.cya_unit ?? "ppm";
     config.cya_setpoint = this.config.cya_setpoint ?? 40;
     config.cya_step = this.config.cya_step ?? 10 ;
@@ -773,7 +179,7 @@ class PoolMonitorCard extends LitElement {
     config.calcium = this.config.calcium ;
     config.calcium_min = this.config.calcium_min ;
     config.calcium_max = this.config.calcium_max ;
-    config.calcium_name = this.config.calcium_name ?? translations[config.language]["sensor"]["calcium"];
+    config.calcium_name = this.getTranslatedText('sensor.calcium');
     config.calcium_unit = this.config.calcium_unit ?? "ppm";
     config.calcium_setpoint = this.config.calcium_setpoint ?? 300;
     config.calcium_step = this.config.calcium_step ?? 100 ;
@@ -782,7 +188,7 @@ class PoolMonitorCard extends LitElement {
     config.phosphate = this.config.phosphate ;
     config.phosphate_min = this.config.phosphate_min ;
     config.phosphate_max = this.config.phosphate_max ;
-    config.phosphate_name = this.config.phosphate_name ?? translations[config.language]["sensor"]["phosphate"];
+    config.phosphate_name = this.getTranslatedText('sensor.phosphate');
     config.phosphate_unit = this.config.phosphate_unit ?? "ppb";
     config.phosphate_setpoint = this.config.phosphate_setpoint ?? 100;
     config.phosphate_step = this.config.phosphate_step ?? 100 ;
@@ -791,7 +197,7 @@ class PoolMonitorCard extends LitElement {
     config.alkalinity = this.config.alkalinity ;
     config.alkalinity_min = this.config.alkalinity_min ;
     config.alkalinity_max = this.config.alkalinity_max ;
-    config.alkalinity_name = this.config.alkalinity_name ?? translations[config.language]["sensor"]["alkalinity"];
+    config.alkalinity_name = this.getTranslatedText('sensor.alkalinity');
     config.alkalinity_unit = this.config.alkalinity_unit ?? "ppm";
     config.alkalinity_setpoint = this.config.alkalinity_setpoint ?? 100;
     config.alkalinity_step = this.config.alkalinity_step ?? 20 ;
@@ -800,7 +206,7 @@ class PoolMonitorCard extends LitElement {
     config.free_chlorine = this.config.free_chlorine ;
     config.free_chlorine_min = this.config.free_chlorine_min ;
     config.free_chlorine_max = this.config.free_chlorine_max ;
-    config.free_chlorine_name = this.config.free_chlorine_name ?? translations[config.language]["sensor"]["free_chlorine"];
+    config.free_chlorine_name = this.getTranslatedText('sensor.free_chlorine');
     config.free_chlorine_unit = this.config.free_chlorine_unit ?? "ppm";
     config.free_chlorine_setpoint = this.config.free_chlorine_setpoint ?? 2;
     config.free_chlorine_step = this.config.free_chlorine_step ?? 1 ;
@@ -809,7 +215,7 @@ class PoolMonitorCard extends LitElement {
     config.total_chlorine = this.config.total_chlorine ;
     config.total_chlorine_min = this.config.total_chlorine_min ;
     config.total_chlorine_max = this.config.total_chlorine_max ;
-    config.total_chlorine_name = this.config.total_chlorine_name ?? translations[config.language]["sensor"]["total_chlorine"];
+    config.total_chlorine_name = this.getTranslatedText('sensor.total_chlorine');
     config.total_chlorine_unit = this.config.total_chlorine_unit ?? "ppm";
     config.total_chlorine_setpoint = this.config.total_chlorine_setpoint ?? 3;
     config.total_chlorine_step = this.config.total_chlorine_step ?? 1 ;
@@ -818,14 +224,14 @@ class PoolMonitorCard extends LitElement {
     config.pressure = this.config.pressure ;
     config.pressure_min = this.config.pressure_min ;
     config.pressure_max = this.config.pressure_max ;
-    config.pressure_name = this.config.pressure_name ?? translations[config.language]["sensor"]["pressure"];
+    config.pressure_name = this.getTranslatedText('sensor.pressure');
     config.pressure_unit = this.config.pressure_unit ?? "psi";
     config.pressure_setpoint = this.config.pressure_setpoint ?? (config.pressure_unit === "bar" ? 1.5 : 23);
     config.pressure_step = this.config.pressure_step ?? (config.pressure_unit === "bar" ? 0.5 : 7);
     config.pressure_override = 32  ;
 
     config.sg = this.config.sg ;
-    config.sg_name = this.config.sg_name ?? translations[config.language]["sensor"]["sg"];
+    config.sg_name = this.getTranslatedText('sensor.sg');
     config.sg_unit = this.config.sg_unit ?? "g/cm³";
     config.sg_setpoint = this.config.sg_setpoint ?? (config.sg_unit === "Ratio" ? 0.5 : 1.5);
     config.sg_step = this.config.sg_step ?? 0.001;
@@ -834,7 +240,7 @@ class PoolMonitorCard extends LitElement {
     config.magnesium = this.config.magnesium;
     config.magnesium_min = this.config.magnesium_min;
     config.magnesium_max = this.config.magnesium_max;
-    config.magnesium_name = this.config.magnesium_name ?? translations[config.language]["sensor"]["magnesium"];
+    config.magnesium_name = this.getTranslatedText('sensor.magnesium');
     config.magnesium_unit = this.config.magnesium_unit ?? "ppm";
     config.magnesium_setpoint = this.config.magnesium_setpoint ?? 700;
     config.magnesium_step = this.config.magnesium_step ?? 100;
@@ -843,7 +249,7 @@ class PoolMonitorCard extends LitElement {
     config.water_level = this.config.water_level;
     config.water_level_min = this.config.water_level_min;
     config.water_level_max = this.config.water_level_max;
-    config.water_level_name = this.config.water_level_name ?? translations[config.language]["sensor"]["water_level"];
+    config.water_level_name = this.getTranslatedText('sensor.water_level');
     config.water_level_unit = this.config.water_level_unit ?? "%";
     config.water_level_setpoint = this.config.water_level_setpoint ?? 50;
     config.water_level_step = this.config.water_level_step ?? 10;
@@ -852,7 +258,7 @@ class PoolMonitorCard extends LitElement {
     config.flow_rate = this.config.flow_rate;
     config.flow_rate_min = this.config.flow_rate_min;
     config.flow_rate_max = this.config.flow_rate_max;
-    config.flow_rate_name = this.config.flow_rate_name ?? translations[config.language]["sensor"]["flow_rate"];
+    config.flow_rate_name = this.getTranslatedText('sensor.flow_rate');
     config.flow_rate_unit = this.config.flow_rate_unit ?? "L/min";
     config.flow_rate_setpoint = this.config.flow_rate_setpoint ?? 100;
     config.flow_rate_step = this.config.flow_rate_step ?? 20;
@@ -861,7 +267,7 @@ class PoolMonitorCard extends LitElement {
     config.uv_radiation = this.config.uv_radiation;
     config.uv_radiation_min = this.config.uv_radiation_min;
     config.uv_radiation_max = this.config.uv_radiation_max;
-    config.uv_radiation_name = this.config.uv_radiation_name ?? translations[config.language]["sensor"]["uv_radiation"];
+    config.uv_radiation_name = this.getTranslatedText('sensor.uv_radiation');
     config.uv_radiation_unit = this.config.uv_radiation_unit ?? "mW/cm²";
     config.uv_radiation_setpoint = this.config.uv_radiation_setpoint ?? 30;
     config.uv_radiation_step = this.config.uv_radiation_step ?? 5;
@@ -870,7 +276,7 @@ class PoolMonitorCard extends LitElement {
     config.product_volume = this.config.product_volume;
     config.product_volume_min = this.config.product_volume_min;
     config.product_volume_max = this.config.product_volume_max;
-    config.product_volume_name = this.config.product_volume_name ?? translations[config.language]["sensor"]["product_volume"];
+    config.product_volume_name = this.getTranslatedText('sensor.product_volume');
     config.product_volume_unit = this.config.product_volume_unit ?? "L";
     config.product_volume_setpoint = this.config.product_volume_setpoint ?? 20;
     config.product_volume_step = this.config.product_volume_step ?? 5;
@@ -879,7 +285,7 @@ class PoolMonitorCard extends LitElement {
     config.product_weight = this.config.product_weight;
     config.product_weight_min = this.config.product_weight_min;
     config.product_weight_max = this.config.product_weight_max;
-    config.product_weight_name = this.config.product_weight_name ?? translations[config.language]["sensor"]["product_weight"];
+    config.product_weight_name = this.getTranslatedText('sensor.product_weight');
     config.product_weight_unit = this.config.product_weight_unit ?? "kg";
     config.product_weight_setpoint = this.config.product_weight_setpoint ?? 25;
     config.product_weight_step = this.config.product_weight_step ?? 5;
@@ -956,6 +362,12 @@ class PoolMonitorCard extends LitElement {
     return data
   }
 
+  getTranslatedText(key, values) {
+    const lang = this.config?.language || 'en';
+    const translation = getTranslation(lang, key);
+    return formatTranslation(translation, values);
+  }
+
   calculateData(name, title, entity, entity_min, entity_max, setpoint, setpoint_step, unit, override_value, override) {
     const newData = {};
     const config = this.getConfig()
@@ -983,7 +395,7 @@ class PoolMonitorCard extends LitElement {
     newData.value = parseFloat(this.hass.states[entity].state);
     newData.entity = entity;
     if (config.show_last_updated) {
-      newData.last_updated = this.timeFromNow(this.hass.states[entity].last_updated, config.language);
+      newData.last_updated = this.timeFromNow(this.hass.states[entity].last_updated);
     }
 
     newData.unit = config.show_units ? unit : '';
@@ -1016,22 +428,22 @@ class PoolMonitorCard extends LitElement {
     newData.separator = config.show_labels ? "-":"";
     newData.color = "transparent";
     if (Number(newData.value)  < Number(newData.setpoint_class[0])) {
-      newData.state = config.show_labels ? translations[config.language]["state"][1]:"";
+      newData.state = config.show_labels ? this.getTranslatedText('state.1'):"";
       newData.color = config.warn_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[0]) && Number(newData.value)  < Number(newData.setpoint_class[1])) {
-      newData.state = config.show_labels ? translations[config.language]["state"][2]:"";
+      newData.state = config.show_labels ? this.getTranslatedText('state.2'):"";
       newData.color = config.low_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[1]) && Number(newData.value)  < Number(newData.setpoint_class[2])) {
-      newData.state = config.show_labels ? translations[config.language]["state"][3]:"";
+      newData.state = config.show_labels ? this.getTranslatedText('state.3'):"";
       newData.color = config.normal_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[2]) && Number(newData.value)  < Number(newData.setpoint_class[3])) {
-      newData.state = config.show_labels ? translations[config.language]["state"][4]:"";
+      newData.state = config.show_labels ? this.getTranslatedText('state.4'):"";
       newData.color = config.normal_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[3]) && Number(newData.value)  < Number(newData.setpoint_class[4])) {
-      newData.state = config.show_labels ? translations[config.language]["state"][5]:"";
+      newData.state = config.show_labels ? this.getTranslatedText('state.5'):"";
       newData.color = config.low_color;
     } else if (Number(newData.value)  >= Number(newData.setpoint_class[4])) {
-      newData.state = config.show_labels ? translations[config.language]["state"][6]:"";
+      newData.state = config.show_labels ? this.getTranslatedText('state.6'):"";
       newData.color = config.warn_color;
     }
     newData.progressClass = name === "temperature" ? "progress-temp" : "progress";
@@ -1060,32 +472,26 @@ class PoolMonitorCard extends LitElement {
     return number.toString().split(".")[1].length || 0;
   }
 
-  timeFromNow(dateTime, language) {
+  timeFromNow(dateTime) {
     const date = new Date(dateTime);
     const diff = Date.now() - date.getTime();
   
     const t = (key, n) => {
       let plural = n == 1 ? '' : 's'
-      let translation = translations[language]["time"][key] ;
+      let translation = this.getTranslatedText(`time.${key}`);
       translation = translation.replace('{'+ key + '}', n) 
       translation = translation.replace('{plural}', plural) 
-      return translation ;
-
+      return translation;
     };
 
-    if (diff < 60 * 1000) {
-      const seconds = Math.floor(diff / (1000));
-      return t('seconds', seconds);;
-    } else if (diff < 60 * 60 * 1000) {
-      const minutes = Math.floor(diff / (60 * 1000));
-      return t('minutes', minutes);
-    } else if (diff < 24 * 60 * 60 * 1000) {
-      const hours = Math.floor(diff / (60 * 60 * 1000));
-      return t('hours', hours);;
-    } else {
-      const days = Math.floor(diff / (24 * 60 * 60 * 1000));
-      return t('days', days);;
-    }
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    
+    if (minutes < 1) return t('now', 0);
+    if (minutes < 60) return t('minute', minutes);
+    if (hours < 24) return t('hour', hours);
+    return t('day', days);
   }
 
 
@@ -1105,114 +511,6 @@ class PoolMonitorCard extends LitElement {
     popupEvent.detail = { entityId: entityinfo };
     document.querySelector("home-assistant").dispatchEvent(popupEvent);
   }
-}
-
-class cardContent {
-
-  static generateTitle (config) {
-      const title = config.title !== undefined ? html`
-        <h1 class="pool-monitor-title">${config.title}</h1>
-      ` : html``
-  
-      return html`
-      ${title}
-      `
-    }
-
-    static generateBody (config, data) {
-      return html`
-      <!-- ##### ${data.name} section ##### -->    
-      <div class="section" @click=${() => 
-          PoolMonitorCard._moreinfo(data.entity)}>   
-
-        <div class="pool-monitor-container-marker" >
-          <div class="marker" style="background-color: ${data.color} ;color: black;left: ${data.pct_marker}%;">${data.value} ${data.unit}</div>
-          <div class="marker-state" style="padding-${data.side_align}:40px;text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_state_step}%;">${data.state}</div>
-          <div class="triangle" style="border-top: 10px solid ${data.color} ;left: ${data.pct-1}%;"></div>
-        </div>
-        ${!data.hide_icon ? html`
-          <div class="pool-monitor-entity-img">
-            ${data.is_mdi ? html`
-              <ha-icon icon="${data.mdi_icon}" style="width: 32px; height: 32px;"></ha-icon>
-            ` : html`
-              <img src="${data.img_src}" style="width: 32px; height: 32px;">
-            `}
-          </div>
-        ` : ''}
-        <div class="pool-monitor-container">
-          ${config.gradient ? html`
-            <div class="progress-bar-child ${data.progressClass}"></div>
-          ` : html`
-            <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 "></div></div> -->
-            <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-            <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-            ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
-            ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
-          `}
-        </div>
-        <div class="pool-monitor-container-values">
-          <div style="background-color: transparent; grid-column: 1 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
-          <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
-          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
-          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
-          <div style="background-color: transparent; grid-column: 6 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-        </div> 
-      </div> 
-      <div style="position: relative;top:-25px;margin-bottom:-25px;text-align:left;left:15px;">${data.title}<br/><small style="position: relative;top:-5px;font-size:9px;color:lightgrey">${data.last_updated}</small></div>
-
-      `
-    }
-
-    static generateCompactBody (config, data) {
-      return html`
-      <!-- ##### ${data.name} section ##### -->    
-      <div class="section-compact" @click=${() => 
-          PoolMonitorCard._moreinfo(data.entity)}>   
-        ${!data.hide_icon ? html`
-          <div class="pool-monitor-entity-img">
-            ${data.is_mdi ? html`
-              <ha-icon icon="${data.mdi_icon}" style="width: 24px; height: 24px;"></ha-icon>
-            ` : html`
-              <img src="${data.img_src}" style="width: 24px; height: 24px;">
-            `}
-          </div>
-        ` : ''}
-        <div class="pool-monitor-container">
-          ${config.gradient ? html`
-            <div class="progress-bar-child ${data.progressClass}"></div>
-          ` : html`
-            <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div> -->
-            <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-            <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-          `}
-          <div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.marker_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.unit} ${data.separator} ${data.state}</div>
-          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
-          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
-
-        </div>
-        <div class="pool-monitor-container-values">
-          <div style="background-color: transparent; grid-column: 1 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
-          <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
-          <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
-          <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
-          <div style="background-color: transparent; grid-column: 6 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-        </div> 
-      </div> 
-          
-      <div style="position: relative;margin-top:-21px;text-align:left;left:-30px;font-size:9px;padding-bottom: 5px;">${data.title}</div>
-
-      `
-    }    
 }
 
 customElements.define("pool-monitor-card", PoolMonitorCard);
