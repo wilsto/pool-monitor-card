@@ -1,0 +1,42 @@
+---
+title: "Pool Monitor Display Tests V2"
+path: pool-tests-display-v2
+icon: "mdi:monitor-dashboard"
+cards:
+  # Section Title
+  - type: "custom:button-card"
+    template: "card_title"
+    name: "Pool Monitor Card Display Tests V2"
+    label: "Display Configuration Tests"
+
+  # Display Configuration Tests
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "1. Basic Display Tests"
+        label: "Tests for display configurations"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Full Display Test"
+            version: 2
+            override: false
+            sensors:
+              temperature:
+                name: Temperature
+                entity: sensor.pool_temperature
+                unit: "°C"
+              ph:
+                name: pH
+                entity: sensor.pool_ph
+              orp:
+                name: ORP
+                entity: sensor.pool_orp
+                unit: "mV"
+              tds:
+                name: TDS
+                entity: sensor.pool_tds
+                unit: "ppm"
