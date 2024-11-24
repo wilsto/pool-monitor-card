@@ -1,0 +1,43 @@
+---
+title: "Pool Monitor Multilingual Tests V2"
+path: pool-tests-multilingual-v2
+icon: "mdi:translate"
+cards:
+  # Section Title
+  - type: "custom:button-card"
+    template: "card_title"
+    name: "Pool Monitor Card Multilingual Tests V2"
+    label: "Multilingual Configuration Tests"
+
+  # Multilingual Configuration Tests
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "1. Multilingual Tests"
+        label: "Tests for multilingual configurations"
+        
+      - type: "vertical-stack"
+        cards:
+          - type: "custom:pool-monitor-card"
+            template: "card_generic"
+            title: "Test Multilingue"
+            version: 2
+            override: false
+            language: "fr"
+            sensors:
+              temperature:
+                name: Température
+                entity: sensor.pool_temperature
+                unit: "°C"
+              ph:
+                name: pH
+                entity: sensor.pool_ph
+              orp:
+                name: ORP
+                entity: sensor.pool_orp
+                unit: "mV"
+              tds:
+                name: TDS
+                entity: sensor.pool_tds
+                unit: "ppm"

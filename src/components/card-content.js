@@ -10,7 +10,19 @@ export class cardContent {
     return html`${title}`;
   }
 
+  // TODO : Ajouter le mode mode colors : heatflow ou centric (par défaut)
+  // .progress-centric {
+  //   background: linear-gradient(to right, #e17055 5%, #fdcb6e 30%, #00b894, #00b894, #fdcb6e 70%, #e17055 95%);
+  // }
+
+  // .progress-heatflow {
+  //   background: linear-gradient(to right, #69AEFF 15%,#ffdb3a 30%, #ffdb3a 60%, #e5405e 95%);
+  // }
+
   static generateBody(config, data) {
+    // console.log('Config:', config);
+    console.log('Data:', data);
+
     return html`
       <!-- ##### ${data.name} section ##### -->    
       <div class="section" @click=${() => this._moreinfo(data.entity)}>   
@@ -29,23 +41,30 @@ export class cardContent {
           </div>
         ` : ''}
         <div class="pool-monitor-container">
-          ${config.gradient ? html`
-            <div class="progress-bar-child ${data.progressClass}"></div>
+          ${config.display.gradient ? html`
+            <div class="progress-bar-child" style="background: linear-gradient(to right, 
+              ${config.colors.warn} 5%, 
+              ${config.colors.low} 30%, 
+              ${config.colors.normal}, 
+              ${config.colors.normal}, 
+              ${config.colors.low} 70%, 
+              ${config.colors.warn} 95%
+            );"></div>
           ` : html`
-            <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-            <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
-            ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
-            ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
+            <div style="background-color: ${config.colors.warn}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+            <div style="background-color: ${config.colors.low}; grid-column: 3 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.colors.normal}; grid-column: 4 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.colors.normal}; grid-column: 5 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.colors.low}; grid-column: 6 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.colors.warn}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+            ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.colors.hi_low}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
+            ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.colors.hi_low}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
           `}
         </div>
         <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 1 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
           <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.colors.normal};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
           <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
           <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
           <div style="background-color: transparent; grid-column: 6 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
@@ -69,25 +88,32 @@ export class cardContent {
           </div>
         ` : ''}
         <div class="pool-monitor-container">
-          ${config.gradient ? html`
-            <div class="progress-bar-child ${data.progressClass}"></div>
+          ${config.display.gradient ? html`
+            <div class="progress-bar-child" style="background: linear-gradient(to right, 
+              ${config.colors.warn} 5%, 
+              ${config.colors.low} 30%, 
+              ${config.colors.normal}, 
+              ${config.colors.normal}, 
+              ${config.colors.low} 70%, 
+              ${config.colors.warn} 95%
+            );"></div>
           ` : html`
             <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div> -->
-            <div style="background-color: ${config.warn_color}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
-            <div style="background-color: ${config.low_color}; grid-column: 3 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.normal_color}; grid-column: 4 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.normal_color}; grid-column: 5 ;" class="grid-item item-row"></div>  
-            <div style="background-color: ${config.low_color}; grid-column: 6 ;" class="grid-item item-row"></div>
-            <div style="background-color: ${config.warn_color}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.colors.warn}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
+            <div style="background-color: ${config.colors.low}; grid-column: 3 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.colors.normal}; grid-column: 4 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.colors.normal}; grid-column: 5 ;" class="grid-item item-row"></div>  
+            <div style="background-color: ${config.colors.low}; grid-column: 6 ;" class="grid-item item-row"></div>
+            <div style="background-color: ${config.colors.warn}; grid-column: 7 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>
           `}
-          <div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.marker_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.unit} ${data.separator} ${data.state}</div>
-          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
-          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.hi_low_color}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
+          <div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;">${data.value} ${data.unit} ${data.separator} ${data.state}</div>
+          ${data.pct_min !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.colors.hi_low}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_min}%;"></div>` : ''}
+          ${data.pct_max !== data.pct_cursor ? html`<div class="cursor-text" style="border-${data.side_align}: 5px solid ${config.colors.hi_low}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_max}%;"></div>` : ''}
         </div>
         <div class="pool-monitor-container-values">
           <div style="background-color: transparent; grid-column: 1 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[0]}</div></div>
           <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[1]}</div></div>
-          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.normal_color};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
+          <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row"><div style="font-size: 0.8em;color:${config.colors.normal};text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[2]}</div></div>  
           <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[3]}</div></div>  
           <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row"><div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">${data.setpoint_class[4]}</div></div>
           <div style="background-color: transparent; grid-column: 6 ; border-radius: 0px 5px 5px 0px;" class="grid-item item-row"></div>

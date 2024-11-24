@@ -125,17 +125,49 @@ export const styles = css`
     z-index: 1;
   }
 
-  .progress {
-    background: linear-gradient(to right, #e17055 5%, #fdcb6e 30%, #00b894, #00b894, #fdcb6e 70%, #e17055 95%);
-  }
-
-  .progress-temp {
-    background: linear-gradient(to right, #69AEFF 15%,#ffdb3a 30%, #ffdb3a 60%, #e5405e 95%);
-  }
-
   .progress-bar-child {
-    width: 100%;
     height: 100%;
+    width: 100%;
     border-radius: 5px;
+  }
+
+  .sensor-monitor-container {
+    position: relative;
+    height: 20px;
+    margin: 0px 0px 0px 0px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .warning-message {
+    background-color: var(--warning-color, rgba(255, 152, 0, 0.1));
+    border-left: 4px solid var(--warning-color, #ff9800);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 8px 0;
+    color: var(--warning-text-color, var(--primary-text-color));
+    font-size: 0.95em;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .warning-message ha-icon {
+    color: var(--warning-color, #ff9800);
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;

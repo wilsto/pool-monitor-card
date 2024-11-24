@@ -5,13 +5,13 @@
   "main": "dist/pool-monitor-card.js",
   "type": "module",
   "scripts": {
-    "build": "npm run lint && rollup -c",
+    "build": "rollup -c",
     "dev": "rollup -c --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,json,md}\"",
     "test": "jest --passWithNoTests",
-    "prepare": "npm run build"
+    "prepare": "npm run lint && rollup -c"
   },
   "author": "",
   "license": "MIT",

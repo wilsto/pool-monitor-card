@@ -1,0 +1,92 @@
+---
+title: "Pool Monitor Test Configurations V2"
+path: pool-tests-v2
+icon: "mdi:pool"
+cards:
+  # Section Title
+  - type: "custom:button-card"
+    template: "card_title"
+    name: "Pool Monitor Card Tests V2"
+    label: "Extended Configuration Tests"
+
+  # Section 1: Extended Configuration
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "1. Extended Configuration"
+        label: "Test with comprehensive sensor setup"
+
+      - type: "vertical-stack"
+        cards:
+          - type: custom:pool-monitor-card
+            title: Pool Monitor - pH and Chlorine Array
+            override: false
+            sensors:
+              ph:
+                - entity: sensor.pool_ph
+                  name: "pH"
+                  min: 6.8
+                  max: 7.8
+                  setpoint: 7.2
+                  step: 0.1
+                - entity: sensor.pool_ph
+                  name: "pH Spa"
+                  min: 6.8
+                  max: 7.8
+                  setpoint: 7.2
+                  step: 0.1
+              chlorine:
+                - entity: sensor.pool_temperature
+                  name: "Chlorine"
+                  min: 0.5
+                  max: 3
+                  setpoint: 1.5
+                  step: 0.1
+
+      - type: "vertical-stack"
+        cards:
+          - type: custom:pool-monitor-card
+            title: Pool Monitor - Temperature Test
+            override: false
+            sensors:
+              temperature:
+                name: Temperature
+                entity: sensor.bad_entity
+                unit: °C
+                setpoint: 27
+                step: 1
+
+      - type: "vertical-stack"
+        cards:
+          - type: custom:pool-monitor-card
+            title: Pool Monitor - Multiple entities
+            override: false
+            sensors:
+              temperature:
+                - name: "Temperature Surface"
+                  entity: sensor.pool_temperature
+                  unit: °C
+                  min: 20
+                  max: 32
+                - name: "Temperature Fond"
+                  entity: sensor.pool_temperature
+                  unit: °C
+                  min: 20
+                  max: 32
+
+
+
+      - type: "vertical-stack"
+        cards:
+          - type: custom:pool-monitor-card
+            title: Pool Monitor - Order & Mono
+            override: false
+            sensors:
+              orp:
+                name: ORP
+                entity: sensor.pool_orp
+              temperature:
+                name: Temperature
+                entity: sensor.pool_temperature
+
