@@ -10,28 +10,8 @@ export const CARD_INFO = {
     cardDescription: 'The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, and ORP levels of your swimming pool'
 };
 
-// Liste des types de capteurs supportés
-export const SUPPORTED_SENSORS = [
-    'temperature',
-    'orp',
-    'tds',
-    'ph',
-    'salinity',
-    'cya',
-    'calcium',
-    'phosphate',
-    'alkalinity',
-    'free_chlorine',
-    'total_chlorine',
-    'pressure',
-    'sg',
-    'magnesium',
-    'water_level',
-    'flow_rate',
-    'uv_radiation',
-    'product_volume',
-    'product_weight'
-];
+// Import supported sensors list from pool_config
+export { SUPPORTED_SENSORS } from './configs/pool_config.js';
 
 // Console styling
 export const CONSOLE_STYLE = {
