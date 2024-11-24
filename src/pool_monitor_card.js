@@ -81,7 +81,6 @@ class PoolMonitorCard extends LitElement {
       const sensorArray = Array.isArray(sensorConfigs) ? sensorConfigs : [sensorConfigs];
 
       sensorArray.forEach((sensor, index) => {
-        console.log(`Processing sensor: ${sensorType}`, sensor);
         const sensorKey = `${sensorType}_${index + 1}`;
         data[sensorKey] = this.calculateData(
           sensorType,

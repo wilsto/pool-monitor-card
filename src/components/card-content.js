@@ -21,7 +21,6 @@ export class cardContent {
 
   static generateBody(config, data) {
     // console.log('Config:', config);
-    console.log('Data:', data);
 
     return html`
       <!-- ##### ${data.name} section ##### -->    
@@ -43,12 +42,18 @@ export class cardContent {
         <div class="pool-monitor-container">
           ${config.display.gradient ? html`
             <div class="progress-bar-child" style="background: linear-gradient(to right, 
-              ${config.colors.warn} 5%, 
-              ${config.colors.low} 30%, 
-              ${config.colors.normal}, 
-              ${config.colors.normal}, 
-              ${config.colors.low} 70%, 
-              ${config.colors.warn} 95%
+              ${config.colors.mode === 'centric' ? 
+                `${config.colors.warn} 5%, 
+                 ${config.colors.low} 30%, 
+                 ${config.colors.normal}, 
+                 ${config.colors.normal}, 
+                 ${config.colors.low} 70%, 
+                 ${config.colors.warn} 95%` 
+                : 
+                `${config.colors.low}, 
+                 ${config.colors.normal}, 
+                 ${config.colors.warn}`
+              }
             );"></div>
           ` : html`
             <div style="background-color: ${config.colors.warn}; grid-column: 2 ; border-radius: 5px 0px 0px 5px" class="grid-item item-row"> </div>
@@ -90,12 +95,18 @@ export class cardContent {
         <div class="pool-monitor-container">
           ${config.display.gradient ? html`
             <div class="progress-bar-child" style="background: linear-gradient(to right, 
-              ${config.colors.warn} 5%, 
-              ${config.colors.low} 30%, 
-              ${config.colors.normal}, 
-              ${config.colors.normal}, 
-              ${config.colors.low} 70%, 
-              ${config.colors.warn} 95%
+              ${config.colors.mode === 'centric' ? 
+                `${config.colors.warn} 5%, 
+                 ${config.colors.low} 30%, 
+                 ${config.colors.normal}, 
+                 ${config.colors.normal}, 
+                 ${config.colors.low} 70%, 
+                 ${config.colors.warn} 95%` 
+                : 
+                `${config.colors.low}, 
+                 ${config.colors.normal}, 
+                 ${config.colors.warn}`
+              }
             );"></div>
           ` : html`
             <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div> -->
