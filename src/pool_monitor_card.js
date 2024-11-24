@@ -34,6 +34,7 @@ class PoolMonitorCard extends LitElement {
   render() {
     const config = this.getConfig()
     const data = this.processData()
+    console.log('Processed data:', data)
     const generateContent = config.display.compact ? cardContent.generateCompactBody : cardContent.generateBody;
 
     // Vérifier si nous avons des données valides
@@ -93,6 +94,7 @@ class PoolMonitorCard extends LitElement {
           sensor.unit,
           sensor.icon,
           sensor.image_url,
+          sensor.mode,
           sensor.override_value,
           sensor.override,
           sensor.invalid
@@ -111,13 +113,14 @@ class PoolMonitorCard extends LitElement {
     return formatTranslation(translation, values);
   }
 
-  calculateData(name, title, entity, entity_min, entity_max, setpoint, setpoint_step, unit, icon, image_url, override_value, override, invalid) {
+  calculateData(name, title, entity, entity_min, entity_max, setpoint, setpoint_step, unit, icon, image_url, mode, override_value, override, invalid) {
     const newData = {};
     const config = this.getConfig();
     const defaultConfig = getSensorConfig(name) || {};
 
     newData.name = name;
     newData.invalid = invalid;
+    newData.mode = mode;
 
     newData.title = config.display.show_names ? title : html`&nbsp;`;
     
@@ -309,16 +312,6 @@ class PoolMonitorCard extends LitElement {
       // Obtenir la configuration par défaut pour ce type de capteur
       const defaultSensorConfig = getSensorConfig(sensorType);
 
-      // Vérifier si le sensor est supporté
-      if (!SUPPORTED_SENSORS.includes(sensorType)) {
-        console.warn(`Unsupported sensor type: ${sensorType}`, {
-          sensorType,
-          supportedSensors: SUPPORTED_SENSORS,
-          config: config,
-          sensorConfig
-        });
-      }
-
       // Convertir en tableau si ce n'est pas déjà le cas (rétrocompatibilité)
       const sensorArray = Array.isArray(sensorConfig) ? [...sensorConfig] : [{ ...sensorConfig }];
       
@@ -335,6 +328,19 @@ class PoolMonitorCard extends LitElement {
       mergedSensorArray.forEach((sensor, index) => {
         if (!sensor.entity) {
           throw new Error(`Missing entity for ${sensorType}[${index}]`);
+        }
+        
+        // Vérifier si le sensor est supporté
+        if (!SUPPORTED_SENSORS.includes(sensorType)) {
+          console.warn(`Unsupported sensor type: ${sensorType}`, {
+            sensorType,
+            supportedSensors: SUPPORTED_SENSORS,
+            config: config,
+            sensorConfig: sensor
+          });
+          sensor.invalid = true;
+        } else {
+          sensor.invalid = false;
         }
       });
 

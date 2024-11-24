@@ -9,19 +9,7 @@ export class cardContent {
 
     return html`${title}`;
   }
-
-  // TODO : Ajouter le mode mode colors : heatflow ou centric (par défaut)
-  // .progress-centric {
-  //   background: linear-gradient(to right, #e17055 5%, #fdcb6e 30%, #00b894, #00b894, #fdcb6e 70%, #e17055 95%);
-  // }
-
-  // .progress-heatflow {
-  //   background: linear-gradient(to right, #69AEFF 15%,#ffdb3a 30%, #ffdb3a 60%, #e5405e 95%);
-  // }
-
   static generateBody(config, data) {
-    // console.log('Config:', config);
-
     return html`
       <!-- ##### ${data.name} section ##### -->    
       <div class="section" @click=${() => this._moreinfo(data.entity)}>   
@@ -42,17 +30,17 @@ export class cardContent {
         <div class="pool-monitor-container">
           ${config.display.gradient ? html`
             <div class="progress-bar-child" style="background: linear-gradient(to right, 
-              ${config.colors.mode === 'centric' ? 
+              ${data.mode === 'heatflow' ? 
+                `${config.colors.cool} 15%, 
+                 ${config.colors.low} 50%, 
+                 ${config.colors.warn} 85%`
+                : 
                 `${config.colors.warn} 5%, 
                  ${config.colors.low} 30%, 
                  ${config.colors.normal}, 
                  ${config.colors.normal}, 
                  ${config.colors.low} 70%, 
-                 ${config.colors.warn} 95%` 
-                : 
-                `${config.colors.low}, 
-                 ${config.colors.normal}, 
-                 ${config.colors.warn}`
+                 ${config.colors.warn} 95%`
               }
             );"></div>
           ` : html`
@@ -95,17 +83,17 @@ export class cardContent {
         <div class="pool-monitor-container">
           ${config.display.gradient ? html`
             <div class="progress-bar-child" style="background: linear-gradient(to right, 
-              ${config.colors.mode === 'centric' ? 
+              ${data.mode === 'heatflow' ? 
+                `${config.colors.cool} 15%, 
+                 ${config.colors.low} 50%, 
+                 ${config.colors.warn} 85%`
+                : 
                 `${config.colors.warn} 5%, 
                  ${config.colors.low} 30%, 
                  ${config.colors.normal}, 
                  ${config.colors.normal}, 
                  ${config.colors.low} 70%, 
-                 ${config.colors.warn} 95%` 
-                : 
-                `${config.colors.low}, 
-                 ${config.colors.normal}, 
-                 ${config.colors.warn}`
+                 ${config.colors.warn} 95%`
               }
             );"></div>
           ` : html`

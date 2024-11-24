@@ -11,10 +11,10 @@ export const DEFAULT_CONFIG = {
     },
 
     colors: {
-        mode: 'centric',
-        normal: '#00b894',
         low: '#fdcb6e',
         warn: '#e17055',
+        normal: '#00b894',
+        cool: '#00BFFF',
         marker: '#000000',
         hi_low: '#00000099'
     },
@@ -22,73 +22,136 @@ export const DEFAULT_CONFIG = {
     sensors: {
         temperature: {
             name: 'Temperature',
-            entity: 'sensor.pool_temperature',
             unit: '°C',
             setpoint: 27,
-            step: 1
+            step: 1,
+            mode: 'heatflow'
         },
         orp: {
             name: 'ORP',
-            entity: 'sensor.pool_orp',
             unit: 'mV',
             setpoint: 700,
-            step: 50
+            step: 50,
+            mode: 'centric'
         },
         tds: {
             name: 'TDS',
-            entity: 'sensor.pool_tds',
             unit: 'g/L',
             setpoint: 4,
-            step: 1
+            step: 1,
+            mode: 'centric'
         },
         ph: {
             name: 'pH',
-            entity: 'sensor.pool_ph',
             unit: 'pH',
             setpoint: 7.2,
-            step: 0.2
+            step: 0.2,
+            mode: 'centric'
         },
         salinity: {
             name: 'Salinity',
-            entity: 'sensor.pool_salinity',
             unit: 'ppm',
             setpoint: 3000,
-            step: 500
+            step: 500,
+            mode: 'centric'
         },
         cya: {
             name: 'Cyanuric Acid',
-            entity: 'sensor.pool_cya',
             unit: 'ppm',
             setpoint: 40,
-            step: 10
+            step: 10,
+            mode: 'centric'
         },
         calcium: {
             name: 'Calcium',
-            entity: 'sensor.pool_calcium',
             unit: 'ppm',
             setpoint: 300,
-            step: 100
+            step: 100,
+            mode: 'centric'
         },
         phosphate: {
             name: 'Phosphate',
-            entity: 'sensor.pool_phosphate',
             unit: 'ppb',
             setpoint: 100,
-            step: 100
+            step: 100,
+            mode: 'centric'
         },
         alkalinity: {
             name: 'Alkalinity',
-            entity: 'sensor.pool_alkalinity',
             unit: 'ppm',
             setpoint: 100,
-            step: 20
+            step: 20,
+            mode: 'centric'
         },
         free_chlorine: {
             name: 'Free Chlorine',
-            entity: 'sensor.pool_free_chlorine',
             unit: 'ppm',
             setpoint: 3,
-            step: 0.5
+            step: 0.5,
+            mode: 'centric'
+        },
+        total_chlorine: {
+            name: 'Total Chlorine',
+            unit: 'ppm',
+            setpoint: 5,
+            step: 0.5,
+            mode: 'centric'
+        },
+        pressure: {
+            name: 'Filter Pressure',
+            unit: 'psi',
+            setpoint: 20,
+            step: 10,
+            mode: 'centric'
+        },
+        specific_gravity: {
+            name: 'Specific Gravity',
+            unit: 'sg',
+            setpoint: 1.2,
+            step: 0.1,
+            mode: 'centric'
+        },
+        magnesium: {
+            name: 'Magnesium',
+            unit: 'ppm',
+            setpoint: 1200,
+            step: 100,
+            mode: 'centric'
+        },
+        water_level: {
+            name: 'Water Level',
+            unit: '%',
+            setpoint: 100,
+            step: 10,
+            mode: 'centric'
+        },
+        flow_rate: {
+            name: 'Flow Rate',
+            unit: 'm³/h',
+            setpoint: 10,
+            step: 1,
+            mode: 'centric'
+        },
+        uv_radiation: {
+            name: 'UV Radiation',
+            unit: 'mW/cm²',
+            setpoint: 4,
+            step: 1,
+            mode: 'centric'
+        },
+        product_volume: {
+            name: 'Product Volume',
+            unit: 'L',
+            setpoint: 20,
+            step: 5,
+            mode: 'centric'
+        },
+        product_weight: {
+            name: 'Product Weight',
+            unit: 'kg',
+            setpoint: 25,
+            step: 5,
+            mode: 'centric'
         }
     }
 };
@@ -97,3 +160,6 @@ export const DEFAULT_CONFIG = {
 export const getSensorConfig = (sensorType) => DEFAULT_CONFIG.sensors[sensorType];
 export const getDisplayConfig = () => DEFAULT_CONFIG.display;
 export const getColorConfig = () => DEFAULT_CONFIG.colors;
+
+// Export supported sensors list dynamically from sensors configuration
+export const SUPPORTED_SENSORS = Object.keys(DEFAULT_CONFIG.sensors);
