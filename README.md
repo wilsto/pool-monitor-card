@@ -42,7 +42,7 @@
 
 ## Description
 
-The "Pool Monitor Card" is a Home Assistant plugin that displays information from **<span style="color:orange">19 predefined sensors for your pool</span>**:
+The "Pool Monitor Card" is a Home Assistant plugin that displays information from **<span style="color:orange">19 predefined sensors for your pool</span>**, allowing you to easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
 <div style="display: flex; flex-direction: column; gap: 15px; margin: 20px 0; font-family: Arial, sans-serif; color: #333;">
 
 | Icons | Category | Parameters |
@@ -53,10 +53,6 @@ The "Pool Monitor Card" is a Home Assistant plugin that displays information fro
 | ![Water level](resources/water_level.png) ![Flow rate](resources/flow_rate.png) ![UV radiation](resources/uv_radiation.png) ![Product volume](resources/product_volume.png) ![Product weight](resources/product_weight.png) | **Maintenance** | water level, flow rate, UV radiation and product management |
 
 For detailed information about all available sensors and their ideal ranges, please see our [Sensors Documentation](docs/sensors.md).
-
-
-<br/>
-With the "Pool Monitor Card", you can easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
 
 ---
 
@@ -353,7 +349,7 @@ sensors :
 
 They will display as tick marks on the bar chart.
 
-![all](example\minmax.png)
+![all](example/minmax.png)
 
 For the sensors I use the statistics platform in your `template.yaml` or `configuration.yaml`:
  ```yaml
