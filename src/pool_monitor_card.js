@@ -34,7 +34,6 @@ class PoolMonitorCard extends LitElement {
   render() {
     const config = this.getConfig()
     const data = this.processData()
-    console.log('Processed data:', data)
     const generateContent = config.display.compact ? cardContent.generateCompactBody : cardContent.generateBody;
 
     // Vérifier si nous avons des données valides
@@ -83,9 +82,10 @@ class PoolMonitorCard extends LitElement {
 
       sensorArray.forEach((sensor, index) => {
         const sensorKey = `${sensorType}_${index + 1}`;
+
         data[sensorKey] = this.calculateData(
           sensorType,
-          sensor.name || `${sensorType} ${index + 1}`,
+          sensor.title || this.getTranslatedText('sensor.' + sensorType),
           sensor.entity,
           sensor.min,
           sensor.max,
@@ -99,8 +99,6 @@ class PoolMonitorCard extends LitElement {
           sensor.override,
           sensor.invalid
         );
-
-  
       });
     });
 
@@ -122,7 +120,7 @@ class PoolMonitorCard extends LitElement {
     newData.invalid = invalid;
     newData.mode = mode;
 
-    newData.title = config.display.show_names ? this.getTranslatedText(`sensor.${name}`, {}) : html`&nbsp;`;
+    newData.title = config.display.show_names ? title : html`&nbsp;`;
     
     // Gestion des icônes et images pour chaque capteur
     if (!config.display.show_icons) {
@@ -338,7 +336,8 @@ class PoolMonitorCard extends LitElement {
       // Fusionner les valeurs par défaut pour chaque capteur du tableau
       const mergedSensorArray = sensorArray.map(sensor => ({
         ...defaultSensorConfig,  // Valeurs par défaut
-        ...sensor               // Configuration utilisateur (écrase les valeurs par défaut)
+        ...sensor,              // Configuration utilisateur (écrase les valeurs par défaut)
+        nameDefinedByUser: !!sensor.name  // Ajoute un boolean si name défini par l'utilisateur
       }));
 
       mergedSensorArray.forEach((sensor, index) => {
@@ -346,6 +345,11 @@ class PoolMonitorCard extends LitElement {
           throw new Error(`Missing entity for ${sensorType}[${index}]`);
         }
         
+        // Si un nom est configuré, l'ajouter au titre
+        if (sensor.nameDefinedByUser) {
+          sensor.title = sensor.name;
+        }
+
         // Vérifier si le sensor est supporté
         if (!SUPPORTED_SENSORS.includes(sensorType)) {
           console.warn(`Unsupported sensor type: ${sensorType}`, {
