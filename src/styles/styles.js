@@ -18,9 +18,15 @@ export const styles = css`
 
   .section{
     padding-bottom:10px;
-    padding:15px;
+    padding:0px;
   }
 
+  .section-compact {
+    padding-bottom: 5px;
+    padding: 0px;
+  }
+
+  
   .pool-monitor-title{
     font-size: 1.5rem;
     font-weight: 500;
@@ -43,8 +49,10 @@ export const styles = css`
 
   .pool-monitor-container-values {
     display: grid;
-    grid-template-columns: repeat(5,2fr) 1fr;
+    grid-template-columns: repeat(6,1fr) ;
     padding-top: 0px;
+    padding-left: 20px;
+    margin-top: -10px;
   }
 
   .pool-monitor-container-marker {
@@ -56,10 +64,20 @@ export const styles = css`
     position: relative;
   }
 
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    padding: 0;
+    grid-template-rows: 15px;
+    line-height: 15px;
+    position: relative;
+    margin: 0px;
+  }
+
   .pool-monitor-container-marker .marker {
     text-align: center;
     justify-self: center;
-    width: 70px;
+    width: 80px;
     height:20px;
     padding-top:5px;
     border-radius: 5px;
@@ -84,9 +102,8 @@ export const styles = css`
   }
 
   .grid-item {
-    padding-top: 150%;
-    padding-bottom: 20%;
-    padding: 0;
+    padding: 7px 0;
+    margin: 0;
   }
 
   .grid-item-text-box {
@@ -110,7 +127,8 @@ export const styles = css`
   }
 
   .cursor-text{
-    width: 150px;
+    position: absolute;
+    width: 200px;
     height: 17px;
     padding-left: 3px;
     padding-right: 3px;
@@ -121,7 +139,6 @@ export const styles = css`
     text-align: right;
     color: black;
     justify-self: right;
-    position: absolute;
     z-index: 1;
   }
 
