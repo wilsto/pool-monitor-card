@@ -146,8 +146,10 @@ Not yet possible.
 ```yaml
 type: 'custom:pool-monitor-card'
 sensors:
-  temperature: sensor.your_temperature_sensor
-  ph: sensor.your_ph_sensor
+  temperature: 
+     - entity: sensor.your_temperature_sensor
+  ph: 
+     - entity: sensor.your_ph_sensor
 ```
 
 ---
@@ -169,7 +171,7 @@ colors:
   normal_color: '#00b894'  
 sensors:
   temperature:
-    entity: sensor.pool_temperature
+    - entity: sensor.pool_temperature
 ```
 
 
@@ -258,11 +260,11 @@ While all sensors are optional, you must define at least one entity for the card
 ```yaml
 sensors:
   temperature:
-    entity: sensor.pool_temperature
+    - entity: sensor.pool_temperature
   ph:
-    entity: sensor.pool_ph
+    - entity: sensor.pool_ph
   orp:
-    entity: sensor.pool_orp
+    - entity: sensor.pool_orp
 ```
 
 Needed to change the name, unit, setpoint, and steps ? No problem, see additionnal parameters below for each measured entity.
@@ -342,9 +344,9 @@ Min/max entities defined in the YAML configuration will be displayed as tick mar
 type: 'custom:pool-monitor-card'
 sensors :
   ph: 
-    entity: sensor.pool_ph
-    min: sensor.daily_ph_min
-    max: sensor.daily_ph_max
+    - entity: sensor.pool_ph
+      min: sensor.daily_ph_min
+      max: sensor.daily_ph_max
  ```
 
 They will display as tick marks on the bar chart.

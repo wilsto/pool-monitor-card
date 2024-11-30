@@ -56,11 +56,11 @@ colors:
   hi_low_color: "#757575"
 sensors:
   temperature:
-    entity: sensor.pool_temperature
+    - entity: sensor.pool_temperature
   ph:
-    entity: sensor.pool_ph
+    - entity: sensor.pool_ph
   orp:
-    entity: sensor.pool_orp
+    - entity: sensor.pool_orp
 ```
 
 ## Change Details
