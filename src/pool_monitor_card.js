@@ -108,7 +108,7 @@ class PoolMonitorCard extends LitElement {
   }
 
   getTranslatedText(key, values) {
-    const lang = this.config?.language || 'en';
+    const lang = this.config?.display.language || 'en';
     const translation = getTranslation(lang, key);
     return formatTranslation(translation, values);
   }
@@ -118,11 +118,11 @@ class PoolMonitorCard extends LitElement {
     const config = this.getConfig();
     const defaultConfig = getSensorConfig(name) || {};
 
-    newData.name = name;
+    newData.name = name
     newData.invalid = invalid;
     newData.mode = mode;
 
-    newData.title = config.display.show_names ? title : html`&nbsp;`;
+    newData.title = config.display.show_names ? this.getTranslatedText(`sensor.${name}`, {}) : html`&nbsp;`;
     
     // Gestion des icônes et images pour chaque capteur
     if (!config.display.show_icons) {
@@ -197,33 +197,49 @@ class PoolMonitorCard extends LitElement {
       (setpoint + 2 * setpoint_step).toFixed(countDecimals)
     ]
 
-    newData.separator = config.show_labels ? "-":"";
+    newData.separator = config.display.show_labels ? "-":"";
     newData.color = "transparent";
-    if (Number(newData.value)  < Number(newData.setpoint_class[0])) {
-      newData.state = config.show_labels ? this.getTranslatedText('state.1'):"";
-      newData.color = config.colors.warn;
-    } else if (Number(newData.value)  >= Number(newData.setpoint_class[0]) && Number(newData.value)  < Number(newData.setpoint_class[1])) {
-      newData.state = config.show_labels ? this.getTranslatedText('state.2'):"";
-      newData.color = config.colors.low;
-    } else if (Number(newData.value)  >= Number(newData.setpoint_class[1]) && Number(newData.value)  < Number(newData.setpoint_class[2])) {
-      newData.state = config.show_labels ? this.getTranslatedText('state.3'):"";
-      newData.color = config.colors.normal;
-    } else if (Number(newData.value)  >= Number(newData.setpoint_class[2]) && Number(newData.value)  < Number(newData.setpoint_class[3])) {
-      newData.state = config.show_labels ? this.getTranslatedText('state.4'):"";
-      newData.color = config.colors.normal;
-    } else if (Number(newData.value)  >= Number(newData.setpoint_class[3]) && Number(newData.value)  < Number(newData.setpoint_class[4])) {
-      newData.state = config.show_labels ? this.getTranslatedText('state.5'):"";
-      newData.color = config.colors.low;
-    } else if (Number(newData.value)  >= Number(newData.setpoint_class[4])) {
-      newData.state = config.show_labels ? this.getTranslatedText('state.6'):"";
-      newData.color = config.colors.warn;
+    
+    if (mode === 'heatflow') {
+      // Three-level gradient for heatflow mode
+      if (Number(newData.value) < Number(newData.setpoint_class[1])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.1'):"";
+        newData.color = config.colors.cool;
+      } else if (Number(newData.value) >= Number(newData.setpoint_class[1]) && Number(newData.value) < Number(newData.setpoint_class[3])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.3'):"";
+        newData.color = config.colors.low;
+      } else {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.5'):"";
+        newData.color = config.colors.warn;
+      }
+    } else {
+      // Six-level gradient for default mode
+      if (Number(newData.value) < Number(newData.setpoint_class[0])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.1'):"";
+        newData.color = config.colors.warn;
+      } else if (Number(newData.value) >= Number(newData.setpoint_class[0]) && Number(newData.value) < Number(newData.setpoint_class[1])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.2'):"";
+        newData.color = config.colors.low;
+      } else if (Number(newData.value) >= Number(newData.setpoint_class[1]) && Number(newData.value) < Number(newData.setpoint_class[2])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.3'):"";
+        newData.color = config.colors.normal;
+      } else if (Number(newData.value) >= Number(newData.setpoint_class[2]) && Number(newData.value) < Number(newData.setpoint_class[3])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.4'):"";
+        newData.color = config.colors.normal;
+      } else if (Number(newData.value) >= Number(newData.setpoint_class[3]) && Number(newData.value) < Number(newData.setpoint_class[4])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.5'):"";
+        newData.color = config.colors.low;
+      } else if (Number(newData.value) >= Number(newData.setpoint_class[4])) {
+        newData.state = config.display.show_labels ? this.getTranslatedText('state.6'):"";
+        newData.color = config.colors.warn;
+      }
     }
     newData.progressClass = name === "temperature" ? "progress-temp" : "progress";
 
-    newData.pct = Math.max(0, Math.min(98.5, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 13)).toFixed(0);
-    newData.pct_min = Math.max(0, Math.min(98.5, (Math.max(0, newData.min_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 13)).toFixed(0);
-    newData.pct_max = Math.max(0, Math.min(98.5, (Math.max(0, newData.max_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 13)).toFixed(0);
-    newData.pct_marker = newData.value > newData.setpoint ? newData.pct - 13 : newData.pct - 5;
+    newData.pct = Math.max(0, Math.min(98.5, (Math.max(0, newData.value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 15)).toFixed(0);
+    newData.pct_min = Math.max(0, Math.min(98.5, (Math.max(0, newData.min_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 15)).toFixed(0);
+    newData.pct_max = Math.max(0, Math.min(98.5, (Math.max(0, newData.max_value - (setpoint - 3 *setpoint_step)) / (6 * setpoint_step)) * 0.85 * 100 + 15)).toFixed(0);
+    newData.pct_marker = newData.value > newData.setpoint ? newData.pct - 12 : newData.pct - 5;
     newData.side_align = newData.value > setpoint ? "right" : "left" ;
     newData.pct_cursor = newData.value > setpoint ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) -2;
     newData.pct_state_step = newData.value > setpoint ? 105 - parseFloat(newData.pct): parseFloat(newData.pct)+5;
