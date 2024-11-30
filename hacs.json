@@ -1,6 +1,6 @@
 {
 "name": "Pool Monitor Card",
 "content_in_root": false,
-"filename": "dist/pool-monitor-card.js",
+"filename": "pool-monitor-card.js",
 "render_readme" : true
 }
