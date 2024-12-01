@@ -1,6 +1,12 @@
 # Pool Monitor Card
 
-[![Release][release-shield]][release-link] [![hacs][hacs-shield]][hacs-link] [![Project Maintenance][maintenance-shield]][maintenance-link] [![GitHub Activity][commits-shield]][commits-link] ![Github last commit][git-last-commit-badge] [![codecov][codecov-shield]][codecov-link]
+[![Release][release-shield]][release-link]
+[![hacs][hacs-shield]][hacs-link]
+[![Project Maintenance][maintenance-shield]][maintenance-link]
+[![GitHub Activity][commits-shield]][commits-link]
+![Github last commit][git-last-commit-badge]
+[![codecov][codecov-shield]][codecov-link]
+
 ![all](example/hero.png)
 [Click here to see various configurations and visual tests for Pool Monitor V2](example/screenshots.md)
 
@@ -54,8 +60,8 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 ---
 
 ## Table of Contents <!-- omit in toc -->
-
-- [Pool Monitor Card](#pool-monitor-card)
+<!-- markdownlint-disable MD033 -->
+  - [Pool Monitor Card](#pool-monitor-card)
   - [Description](#description)
   - [Support](#support)
   - [Multilanguage ReadMe](#multilanguage-readme)
@@ -250,19 +256,19 @@ Needed to change the name, unit, setpoint, and steps ? No problem, see additionn
 
 #### For each sensor
 
-| Name        | Type   | Requirement  | Description                                                                                 |
-| ----------- | ------ | ------------ | ------------------------------------------------------------------------------------------- |
-| `entity`    | String | **Required** | Sensor Entity                                                                               |
-| `name`      | String | Optional     | Sensor Name                                                                                 |
-| `unit`      | String | Optional     | Sensor Unit (°C or °F)                                                                      |
-| `setpoint`  | Number | Optional     | Sensor Set Point                                                                            |
-| `step`      | Number | Optional     | Sensor Step                                                                                 |
-| `min`       | String | Optional     | Entity ID for daily minimum Sensor                                                          |
-| `max`       | String | Optional     | Entity ID for daily maximum Sensor                                                          |
+| Name        | Type   | Requirement  | Description5263                       |
+| ----------- | ------ | ------------ | --------------------------------------- |
+| `entity`    | String | **Required** | Sensor Entity                          |
+| `name`      | String | Optional     | Sensor Name                            |
+| `unit`      | String | Optional     | Sensor Unit (°C or °F)                 |
+| `setpoint`  | Number | Optional     | Sensor Set Point                       |
+| `step`      | Number | Optional     | Sensor Step                            |
+| `min`       | String | Optional     | Entity ID for daily minimum Sensor     |
+| `max`       | String | Optional     | Entity ID for daily maximum Sensor     |
 | `icon`      | Object | Optional     | Configure the icon for Sensor. Use `mdi` for an MDI icon, or `hide` to hide the icon.       |
-| `image_url` | Object | Optional     | Configure the image URL for Sensor.                                                         |
+| `image_url` | Object | Optional     | Configure the image URL for Sensor.     |
 | `mode`      | String | Optional     | Sensor Display Mode : bidirectional (default for all) or heatflow (default for temperature) |
-| `min_limit` | Number | Optional     | Minimum acceptable value for the sensor                                                     |
+| `min_limit` | Number | Optional     | Minimum acceptable value for the sensor |
 
 ```yaml
 sensors:
@@ -441,21 +447,15 @@ These updates may require configuration changes when implemented:
 
 > **Note:** This roadmap is subject to change based on community feedback and needs. Feel free to contribute ideas by opening issues on GitHub!
 
-<!--Badges-->
-
-[release-shield]: https://img.shields.io/github/release/wilsto/pool-monitor-card.svg?color=green&include_prereleases&style=for-the-badge
+<!--URLS FOR BADGES-->
+[release-shield]: https://img.shields.io/github/v/release/wilsto/pool-monitor-card?include_prereleases&style=for-the-badge
 [release-link]: https://github.com/wilsto/pool-monitor-card/releases/latest
-[hacs-shield]: https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge
-[hacs-link]: https://github.com/hacs/integration
-[maintenance-shield]: https://img.shields.io/badge/maintainer-wilsto-green.svg?style=for-the-badge
-[maintenance-link]: https://github.com/wilsto/pool-monitor-card
-[commits-shield]: https://img.shields.io/github/commit-activity/y/wilsto/pool-monitor-card.svg?color=41BDF5&style=for-the-badge
+[commits-shield]: https://img.shields.io/github/commit-activity/y/wilsto/pool-monitor-card.svg?style=for-the-badge
 [commits-link]: https://github.com/wilsto/pool-monitor-card/commits/main
-[github-link]: https://github.com/wilsto/pool-monitor-card
-[hacs-validate]: https://github.com/wilsto/pool-monitor-card/actions/workflows/validate.yml/badge.svg
-[hacs-url]: https://github.com/wilsto/pool-monitor-card/actions/workflows/validate.yml
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2024.svg?style=for-the-badge
+[maintenance-link]: https://github.com/wilsto/pool-monitor-card/graphs/commit-activity
+[hacs-shield]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
+[hacs-link]: https://github.com/hacs/integration
 [git-last-commit-badge]: https://img.shields.io/github/last-commit/wilsto/pool-monitor-card?style=for-the-badge
-[git-download-all-badge]: https://img.shields.io/github/downloads/wilsto/pool-monitor-card/total?style=for-the-badge
-[git-download-latest-badge]: https://img.shields.io/github/downloads/wilsto/pool-monitor-card/latest/total?style=for-the-badge
-[codecov-shield]: https://codecov.io/gh/wilsto/pool-monitor-card/branch/main/graph/badge.svg?token=YOUR_CODECOV_TOKEN&style=for-the-badge
+[codecov-shield]: https://img.shields.io/codecov/c/github/wilsto/pool-monitor-card?style=for-the-badge
 [codecov-link]: https://codecov.io/gh/wilsto/pool-monitor-card
