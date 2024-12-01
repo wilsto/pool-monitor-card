@@ -28,14 +28,14 @@
  * @property {string} sensor.free_chlorine - Free chlorine level sensor name
  * @property {string} sensor.total_chlorine - Total chlorine level sensor name
  * @property {string} sensor.pressure - Filter pressure sensor name
- * @property {string} sensor.sg - Specific gravity sensor name
+ * @property {string} sensor.specific_gravity - Specific gravity sensor name
  * @property {string} sensor.magnesium - Magnesium level sensor name
  * @property {string} sensor.water_level - Water level sensor name
  * @property {string} sensor.flow_rate - Flow rate sensor name
  * @property {string} sensor.uv_radiation - UV radiation sensor name
  * @property {string} sensor.product_volume - Product volume sensor name
  * @property {string} sensor.product_weight - Product weight sensor name
- * @property {string} sensor.electrical_conductivity - Electrical Conductivity sensor name
+ * @property {string} sensor.ec - Electrical Conductivity sensor name
  *
  * @property {Object} time - Time-related translations
  * @property {string} time.seconds - Text for events that just happened
@@ -54,7 +54,6 @@ export default {
   },
   sensor: {
     temperature: 'Temperature',
-    temperature_2: 'Temperature 2',
     ph: 'pH',
     orp: 'ORP',
     tds: 'TDS',
@@ -66,14 +65,14 @@ export default {
     free_chlorine: 'Free Chlorine',
     total_chlorine: 'Total Chlorine',
     pressure: 'Filter Pressure',
-    sg: 'Specific Gravity',
+    specific_gravity: 'Specific Gravity',
     magnesium: 'Magnesium',
     water_level: 'Water Level',
     flow_rate: 'Flow Rate',
     uv_radiation: 'UV Radiation',
     product_volume: 'Product Volume',
     product_weight: 'Product Weight',
-    electrical_conductivity: 'Electrical Conductivity',
+    ec: 'Electrical Conductivity',
   },
   time: {
     seconds: 'just now',

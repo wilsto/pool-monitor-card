@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
   "extends": ["eslint:recommended", "prettier"],
   "parserOptions": {
@@ -11,6 +12,7 @@
   "globals": {
     "LitElement": "readonly"
   },
+  "ignorePatterns": ["test-results/**/*"],
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "off",

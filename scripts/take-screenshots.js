@@ -69,7 +69,7 @@ async function takeScreenshots() {
     console.log('Connecté avec succès');
 
     // Attendre un peu pour s'assurer que tout est bien chargé
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(4000);
 
     // Prendre toutes les captures d'écran configurées
     for (const screenshot of config.paths.screenshots) {
