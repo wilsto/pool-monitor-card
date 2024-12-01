@@ -1,3 +1,29 @@
+/**
+ * @fileoverview Configuration definitions for the Pool Monitor Card
+ */
+
+/**
+ * @const {Object} DEFAULT_CONFIG - Default configuration for the Pool Monitor Card
+ * @property {Object} display - Display settings
+ * @property {boolean} display.compact - Whether to use compact display mode
+ * @property {boolean} display.show_names - Whether to show sensor names
+ * @property {boolean} display.show_labels - Whether to show labels
+ * @property {boolean} display.show_last_updated - Whether to show last updated time
+ * @property {boolean} display.show_icons - Whether to show icons
+ * @property {boolean} display.show_units - Whether to show measurement units
+ * @property {boolean} display.gradient - Whether to show gradient background
+ * @property {string} display.language - Language code for translations
+ *
+ * @property {Object} colors - Color configuration
+ * @property {string} colors.low - Color for low values
+ * @property {string} colors.warn - Color for warning values
+ * @property {string} colors.normal - Color for normal values
+ * @property {string} colors.cool - Color for cool values
+ * @property {string} colors.marker - Color for markers
+ * @property {string} colors.hi_low - Color for high/low indicators
+ *
+ * @property {Object} sensors - Sensor configurations
+ */
 export const DEFAULT_CONFIG = {
   display: {
     compact: false,
@@ -180,10 +206,36 @@ export const DEFAULT_CONFIG = {
   },
 };
 
-// Utility functions to access config
-export const getSensorConfig = sensorType => DEFAULT_CONFIG.sensors[sensorType];
-export const getDisplayConfig = () => DEFAULT_CONFIG.display;
-export const getColorConfig = () => DEFAULT_CONFIG.colors;
+/**
+ * @function getSensorConfig
+ * @description Get the sensor configuration for a specific sensor type
+ * @param {string} type - The type of sensor to get configuration for
+ * @returns {Object} The sensor configuration
+ */
+export function getSensorConfig(type) {
+  return DEFAULT_CONFIG.sensors[type];
+}
 
-// Export supported sensors list dynamically from sensors configuration
+/**
+ * @function getDisplayConfig
+ * @description Get the display configuration settings
+ * @returns {Object} The display configuration
+ */
+export function getDisplayConfig() {
+  return DEFAULT_CONFIG.display;
+}
+
+/**
+ * @function getColorConfig
+ * @description Get the color configuration settings
+ * @returns {Object} The color configuration
+ */
+export function getColorConfig() {
+  return DEFAULT_CONFIG.colors;
+}
+
+/**
+ * @const {string[]} SUPPORTED_SENSORS - List of supported sensor types
+ * @description Array of sensor types supported by the card, derived from sensor configuration
+ */
 export const SUPPORTED_SENSORS = Object.keys(DEFAULT_CONFIG.sensors);

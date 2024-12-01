@@ -28,6 +28,7 @@ export default {
     uv_radiation: 'UV-straling',
     product_volume: 'Productvolume',
     product_weight: 'Productgewicht',
+    electrical_conductivity: 'Elektrische Geleidbaarheid',
   },
   time: {
     seconds: 'zojuist',

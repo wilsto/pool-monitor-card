@@ -5,7 +5,7 @@ import { getTranslation, formatTranslation } from './locales/translations.js';
 import { CARD_VERSION, CARD_INFO, CONSOLE_STYLE, SUPPORTED_SENSORS } from './constants.js';
 import { styles } from './styles/styles.js';
 import { cardContent } from './components/card-content.js';
-import { getSensorConfig, getDisplayConfig, getColorConfig } from './configs/pool_config.js';
+import { getSensorConfig, getDisplayConfig, getColorConfig } from './configs/config.js';
 
 console.info(
   `%c POOL-MONITORING-CARD %c ${CARD_VERSION} `,
@@ -13,11 +13,23 @@ console.info(
   CONSOLE_STYLE.version,
 );
 
+/**
+ * @class PoolMonitorCard
+ * @extends {LitElement}
+ * @description Custom Home Assistant card for monitoring pool sensors and displaying pool-related information
+ * @property {Object} hass - Home Assistant instance
+ * @property {Object} config - Card configuration
+ * @version ${CARD_VERSION}
+ */
 class PoolMonitorCard extends LitElement {
   static cardType = CARD_INFO.cardType;
   static cardName = CARD_INFO.cardName;
   static cardDescription = CARD_INFO.cardDescription;
 
+  /**
+   * @static
+   * @returns {Object} Properties definition for the card
+   */
   static get properties() {
     return {
       hass: {},
@@ -27,10 +39,18 @@ class PoolMonitorCard extends LitElement {
 
   static styles = styles;
 
+  /**
+   * @constructor
+   */
   constructor() {
     super();
   }
 
+  /**
+   * @method render
+   * @description Renders the pool monitor card content
+   * @returns {TemplateResult} The rendered HTML template
+   */
   render() {
     const config = this.getConfig();
     const data = this.processData();
@@ -77,6 +97,11 @@ class PoolMonitorCard extends LitElement {
     </div>`;
   }
 
+  /**
+   * @method processData
+   * @description Processes the sensor data for the card
+   * @returns {Object} The processed sensor data
+   */
   processData() {
     const data = {};
     const config = this.getConfig();
@@ -111,12 +136,39 @@ class PoolMonitorCard extends LitElement {
     return data;
   }
 
+  /**
+   * @method getTranslatedText
+   * @description Retrieves a translated text based on the provided key and values
+   * @param {string} key - The translation key
+   * @param {Object} values - The values to replace in the translation
+   * @returns {string} The translated text
+   */
   getTranslatedText(key, values) {
     const lang = this.config?.display.language || 'en';
     const translation = getTranslation(lang, key);
     return formatTranslation(translation, values);
   }
 
+  /**
+   * @method calculateData
+   * @description Calculates the data for a single sensor
+   * @param {string} name - The sensor name
+   * @param {string} title - The sensor title
+   * @param {string} entity - The sensor entity
+   * @param {number} entity_min - The minimum entity value
+   * @param {number} entity_max - The maximum entity value
+   * @param {number} setpoint - The setpoint value
+   * @param {number} setpoint_step - The setpoint step value
+   * @param {string} unit - The unit of measurement
+   * @param {string} icon - The icon to display
+   * @param {string} image_url - The image URL to display
+   * @param {string} mode - The mode of the sensor
+   * @param {number} min_limit - The minimum limit value
+   * @param {number} override_value - The override value
+   * @param {boolean} override - Whether to override the value
+   * @param {boolean} invalid - Whether the sensor is invalid
+   * @returns {Object} The calculated sensor data
+   */
   calculateData(
     name,
     title,
@@ -347,7 +399,8 @@ class PoolMonitorCard extends LitElement {
   }
 
   /**
-   * Count the number of decimal places in a number
+   * @method countDecimals
+   * @description Counts the number of decimal places in a number
    * @param {number} number - The number to analyze
    * @returns {number} The number of decimal places (0 if integer or invalid)
    */
@@ -366,6 +419,12 @@ class PoolMonitorCard extends LitElement {
     return 0;
   }
 
+  /**
+   * @method timeFromNow
+   * @description Calculates the time from now for a given date
+   * @param {string} dateTime - The date and time to calculate from
+   * @returns {string} The time from now
+   */
   timeFromNow(dateTime) {
     const date = new Date(dateTime);
     const diff = Date.now() - date.getTime();
@@ -388,12 +447,22 @@ class PoolMonitorCard extends LitElement {
     return t('days', days);
   }
 
+  /**
+   * @method getConfig
+   * @description Retrieves the card configuration
+   * @returns {Object} The card configuration
+   */
   getConfig() {
     return this.config;
   }
 
+  /**
+   * @method setConfig
+   * @description Sets the card configuration
+   * @param {Object} config - The new card configuration
+   */
   setConfig(config) {
-    // Utiliser la configuration par défaut de pool_config.js
+    // Utiliser la configuration par défaut de config.js
     const defaultConfig = {
       display: getDisplayConfig(),
       colors: getColorConfig(),
@@ -473,6 +542,11 @@ class PoolMonitorCard extends LitElement {
     this.config = newConfig;
   }
 
+  /**
+   * @method _moreinfo
+   * @description Opens the more info popup for an entity
+   * @param {string} entityinfo - The entity to open the more info popup for
+   */
   static _moreinfo(entityinfo) {
     const popupEvent = new Event('hass-more-info', {
       bubbles: true,

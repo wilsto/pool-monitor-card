@@ -1,7 +1,19 @@
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
 var html = LitElement.prototype.html;
 
+/**
+ * @class cardContent
+ * @description Class responsible for generating the HTML content of the pool monitor card
+ */
 export class cardContent {
+  /**
+   * @static
+   * @method generateTitle
+   * @description Generates the title section of the card
+   * @param {Object} config - The card configuration
+   * @param {string} [config.title] - Optional title to display
+   * @returns {TemplateResult} The rendered title HTML
+   */
   static generateTitle(config) {
     const title =
       config.title !== undefined
@@ -11,8 +23,27 @@ export class cardContent {
     return html`${title}`;
   }
 
-  //TODO: backup readme and create new one for 2.0 (and link to 1)
-
+  /**
+   * @static
+   * @method generateBody
+   * @description Generates the main body content of the card
+   * @param {Object} config - The card configuration
+   * @param {Object} data - The sensor data to display
+   * @param {string} data.name - Sensor name
+   * @param {string} data.entity - Entity ID
+   * @param {string} data.color - Color for the marker
+   * @param {number} data.pct_marker - Percentage position for the marker
+   * @param {string} data.value - Current sensor value
+   * @param {string} data.unit - Unit of measurement
+   * @param {string} data.state - Current state text
+   * @param {string} data.side_align - Alignment direction
+   * @param {number} data.pct_state_step - Percentage position for state
+   * @param {boolean} data.hide_icon - Whether to hide the icon
+   * @param {boolean} data.is_mdi - Whether the icon is an MDI icon
+   * @param {string} [data.mdi_icon] - MDI icon name if is_mdi is true
+   * @param {string} [data.img_src] - Image source if is_mdi is false
+   * @returns {TemplateResult} The rendered body HTML
+   */
   static generateBody(config, data) {
     return html`
       <!-- ##### ${data.name} section ##### -->
@@ -166,6 +197,27 @@ export class cardContent {
     `;
   }
 
+  /**
+   * @static
+   * @method generateCompactBody
+   * @description Generates the compact body content of the card
+   * @param {Object} config - The card configuration
+   * @param {Object} data - The sensor data to display
+   * @param {string} data.name - Sensor name
+   * @param {string} data.entity - Entity ID
+   * @param {string} data.color - Color for the marker
+   * @param {number} data.pct_marker - Percentage position for the marker
+   * @param {string} data.value - Current sensor value
+   * @param {string} data.unit - Unit of measurement
+   * @param {string} data.state - Current state text
+   * @param {string} data.side_align - Alignment direction
+   * @param {number} data.pct_state_step - Percentage position for state
+   * @param {boolean} data.hide_icon - Whether to hide the icon
+   * @param {boolean} data.is_mdi - Whether the icon is an MDI icon
+   * @param {string} [data.mdi_icon] - MDI icon name if is_mdi is true
+   * @param {string} [data.img_src] - Image source if is_mdi is false
+   * @returns {TemplateResult} The rendered compact body HTML
+   */
   static generateCompactBody(config, data) {
     return html`
       <!-- ##### ${data.name} section ##### -->
@@ -303,6 +355,12 @@ export class cardContent {
     `;
   }
 
+  /**
+   * @static
+   * @method _moreinfo
+   * @description Dispatches a more-info event for the given entity
+   * @param {string} entity - Entity ID
+   */
   static _moreinfo(entity) {
     const event = new Event('hass-more-info', {
       bubbles: true,

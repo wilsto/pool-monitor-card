@@ -1,7 +1,33 @@
+/**
+ * @fileoverview Styles definition for the Pool Monitor Card
+ * @description This file contains all CSS styles used in the Pool Monitor Card component.
+ * The styles are defined using LitElement's CSS template literals and use Home Assistant's CSS variables
+ * for consistent theming across the application.
+ */
+
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
 var css = LitElement.prototype.css;
 
+/**
+ * @const {CSSResult} styles - CSS styles for the Pool Monitor Card
+ * @description Defines all visual styles for the card including:
+ * - Card layout and appearance
+ * - Section layouts (normal and compact modes)
+ * - Title styling
+ * - Container layouts and positioning
+ * - Marker and indicator styles
+ * - Gradient and color transitions
+ * - Responsive design adjustments
+ *
+ * Uses Home Assistant CSS variables for theming:
+ * - --ha-card-background
+ * - --ha-card-border-radius
+ * - --ha-card-border-width
+ * - --ha-card-box-shadow
+ * - --primary-text-color
+ */
 export const styles = css`
+  /** Host element styles */
   :host {
     background: var(--ha-card-background, var(--card-background-color, white));
     border-radius: var(--ha-card-border-radius, 12px);
@@ -14,6 +40,7 @@ export const styles = css`
     padding-top: 25px;
   }
 
+  /** Section layouts */
   .section {
     padding-bottom: 10px;
     padding: 0px;
@@ -24,6 +51,7 @@ export const styles = css`
     padding: 0px;
   }
 
+  /** Title styles */
   .pool-monitor-title {
     font-size: 1.5rem;
     font-weight: 500;
@@ -32,12 +60,14 @@ export const styles = css`
     margin: 0;
   }
 
+  /** Entity image container */
   .pool-monitor-entity-img {
     text-align: right;
     width: 10%;
     float: left;
   }
 
+  /** Main container layouts */
   .pool-monitor-container {
     display: grid;
     padding: 5px;

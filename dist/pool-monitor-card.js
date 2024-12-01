@@ -30,6 +30,7 @@
       uv_radiation: 'UV Radiation',
       product_volume: 'Product Volume',
       product_weight: 'Product Weight',
+      electrical_conductivity: 'Electrical Conductivity',
     },
     time: {
       seconds: 'just now',
@@ -38,7 +39,7 @@
       days: '{days} day{plural} ago',
     },
   };
-  var o = {
+  var i = {
     state: {
       1: 'Trop bas',
       2: 'Acceptable bas',
@@ -68,6 +69,7 @@
       uv_radiation: 'Radiation UV',
       product_volume: 'Volume Produit',
       product_weight: 'Poids Produit',
+      electrical_conductivity: 'Conductivité Électrique',
     },
     time: {
       seconds: 'il y a {seconds} seconde{plural}',
@@ -76,7 +78,7 @@
       days: 'il y a {days} jour{plural}',
     },
   };
-  var i = {
+  var o = {
     state: {
       1: 'Demasiado bajo',
       2: 'Aceptable bajo',
@@ -106,6 +108,7 @@
       uv_radiation: 'Radiación UV',
       product_volume: 'Volumen Producto',
       product_weight: 'Peso Producto',
+      electrical_conductivity: 'Conductividad Eléctrica',
     },
     time: {
       seconds: 'justo ahora',
@@ -144,6 +147,7 @@
       uv_radiation: 'UV-Strahlung',
       product_volume: 'Produktvolumen',
       product_weight: 'Produktgewicht',
+      electrical_conductivity: 'Elektrische Leitfähigkeit',
     },
     time: {
       seconds: 'gerade erst',
@@ -182,6 +186,7 @@
       uv_radiation: 'Radiazione UV',
       product_volume: 'Volume prodotto',
       product_weight: 'Peso prodotto',
+      electrical_conductivity: 'Conducibilità Elettrica',
     },
     time: {
       seconds: 'proprio ora',
@@ -220,6 +225,7 @@
       uv_radiation: 'UV-straling',
       product_volume: 'Productvolume',
       product_weight: 'Productgewicht',
+      electrical_conductivity: 'Elektrische Geleidbaarheid',
     },
     time: {
       seconds: 'zojuist',
@@ -258,6 +264,7 @@
       uv_radiation: 'Radiação UV',
       product_volume: 'Volume Produto',
       product_weight: 'Peso Produto',
+      electrical_conductivity: 'Condutividade Elétrica',
     },
     time: {
       seconds: 'Agora',
@@ -296,6 +303,7 @@
       uv_radiation: 'Radiação UV',
       product_volume: 'Volume Produto',
       product_weight: 'Peso Produto',
+      electrical_conductivity: 'Condutividade Elétrica',
     },
     time: {
       seconds: 'Agora mesmo',
@@ -327,6 +335,7 @@
       uv_radiation: 'Radiație UV',
       product_volume: 'Volum produs',
       product_weight: 'Greutate produs',
+      electrical_conductivity: 'Conductivitate Electrică',
     },
     time: {
       seconds: 'acum',
@@ -365,6 +374,7 @@
       uv_radiation: 'UV žiarenie',
       product_volume: 'Objem produktu',
       product_weight: 'Hmotnosť produktu',
+      electrical_conductivity: 'Elektrická Vodivosť',
     },
     time: {
       seconds: 'práve teraz',
@@ -403,6 +413,7 @@
       uv_radiation: 'קרינת UV',
       product_volume: 'נפח מוצר',
       product_weight: 'משקל מוצר',
+      electrical_conductivity: 'מוליכות חשמלית',
     },
     time: {
       seconds: 'הרגע',
@@ -441,6 +452,7 @@
       uv_radiation: 'УФ-излучение',
       product_volume: 'Объем продукта',
       product_weight: 'Вес продукта',
+      electrical_conductivity: 'Электропроводность',
     },
     time: {
       seconds: '{seconds} секунд{plural}',
@@ -451,8 +463,8 @@
   };
   const m = {
     en: e,
-    fr: o,
-    es: i,
+    fr: i,
+    es: o,
     de: r,
     it: a,
     nl: s,
@@ -463,17 +475,17 @@
     he: p,
     ru: u,
   };
-  const getTranslation = (e, o) => {
-    const i = o.split('.');
+  const getTranslation = (e, i) => {
+    const o = i.split('.');
     let r = m[e] || m.en;
-    for (const e of i)
+    for (const e of o)
       if (r && typeof r === 'object') r = r[e];
-      else return o;
-    return r || o;
+      else return i;
+    return r || i;
   };
-  const formatTranslation = (e, o) => {
-    if (!o) return e;
-    return Object.entries(o).reduce((e, [o, i]) => e.replace(`{${o}}`, i), e);
+  const formatTranslation = (e, i) => {
+    if (!i) return e;
+    return Object.entries(i).reduce((e, [i, o]) => e.replace(`{${i}}`, o), e);
   };
   const g = {
     display: {
@@ -621,13 +633,19 @@
       },
     },
   };
-  const getSensorConfig = e => g.sensors[e];
-  const getDisplayConfig = () => g.display;
-  const getColorConfig = () => g.colors;
+  function getSensorConfig(e) {
+    return g.sensors[e];
+  }
+  function getDisplayConfig() {
+    return g.display;
+  }
+  function getColorConfig() {
+    return g.colors;
+  }
   const h = Object.keys(g.sensors);
   const v = '2.1.0';
-  const _ = '2024-12-01-14-00';
-  const y = `${v} (${_})`;
+  const y = '2024-12-01-14-31';
+  const _ = `${v} (${y})`;
   const x = {
     cardType: 'pool-monitor-card',
     cardName: 'Pool Monitor Card',
@@ -641,6 +659,7 @@
   var w = w || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
   var b = w.prototype.css;
   const $ = b`
+  /** Host element styles */
   :host {
     background: var(--ha-card-background, var(--card-background-color, white));
     border-radius: var(--ha-card-border-radius, 12px);
@@ -653,6 +672,7 @@
     padding-top: 25px;
   }
 
+  /** Section layouts */
   .section {
     padding-bottom: 10px;
     padding: 0px;
@@ -663,6 +683,7 @@
     padding: 0px;
   }
 
+  /** Title styles */
   .pool-monitor-title {
     font-size: 1.5rem;
     font-weight: 500;
@@ -671,12 +692,14 @@
     margin: 0;
   }
 
+  /** Entity image container */
   .pool-monitor-entity-img {
     text-align: right;
     width: 10%;
     float: left;
   }
 
+  /** Main container layouts */
   .pool-monitor-container {
     display: grid;
     padding: 5px;
@@ -828,41 +851,41 @@
   var T = k.prototype.html;
   class cardContent {
     static generateTitle(e) {
-      const o = e.title !== void 0 ? T` <h1 class="pool-monitor-title">${e.title}</h1> ` : T``;
-      return T`${o}`;
+      const i = e.title !== void 0 ? T` <h1 class="pool-monitor-title">${e.title}</h1> ` : T``;
+      return T`${i}`;
     }
-    static generateBody(e, o) {
+    static generateBody(e, i) {
       return T`
-      <!-- ##### ${o.name} section ##### -->
-      <div class="section" @click=${() => this._moreinfo(o.entity)}>
+      <!-- ##### ${i.name} section ##### -->
+      <div class="section" @click=${() => this._moreinfo(i.entity)}>
         <div class="pool-monitor-container-marker">
           <div
             class="marker"
-            style="background-color: ${o.color} ;color: black;left: ${o.pct_marker}%;"
+            style="background-color: ${i.color} ;color: black;left: ${i.pct_marker}%;"
           >
-            ${o.value} ${o.unit}
+            ${i.value} ${i.unit}
           </div>
           <div
             class="marker-state"
-            style="font-size: 0.8em; padding-top: 5px;color:${o.color};width: 200px;padding-${o.side_align}:40px;text-align:${o.side_align};background-color:transparent ;${o.side_align}: ${o.pct_state_step}%;"
+            style="font-size: 0.8em; padding-top: 5px;color:${i.color};width: 200px;padding-${i.side_align}:40px;text-align:${i.side_align};background-color:transparent ;${i.side_align}: ${i.pct_state_step}%;"
           >
-            ${o.state}
+            ${i.state}
           </div>
           <div
             class="triangle"
-            style="border-top: 10px solid ${o.color} ;left: ${o.pct - 1}%;"
+            style="border-top: 10px solid ${i.color} ;left: ${i.pct - 1}%;"
           ></div>
         </div>
         ${
-          !o.hide_icon
+          !i.hide_icon
             ? T`
               <div class="pool-monitor-entity-img">
                 ${
-                  o.is_mdi
+                  i.is_mdi
                     ? T`
-                      <ha-icon icon="${o.mdi_icon}" style="width: 32px; height: 32px;"></ha-icon>
+                      <ha-icon icon="${i.mdi_icon}" style="width: 32px; height: 32px;"></ha-icon>
                     `
-                    : T` <img src="${o.img_src}" style="width: 32px; height: 32px;" /> `
+                    : T` <img src="${i.img_src}" style="width: 32px; height: 32px;" /> `
                 }
               </div>
             `
@@ -875,7 +898,7 @@
                 <div
                   class="progress-bar-child"
                   style="background: linear-gradient(to right, 
-              ${o.mode === 'heatflow' ? `${e.colors.cool} 15%, \n                 ${e.colors.low} 50%, \n                 ${e.colors.warn} 85%` : `${e.colors.warn} 5%, \n                 ${e.colors.low} 30%, \n                 ${e.colors.normal}, \n                 ${e.colors.normal}, \n                 ${e.colors.low} 70%, \n                 ${e.colors.warn} 95%`}
+              ${i.mode === 'heatflow' ? `${e.colors.cool} 15%, \n                 ${e.colors.low} 50%, \n                 ${e.colors.warn} 85%` : `${e.colors.warn} 5%, \n                 ${e.colors.low} 30%, \n                 ${e.colors.normal}, \n                 ${e.colors.normal}, \n                 ${e.colors.low} 70%, \n                 ${e.colors.warn} 95%`}
             );"
                 ></div>
               `
@@ -909,24 +932,24 @@
                 <div
                   style="display: flex; justify-content: space-between; margin: 0 10px; font-size: 0.7em; color: var(--secondary-text-color);"
                 >
-                  <span>${o.min}</span>
-                  <span>${o.max}</span>
+                  <span>${i.min}</span>
+                  <span>${i.max}</span>
                 </div>
               `
           }
           ${
-            o.pct_min !== o.pct_cursor
+            i.pct_min !== i.pct_cursor
               ? T`<div
                 class="cursor-text"
-                style="border-left: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${o.side_align}; background-color:transparent; ${o.side_align}: ${o.pct_min}%;"
+                style="border-left: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${i.side_align}; background-color:transparent; ${i.side_align}: ${i.pct_min}%;"
               ></div>`
               : ''
           }
           ${
-            o.pct_max !== o.pct_cursor
+            i.pct_max !== i.pct_cursor
               ? T`<div
                 class="cursor-text"
-                style="border-right: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${o.side_align}; background-color:transparent; ${o.side_align}: ${o.pct_max}%;"
+                style="border-right: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${i.side_align}; background-color:transparent; ${i.side_align}: ${i.pct_max}%;"
               ></div>`
               : ''
           }
@@ -937,29 +960,29 @@
             class="grid-item item-row"
           >
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[0]}
+              ${i.setpoint_class[0]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row">
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[1]}
+              ${i.setpoint_class[1]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row">
             <div
               style="font-size: 0.8em;color:${e.colors.normal};text-align:right;margin:-5px 2px 0 0 "
             >
-              ${o.setpoint_class[2]}
+              ${i.setpoint_class[2]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row">
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[3]}
+              ${i.setpoint_class[3]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row">
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[4]}
+              ${i.setpoint_class[4]}
             </div>
           </div>
           <div
@@ -969,26 +992,26 @@
         </div>
       </div>
       <div style="text-align:left;padding-left:15px;">
-        ${o.title}<br /><small style="position: relative;top:-5px;font-size:9px;color:lightgrey"
-          >${o.last_updated}</small
+        ${i.title}<br /><small style="position: relative;top:-5px;font-size:9px;color:lightgrey"
+          >${i.last_updated}</small
         >
       </div>
     `;
     }
-    static generateCompactBody(e, o) {
+    static generateCompactBody(e, i) {
       return T`
-      <!-- ##### ${o.name} section ##### -->
-      <div class="section-compact" @click=${() => this._moreinfo(o.entity)}>
+      <!-- ##### ${i.name} section ##### -->
+      <div class="section-compact" @click=${() => this._moreinfo(i.entity)}>
         ${
-          !o.hide_icon
+          !i.hide_icon
             ? T`
               <div class="pool-monitor-entity-img">
                 ${
-                  o.is_mdi
+                  i.is_mdi
                     ? T`
-                      <ha-icon icon="${o.mdi_icon}" style="width: 24px; height: 24px;"></ha-icon>
+                      <ha-icon icon="${i.mdi_icon}" style="width: 24px; height: 24px;"></ha-icon>
                     `
-                    : T` <img src="${o.img_src}" style="width: 24px; height: 24px;" /> `
+                    : T` <img src="${i.img_src}" style="width: 24px; height: 24px;" /> `
                 }
               </div>
             `
@@ -1001,13 +1024,13 @@
                 <div
                   class="progress-bar-child"
                   style="background: linear-gradient(to right, 
-              ${o.mode === 'heatflow' ? `${e.colors.cool} 15%, \n                 ${e.colors.low} 50%, \n                 ${e.colors.warn} 85%` : `${e.colors.warn} 5%, \n                 ${e.colors.low} 30%, \n                 ${e.colors.normal}, \n                 ${e.colors.normal}, \n                 ${e.colors.low} 70%, \n                 ${e.colors.warn} 95%`}
+              ${i.mode === 'heatflow' ? `${e.colors.cool} 15%, \n                 ${e.colors.low} 50%, \n                 ${e.colors.warn} 85%` : `${e.colors.warn} 5%, \n                 ${e.colors.low} 30%, \n                 ${e.colors.normal}, \n                 ${e.colors.normal}, \n                 ${e.colors.low} 70%, \n                 ${e.colors.warn} 95%`}
             );"
                 ></div>
               `
               : T`
                 <div class="grid-container">
-                  <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${o.unit}</div></div> -->
+                  <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${i.unit}</div></div> -->
                   <div
                     style="background-color: ${e.colors.warn}; grid-column: 1; border-radius: 5px 0px 0px 5px"
                     class="grid-item item-row"
@@ -1036,30 +1059,30 @@
                 <div
                   style="display: flex; justify-content: space-between; margin: 0 10px; font-size: 0.7em; color: var(--secondary-text-color);"
                 >
-                  <span>${o.min}</span>
-                  <span>${o.max}</span>
+                  <span>${i.min}</span>
+                  <span>${i.max}</span>
                 </div>
               `
           }
           <div
             class="cursor-text"
-            style="border-${o.side_align}: 5px solid ${e.marker}; text-align:${o.side_align};background-color:transparent ;${o.side_align}: ${o.pct_cursor}%;"
+            style="border-${i.side_align}: 5px solid ${e.marker}; text-align:${i.side_align};background-color:transparent ;${i.side_align}: ${i.pct_cursor}%;"
           >
-            &nbsp; ${o.title} ${o.value} ${o.unit} ${o.separator} ${o.state} &nbsp;
+            &nbsp; ${i.title} ${i.value} ${i.unit} ${i.separator} ${i.state} &nbsp;
           </div>
           ${
-            o.pct_min !== o.pct_cursor
+            i.pct_min !== i.pct_cursor
               ? T`<div
                 class="cursor-text"
-                style="border-left: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${o.side_align}; background-color:transparent; ${o.side_align}: ${o.pct_min}%;"
+                style="border-left: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${i.side_align}; background-color:transparent; ${i.side_align}: ${i.pct_min}%;"
               ></div>`
               : ''
           }
           ${
-            o.pct_max !== o.pct_cursor
+            i.pct_max !== i.pct_cursor
               ? T`<div
                 class="cursor-text"
-                style="border-right: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${o.side_align}; background-color:transparent; ${o.side_align}: ${o.pct_max}%;"
+                style="border-right: 2px solid ${e.colors.hi_low}; border-top: 2px solid ${e.colors.hi_low}; border-bottom: 2px solid ${e.colors.hi_low}; width: 2px; height: 12px; text-align:${i.side_align}; background-color:transparent; ${i.side_align}: ${i.pct_max}%;"
               ></div>`
               : ''
           }
@@ -1070,29 +1093,29 @@
             class="grid-item item-row"
           >
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[0]}
+              ${i.setpoint_class[0]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 2 ;" class="grid-item item-row">
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[1]}
+              ${i.setpoint_class[1]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 3 ;" class="grid-item item-row">
             <div
               style="font-size: 0.8em;color:${e.colors.normal};text-align:right;margin:-5px 2px 0 0 "
             >
-              ${o.setpoint_class[2]}
+              ${i.setpoint_class[2]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 4 ;" class="grid-item item-row">
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[3]}
+              ${i.setpoint_class[3]}
             </div>
           </div>
           <div style="background-color: transparent; grid-column: 5 ;" class="grid-item item-row">
             <div style="font-size: 0.8em;text-align:right;margin:-5px 2px 0 0 ">
-              ${o.setpoint_class[4]}
+              ${i.setpoint_class[4]}
             </div>
           </div>
           <div
@@ -1104,15 +1127,15 @@
     `;
     }
     static _moreinfo(e) {
-      const o = new Event('hass-more-info', { bubbles: true, composed: true });
-      o.detail = { entityId: e };
-      document.querySelector('home-assistant').dispatchEvent(o);
+      const i = new Event('hass-more-info', { bubbles: true, composed: true });
+      i.detail = { entityId: e };
+      document.querySelector('home-assistant').dispatchEvent(i);
     }
   }
-  var P = P || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
-  var C = P.prototype.html;
-  console.info(`%c POOL-MONITORING-CARD %c ${y} `, f.title, f.version);
-  class PoolMonitorCard extends P {
+  var C = C || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
+  var P = C.prototype.html;
+  console.info(`%c POOL-MONITORING-CARD %c ${_} `, f.title, f.version);
+  class PoolMonitorCard extends C {
     static cardType = x.cardType;
     static cardName = x.cardName;
     static cardDescription = x.cardDescription;
@@ -1125,109 +1148,109 @@
     }
     render() {
       const e = this.getConfig();
-      const o = this.processData();
-      const i = e.display.compact ? cardContent.generateCompactBody : cardContent.generateBody;
-      if (!o || Object.keys(o).length === 0)
-        return C` <div id="pool-monitor-card">
+      const i = this.processData();
+      const o = e.display.compact ? cardContent.generateCompactBody : cardContent.generateBody;
+      if (!i || Object.keys(i).length === 0)
+        return P` <div id="pool-monitor-card">
         <div class="warning-message">
           <ha-icon icon="mdi:alert"></ha-icon>
           <span>No valid sensor data available</span>
         </div>
       </div>`;
-      return C` <div id="pool-monitor-card">
+      return P` <div id="pool-monitor-card">
       ${cardContent.generateTitle(e)}
-      ${Object.values(o).map(o => {
-        if (o?.invalid)
-          return C`
+      ${Object.values(i).map(i => {
+        if (i?.invalid)
+          return P`
             <div class="warning-message">
               <ha-icon icon="mdi:alert"></ha-icon>
               <span
-                >Sensor ${o?.name || 'unknown'} is not supported. Please verify its
+                >Sensor ${i?.name || 'unknown'} is not supported. Please verify its
                 configuration and ensure it is compatible with the card.</span
               >
             </div>
           `;
-        else if (o?.value === null)
-          return C`
+        else if (i?.value === null)
+          return P`
             <div class="warning-message">
               <ha-icon icon="mdi:alert"></ha-icon>
               <span
-                >Entity ${o?.entity || 'unknown'} could not be found. Please verify its
+                >Entity ${i?.entity || 'unknown'} could not be found. Please verify its
                 name and ensure the entity is properly configured.</span
               >
             </div>
           `;
-        return i(e, o);
+        return o(e, i);
       })}
     </div>`;
     }
     processData() {
       const e = {};
-      const o = this.getConfig();
-      Object.entries(o.sensors).forEach(([o, i]) => {
-        const r = Array.isArray(i) ? i : [i];
-        r.forEach((i, r) => {
-          const a = `${o}_${r + 1}`;
+      const i = this.getConfig();
+      Object.entries(i.sensors).forEach(([i, o]) => {
+        const r = Array.isArray(o) ? o : [o];
+        r.forEach((o, r) => {
+          const a = `${i}_${r + 1}`;
           e[a] = this.calculateData(
-            o,
-            i.title || this.getTranslatedText('sensor.' + o),
-            i.entity,
-            i.min,
-            i.max,
-            i.setpoint,
-            i.step,
-            i.unit,
-            i.icon,
-            i.image_url,
-            i.mode,
-            i.min_limit,
-            i.override_value,
-            i.override,
-            i.invalid,
+            i,
+            o.title || this.getTranslatedText('sensor.' + i),
+            o.entity,
+            o.min,
+            o.max,
+            o.setpoint,
+            o.step,
+            o.unit,
+            o.icon,
+            o.image_url,
+            o.mode,
+            o.min_limit,
+            o.override_value,
+            o.override,
+            o.invalid,
           );
         });
       });
       return e;
     }
-    getTranslatedText(e, o) {
-      const i = this.config?.display.language || 'en';
-      const r = getTranslation(i, e);
-      return formatTranslation(r, o);
+    getTranslatedText(e, i) {
+      const o = this.config?.display.language || 'en';
+      const r = getTranslation(o, e);
+      return formatTranslation(r, i);
     }
-    calculateData(e, o, i, r, a, s, l, n, c, d, p, u, m, g, h) {
+    calculateData(e, i, o, r, a, s, l, n, c, d, p, u, m, g, h) {
       const v = {};
-      const _ = this.getConfig();
-      const y = getSensorConfig(e) || {};
+      const y = this.getConfig();
+      const _ = getSensorConfig(e) || {};
       v.name = e;
       v.invalid = h;
       v.mode = p;
-      v.title = _.display.show_names ? o : C`&nbsp;`;
-      if (!_.display.show_icons) v.hide_icon = true;
+      v.title = y.display.show_names ? i : P`&nbsp;`;
+      if (!y.display.show_icons) v.hide_icon = true;
       else {
-        const o = c || '';
-        const i = d || '';
-        if (o === 'hide') v.hide_icon = true;
-        else if (i) {
+        const i = c || '';
+        const o = d || '';
+        if (i === 'hide') v.hide_icon = true;
+        else if (o) {
           v.is_mdi = false;
-          v.img_src = i;
-        } else if (o && typeof o === 'string' && o.startsWith('mdi:')) {
+          v.img_src = o;
+        } else if (i && typeof i === 'string' && i.startsWith('mdi:')) {
           v.is_mdi = true;
-          v.mdi_icon = o;
+          v.mdi_icon = i;
         } else
           v.img_src = `https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/${e}.png`;
       }
-      if (!this.hass || !this.hass.states || !this.hass.states[i]) {
-        console.warn(`Entity not found: ${i}`);
+      if (!this.hass || !this.hass.states || !this.hass.states[o]) {
+        console.warn(`Entity not found: ${o}`);
         v.value = null;
-        v.entity = i;
+        v.entity = o;
         return v;
       }
-      v.value = parseFloat(this.hass.states[i].state);
-      v.entity = i;
-      if (_.display.show_last_updated)
-        v.last_updated = this.timeFromNow(this.hass.states[i].last_updated);
-      v.unit = _.display.show_units ? n || y.unit || '' : '';
-      if (g) v.value = m || y.override;
+      v.value = parseFloat(this.hass.states[o].state);
+      v.entity = o;
+      if (y.display.show_last_updated)
+        v.last_updated = this.timeFromNow(this.hass.states[o].last_updated);
+      v.unit = y.display.show_units ? n || _.unit || '' : '';
+      if (g) v.value = m || _.override;
       v.min_value =
         r !== void 0 && this.hass.states[r] && !isNaN(parseFloat(this.hass.states[r].state))
           ? parseFloat(this.hass.states[r].state)
@@ -1236,10 +1259,10 @@
         a !== void 0 && this.hass.states[a] && !isNaN(parseFloat(this.hass.states[a].state))
           ? parseFloat(this.hass.states[a].state)
           : v.value;
-      s = s !== void 0 ? parseFloat(s) : y.setpoint !== void 0 ? parseFloat(y.setpoint) : v.value;
-      l = l !== void 0 ? parseFloat(l) : y.step !== void 0 ? parseFloat(y.step) : 0.1;
+      s = s !== void 0 ? parseFloat(s) : _.setpoint !== void 0 ? parseFloat(_.setpoint) : v.value;
+      l = l !== void 0 ? parseFloat(l) : _.step !== void 0 ? parseFloat(_.step) : 0.1;
       const x = Math.max(this.countDecimals(s), this.countDecimals(l));
-      if (v.value) v.value = parseFloat(this.hass.states[i].state);
+      if (v.value) v.value = parseFloat(this.hass.states[o].state);
       v.setpoint = s;
       const f = u !== void 0 ? Number(u) : -1 / 0;
       const w = Math.max(f, s - 2 * l);
@@ -1248,53 +1271,53 @@
       const k = Math.max(f, s + l);
       const T = Math.max(f, s + 2 * l);
       v.setpoint_class = [w.toFixed(x), b.toFixed(x), $.toFixed(x), k.toFixed(x), T.toFixed(x)];
-      v.separator = _.display.show_labels ? '-' : '';
+      v.separator = y.display.show_labels ? '-' : '';
       v.color = 'transparent';
       if (v.value !== null) v.value = Math.max(f, v.value);
       if (p === 'heatflow')
         if (Number(v.value) < Number(v.setpoint_class[1])) {
-          v.state = _.display.show_labels ? this.getTranslatedText('state.1') : '';
-          v.color = _.colors.cool;
+          v.state = y.display.show_labels ? this.getTranslatedText('state.1') : '';
+          v.color = y.colors.cool;
         } else if (
           Number(v.value) >= Number(v.setpoint_class[1]) &&
           Number(v.value) < Number(v.setpoint_class[3])
         ) {
-          v.state = _.display.show_labels ? this.getTranslatedText('state.3') : '';
-          v.color = _.colors.low;
+          v.state = y.display.show_labels ? this.getTranslatedText('state.3') : '';
+          v.color = y.colors.low;
         } else {
-          v.state = _.display.show_labels ? this.getTranslatedText('state.5') : '';
-          v.color = _.colors.warn;
+          v.state = y.display.show_labels ? this.getTranslatedText('state.5') : '';
+          v.color = y.colors.warn;
         }
       else if (Number(v.value) < Number(v.setpoint_class[0])) {
-        v.state = _.display.show_labels ? this.getTranslatedText('state.1') : '';
-        v.color = _.colors.warn;
+        v.state = y.display.show_labels ? this.getTranslatedText('state.1') : '';
+        v.color = y.colors.warn;
       } else if (
         Number(v.value) >= Number(v.setpoint_class[0]) &&
         Number(v.value) < Number(v.setpoint_class[1])
       ) {
-        v.state = _.display.show_labels ? this.getTranslatedText('state.2') : '';
-        v.color = _.colors.low;
+        v.state = y.display.show_labels ? this.getTranslatedText('state.2') : '';
+        v.color = y.colors.low;
       } else if (
         Number(v.value) >= Number(v.setpoint_class[1]) &&
         Number(v.value) < Number(v.setpoint_class[2])
       ) {
-        v.state = _.display.show_labels ? this.getTranslatedText('state.3') : '';
-        v.color = _.colors.normal;
+        v.state = y.display.show_labels ? this.getTranslatedText('state.3') : '';
+        v.color = y.colors.normal;
       } else if (
         Number(v.value) >= Number(v.setpoint_class[2]) &&
         Number(v.value) < Number(v.setpoint_class[3])
       ) {
-        v.state = _.display.show_labels ? this.getTranslatedText('state.4') : '';
-        v.color = _.colors.normal;
+        v.state = y.display.show_labels ? this.getTranslatedText('state.4') : '';
+        v.color = y.colors.normal;
       } else if (
         Number(v.value) >= Number(v.setpoint_class[3]) &&
         Number(v.value) < Number(v.setpoint_class[4])
       ) {
-        v.state = _.display.show_labels ? this.getTranslatedText('state.5') : '';
-        v.color = _.colors.low;
+        v.state = y.display.show_labels ? this.getTranslatedText('state.5') : '';
+        v.color = y.colors.low;
       } else if (Number(v.value) >= Number(v.setpoint_class[4])) {
-        v.state = _.display.show_labels ? this.getTranslatedText('state.6') : '';
-        v.color = _.colors.warn;
+        v.state = y.display.show_labels ? this.getTranslatedText('state.6') : '';
+        v.color = y.colors.warn;
       }
       v.progressClass = e === 'temperature' ? 'progress-temp' : 'progress';
       v.pct = Math.max(
@@ -1320,21 +1343,21 @@
     countDecimals(e) {
       if (e === void 0 || e === null) return 0;
       if (Math.floor(e) === e) return 0;
-      const o = e.toString();
-      if (o.includes('.')) return o.split('.')[1].length || 0;
+      const i = e.toString();
+      if (i.includes('.')) return i.split('.')[1].length || 0;
       return 0;
     }
     timeFromNow(e) {
-      const o = new Date(e);
-      const i = Date.now() - o.getTime();
-      const t = (e, o) => {
-        let i = o == 1 ? '' : 's';
+      const i = new Date(e);
+      const o = Date.now() - i.getTime();
+      const t = (e, i) => {
+        let o = i == 1 ? '' : 's';
         let r = this.getTranslatedText(`time.${e}`);
-        r = r.replace('{' + e + '}', o);
-        r = r.replace('{plural}', i);
+        r = r.replace('{' + e + '}', i);
+        r = r.replace('{plural}', o);
         return r;
       };
-      const r = Math.floor(i / 6e4);
+      const r = Math.floor(o / 6e4);
       const a = Math.floor(r / 60);
       const s = Math.floor(a / 24);
       if (r < 1) return t('seconds', 0);
@@ -1346,11 +1369,11 @@
       return this.config;
     }
     setConfig(e) {
-      const o = { display: getDisplayConfig(), colors: getColorConfig() };
-      const i = {
+      const i = { display: getDisplayConfig(), colors: getColorConfig() };
+      const o = {
         ...e,
-        display: { ...o.display, ...(e.display || {}) },
-        colors: { ...o.colors, ...(e.colors || {}) },
+        display: { ...i.display, ...(e.display || {}) },
+        colors: { ...i.colors, ...(e.colors || {}) },
         sensors: {},
       };
       if (!e.sensors) {
@@ -1361,32 +1384,32 @@
           'Legacy configuration detected. Please update your setup to define all sensors under the "sensors" key as required by the version 2.0 of the card.',
         );
       }
-      Object.entries(e.sensors).forEach(([o, r]) => {
-        const a = getSensorConfig(o);
+      Object.entries(e.sensors).forEach(([i, r]) => {
+        const a = getSensorConfig(i);
         const s = Array.isArray(r) ? [...r] : [{ ...r }];
-        if (s.length === 0) throw new Error(`Empty sensor array for ${o}`);
+        if (s.length === 0) throw new Error(`Empty sensor array for ${i}`);
         const l = s.map(e => ({ ...a, ...e, nameDefinedByUser: !!e.name }));
-        l.forEach((i, r) => {
-          if (!i.entity) throw new Error(`Missing entity for ${o}[${r}]`);
-          if (i.nameDefinedByUser) i.title = i.name;
-          if (!h.includes(o)) {
-            console.warn(`Unsupported sensor type: ${o}`, {
-              sensorType: o,
+        l.forEach((o, r) => {
+          if (!o.entity) throw new Error(`Missing entity for ${i}[${r}]`);
+          if (o.nameDefinedByUser) o.title = o.name;
+          if (!h.includes(i)) {
+            console.warn(`Unsupported sensor type: ${i}`, {
+              sensorType: i,
               supportedSensors: h,
               config: e,
-              sensorConfig: i,
+              sensorConfig: o,
             });
-            i.invalid = true;
-          } else i.invalid = false;
+            o.invalid = true;
+          } else o.invalid = false;
         });
-        i.sensors[o] = l;
+        o.sensors[i] = l;
       });
-      this.config = i;
+      this.config = o;
     }
     static _moreinfo(e) {
-      const o = new Event('hass-more-info', { bubbles: true, cancelable: false, composed: true });
-      o.detail = { entityId: e };
-      document.querySelector('home-assistant').dispatchEvent(o);
+      const i = new Event('hass-more-info', { bubbles: true, cancelable: false, composed: true });
+      i.detail = { entityId: e };
+      document.querySelector('home-assistant').dispatchEvent(i);
     }
   }
   customElements.define('pool-monitor-card', PoolMonitorCard);

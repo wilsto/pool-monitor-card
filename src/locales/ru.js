@@ -28,6 +28,7 @@ export default {
     uv_radiation: 'УФ-излучение',
     product_volume: 'Объем продукта',
     product_weight: 'Вес продукта',
+    electrical_conductivity: 'Электропроводность',
   },
   time: {
     seconds: '{seconds} секунд{plural}',

@@ -36,7 +36,6 @@ Optimiser les imports pour réduire la taille du bundle
 
 Les modifications les plus urgentes que je recommande seraient :
 
-Ajouter Husky pour les pre-commit hooks
 Mettre en place la couverture de code avec Jest
 Améliorer la documentation avec JSDoc
 Configurer des GitHub Actions pour l'automatisation
