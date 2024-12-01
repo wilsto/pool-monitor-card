@@ -12,7 +12,7 @@
   "globals": {
     "LitElement": "readonly"
   },
-  "ignorePatterns": ["test-results/**/*"],
+  "ignorePatterns": ["test-results/**/*", "dist/**/*", "tests/**/*"],
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "off",

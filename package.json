@@ -7,7 +7,6 @@
   "scripts": {
     "build:fast": "rollup -c && npm run sync",
     "build": "npm run lint && npm run test && rollup -c && npm run sync",
-    "prepare": "husky install",
     "dev": "rollup -c --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -23,15 +22,6 @@
     "sync": "powershell.exe -ExecutionPolicy Bypass -File ./scripts/sync-views.ps1",
     "compile": "npm run build && npm run test:coverage && npm run screenshot && npm run visual-test"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
-    ]
-  },
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -46,9 +36,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
-    "husky": "^9.1.7",
     "jsdom": "^25.0.1",
-    "lint-staged": "^15.2.10",
     "pixelmatch": "^5.3.0",
     "playwright": "^1.40.0",
     "pngjs": "^7.0.0",
