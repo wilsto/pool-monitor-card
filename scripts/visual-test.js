@@ -41,13 +41,13 @@ async function compareImages(image1Path, image2Path, diffPath) {
       const idx2 = (img2.width * y + x) << 2;
 
       // Copier les pixels de l'image 1
-      resizedImg1.data[idx] = img1.data[idx1];         // R
+      resizedImg1.data[idx] = img1.data[idx1]; // R
       resizedImg1.data[idx + 1] = img1.data[idx1 + 1]; // G
       resizedImg1.data[idx + 2] = img1.data[idx1 + 2]; // B
       resizedImg1.data[idx + 3] = img1.data[idx1 + 3]; // A
 
       // Copier les pixels de l'image 2
-      resizedImg2.data[idx] = img2.data[idx2];         // R
+      resizedImg2.data[idx] = img2.data[idx2]; // R
       resizedImg2.data[idx + 1] = img2.data[idx2 + 1]; // G
       resizedImg2.data[idx + 2] = img2.data[idx2 + 2]; // B
       resizedImg2.data[idx + 3] = img2.data[idx2 + 3]; // A
@@ -56,14 +56,9 @@ async function compareImages(image1Path, image2Path, diffPath) {
 
   const diff = new PNG({ width, height });
 
-  const numDiffPixels = pixelmatch(
-    resizedImg1.data,
-    resizedImg2.data,
-    diff.data,
-    width,
-    height,
-    { threshold: THRESHOLD }
-  );
+  const numDiffPixels = pixelmatch(resizedImg1.data, resizedImg2.data, diff.data, width, height, {
+    threshold: THRESHOLD,
+  });
 
   if (numDiffPixels > 0) {
     fs.writeFileSync(diffPath, PNG.sync.write(diff));
@@ -76,8 +71,8 @@ async function compareImages(image1Path, image2Path, diffPath) {
     dimensions: { width, height },
     originalDimensions: {
       img1: { width: img1.width, height: img1.height },
-      img2: { width: img2.width, height: img2.height }
-    }
+      img2: { width: img2.width, height: img2.height },
+    },
   };
 }
 
@@ -101,7 +96,9 @@ async function generateReport(results) {
 <body>
   <h1>Visual Test Report</h1>
   <p>Generated on: ${new Date().toLocaleString()}</p>
-  ${results.map(result => `
+  ${results
+    .map(
+      result => `
     <div class="test-case ${result.passed ? 'passed' : 'failed'}">
       <h2>${result.name}</h2>
       <div class="stats">
@@ -120,15 +117,21 @@ async function generateReport(results) {
           <h3>Actuel</h3>
           <img src="${result.name}" alt="Current">
         </div>
-        ${result.hasDiff ? `
+        ${
+          result.hasDiff
+            ? `
         <div class="image-container">
           <h3>Différence</h3>
           <img src="diff/${result.name}" alt="Difference">
         </div>
-        ` : ''}
+        `
+            : ''
+        }
       </div>
     </div>
-  `).join('')}
+  `,
+    )
+    .join('')}
 </body>
 </html>`;
 
@@ -166,7 +169,7 @@ async function runVisualTests() {
         name: screenshot.name,
         ...comparison,
         passed,
-        hasDiff: comparison.diffPixels > 0
+        hasDiff: comparison.diffPixels > 0,
       });
 
       console.log(`Test de ${screenshot.name}: ${passed ? 'PASSED' : 'FAILED'}`);

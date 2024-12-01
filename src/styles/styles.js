@@ -1,14 +1,12 @@
-var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
+var LitElement = LitElement || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
 var css = LitElement.prototype.css;
 
 export const styles = css`
   :host {
     background: var(--ha-card-background, var(--card-background-color, white));
     border-radius: var(--ha-card-border-radius, 12px);
-    border-width: var(--ha-card-border-width,4px);
-    box-shadow: var(
-      --ha-card-box-shadow
-    );
+    border-width: var(--ha-card-border-width, 4px);
+    box-shadow: var(--ha-card-box-shadow);
     color: var(--primary-text-color);
     display: block;
     transition: all 0.3s ease-out 0s;
@@ -16,9 +14,9 @@ export const styles = css`
     padding-top: 25px;
   }
 
-  .section{
-    padding-bottom:10px;
-    padding:0px;
+  .section {
+    padding-bottom: 10px;
+    padding: 0px;
   }
 
   .section-compact {
@@ -26,8 +24,7 @@ export const styles = css`
     padding: 0px;
   }
 
-  
-  .pool-monitor-title{
+  .pool-monitor-title {
     font-size: 1.5rem;
     font-weight: 500;
     padding-left: 15px;
@@ -36,9 +33,9 @@ export const styles = css`
   }
 
   .pool-monitor-entity-img {
-    text-align:right;
-    width:10%;
-    float:left;
+    text-align: right;
+    width: 10%;
+    float: left;
   }
 
   .pool-monitor-container {
@@ -49,7 +46,7 @@ export const styles = css`
 
   .pool-monitor-container-values {
     display: grid;
-    grid-template-columns: repeat(6,1fr) ;
+    grid-template-columns: repeat(6, 1fr);
     padding-top: 0px;
     padding-left: 20px;
     margin-top: -10px;
@@ -59,7 +56,7 @@ export const styles = css`
     display: grid;
     grid-template-columns: 10% repeat(6, 1fr) 5%;
     padding: 10px;
-    grid-template-rows:15px;
+    grid-template-rows: 15px;
     line-height: 15px;
     position: relative;
   }
@@ -78,8 +75,8 @@ export const styles = css`
     text-align: center;
     justify-self: center;
     width: 80px;
-    height:20px;
-    padding-top:5px;
+    height: 20px;
+    padding-top: 5px;
     border-radius: 5px;
     position: absolute;
     z-index: 1;
@@ -116,23 +113,23 @@ export const styles = css`
     grid-row: 1;
   }
 
-  .cursor{
+  .cursor {
     text-align: center;
     justify-self: center;
-    font-size:13px;
+    font-size: 13px;
     font-weight: 600;
     color: black;
     position: absolute;
     z-index: 1;
   }
 
-  .cursor-text{
+  .cursor-text {
     position: absolute;
     width: 200px;
     height: 17px;
     padding-left: 3px;
     padding-right: 3px;
-    padding-top:0px;
+    padding-top: 0px;
     margin-top: -1px;
     font-size: 11px;
     font-weight: 500;

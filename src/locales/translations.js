@@ -23,13 +23,13 @@ export const translations = {
   ro,
   sk,
   he,
-  ru
+  ru,
 };
 
 export const getTranslation = (lang, key) => {
   const keys = key.split('.');
   let result = translations[lang] || translations.en;
-  
+
   for (const k of keys) {
     if (result && typeof result === 'object') {
       result = result[k];
@@ -37,13 +37,13 @@ export const getTranslation = (lang, key) => {
       return key; // Fallback to key if translation not found
     }
   }
-  
+
   return result || key;
 };
 
 export const formatTranslation = (translation, values) => {
   if (!values) return translation;
-  
+
   return Object.entries(values).reduce((acc, [key, value]) => {
     return acc.replace(`{${key}}`, value);
   }, translation);
