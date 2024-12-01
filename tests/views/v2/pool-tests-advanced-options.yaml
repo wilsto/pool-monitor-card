@@ -1,0 +1,170 @@
+title: "Pool Monitor Advanced Options"
+path: pool-tests-advanced-options
+icon: "mdi:palette-advanced"
+cards:
+  - type: "custom:button-card"
+    template: "card_title"
+    name: "Pool Monitor - Advanced Options"
+    label: "Test with Advanced Options"
+
+  - type: "vertical-stack"
+    cards:
+      - type: custom:pool-monitor-card
+        title: Multiple entities by sensor
+        sensors:
+          temperature:
+            - name: "Temperature Surface"
+              entity: sensor.pool_temperature
+              unit: °C
+              min: 20
+              max: 32
+              setpoint: 27
+              step: 1
+            - name: "Temperature Fond"
+              entity: sensor.pool_temperature
+              unit: °C
+              min: 20
+              max: 32
+              setpoint: 27
+              step: 1
+          ph:
+            - name: "pH Principal"
+              entity: sensor.pool_ph
+              unit: ""
+              min: 6.8
+              max: 7.4
+              setpoint: 7.2
+              step: 0.1
+            - name: "pH Secondaire"
+              entity: sensor.pool_ph
+              unit: ""
+              min: 6.8
+              max: 7.4
+              setpoint: 7.2
+              step: 0.1
+
+      - type: "markdown"
+        content: |
+          ```yaml
+          # Test with multiple sensors of the same type
+          # Demonstrates the use of multiple temperature and pH sensors
+          # with custom configurations for each
+          type: custom:pool-monitor-card
+          title: Multiple entities by sensor
+          sensors:
+            temperature:
+              - name: "Temperature Surface"
+                entity: sensor.pool_temperature
+                unit: °C
+                min: 20
+                max: 32
+                setpoint: 27
+                step: 1
+              - name: "Temperature Fond"
+                # ... similar configuration
+            ph:
+              - name: "pH Principal"
+                entity: sensor.pool_ph
+                unit: ""
+                min: 6.8
+                max: 7.4
+                setpoint: 7.2
+                step: 0.1
+              - name: "pH Secondaire"
+                # ... similar configuration
+          ```
+
+  - type: "vertical-stack"
+    cards:
+      - type: custom:pool-monitor-card
+        title: Min/Max Tickers Test 
+        display:
+          compact: false 
+        sensors:
+          temperature:
+            - entity: sensor.pool_temperature
+              min: sensor.pool_temperature_min
+              max: sensor.pool_temperature_max
+          ph:
+            - entity: sensor.pool_ph
+              min: sensor.pool_ph_min
+              max: sensor.pool_ph_max
+
+      - type: "markdown"
+        content: |
+          ```yaml
+          # Min/Max Tickers Test in normal mode
+          # Displays min/max values for each sensor
+          # using separate entities
+          type: custom:pool-monitor-card
+          title: Min/Max Tickers Test
+          display:
+            compact: false
+          sensors:
+            temperature:
+              - entity: sensor.pool_temperature
+                min: sensor.pool_temperature_min
+                max: sensor.pool_temperature_max
+            ph:
+              - entity: sensor.pool_ph
+                min: sensor.pool_ph_min
+                max: sensor.pool_ph_max
+
+          #####################################
+          # To get the min/max values for the last 24 hours
+          # I use the statistics platform:
+
+          sensor:
+          - platform: statistics
+            name: "pool_ph_min"
+            unique_id: <UUID>
+            entity_id: sensor.iopool_ph
+            state_characteristic: value_min
+            max_age:
+              hours: 24
+          - platform: statistics
+            name: "pool_ph_max"
+            unique_id: <UUID>
+            entity_id: sensor.iopool_ph
+            state_characteristic: value_max
+            max_age:
+              hours: 24                
+          ```
+
+  - type: "vertical-stack"
+    cards:
+      - type: custom:pool-monitor-card
+        title: Min/Max Tickers Test Compact
+        display:
+          compact: true 
+          language: "fr"
+        sensors:
+          temperature:
+            - entity: sensor.pool_temperature
+              min: sensor.pool_temperature_min
+              max: sensor.pool_temperature_max
+          ph:
+            - entity: sensor.pool_ph
+              min: sensor.pool_ph_min
+              max: sensor.pool_ph_max
+
+      - type: "markdown"
+        content: |
+          ```yaml
+          # Min/Max Tickers Test in compact mode
+          # Compact version with multilingual support (French)
+          type: custom:pool-monitor-card
+          title: Min/Max Tickers Test Compact
+          display:
+            compact: true
+            language: "fr"
+          sensors:
+            temperature:
+              - entity: sensor.pool_temperature
+                min: sensor.pool_temperature_min
+                max: sensor.pool_temperature_max
+            ph:
+              - entity: sensor.pool_ph
+                min: sensor.pool_ph_min
+                max: sensor.pool_ph_max
+          ```

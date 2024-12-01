@@ -21,23 +21,144 @@ cards:
         cards:
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Test Multilingue"
-            version: 2
-            override: false
-            language: "fr"
+            title: " French Test Configuration"
+            display:
+              language: "fr"
             sensors:
               temperature:
-                name: Température
                 entity: sensor.pool_temperature
-                unit: "°C"
               ph:
-                name: pH
                 entity: sensor.pool_ph
               orp:
-                name: ORP
                 entity: sensor.pool_orp
-                unit: "mV"
               tds:
-                name: TDS
                 entity: sensor.pool_tds
-                unit: "ppm"
+              salinity:
+                entity: sensor.pool_salinity
+              cya:
+                entity: sensor.pool_cya
+              calcium:
+                entity: sensor.pool_calcium
+              phosphate:
+                entity: sensor.pool_phosphate
+              alkalinity:
+                entity: sensor.pool_alkalinity
+              free_chlorine:
+                entity: sensor.pool_free_chlorine
+              total_chlorine:
+                entity: sensor.pool_total_chlorine
+              pressure:
+                entity: sensor.pool_pressure
+              specific_gravity:
+                entity: sensor.pool_sg
+              magnesium:
+                entity: sensor.pool_magnesium
+              water_level:
+                entity: sensor.pool_water_level
+              flow_rate:
+                entity: sensor.pool_flow_rate
+              uv_radiation:
+                entity: sensor.pool_uv
+              product_volume:
+                entity: sensor.pool_product_volume
+              product_weight:
+                entity: sensor.pool_product_weight
+
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " French Test Configuration"
+        display:
+          language: "fr"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " English Test Configuration"
+        display:
+          language: "en"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " German Test Configuration"
+        display:
+          language: "de"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Spanish Test Configuration"
+        display:
+          language: "es"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Italian Test Configuration"
+        display:
+          language: "it"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Dutch Test Configuration"
+        display:
+          language: "nl"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Portuguese Test Configuration"
+        display:
+          language: "pt"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Brazilian Portuguese Test Configuration"
+        display:
+          language: "pt-br"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Romanian Test Configuration"
+        display:
+          language: "ro"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Slovak Test Configuration"
+        display:
+          language: "sk"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Hebrew Test Configuration"
+        display:
+          language: "he"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+      - type: "custom:pool-monitor-card"
+        template: "card_generic"
+        title: " Russian Test Configuration"
+        display:
+          language: "ru"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature

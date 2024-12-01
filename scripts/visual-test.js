@@ -1,4 +1,3 @@
-import { chromium } from 'playwright';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 import fs from 'fs';
@@ -25,12 +24,41 @@ const REPORT_PATH = path.join(__dirname, '../example/visual-test-report.html');
 async function compareImages(image1Path, image2Path, diffPath) {
   const img1 = PNG.sync.read(fs.readFileSync(image1Path));
   const img2 = PNG.sync.read(fs.readFileSync(image2Path));
-  const { width, height } = img1;
+
+  // Utiliser la plus petite dimension pour les deux images
+  const width = Math.min(img1.width, img2.width);
+  const height = Math.min(img1.height, img2.height);
+
+  // Créer de nouvelles images avec les mêmes dimensions
+  const resizedImg1 = new PNG({ width, height });
+  const resizedImg2 = new PNG({ width, height });
+
+  // Copier et redimensionner les données des images
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idx = (width * y + x) << 2;
+      const idx1 = (img1.width * y + x) << 2;
+      const idx2 = (img2.width * y + x) << 2;
+
+      // Copier les pixels de l'image 1
+      resizedImg1.data[idx] = img1.data[idx1];         // R
+      resizedImg1.data[idx + 1] = img1.data[idx1 + 1]; // G
+      resizedImg1.data[idx + 2] = img1.data[idx1 + 2]; // B
+      resizedImg1.data[idx + 3] = img1.data[idx1 + 3]; // A
+
+      // Copier les pixels de l'image 2
+      resizedImg2.data[idx] = img2.data[idx2];         // R
+      resizedImg2.data[idx + 1] = img2.data[idx2 + 1]; // G
+      resizedImg2.data[idx + 2] = img2.data[idx2 + 2]; // B
+      resizedImg2.data[idx + 3] = img2.data[idx2 + 3]; // A
+    }
+  }
+
   const diff = new PNG({ width, height });
 
   const numDiffPixels = pixelmatch(
-    img1.data,
-    img2.data,
+    resizedImg1.data,
+    resizedImg2.data,
     diff.data,
     width,
     height,
@@ -44,7 +72,12 @@ async function compareImages(image1Path, image2Path, diffPath) {
   return {
     totalPixels: width * height,
     diffPixels: numDiffPixels,
-    diffPercentage: (numDiffPixels / (width * height)) * 100
+    diffPercentage: (numDiffPixels / (width * height)) * 100,
+    dimensions: { width, height },
+    originalDimensions: {
+      img1: { width: img1.width, height: img1.height },
+      img2: { width: img2.width, height: img2.height }
+    }
   };
 }
 
@@ -75,6 +108,8 @@ async function generateReport(results) {
         <p>Différence: ${result.diffPercentage.toFixed(2)}%</p>
         <p>Pixels différents: ${result.diffPixels} sur ${result.totalPixels}</p>
         <p>Status: ${result.passed ? 'PASSED' : 'FAILED'}</p>
+        <p>Dimensions: ${result.dimensions.width}x${result.dimensions.height}</p>
+        <p>Dimensions originales: ${result.originalDimensions.img1.width}x${result.originalDimensions.img1.height} et ${result.originalDimensions.img2.width}x${result.originalDimensions.img2.height}</p>
       </div>
       <div class="images">
         <div class="image-container">

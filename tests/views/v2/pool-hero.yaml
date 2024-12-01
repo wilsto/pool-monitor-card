@@ -1,0 +1,160 @@
+---
+type: custom:layout-card
+layout_type: custom:grid-layout
+icon: "mdi:account-card-outline"
+layout:
+  grid-template-columns: "1fr 1fr 1fr 1fr"
+  grid-template-rows: "auto auto"
+  grid-template-areas: |
+    "essential chemical treatment maintenance"
+    "compact color language custom"
+cards:
+  - type: custom:pool-monitor-card
+    area: essential
+    title: "Essential sensors"
+    sensors:
+      temperature:
+        name: Temperature
+        entity: sensor.pool_temperature
+      ph:
+        name: pH
+        entity: sensor.pool_ph
+      orp:
+        name: ORP
+        entity: sensor.pool_orp
+      tds:
+        name: TDS
+        entity: sensor.pool_tds
+
+  - type: custom:pool-monitor-card
+    area: chemical
+    title: "Chemical sensors"
+    sensors:
+      salinity:
+        name: Salinity
+        entity: sensor.pool_salinity
+      cya:
+        name: CYA
+        entity: sensor.pool_cya
+      calcium:
+        name: Calcium
+        entity: sensor.pool_calcium
+      phosphate:
+        name: Phosphate
+        entity: sensor.pool_phosphate
+      alkalinity:
+        name: Alkalinity
+        entity: sensor.pool_alkalinity
+
+  - type: custom:pool-monitor-card
+    area: treatment
+    title: "Treatment sensors"
+    sensors:
+      free_chlorine:
+        name: Free Chlorine
+        entity: sensor.pool_free_chlorine
+      total_chlorine:
+        name: Total Chlorine
+        entity: sensor.pool_total_chlorine
+      pressure:
+        name: Pressure
+        entity: sensor.pool_pressure
+      specific_gravity:
+        name: Specific Gravity
+        entity: sensor.pool_sg
+      magnesium:
+        name: Magnesium
+        entity: sensor.pool_magnesium
+
+  - type: custom:pool-monitor-card
+    area: maintenance
+    title: "Maintenance sensors"
+    sensors:
+      water_level:
+        name: Water Level
+        entity: sensor.pool_water_level
+      flow_rate:
+        name: Flow Rate
+        entity: sensor.pool_flow_rate
+      uv_radiation:
+        name: UV Radiation
+        entity: sensor.pool_uv
+      product_volume:
+        name: Product Volume
+        entity: sensor.pool_product_volume
+      product_weight:
+        name: Product Weight
+        entity: sensor.pool_product_weight
+
+
+# ---
+# SECOND LINE
+
+  - type: custom:pool-monitor-card
+    area: compact
+    title: "Compact Display"
+    display:
+      compact: true
+    sensors:
+      temperature:
+        entity: sensor.pool_temperature
+      ph:
+        entity: sensor.pool_ph
+      orp:
+        entity: sensor.pool_orp
+      tds:
+        entity: sensor.pool_tds
+      salinity:
+        entity: sensor.pool_salinity
+      cya:
+        entity: sensor.pool_cya
+      calcium:
+        entity: sensor.pool_calcium
+
+
+
+  - type: custom:pool-monitor-card
+    area: color
+    title: "Color Customisation"
+    colors:
+      cool: '#E6F3FF'
+      normal: '#66B3FF'
+      warn: '#3399FF'
+      low: '#0066CC'
+      marker: '#000000'
+      hi_low: '#00000099'
+    sensors:
+      temperature:
+        entity: sensor.pool_temperature
+      ph:
+        entity: sensor.pool_ph
+
+
+  - type: custom:pool-monitor-card
+    area: language
+    title: "Language Settings"
+    display:
+      language: "ru"
+    sensors:
+      temperature:
+        entity: sensor.pool_temperature
+      ph:
+        entity: sensor.pool_ph
+
+
+
+  - type: custom:pool-monitor-card
+    area: custom
+    title: "Custom Settings (name, unit and setpoint)"
+    sensors:
+      temperature:
+        name: "MY CUSTOM TEMP NAME"
+        unit: "°Other"
+        setpoint: 15
+        entity: sensor.pool_temperature
+      ph:
+        entity: sensor.pool_ph
+        setpoint: 7
+        name: "MY CUSTOM PH NAME"
+        unit: "Other"
+

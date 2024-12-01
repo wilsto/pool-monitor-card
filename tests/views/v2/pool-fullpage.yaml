@@ -1,0 +1,74 @@
+
+---
+type: custom:layout-card
+layout_type: custom:grid-layout
+icon: "mdi:overscan"
+layout:
+  grid-template-columns: "1fr"
+  grid-template-rows: "auto"
+  grid-template-areas: |
+    "essential"
+    "chemical"
+    "treatment"
+    "maintenance"
+cards:
+  - type: custom:pool-monitor-card
+    title: "Essential sensors"
+    sensors:
+      temperature:
+        name: Temperature
+        entity: sensor.pool_temperature
+      ph:
+        name: pH
+        entity: sensor.pool_ph
+      orp:
+        name: ORP
+        entity: sensor.pool_orp
+      tds:
+        name: TDS
+        entity: sensor.pool_tds
+      salinity:
+        name: Salinity
+        entity: sensor.pool_salinity
+      cya:
+        name: CYA
+        entity: sensor.pool_cya
+      calcium:
+        name: Calcium
+        entity: sensor.pool_calcium
+      phosphate:
+        name: Phosphate
+        entity: sensor.pool_phosphate
+      alkalinity:
+        name: Alkalinity
+        entity: sensor.pool_alkalinity
+      free_chlorine:
+        name: Free Chlorine
+        entity: sensor.pool_free_chlorine
+      total_chlorine:
+        name: Total Chlorine
+        entity: sensor.pool_total_chlorine
+      pressure:
+        name: Pressure
+        entity: sensor.pool_pressure
+      specific_gravity:
+        name: Specific Gravity
+        entity: sensor.pool_sg
+      magnesium:
+        name: Magnesium
+        entity: sensor.pool_magnesium
+      water_level:
+        name: Water Level
+        entity: sensor.pool_water_level
+      flow_rate:
+        name: Flow Rate
+        entity: sensor.pool_flow_rate
+      uv_radiation:
+        name: UV Radiation
+        entity: sensor.pool_uv
+      product_volume:
+        name: Product Volume
+        entity: sensor.pool_product_volume
+      product_weight:
+        name: Product Weight
+        entity: sensor.pool_product_weight
