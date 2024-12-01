@@ -17,28 +17,33 @@ Each screenshot represents a different configuration of the Pool Monitor V2 card
 For detailed configuration options, please refer to the [README.md](../README.md) file.
 
 ## Quick Overview
+
 <a href="hero.png">![Pool Monitor V2 Hero](hero.png)</a>
 
 ## Standard Configuration
+
 <a href="Pool-Monitor-V2.png">![Pool Monitor V2](Pool-Monitor-V2.png)</a>
 
 ## Display Options
 
 ### Default Display
+
 <a href="Pool-Monitor-V2-Display.png">![Pool Monitor V2 Display](Pool-Monitor-V2-Display.png)</a>
 
 ### Compact Display
+
 <a href="Pool-Monitor-V2-Compact.png">![Pool Monitor V2 Compact](Pool-Monitor-V2-Compact.png)</a>
 
 ### Advanced Display
+
 <a href="Pool-Monitor-V2-Advanced-Display.png">![Pool Monitor V2 Advanced Display](Pool-Monitor-V2-Advanced-Display.png)</a>
 
 ### Full Page Display
+
 <a href="Pool-Monitor-V2-Fullpage.png">![Pool Monitor V2 Full Page](Pool-Monitor-V2-Fullpage.png)</a>
 
 ## Additional Features
 
 ### Multilanguage Support
+
 <a href="Pool-Monitor-V2-Multilangue.png">![Pool Monitor V2 Multilangue](Pool-Monitor-V2-Multilangue.png)</a>
-
-

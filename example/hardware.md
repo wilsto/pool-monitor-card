@@ -4,7 +4,7 @@
 
 Thanks to [@cloudbr34k84](https://github.com/cloudbr34k84)
 
- WiFi Tuya Smart PH Meter Data Logger Temp TDS Salinity S.G. EC ORP Water Tester Monitor Analyzer for Aquariums Pool Hydroponics
+WiFi Tuya Smart PH Meter Data Logger Temp TDS Salinity S.G. EC ORP Water Tester Monitor Analyzer for Aquariums Pool Hydroponics
 
 For HA, for this device you need to connect with TuyaLocal
 
