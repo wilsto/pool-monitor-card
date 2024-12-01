@@ -21,7 +21,7 @@ console.info(
  * @property {Object} config - Card configuration
  * @version ${CARD_VERSION}
  */
-class PoolMonitorCard extends LitElement {
+export class PoolMonitorCard extends LitElement {
   static cardType = CARD_INFO.cardType;
   static cardName = CARD_INFO.cardName;
   static cardDescription = CARD_INFO.cardDescription;
@@ -197,6 +197,8 @@ class PoolMonitorCard extends LitElement {
     newData.title = config.display.show_names ? title : html`&nbsp;`;
 
     // Gestion des icônes et images pour chaque capteur
+    newData.hide_icon = false;
+    newData.is_mdi = false;
     if (!config.display.show_icons) {
       newData.hide_icon = true;
     } else {
@@ -206,7 +208,6 @@ class PoolMonitorCard extends LitElement {
       if (sensorIcon === 'hide') {
         newData.hide_icon = true;
       } else if (sensorImage) {
-        newData.is_mdi = false;
         newData.img_src = sensorImage;
       } else if (sensorIcon && typeof sensorIcon === 'string' && sensorIcon.startsWith('mdi:')) {
         newData.is_mdi = true;

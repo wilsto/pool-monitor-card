@@ -14,7 +14,7 @@ export class cardContent {
    * @param {string} [config.title] - Optional title to display
    * @returns {TemplateResult} The rendered title HTML
    */
-  static generateTitle(config) {
+  static generateTitle(config) {  
     const title =
       config.title !== undefined
         ? html` <h1 class="pool-monitor-title">${config.title}</h1> `
@@ -45,6 +45,13 @@ export class cardContent {
    * @returns {TemplateResult} The rendered body HTML
    */
   static generateBody(config, data) {
+    if (!data) {
+      return html`
+        <div class="warning-message">
+          No sensor data available
+        </div>
+      `;
+    }
     return html`
       <!-- ##### ${data.name} section ##### -->
       <div class="section" @click=${() => this._moreinfo(data.entity)}>
@@ -219,6 +226,13 @@ export class cardContent {
    * @returns {TemplateResult} The rendered compact body HTML
    */
   static generateCompactBody(config, data) {
+    if (!data) {
+      return html`
+        <div class="warning-message">
+          No sensor data available
+        </div>
+      `;
+    }
     return html`
       <!-- ##### ${data.name} section ##### -->
       <div class="section-compact" @click=${() => this._moreinfo(data.entity)}>

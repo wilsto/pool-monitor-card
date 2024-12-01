@@ -1,6 +1,6 @@
 # Pool Monitor Card
 
-[![Release][release-shield]][release-link] [![hacs][hacs-shield]][hacs-link] [![Project Maintenance][maintenance-shield]][maintenance-link] [![GitHub Activity][commits-shield]][commits-link] ![Github last commit][git-last-commit-badge]
+[![Release][release-shield]][release-link] [![hacs][hacs-shield]][hacs-link] [![Project Maintenance][maintenance-shield]][maintenance-link] [![GitHub Activity][commits-shield]][commits-link] ![Github last commit][git-last-commit-badge] [![codecov][codecov-shield]][codecov-link]
 ![all](example/hero.png)
 [Click here to see various configurations and visual tests for Pool Monitor V2](example/screenshots.md)
 
@@ -457,5 +457,5 @@ These updates may require configuration changes when implemented:
 [git-last-commit-badge]: https://img.shields.io/github/last-commit/wilsto/pool-monitor-card?style=for-the-badge
 [git-download-all-badge]: https://img.shields.io/github/downloads/wilsto/pool-monitor-card/total?style=for-the-badge
 [git-download-latest-badge]: https://img.shields.io/github/downloads/wilsto/pool-monitor-card/latest/total?style=for-the-badge
-
-<!--Urls-->
+[codecov-shield]: https://codecov.io/gh/wilsto/pool-monitor-card/branch/main/graph/badge.svg?token=YOUR_CODECOV_TOKEN&style=for-the-badge
+[codecov-link]: https://codecov.io/gh/wilsto/pool-monitor-card

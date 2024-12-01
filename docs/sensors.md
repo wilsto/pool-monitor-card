@@ -12,7 +12,7 @@ This document provides detailed information about the various sensors and measur
 
 - **TDS**: This stands for Total Dissolved Solids and measures the amount of inorganic and organic substances in the water, such as minerals, salts, and other particles. High levels of TDS can affect water clarity and make it difficult to balance chemicals in the pool. The ideal range for TDS in a saltwater pool is between 3000 and 5000 parts per million (ppm) (3 and 5 g/L).
 
-- **EC**: This stands for Electrical Conductivity and measures the water's ability to conduct electrical current, which is directly related to the concentration of dissolved ions in the water. It provides another way to monitor the water's mineral content and is closely related to TDS. The ideal range for EC in a pool is typically between 3800 and 4200 μS/cm.
+- **EC**: This stands for Electrical Conductivity and measures the water's ability to conduct electrical current, which is directly related to the concentration of dissolved ions in the water. It provides another way to monitor the water's mineral content and is closely related to TDS. The ideal range for EC in a pool is typically between 3800 and 4200 µS/cm.
 
 ## Chemical Balance
 
@@ -52,28 +52,28 @@ This document provides detailed information about the various sensors and measur
 
 ## Analysis and Recommendations Table
 
-| Sensor           | Unit   | Proposed Setpoint | Proposed Step | Min Limit | Chlorine/Salt Difference                                                  |
-| ---------------- | ------ | ----------------- | ------------- | --------- | ------------------------------------------------------------------------- |
-| Temperature      | °C     | 27                | 1             | N/A       | Identical for both types                                                  |
-| ORP              | mV     | 700               | 50            | 0         | Identical, as ORP remains a standard measure for disinfection             |
-| TDS              | g/L    | 5                 | 0.5           | 0         | Different: Chlorine pools: 1-2 g/L maximum                                |
-| EC               | μS/cm  | 4000              | 200           | 0         | Different: Chlorine pools: 500-1000 μS/cm, Salt pools: 3000-6000 μS/cm    |
-| pH               | pH     | 7.2               | 0.2           | 0         | Identical for both types                                                  |
-| Salinity         | ppm    | 3000              | 500           | 0         | Only relevant for salt pools (3,000-6,000 ppm). Chlorine pools: N/A       |
-| Cyanuric Acid    | ppm    | 40                | 10            | 0         | Identical for chlorine stabilization, less critical for salt pools        |
-| Calcium          | ppm    | 300               | 100           | 0         | Identical to prevent scaling or corrosion                                 |
-| Phosphate        | ppb    | 50                | 10            | 0         | Identical: limiting phosphates is key to prevent algae growth             |
-| Alkalinity       | ppm    | 100               | 20            | 0         | Identical for pH stabilization                                            |
-| Free Chlorine    | ppm    | 3                 | 0.5           | 0         | Identical for effective disinfection                                      |
-| Total Chlorine   | ppm    | 3                 | 0.5           | 0         | Identical for monitoring combined chlorine excess                         |
-| Pressure         | psi    | 12                | 2             | 0         | Identical for both pool types                                             |
-| Specific Gravity | sg     | 1.1               | 0.2           | 0         | Different: relevant for salt pools (higher due to density)                |
-| Magnesium        | ppm    | 1200              | 100           | 0         | Mainly relevant for salt pools (magnesium chloride used for electrolysis) |
-| Water Level      | %      | 100               | 10            | 0         | Identical for both pool types                                             |
-| Flow Rate        | m³/h   | 10                | 1             | 0         | Identical for proper circulation and filtration                           |
-| UV Radiation     | mW/cm² | 4                 | 1             | 0         | Identical: used as complement regardless of disinfection method           |
-| Product Volume   | L      | 20                | 5             | 0         | Specific to dosing system, identical if used                              |
-| Product Weight   | kg     | 25                | 5             | 0         | Specific to dosing system, identical if used                              |
+| Sensor ID        | Sensor           | Unit   | Proposed Setpoint | Proposed Step | Min Limit | Chlorine/Salt Difference                                                  |
+| ---------------- | ---------------- | ------ | ----------------- | ------------- | --------- | ------------------------------------------------------------------------- |
+| temperature      | Temperature      | °C     | 27                | 1             | N/A       | Identical for both types                                                  |
+| orp              | ORP              | mV     | 700               | 50            | 0         | Identical, as ORP remains a standard measure for disinfection             |
+| tds              | TDS              | g/L    | 5                 | 0.5           | 0         | Different: Chlorine pools: 1-2 g/L maximum                                |
+| ec               | Electrical Conductivity               | µS/cm  | 4000              | 200           | 0         | Different: Chlorine pools: 500-1000 µS/cm, Salt pools: 3000-6000 µS/cm    |
+| ph               | pH               | pH     | 7.2               | 0.2           | 0         | Identical for both types                                                  |
+| salinity         | Salinity         | ppm    | 3000              | 500           | 0         | Only relevant for salt pools (3,000-6,000 ppm). Chlorine pools: N/A       |
+| cyanuric_acid    | Cyanuric Acid    | ppm    | 40                | 10            | 0         | Identical for chlorine stabilization, less critical for salt pools        |
+| calcium          | Calcium          | ppm    | 300               | 100           | 0         | Identical to prevent scaling or corrosion                                 |
+| phosphate        | Phosphate        | ppb    | 50                | 10            | 0         | Identical: limiting phosphates is key to prevent algae growth             |
+| alkalinity       | Alkalinity       | ppm    | 100               | 20            | 0         | Identical for pH stabilization                                            |
+| free_chlorine    | Free Chlorine    | ppm    | 3                 | 0.5           | 0         | Identical for effective disinfection                                      |
+| total_chlorine   | Total Chlorine   | ppm    | 3                 | 0.5           | 0         | Identical for monitoring combined chlorine excess                         |
+| pressure         | Pressure         | psi    | 12                | 2             | 0         | Identical for both pool types                                             |
+| specific_gravity | Specific Gravity | sg     | 1.1               | 0.2           | 0         | Different: relevant for salt pools (higher due to density)                |
+| magnesium        | Magnesium        | ppm    | 1200              | 100           | 0         | Mainly relevant for salt pools (magnesium chloride used for electrolysis) |
+| water_level      | Water Level      | %      | 100               | 10            | 0         | Identical for both pool types                                             |
+| flow_rate        | Flow Rate        | m³/h   | 10                | 1             | 0         | Identical for proper circulation and filtration                           |
+| uv_radiation     | UV Radiation     | mW/cm² | 4                 | 1             | 0         | Identical: used as complement regardless of disinfection method           |
+| product_volume   | Product Volume   | L      | 20                | 5             | 0         | Specific to dosing system, identical if used                              |
+| product_weight   | Product Weight   | kg     | 25                | 5             | 0         | Specific to dosing system, identical if used                              |
 
 ## Differences Between Chlorine and Salt Pools
 
@@ -81,10 +81,10 @@ This document provides detailed information about the various sensors and measur
 
 - Salt pools:
   - TDS: 3-6 g/L due to dissolved salts needed for electrolysis
-  - EC: 3000-6000 μS/cm
+  - EC: 3000-6000 µS/cm
 - Chlorine pools:
   - TDS: 1-2 g/L maximum
-  - EC: 500-1000 μS/cm
+  - EC: 500-1000 µS/cm
 
 ### Salinity:
 
