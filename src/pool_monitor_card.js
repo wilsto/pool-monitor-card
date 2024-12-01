@@ -95,6 +95,7 @@ class PoolMonitorCard extends LitElement {
           sensor.icon,
           sensor.image_url,
           sensor.mode,
+          sensor.min_limit,
           sensor.override_value,
           sensor.override,
           sensor.invalid
@@ -111,7 +112,7 @@ class PoolMonitorCard extends LitElement {
     return formatTranslation(translation, values);
   }
 
-  calculateData(name, title, entity, entity_min, entity_max, setpoint, setpoint_step, unit, icon, image_url, mode, override_value, override, invalid) {
+  calculateData(name, title, entity, entity_min, entity_max, setpoint, setpoint_step, unit, icon, image_url, mode, min_limit, override_value, override, invalid) {
     const newData = {};
     const config = this.getConfig();
     const defaultConfig = getSensorConfig(name) || {};
@@ -187,17 +188,31 @@ class PoolMonitorCard extends LitElement {
     }
 
     newData.setpoint = setpoint;
+  
+    // Calculate setpoint classes with min_limit consideration
+    const minLimit = min_limit !== undefined ? Number(min_limit) : -Infinity;
+    const sp_minus_2 = Math.max(minLimit, setpoint - 2 * setpoint_step);
+    const sp_minus_1 = Math.max(minLimit, setpoint - setpoint_step);
+    const sp = Math.max(minLimit, setpoint);
+    const sp_plus_1 = Math.max(minLimit, setpoint + setpoint_step);
+    const sp_plus_2 = Math.max(minLimit, setpoint + 2 * setpoint_step);
+
     newData.setpoint_class = [
-      (setpoint - 2 * setpoint_step).toFixed(countDecimals),
-      (setpoint - setpoint_step).toFixed(countDecimals),
-      (setpoint).toFixed(countDecimals),
-      (setpoint + setpoint_step).toFixed(countDecimals),
-      (setpoint + 2 * setpoint_step).toFixed(countDecimals)
+      sp_minus_2.toFixed(countDecimals),
+      sp_minus_1.toFixed(countDecimals),
+      sp.toFixed(countDecimals),
+      sp_plus_1.toFixed(countDecimals),
+      sp_plus_2.toFixed(countDecimals)
     ]
 
     newData.separator = config.display.show_labels ? "-":"";
     newData.color = "transparent";
     
+    // Ensure value respects min_limit
+    if (newData.value !== null) {
+      newData.value = Math.max(minLimit, newData.value);
+    }
+
     if (mode === 'heatflow') {
       // Three-level gradient for heatflow mode
       if (Number(newData.value) < Number(newData.setpoint_class[1])) {

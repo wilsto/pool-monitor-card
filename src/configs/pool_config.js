@@ -32,83 +32,101 @@ export const DEFAULT_CONFIG = {
             unit: 'mV',
             setpoint: 700,
             step: 50,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
+        },
+        ec: {
+            name: 'Electrical Conductivity',
+            unit: 'µS/cm',
+            setpoint: 4000,
+            step: 200,
+            mode: 'centric',
+            min_limit: 0
         },
         tds: {
             name: 'TDS',
             unit: 'g/L',
-            setpoint: 4,
-            step: 1,
-            mode: 'centric'
+            setpoint: 5,
+            step: 0.5,
+            mode: 'centric',
+            min_limit: 0
         },
         ph: {
             name: 'pH',
             unit: 'pH',
             setpoint: 7.2,
             step: 0.2,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         salinity: {
             name: 'Salinity',
             unit: 'ppm',
             setpoint: 3000,
             step: 500,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         cya: {
             name: 'Cyanuric Acid',
             unit: 'ppm',
             setpoint: 40,
             step: 10,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         calcium: {
             name: 'Calcium',
             unit: 'ppm',
             setpoint: 300,
             step: 100,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         phosphate: {
             name: 'Phosphate',
             unit: 'ppb',
-            setpoint: 100,
-            step: 100,
-            mode: 'centric'
+            setpoint: 50,
+            step: 10,
+            mode: 'centric',
+            min_limit: 0
         },
         alkalinity: {
             name: 'Alkalinity',
             unit: 'ppm',
             setpoint: 100,
             step: 20,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         free_chlorine: {
             name: 'Free Chlorine',
             unit: 'ppm',
             setpoint: 3,
             step: 0.5,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         total_chlorine: {
             name: 'Total Chlorine',
             unit: 'ppm',
-            setpoint: 5,
+            setpoint: 3,
             step: 0.5,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         pressure: {
             name: 'Filter Pressure',
             unit: 'psi',
-            setpoint: 20,
-            step: 10,
+            setpoint: 12,
+            step: 2,
             mode: 'centric'
         },
         specific_gravity: {
             name: 'Specific Gravity',
             unit: 'sg',
-            setpoint: 1.2,
-            step: 0.1,
+            setpoint: 1.1,
+            step: 0.2,
             mode: 'centric'
         },
         magnesium: {
@@ -116,43 +134,49 @@ export const DEFAULT_CONFIG = {
             unit: 'ppm',
             setpoint: 1200,
             step: 100,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         water_level: {
             name: 'Water Level',
             unit: '%',
             setpoint: 100,
             step: 10,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         flow_rate: {
             name: 'Flow Rate',
             unit: 'm³/h',
             setpoint: 10,
             step: 1,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         uv_radiation: {
             name: 'UV Radiation',
             unit: 'mW/cm²',
             setpoint: 4,
             step: 1,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         product_volume: {
             name: 'Product Volume',
             unit: 'L',
             setpoint: 20,
             step: 5,
-            mode: 'centric'
+            mode: 'centric',
+            min_limit: 0
         },
         product_weight: {
             name: 'Product Weight',
             unit: 'kg',
             setpoint: 25,
             step: 5,
-            mode: 'centric'
-        }
+            mode: 'centric',
+            min_limit: 0
+        }       
     }
 };
 

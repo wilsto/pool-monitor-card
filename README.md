@@ -1,5 +1,11 @@
 # Pool Monitor Card
 
+
+[![Release][release-shield]][release-link]  [![hacs][hacs-shield]][hacs-link] [![Project Maintenance][maintenance-shield]][maintenance-link] [![GitHub Activity][commits-shield]][commits-link] [![hacs][hacs-validate]][hacs-url] ![Github last commit][git-last-commit-badge] ![git-download-all][git-download-all-badge] ![git-download-latest][git-download-latest-badge]
+![all](example/hero.png)
+[Click here to see various configurations and visual tests for Pool Monitor V2](example/screenshots.md)
+
+
 > ⚠️ **BREAKING CHANGE: Version 2.0** ⚠️
 > 
 > 🚀 **Version 2.0** is here! This release is a complete overhaul, bringing exciting new features, a more intuitive user experience, and a more maintainable structure.
@@ -22,32 +28,18 @@
 > 3. Refer to the updated documentation for detailed YAML examples.
 >
 > 👉 [View the Full Migration Guide](docs/MIGRATION.md)
->
-> - **Enhanced Maintainability:**
->   - Implemented a modular architecture for easier updates and scalability
->   - Upgraded translation system with support for multiple languages
->   - Improved error handling and detailed reporting for better debugging
-
-> For updated setup instructions, please refer to the configuration section below.
-
-
-[![version](https://img.shields.io/github/v/release/wilsto/pool-monitor-card?color=green&include_prereleases&style=for-the-badge)](https://github.com/wilsto/pool-monitor-card/releases)  [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
-
-![all](example/hero.png)
-[Click here to see various configurations and visual tests for Pool Monitor V2](example/screenshots.md)
-
 
 
 ---
 
 ## Description
 
-The "Pool Monitor Card" is a Home Assistant plugin that displays information from **<span style="color:orange">19 predefined sensors for your pool</span>**, allowing you to easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
+The "Pool Monitor Card" is a Home Assistant plugin that displays information from **<span style="color:orange">20 predefined sensors for your pool</span>**, allowing you to easily monitor these important aspects of your swimming pool and make any necessary adjustments to ensure that the water is safe and comfortable for swimming.
 <div style="display: flex; flex-direction: column; gap: 15px; margin: 20px 0; font-family: Arial, sans-serif; color: #333;">
 
 | Icons | Category | Parameters |
 |--------|-----------|------------|
-| ![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) | **Essential Parameters** | temperature, pH, ORP and TDS |
+| ![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) ![EC](resources/ec.png) | **Essential Parameters** | temperature, pH, ORP, TDS and EC |
 | ![Salinity](resources/salinity.png) ![Cyanuric acid](resources/cya.png) ![Calcium](resources/calcium.png) ![Phosphate](resources/phosphate.png) ![Alkalinity](resources/alkalinity.png) | **Chemical Balance** | salinity, cyanuric acid, calcium, phosphate and alkalinity |
 | ![Free chlorine](resources/free_chlorine.png) ![Total chlorine](resources/total_chlorine.png) ![Filter pressure](resources/pressure.png) ![Specific gravity](resources/sg.png) ![Magnesium](resources/magnesium.png) | **Treatment** | free/total chlorine, filter pressure, specific gravity and magnesium |
 | ![Water level](resources/water_level.png) ![Flow rate](resources/flow_rate.png) ![UV radiation](resources/uv_radiation.png) ![Product volume](resources/product_volume.png) ![Product weight](resources/product_weight.png) | **Maintenance** | water level, flow rate, UV radiation and product management |
@@ -66,9 +58,6 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 
 ## Table of Contents <!-- omit in toc -->
 
-<details>
-  <summary> click me to open</summary>
-
 - [Pool Monitor Card](#pool-monitor-card)
   - [Description](#description)
   - [Support](#support)
@@ -79,31 +68,11 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
   - [Lovelace Setup](#lovelace-setup)
     - [Using UI](#using-ui)
     - [Using YAML](#using-yaml)
-      - [Example Code](#example-code)
   - [Configuration](#configuration)
     - [Card Options](#card-options)
     - [Display Options](#display-options)
     - [Color Options](#color-options)
     - [Sensors Options](#sensors-options)
-      - [Temperature](#temperature)
-      - [pH](#ph)
-      - [ORP](#orp)
-      - [TDS](#tds)
-      - [Salinity](#salinity)
-      - [Cyanuric Acid](#cyanuric-acid)
-      - [Calcium](#calcium)
-      - [Phosphate](#phosphate)
-      - [Alkalinity](#alkalinity)
-      - [Free Chlorine](#free-chlorine)
-      - [Total Chlorine](#total-chlorine)
-      - [Filter Pressure](#filter-pressure)
-      - [Specific Gravity](#specific-gravity)
-      - [Magnesium](#magnesium)
-      - [Water Level](#water-level)
-      - [Flow Rate](#flow-rate)
-      - [UV Radiation](#uv-radiation)
-      - [Product Volume](#product-volume)
-      - [Product Weight](#product-weight)
   - [Min / Max Indicators](#min--max-indicators)
   - [Hardware Compatibility](#hardware-compatibility)
   - [Acknowledgments](#acknowledgments)
@@ -111,8 +80,6 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
     - [Minor Enhancements](#minor-enhancements)
     - [Major Updates](#major-updates)
   
-</details>
-
 ---
 
 ## Install
@@ -159,6 +126,7 @@ sensors:
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:pool-monitor-card` ||
+| `title` | string | Optional | Pool Monitor Card Title |`none`|
 | `display` | object | Optional | UI display settings. See [Display Options](#display-options) for details. | {}  |
 | `colors` | object | Optional | Color settings for the card. See [Color Options](#color-options) for details. | {} |
 | `sensors` | object | **Required** | Configuration for various pool sensors. See [Sensors Options](#sensors-options) for details. | {} |
@@ -180,15 +148,15 @@ You can go further with the card by modifying the user interface (UI).
 
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title` | string | **Optional** | Pool Monitor Card Title |`none`|
-| `compact` | boolean | **Optional** | Compact Mode |`false`|
-| `show_names` | boolean | **Optional** | Display the name of the entity  |`true`|
-| `show_labels` | boolean | **Optional** | Display the state qualification (Low, Ideal, High)  |`true`|
-| `show_last_updated` | boolean | **Optional** | Display the last updated sensor relative date [Only for compact = false]  |`false`|
-| `show_icons` | boolean | **Optional** | Display the icons of the entities  |`true`|
-| `show_units` | boolean | **Optional** | Display the units of the entities  |`true`|
-| `gradient`  | boolean | **Optional** | Display the gradient bar  |`true`|
-| `language` | string | **Optional** | Interface language (12 languages supported) - (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk, ![IL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/il.png) he, ![RU](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ru.png) ru)  |`en`|
+| `title` | string | Optional | Pool Monitor Card Title |`none`|
+| `compact` | boolean | Optional | Compact Mode |`false`|
+| `show_names` | boolean | Optional | Display the name of the entity  |`true`|
+| `show_labels` | boolean | Optional | Display the state qualification (Low, Ideal, High)  |`true`|
+| `show_last_updated` | boolean | Optional | Display the last updated sensor relative date [Only for compact = false]  |`false`|
+| `show_icons` | boolean | Optional | Display the icons of the entities  |`true`|
+| `show_units` | boolean | Optional | Display the units of the entities  |`true`|
+| `gradient`  | boolean | Optional | Display the gradient bar  |`true`|
+| `language` | string | Optional | Interface language (12 languages supported) - (![GB](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png) en, ![FR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/fr.png) fr, ![ES](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png) es, ![DE](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/de.png) de, ![IT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/it.png) it, ![NL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/nl.png) nl, ![PT](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pt.png) pt, ![BR](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/br.png) pt-br, ![RO](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ro.png) ro, ![SK](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/sk.png) sk, ![IL](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/il.png) he, ![RU](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/ru.png) ru)  |`en`|
 
 ```yaml
 display:
@@ -205,12 +173,12 @@ display:
 ### Color Options
 | Name | Type | Requirement | Description | Default |
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `normal_color` | String | **Optional** | Color for normal range values | `#00b894` |
-| `low_color` | String | **Optional** | Color for low range values | `#fdcb6e` |
-| `warn_color` | String | **Optional** | Color for warning range values | `#e17055` |
-| `cool_color` | String | **Optional** | Color for cool range values | `#00BFFF` |
-| `marker_color` | String | **Optional** | Color for min/max markers | `#000000` |
-| `hi_low_color` | String | **Optional** | Color for high/low range values | `#00000099` |
+| `normal_color` | String | Optional | Color for normal range values | `#00b894` |
+| `low_color` | String | Optional | Color for low range values | `#fdcb6e` |
+| `warn_color` | String | Optional | Color for warning range values | `#e17055` |
+| `cool_color` | String | Optional | Color for cool range values | `#00BFFF` |
+| `marker_color` | String | Optional | Color for min/max markers | `#000000` |
+| `hi_low_color` | String | Optional | Color for high/low range values | `#00000099` |
 
 ```yaml
 colors:
@@ -235,27 +203,29 @@ You can find their default values in the documentation.
 ⚠️ **Important:**  
 While all sensors are optional, you must define at least one entity for the card to function correctly.
 
-| Sensor ID | Requirement | Description | Name | Unit | Setpoint | Step |
-|-----------|-------------|-------------|------|------|----------|------|
-| temperature | **Optional*** | The entity that measures the water temperature. | Temperature | °C | 27 | 1 |
-| ph | **Optional*** | The entity that measures the acidity or basicity of the water. | pH | pH | 7.2 | 0.2 |
-| orp | **Optional*** | The entity that measures the Oxidation Reduction Potential of the water. | ORP | mV | 700 | 50 |
-| tds | **Optional*** | The entity that measures the Total Dissolved Solids in the water. | TDS | g/L | 4 | 1 |
-| salinity | **Optional*** | The entity that measures the salt level in the water (for saltwater pools). | Salinity | ppm | 3000 | 500 |
-| cya | **Optional*** | The entity that measures the Cyanuric Acid level in the water. | Cyanuric Acid | ppm | 40 | 10 |
-| calcium | **Optional*** | The entity that measures the Calcium Hardness level in the water. | Calcium | ppm | 300 | 100 |
-| phosphate | **Optional*** | The entity that measures the Phosphate level in the water. | Phosphate | ppb | 100 | 100 |
-| alkalinity | **Optional*** | The entity that measures the alkalinity of the water. | Alkalinity | ppm | 100 | 20 |
-| free_chlorine | **Optional*** | The entity that measures the concentration of free chlorine in the water. | Free Chlorine | ppm | 3 | 0.5 |
-| total_chlorine | **Optional*** | The entity that measures the concentration of both free chlorine and combined chlorine in the water. | Total Chlorine | ppm | 5 | 0.5 |
-| pressure | **Optional*** | The entity that measures the filter pressure in the pool. | Filter Pressure | psi | 20 | 10 |
-| specific_gravity | **Optional*** | The entity that measures the specific gravity of the water. | Specific Gravity | sg | 1.2 | 0.1 |
-| magnesium | **Optional*** | The entity that measures the magnesium level in the water. | Magnesium | ppm | 1200 | 100 |
-| water_level | **Optional*** | The entity that measures the water level in your pool. | Water Level | % | 100 | 10 |
-| flow_rate | **Optional*** | The entity that measures the flow rate through your pool's filtration system. | Flow Rate | m³/h | 10 | 1 |
-| uv_radiation | **Optional*** | The entity that measures the UV light output in your pool's sanitization system. | UV Radiation | mW/cm² | 4 | 1 |
-| product_volume | **Optional*** | The entity that tracks the volume of liquid chemical products in storage. | Product Volume | L | 20 | 5 |
-| product_weight | **Optional*** | The entity that monitors the weight of powdered chemical products in storage. | Product Weight | kg | 25 | 5 |
+| Sensor ID | Requirement | Description | Name | Unit | Setpoint | Step | Min Limit |
+|-----------|-------------|-------------|------|------|----------|------|-----------|
+| temperature | Optional* | The entity that measures the water temperature. | Temperature | °C | 27 | 1 | - |
+| ph | Optional* | The entity that measures the acidity or basicity of the water. | pH | pH | 7.2 | 0.2 | 0 |
+| orp | Optional* | The entity that measures the Oxidation Reduction Potential of the water. | ORP | mV | 700 | 50 | 0 |
+| ec | Optional* | The entity that measures the electrical conductivity of the water. | EC | μS/cm | 1500 | 100 | 0 |
+| tds | Optional* | The entity that measures the Total Dissolved Solids in the water. | TDS | g/L | 5 | 0.5 | 0 |
+| salinity | Optional* | The entity that measures the salt level in the water (for saltwater pools). | Salinity | ppm | 3000 | 500 | 0 |
+| cya | Optional* | The entity that measures the Cyanuric Acid level in the water. | Cyanuric Acid | ppm | 40 | 10 | 0 |
+| calcium | Optional* | The entity that measures the Calcium Hardness level in the water. | Calcium | ppm | 300 | 100 | 0 |
+| phosphate | Optional* | The entity that measures the Phosphate level in the water. | Phosphate | ppb | 50 | 10 | 0 |
+| alkalinity | Optional* | The entity that measures the alkalinity of the water. | Alkalinity | ppm | 100 | 20 | 0 |
+| free_chlorine | Optional* | The entity that measures the concentration of free chlorine in the water. | Free Chlorine | ppm | 3 | 0.5 | 0 |
+| total_chlorine | Optional* | The entity that measures the concentration of both free chlorine and combined chlorine in the water. | Total Chlorine | ppm | 3 | 0.5 | 0 |
+| pressure | Optional* | The entity that measures the filter pressure in the pool. | Filter Pressure | psi | 12 | 2 | 0 |
+| specific_gravity | Optional* | The entity that measures the specific gravity of the water. | Specific Gravity | sg | 1.1 | 0.2 | 0 |
+| magnesium | Optional* | The entity that measures the magnesium level in the water. | Magnesium | ppm | 1200 | 100 | 0 |
+| water_level | Optional* | The entity that measures the water level in your pool. | Water Level | % | 100 | 10 | 0 |
+| flow_rate | Optional* | The entity that measures the flow rate through your pool's filtration system. | Flow Rate | m³/h | 10 | 1 | 0 |
+| uv_radiation | Optional* | The entity that measures the UV light output in your pool's sanitization system. | UV Radiation | mW/cm² | 4 | 1 | 0 |
+| product_volume | Optional* | The entity that tracks the volume of liquid chemical products in storage. | Product Volume | L | 20 | 5 | 0 |
+| product_weight | Optional* | The entity that monitors the weight of powdered chemical products in storage. | Product Weight | kg | 25 | 5 | 0 |
+
 
 ```yaml
 sensors:
@@ -273,16 +243,16 @@ Needed to change the name, unit, setpoint, and steps ? No problem, see additionn
 | Name | Type | Requirement | Description |
 | -------------- | ----------- | ------------ | ------------------------------------------------ |
 | `entity` | String | **Required** | Sensor Entity |
-| `name` | String | **Optional** | Sensor Name |
-| `unit` | String | **Optional** | Sensor Unit (°C or °F) |
-| `setpoint` | Number | **Optional** | Sensor Set Point |
-| `step` | Number | **Optional** | Sensor Step |
-| `min` | String | **Optional** | Entity ID for daily minimum Sensor |
-| `max` | String | **Optional** | Entity ID for daily maximum Sensor |
-| `icon` | Object | **Optional** | Configure the icon for Sensor. Use `mdi` for an MDI icon, or `hide` to hide the icon. |
-| `image_url` | Object | **Optional** | Configure the image URL for Sensor. |
-| `mode` |String|**Optional**|Sensor Display Mode : bidirectional (default for all) or heatflow (default for temperature)|
-
+| `name` | String | Optional | Sensor Name |
+| `unit` | String | Optional | Sensor Unit (°C or °F) |
+| `setpoint` | Number | Optional | Sensor Set Point |
+| `step` | Number | Optional | Sensor Step |
+| `min` | String | Optional | Entity ID for daily minimum Sensor |
+| `max` | String | Optional | Entity ID for daily maximum Sensor |
+| `icon` | Object | Optional | Configure the icon for Sensor. Use `mdi` for an MDI icon, or `hide` to hide the icon. |
+| `image_url` | Object | Optional | Configure the image URL for Sensor. |
+| `mode` |String|Optional|Sensor Display Mode : bidirectional (default for all) or heatflow (default for temperature)|
+| `min_limit` | Number | Optional | Minimum acceptable value for the sensor |
 
 ```yaml
 sensors:
@@ -451,3 +421,19 @@ These updates may require configuration changes when implemented:
 
 > **Note:** This roadmap is subject to change based on community feedback and needs. Feel free to contribute ideas by opening issues on GitHub!
 
+<!--Badges-->
+[release-shield]: https://img.shields.io/github/release/wilsto/pool-monitor-card.svg?color=green&include_prereleases&style=for-the-badge
+[release-link]: https://github.com/wilsto/pool-monitor-card/releases/latest
+[hacs-shield]: https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge
+[hacs-link]: https://github.com/hacs/integration
+[maintenance-shield]: https://img.shields.io/badge/maintainer-wilsto-green.svg?style=for-the-badge
+[maintenance-link]: https://github.com/wilsto/pool-monitor-card
+[commits-shield]: https://img.shields.io/github/commit-activity/y/wilsto/pool-monitor-card.svg?color=41BDF5&style=for-the-badge
+[commits-link]: https://github.com/wilsto/pool-monitor-card/commits/main
+[github-link]: https://github.com/wilsto/pool-monitor-card
+[hacs-validate]: https://github.com/wilsto/pool-monitor-card/actions/workflows/validate.yml/badge.svg
+[hacs-url]: https://github.com/wilsto/pool-monitor-card/actions/workflows/validate.yml
+[git-last-commit-badge]: https://img.shields.io/github/last-commit/wilsto/pool-monitor-card?style=for-the-badge
+[git-download-all-badge]: https://img.shields.io/github/downloads/wilsto/pool-monitor-card/total?style=for-the-badge
+[git-download-latest-badge]: https://img.shields.io/github/downloads/wilsto/pool-monitor-card/latest/total?style=for-the-badge
+<!--Urls-->
