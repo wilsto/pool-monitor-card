@@ -1,7 +1,7 @@
 # Pool Monitor Card
 
 
-[![Release][release-shield]][release-link]  [![hacs][hacs-shield]][hacs-link] [![Project Maintenance][maintenance-shield]][maintenance-link] [![GitHub Activity][commits-shield]][commits-link] [![hacs][hacs-validate]][hacs-url] ![Github last commit][git-last-commit-badge] ![git-download-all][git-download-all-badge] ![git-download-latest][git-download-latest-badge]
+[![Release][release-shield]][release-link]  [![hacs][hacs-shield]][hacs-link] [![Project Maintenance][maintenance-shield]][maintenance-link] [![GitHub Activity][commits-shield]][commits-link] ![Github last commit][git-last-commit-badge] 
 ![all](example/hero.png)
 [Click here to see various configurations and visual tests for Pool Monitor V2](example/screenshots.md)
 
@@ -84,17 +84,29 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 
 ## Install
 
-### via HACS
+### Install Pool Monitor Card via HACS
 
-Until the Home Assistant Pool Monitor card is available by default in the HACS directory, click on:
+1. **Open HACS**: Go to the **Frontend** tab.
+2. **Search**: Look for **Pool Monitor Card**.
+3. **Install**: Select the card and click **Install**.
+4. **Refresh**: Reload Home Assistant with `Ctrl + F5` or `Shift + ⌘ + R`.
+5. **Add**: Edit your Lovelace dashboard and add **Pool Monitor Card**.
+
+or click on:
+
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wilsto&repository=pool-monitor-card&category=plugin)
 
 ### Manualy
+
+<details>
+<summary>Click to expand installation instructions</summary>
 
 1. Download the `pool_monitor_card.js` file from the [latest release available](https://github.com/wilsto/pool-monitor-card/releases) and save it in your `configuration/www` folder.
 1. Go to `Configuration > Lovelace dashboard > Resources` in Home Assistant and click on `Add resource`.
     1. Add `/local/community/pool-monitor-card/pool_monitor_card.js` to the URL.
     1. Choose `Javascript Module` as Resource type.
+
+</details>
 
 ---
 
