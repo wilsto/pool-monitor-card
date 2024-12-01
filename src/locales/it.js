@@ -28,6 +28,7 @@ export default {
     uv_radiation: 'Radiazione UV',
     product_volume: 'Volume prodotto',
     product_weight: 'Peso prodotto',
+    electrical_conductivity: 'Conducibilità Elettrica',
   },
   time: {
     seconds: 'proprio ora',

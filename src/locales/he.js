@@ -28,6 +28,7 @@ export default {
     uv_radiation: 'קרינת UV',
     product_volume: 'נפח מוצר',
     product_weight: 'משקל מוצר',
+    electrical_conductivity: 'מוליכות חשמלית',
   },
   time: {
     seconds: 'הרגע',

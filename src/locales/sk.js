@@ -28,6 +28,7 @@ export default {
     uv_radiation: 'UV žiarenie',
     product_volume: 'Objem produktu',
     product_weight: 'Hmotnosť produktu',
+    electrical_conductivity: 'Elektrická Vodivosť',
   },
   time: {
     seconds: 'práve teraz',

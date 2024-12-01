@@ -28,6 +28,7 @@ export default {
     uv_radiation: 'UV-Strahlung',
     product_volume: 'Produktvolumen',
     product_weight: 'Produktgewicht',
+    electrical_conductivity: 'Elektrische Leitfähigkeit',
   },
   time: {
     seconds: 'gerade erst',
