@@ -1,4 +1,4 @@
-const VERSION = '2.0.0';
+const VERSION = '2.1.0';
 /* global __BUILD_TIMESTAMP__ */
 const BUILD_TIMESTAMP = __BUILD_TIMESTAMP__ || 'dev';
 

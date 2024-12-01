@@ -1,14 +1,19 @@
 # Pool Sensor Details
 
 This document provides detailed information about the various sensors and measurements used in pool monitoring.
+## Essential Parameters
 
-- **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C.  Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
+- **Temperature**: This refers to the temperature of the water in your pool. The ideal range for temperature in a pool is between 26°C and 28°C. Knowing the temperature can help you decide if it's warm enough for swimming or if it's too cold and might need to be heated.
 
 - **pH**: This is a measure of how acidic or alkaline the water in your pool is. The ideal range for pH in a pool is between 7.0 and 7.4. Maintaining the proper pH level can help prevent skin and eye irritation and keep the pool water safe for swimming.
 
-- **ORP**: This stands for Oxidation Reduction Potential and measures the ability of the water to oxidize or reduce substances in the pool. The ORP level is related to the amount of chlorine or other sanitizers in the pool.  The ideal range for chlorine in a pool is between 650 and 750 mV. Maintaining the correct ORP level can help ensure that the pool water is properly sanitized and free of harmful bacteria.
+- **ORP**: This stands for Oxidation Reduction Potential and measures the ability of the water to oxidize or reduce substances in the pool. The ORP level is related to the amount of chlorine or other sanitizers in the pool. The ideal range for chlorine in a pool is between 650 and 750 mV. Maintaining the correct ORP level can help ensure that the pool water is properly sanitized and free of harmful bacteria.
 
 - **TDS**: This stands for Total Dissolved Solids and measures the amount of inorganic and organic substances in the water, such as minerals, salts, and other particles. High levels of TDS can affect water clarity and make it difficult to balance chemicals in the pool. The ideal range for TDS in a saltwater pool is between 3000 and 5000 parts per million (ppm) (3 and 5 g/L).
+
+- **EC**: This stands for Electrical Conductivity and measures the water's ability to conduct electrical current, which is directly related to the concentration of dissolved ions in the water. It provides another way to monitor the water's mineral content and is closely related to TDS. The ideal range for EC in a pool is typically between 3800 and 4200 μS/cm.
+
+## Chemical Balance
 
 - **Salinity**: This measures the amount of salt in the water. A saltwater pool requires a specific range of salt to function properly. The ideal range for salt in a saltwater pool is between 2500 and 3500 ppm.
 
@@ -20,6 +25,8 @@ This document provides detailed information about the various sensors and measur
 
 - **Alkalinity**: This measures the ability of the water to resist changes in pH. Proper alkalinity can help to prevent the water from becoming too acidic or alkaline. The ideal range for alkalinity in a pool is between 80 and 120 ppm.
 
+## Treatment
+
 - **Free Chlorine**: This measures the amount of active chlorine in the water that is available to sanitize the pool. The ideal range for free chlorine in a pool is between 1 and 3 ppm.
 
 - **Total Chlorine**: This measures the combined concentration of both free chlorine and chlorine that has combined with contaminants in the water. The ideal range for total chlorine in a pool is up to 5 ppm.
@@ -28,7 +35,9 @@ This document provides detailed information about the various sensors and measur
 
 - **Specific Gravity**: A measure that indicates if an object will float or sink in water. Water has a specific gravity of 1.0 at 20°C. This reference point helps determine if substances will float (specific gravity < 1) or sink (specific gravity > 1) in water. This property is important for pool equipment and chemical management.
 
-- **Magnesium**: A mineral that helps prevent scaling and staining in pools. The ideal range for magnesium in a pool is between 20 and 40 ppm. Proper magnesium levels can help improve water clarity and reduce chemical usage.
+- **Magnesium**: A mineral that helps prevent scaling and staining in pools. The ideal range for magnesium in a pool is between 1000 and 1400 ppm. Proper magnesium levels can help improve water clarity and reduce chemical usage.
+
+## Maintenance
 
 - **Water Level**: This measures the water level in your pool. Maintaining proper water level is crucial for optimal pool operation. The water level should typically be kept at the middle of the skimmer opening (about halfway up the skimmer opening) for proper filtration. Too low water levels can damage pumps, while too high levels reduce skimmer efficiency. Many pools use sensors to monitor this automatically and some systems can even automatically add water when levels drop too low.
 
@@ -39,3 +48,50 @@ This document provides detailed information about the various sensors and measur
 - **Product Volume**: This tracks the volume of liquid chemical products (like pH+ and pH- solutions) in storage. A minimum volume of 10 liters per chemical type should be maintained to prevent shortages. Weekly inventory checks and usage tracking help optimize reorder timing and maintain adequate chemical supplies.
 
 - **Product Weight**: This monitors the weight of powdered chemical products in storage. A minimum of 5 kg should be maintained for essential powdered chemicals. Weekly weight logging and consumption tracking help predict future needs and prevent stock-outs.
+
+## Analysis and Recommendations Table
+| Sensor | Unit | Proposed Setpoint | Proposed Step | Min Limit | Chlorine/Salt Difference |
+|--------|------|-------------------|---------------|-----------|--------------------------|
+| Temperature | °C | 27 | 1 | N/A | Identical for both types |
+| ORP | mV | 700 | 50 | 0 | Identical, as ORP remains a standard measure for disinfection |
+| TDS | g/L | 5 | 0.5 | 0 | Different: Chlorine pools: 1-2 g/L maximum |
+| EC | μS/cm | 4000 | 200 | 0 | Different: Chlorine pools: 500-1000 μS/cm, Salt pools: 3000-6000 μS/cm |
+| pH | pH | 7.2 | 0.2 | 0 | Identical for both types |
+| Salinity | ppm | 3000 | 500 | 0 | Only relevant for salt pools (3,000-6,000 ppm). Chlorine pools: N/A |
+| Cyanuric Acid | ppm | 40 | 10 | 0 | Identical for chlorine stabilization, less critical for salt pools |
+| Calcium | ppm | 300 | 100 | 0 | Identical to prevent scaling or corrosion |
+| Phosphate | ppb | 50 | 10 | 0 | Identical: limiting phosphates is key to prevent algae growth |
+| Alkalinity | ppm | 100 | 20 | 0 | Identical for pH stabilization |
+| Free Chlorine | ppm | 3 | 0.5 | 0 | Identical for effective disinfection |
+| Total Chlorine | ppm | 3 | 0.5 | 0 | Identical for monitoring combined chlorine excess |
+| Pressure | psi | 12 | 2 | 0 | Identical for both pool types |
+| Specific Gravity | sg | 1.1 | 0.2 | 0 | Different: relevant for salt pools (higher due to density) |
+| Magnesium | ppm | 1200 | 100 | 0 | Mainly relevant for salt pools (magnesium chloride used for electrolysis) |
+| Water Level | % | 100 | 10 | 0 | Identical for both pool types |
+| Flow Rate | m³/h | 10 | 1 | 0 | Identical for proper circulation and filtration |
+| UV Radiation | mW/cm² | 4 | 1 | 0 | Identical: used as complement regardless of disinfection method |
+| Product Volume | L | 20 | 5 | 0 | Specific to dosing system, identical if used |
+| Product Weight | kg | 25 | 5 | 0 | Specific to dosing system, identical if used |
+
+## Differences Between Chlorine and Salt Pools
+
+### TDS (Total Dissolved Solids) and EC (Electrical Conductivity):
+- Salt pools: 
+  - TDS: 3-6 g/L due to dissolved salts needed for electrolysis
+  - EC: 3000-6000 μS/cm
+- Chlorine pools: 
+  - TDS: 1-2 g/L maximum
+  - EC: 500-1000 μS/cm
+
+### Salinity:
+- Relevant only for salt pools
+
+### Specific Gravity:
+- Higher for salt pools due to salt water density
+
+### Magnesium:
+- Mainly for salt pools (magnesium salt sometimes used for electrolysis)
+
+## General Conclusion
+
+The proposed units, setpoints, and steps are generally valid. The main differences concern salinity, TDS, and magnesium, which vary depending on whether the pool uses traditional chlorine or salt electrolysis. These adjustments ensure optimal water quality management and equipment longevity.
