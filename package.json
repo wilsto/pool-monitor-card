@@ -5,15 +5,16 @@
   "main": "dist/pool-monitor-card.js",
   "type": "module",
   "scripts": {
-    "build": "rollup -c",
+    "build": "npm run lint && rollup -c && npm run sync",
+    "prepare": "npm run build && npm run visual-test",
     "dev": "rollup -c --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,json,md}\"",
     "test": "jest --passWithNoTests",
-    "prepare": "npm run lint && rollup -c",
     "screenshot": "node scripts/take-screenshots.js",
-    "visual-test": "node scripts/visual-test.js"
+    "visual-test": "node scripts/visual-test.js",
+    "sync": "powershell.exe -ExecutionPolicy Bypass -File ./scripts/sync-views.ps1"
   },
   "author": "",
   "license": "MIT",

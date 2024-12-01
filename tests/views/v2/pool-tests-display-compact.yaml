@@ -1,27 +1,27 @@
 ---
 title: "Pool Monitor Display Compact Tests V2"
 path: pool-tests-display-compact-v2
-icon: "mdi:monitor-dashboard"
+icon: "mdi:text-short"
 cards:
   # Titre de la page
   - type: "custom:button-card"
     template: "card_title"
-    name: "Tests d'Affichage Pool Monitor - Mode Compact"
-    label: "Options d'affichage et personnalisation des couleurs en mode compact"
+    name: "Pool Monitor Display Compact Tests V2"
+    label: "Display and color customization options in compact mode"
 
-  # Section 1: Options d'affichage
+  # Section 1: Display Options
   - type: "vertical-stack"
     cards:
       - type: "custom:button-card"
         template: "card_title"
-        name: "1. Options d'affichage"
-        label: "Tests des différentes options d'affichage en mode compact"
+        name: "1. Display Options"
+        label: "Testing different display options in compact mode"
         
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Options Activées"
+            title: "Enabled Options"
             display:
               compact: true
               show_names: true
@@ -29,7 +29,7 @@ cards:
               show_last_updated: true
               show_icons: true
               show_units: true
-              language: "fr"
+              language: "en"
             sensors:
               temperature:
                 - entity: sensor.pool_temperature
@@ -46,7 +46,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Options Activées"
+              title: "Enabled Options"
               display:
                 compact: true
                 show_names: true
@@ -54,7 +54,7 @@ cards:
                 show_last_updated: true
                 show_icons: true
                 show_units: true
-                language: "fr"
+                language: "en"
               sensors:
                 temperature:
                   - entity: sensor.pool_temperature
@@ -69,7 +69,7 @@ cards:
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Options Désactivées - Noms"
+            title: "Disabled Options - Names"
             display:
               compact: true
               show_names: false
@@ -94,7 +94,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Options Désactivées - Noms"
+              title: "Disabled Options - Names"
               display:
                 compact: true
                 show_names: false
@@ -117,7 +117,7 @@ cards:
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Options Désactivées - Étiquettes"
+            title: "Disabled Options - Labels"
             display:
               compact: true
               show_names: true
@@ -142,7 +142,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Options Désactivées - Étiquettes"
+              title: "Disabled Options - Labels"
               display:
                 compact: true
                 show_names: true
@@ -165,7 +165,7 @@ cards:
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Options Désactivées - Dernière mise à jour"
+            title: "Disabled Options - Last Updated"
             display:
               compact: true
               show_names: true
@@ -190,7 +190,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Options Désactivées - Dernière mise à jour"
+              title: "Disabled Options - Last Updated"
               display:
                 compact: true
                 show_names: true
@@ -213,7 +213,7 @@ cards:
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Options Désactivées - Icônes"
+            title: "Disabled Options - Icons"
             display:
               compact: true
               show_names: true
@@ -238,7 +238,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Options Désactivées - Icônes"
+              title: "Disabled Options - Icons"
               display:
                 compact: true
                 show_names: true
@@ -261,7 +261,7 @@ cards:
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Options Désactivées - Unités"
+            title: "Disabled Options - Units"
             display:
               compact: true
               show_names: true
@@ -286,7 +286,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Options Désactivées - Unités"
+              title: "Disabled Options - Units"
               display:
                 compact: true
                 show_names: true
@@ -309,7 +309,7 @@ cards:
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Options Désactivées - Toutes"
+            title: "Disabled Options - All"
             display:
               compact: true
               show_names: false
@@ -334,7 +334,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Options Désactivées - Toutes"
+              title: "Disabled Options - All"
               display:
                 compact: true
                 show_names: false
@@ -354,27 +354,27 @@ cards:
                   - entity: sensor.pool_orp
                     name: "ORP"
               ```
-  # Section 2: Couleurs personnalisées
+  # Section 2: Custom Colors
   - type: "vertical-stack"
     cards:
       - type: "custom:button-card"
         template: "card_title"
-        name: "2. Couleurs personnalisées"
-        label: "Tests des différentes options de couleurs en mode compact"
+        name: "2. Custom Colors"
+        label: "Testing different color options in compact mode"
         
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Thème Clair"
+            title: "Light Theme"
             display:
               compact: true
             colors:
-              normal: "#2196F3"
-              low: "#FFC107"
-              warn: "#F44336"
-              marker: "#000000"
-              hi_low: "#757575"
+              normal: "#00BFFF"  # Deep Sky Blue (cool)
+              low: "#90EE90"     # Light Green (cool to moderate)
+              warn: "#FFD700"    # Gold (warm)
+              marker: "#FF4500"  # Orange Red (hot)
+              hi_low: "#8A2BE2"  # Blue Violet (cool accent)
             sensors:
               temperature:
                 - entity: sensor.pool_temperature
@@ -391,15 +391,15 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Thème Clair"
+              title: "Light Theme"
               display:
                 compact: true
               colors:
-                normal: "#2196F3"
-                low: "#FFC107"
-                warn: "#F44336"
-                marker: "#000000"
-                hi_low: "#757575"
+                normal: "#00BFFF"  # Deep Sky Blue (cool)
+                low: "#90EE90"     # Light Green (cool to moderate)
+                warn: "#FFD700"    # Gold (warm)
+                marker: "#FF4500"  # Orange Red (hot)
+                hi_low: "#8A2BE2"  # Blue Violet (cool accent)
               sensors:
                 temperature:
                   - entity: sensor.pool_temperature
@@ -412,7 +412,7 @@ cards:
                     name: "ORP"
               ```
 
-          # ... [Continuer avec les autres cartes de couleurs]
+          # ... [Continue with other color cards]
 
   # Section 3: Gradient
   - type: "vertical-stack"
@@ -420,13 +420,13 @@ cards:
       - type: "custom:button-card"
         template: "card_title"
         name: "3. Gradient"
-        label: "Tests des options de gradient en mode compact"
+        label: "Testing gradient options in compact mode"
         
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Gradient Activé"
+            title: "Gradient Enabled"
             display:
               compact: true
               gradient: true
@@ -446,7 +446,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Gradient Activé"
+              title: "Gradient Enabled"
               display:
                 compact: true
                 gradient: true
@@ -464,7 +464,7 @@ cards:
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Gradient Désactivé"
+            title: "Gradient Disabled"
             display:
               compact: true
               gradient: false
@@ -484,7 +484,7 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Gradient Désactivé"
+              title: "Gradient Disabled"
               display:
                 compact: true
                 gradient: false
@@ -500,126 +500,133 @@ cards:
                     name: "ORP"
               ```
 
-  # Section 4: Icônes et Images Personnalisées
+  # Section 4: Custom Icons and Images
   - type: "vertical-stack"
     cards:
       - type: "custom:button-card"
         template: "card_title"
-        name: "4. Icônes et Images Personnalisées"
-        label: "Tests des icônes et images personnalisées en mode compact"
+        name: "4. Custom Icons and Images"
+        label: "Testing custom icons and images in compact mode"
         
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Icônes Personnalisées"
+            title: "Custom Icons"
             display:
               compact: true
               show_icons: true
-            icons:
-              temperature: "mdi:thermometer-water"
-              ph: "mdi:flask"
-              orp: "mdi:lightning-bolt"
             sensors:
               temperature:
                 - entity: sensor.pool_temperature
                   name: "Temperature"
+                  icon:
+                    mdi: "mdi:thermometer-water"
               ph:
                 - entity: sensor.pool_ph
                   name: "pH"
+                  icon:
+                    mdi: "mdi:flask"
               orp:
                 - entity: sensor.pool_orp
                   name: "ORP"
+                  icon:
+                    mdi: "mdi:lightning-bolt"
 
           - type: "markdown"
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Icônes Personnalisées"
+              title: "Custom Icons"
               display:
                 compact: true
                 show_icons: true
-              icons:
-                temperature: "mdi:thermometer-water"
-                ph: "mdi:flask"
-                orp: "mdi:lightning-bolt"
               sensors:
                 temperature:
                   - entity: sensor.pool_temperature
                     name: "Temperature"
+                    icon:
+                      mdi: "mdi:thermometer-water"
                 ph:
                   - entity: sensor.pool_ph
                     name: "pH"
+                    icon:
+                      mdi: "mdi:flask"
                 orp:
                   - entity: sensor.pool_orp
                     name: "ORP"
+                    icon:
+                      mdi: "mdi:lightning-bolt"
               ```
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Images Personnalisées"
+            title: "Custom Images"
             display:
               compact: true
               show_icons: true
-            images:
-              temperature: "/local/images/temperature.png"
-              ph: "/local/images/ph.png"
-              orp: "/local/images/orp.png"
             sensors:
               temperature:
                 - entity: sensor.pool_temperature
                   name: "Temperature"
+                  icon:
+                    image_url: "https://example.com/temperature-icon.png"
               ph:
                 - entity: sensor.pool_ph
                   name: "pH"
+                  icon:
+                    image_url: "https://example.com/ph-icon.png"
               orp:
                 - entity: sensor.pool_orp
                   name: "ORP"
+                  icon:
+                    image_url: "https://example.com/orp-icon.png"
 
           - type: "markdown"
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Images Personnalisées"
+              title: "Custom Images"
               display:
                 compact: true
                 show_icons: true
-              images:
-                temperature: "/local/images/temperature.png"
-                ph: "/local/images/ph.png"
-                orp: "/local/images/orp.png"
               sensors:
                 temperature:
                   - entity: sensor.pool_temperature
                     name: "Temperature"
+                    icon:
+                      image_url: "https://example.com/temperature-icon.png"
                 ph:
                   - entity: sensor.pool_ph
                     name: "pH"
+                    icon:
+                      image_url: "https://example.com/ph-icon.png"
                 orp:
                   - entity: sensor.pool_orp
                     name: "ORP"
+                    icon:
+                      image_url: "https://example.com/orp-icon.png"
               ```
 
           - type: "custom:pool-monitor-card"
             template: "card_generic"
-            title: "Mélange Icônes et Images"
+            title: "Mixed Icons and Images"
             display:
               compact: true
               show_icons: true
-            icons:
-              temperature: "mdi:thermometer-water"
-              orp: "mdi:lightning-bolt"
-            images:
-              ph: "/local/images/ph.png"
             sensors:
               temperature:
                 - entity: sensor.pool_temperature
                   name: "Temperature"
+                  icon:
+                    mdi: "mdi:thermometer-water"
               ph:
                 - entity: sensor.pool_ph
                   name: "pH"
+                  icon:
+                    image_url: "https://example.com/ph-icon.png"
               orp:
                 - entity: sensor.pool_orp
                   name: "ORP"
@@ -629,22 +636,21 @@ cards:
               ```yaml
               type: "custom:pool-monitor-card"
               template: "card_generic"
-              title: "Mélange Icônes et Images"
+              title: "Mixed Icons and Images"
               display:
                 compact: true
                 show_icons: true
-              icons:
-                temperature: "mdi:thermometer-water"
-                orp: "mdi:lightning-bolt"
-              images:
-                ph: "/local/images/ph.png"
               sensors:
                 temperature:
                   - entity: sensor.pool_temperature
                     name: "Temperature"
+                    icon:
+                      mdi: "mdi:thermometer-water"
                 ph:
                   - entity: sensor.pool_ph
                     name: "pH"
+                    icon:
+                      image_url: "https://example.com/ph-icon.png"
                 orp:
                   - entity: sensor.pool_orp
                     name: "ORP"

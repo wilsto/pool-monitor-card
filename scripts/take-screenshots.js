@@ -39,7 +39,7 @@ async function takeScreenshot(page, screenshotConfig) {
 async function takeScreenshots() {
   // Lancer le navigateur
   const browser = await chromium.launch({
-    headless: false // Mettre à true pour cacher le navigateur
+    headless: true // Mettre à true pour cacher le navigateur
   });
   const context = await browser.newContext({
     viewport: { width: 1920, height: 1080 }

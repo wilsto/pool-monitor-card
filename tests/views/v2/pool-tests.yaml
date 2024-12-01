@@ -20,7 +20,6 @@ cards:
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
-            template: "card_generic"
             title: "Legacy Test"
             temperature: sensor.pool_temperature
 
@@ -28,31 +27,24 @@ cards:
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
-              template: "card_generic"
-              title: "Legacy Test"
+                title: "Legacy Test"
               temperature: sensor.pool_temperature
               ```
 
           - type: "custom:pool-monitor-card"
-            template: "card_generic"
             title: "Test Without Sensor"
-            override: false
             sensors: {}
 
           - type: "markdown"
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
-              template: "card_generic"
-              title: "Test Without Sensor"
-              override: false
-              sensors: {}
+                title: "Test Without Sensor"
+                sensors: {}
               ```
 
           - type: "custom:pool-monitor-card"
-            template: "card_generic"
             title: "Invalid Sensor Test"
-            override: false
             sensors:
               temperature:
                 name: Temperature
@@ -62,34 +54,26 @@ cards:
             content: |  
               ```yaml
               type: "custom:pool-monitor-card"
-              template: "card_generic"
-              title: "Invalid Sensor Test"
-              override: false
-              sensors:
-                temperature:
-                  name: Temperature
-                  entity: sensor.invalid_entity
+                title: "Invalid Sensor Test"
+                sensors:
+                  temperature:
+                    name: Temperature
+                    entity: sensor.invalid_entity
               
           - type: "custom:pool-monitor-card"
-            template: "card_generic"
-            title: "Minimal Test"
-            override: false
+            title: "Minimal Configuration (sensors > Sensor > entity)"
             sensors:
               temperature:
-                name: Temperature
                 entity: sensor.pool_temperature
 
           - type: "markdown"
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
-              template: "card_generic"
-              title: "Minimal Test"
-              override: false
-              sensors:
-                temperature:
-                  name: Temperature
-                  entity: sensor.pool_temperature
+                title: "Minimal Configuration (sensors > Sensor > entity)"
+                sensors:
+                  temperature:
+                    entity: sensor.pool_temperature
               ```
 
   # Section 2: Complete Configuration Tests
@@ -103,9 +87,7 @@ cards:
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
-            template: "card_generic"
             title: "Complete Test"
-            override: false
             sensors:
               temperature:
                 name: Temperature
@@ -116,6 +98,9 @@ cards:
               orp:
                 name: ORP
                 entity: sensor.pool_orp
+              ec:
+                name: Electrical Conductivity
+                entity: sensor.pool_ec
               tds:
                 name: TDS
                 entity: sensor.pool_tds
@@ -143,8 +128,8 @@ cards:
               pressure:
                 name: Pressure
                 entity: sensor.pool_pressure
-              sg:
-                name: SG
+              specific_gravity:
+                name: Specific Gravity
                 entity: sensor.pool_sg
               magnesium:
                 name: Magnesium
@@ -169,20 +154,18 @@ cards:
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
-              template: "card_generic"
-              title: "Complete Test"
-              override: false
-              sensors:
-                temperature:
-                  name: Temperature
-                  entity: sensor.pool_temperature
-                ph:
-                  name: pH
-                  entity: sensor.pool_ph
-                orp:
-                  name: ORP
-                  entity: sensor.pool_orp
-                # ... autres capteurs similaires
+                title: "Complete Test"
+                sensors:
+                  temperature:
+                    name: Temperature
+                    entity: sensor.pool_temperature
+                  ph:
+                    name: pH
+                    entity: sensor.pool_ph
+                  orp:
+                    name: ORP
+                    entity: sensor.pool_orp
+                  # ... autres capteurs similaires
               ```
 
   # Section 3: Multiple Sensors Tests
@@ -196,9 +179,7 @@ cards:
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
-            template: "card_generic"
             title: "Multiple Temperature Sensors"
-            override: false
             sensors:
               temperature:
                 - name: "Pool Temperature"
@@ -215,30 +196,26 @@ cards:
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
-              template: "card_generic"
-              title: "Multiple Temperature Sensors"
-              override: false
-              sensors:
-                temperature:
-                  - name: "Pool Temperature"
-                    entity: sensor.pool_temperature
-                    min: 20
-                    max: 32
-                    setpoint: 27
-                  - name: "Spa Temperature"
-                    entity: sensor.pool_temperature
-                    min: 20
-                    max: 38
-                    setpoint: 35
+                title: "Multiple Temperature Sensors"
+                sensors:
+                  temperature:
+                    - name: "Pool Temperature"
+                      entity: sensor.pool_temperature
+                      min: 20
+                      max: 32
+                      setpoint: 27
+                    - name: "Spa Temperature"
+                      entity: sensor.pool_temperature
+                      min: 20
+                      max: 38
+                      setpoint: 35
               
 
 
       - type: "vertical-stack"
         cards:
           - type: "custom:pool-monitor-card"
-            template: "card_generic"
             title: "ReOrdered Sensors"
-            override: false
             sensors:
               ph:
                 - name: "Pool pH"
@@ -256,19 +233,17 @@ cards:
             content: |
               ```yaml
               type: "custom:pool-monitor-card"
-              template: "card_generic"
-              title: "ReOrdered Sensors"
-              override: false
-              sensors:
-                ph:
-                  - name: "Pool pH"
-                    entity: sensor.pool_ph
-                    min: 7.2
-                    max: 7.8
-                    setpoint: 7.5
-                temperature:              
-                  - name: "Spa Temperature"
-                    entity: sensor.pool_temperature
-                    min: 20
-                    max: 38
-                    setpoint: 35                  
+                title: "ReOrdered Sensors"
+                sensors:
+                  ph:
+                    - name: "Pool pH"
+                      entity: sensor.pool_ph
+                      min: 7.2
+                      max: 7.8
+                      setpoint: 7.5
+                  temperature:              
+                    - name: "Spa Temperature"
+                      entity: sensor.pool_temperature
+                      min: 20
+                      max: 38
+                      setpoint: 35                  
