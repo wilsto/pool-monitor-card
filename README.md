@@ -428,6 +428,14 @@ These updates won't require any changes to your existing configuration:
 
 These updates may require configuration changes when implemented:
 
+- 📊 Graphical card configuration
+  - Implementing support for visual configuration in the Lovelace UI editor
+  - Adding a configuration panel for easy customization without YAML
+  - Including tooltips and help text for each configuration option
+- 🖼️ Automated visual testing
+  - Implementing snapshot testing for UI components
+  - Setting up visual regression tests to catch unintended UI changes
+  - Integrating visual tests into the CI/CD pipeline for automated checks
 - 🔍 Moving to TypeScript for better code quality
 
 
