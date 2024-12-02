@@ -1,4 +1,10 @@
-import { DEFAULT_CONFIG, SUPPORTED_SENSORS, getDisplayConfig, getColorConfig, getSensorConfig } from '../../src/configs/config.js';
+import {
+  DEFAULT_CONFIG,
+  SUPPORTED_SENSORS,
+  getDisplayConfig,
+  getColorConfig,
+  getSensorConfig,
+} from '../../src/configs/config.js';
 
 describe('Config Module Tests', () => {
   describe('DEFAULT_CONFIG', () => {
