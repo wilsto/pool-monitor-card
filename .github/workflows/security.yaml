@@ -2,9 +2,7 @@ name: Security Analysis
 
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
   schedule:
     - cron: '0 0 * * 0'  # Exécution hebdomadaire le dimanche à minuit
   workflow_dispatch:  # Permet l'exécution manuelle
