@@ -13,15 +13,25 @@ import ru from '../../src/locales/ru.js';
 import sk from '../../src/locales/sk.js';
 
 const allLocales = {
-  en, de, es, fr, he, it, nl, 'pt-br': ptBR, pt, ro, ru, sk
+  en,
+  de,
+  es,
+  fr,
+  he,
+  it,
+  nl,
+  'pt-br': ptBR,
+  pt,
+  ro,
+  ru,
+  sk,
 };
 
 describe('Translation files', () => {
   // Test 1: Syntax validation
   test('All translation files have valid syntax', () => {
     Object.entries(allLocales).forEach(([locale, translations]) => {
-      expect(() => JSON.stringify(translations))
-        .not.toThrow();
+      expect(() => JSON.stringify(translations)).not.toThrow();
     });
   });
 
@@ -29,7 +39,7 @@ describe('Translation files', () => {
   const checkKeysMatch = (obj1, obj2, path = '') => {
     const keys1 = Object.keys(obj1).sort();
     const keys2 = Object.keys(obj2).sort();
-    
+
     try {
       expect(keys1).toEqual(keys2);
     } catch (error) {
@@ -37,16 +47,20 @@ describe('Translation files', () => {
       const missingInSecond = keys1.filter(k => !keys2.includes(k));
       throw new Error(
         `Keys don't match at path "${path}"\n` +
-        (missingInFirst.length ? `Missing keys: ${missingInFirst.join(', ')}\n` : '') +
-        (missingInSecond.length ? `Extra keys: ${missingInSecond.join(', ')}` : '')
+          (missingInFirst.length ? `Missing keys: ${missingInFirst.join(', ')}\n` : '') +
+          (missingInSecond.length ? `Extra keys: ${missingInSecond.join(', ')}` : ''),
       );
     }
 
     // Recursively check nested objects
     keys1.forEach(key => {
       const newPath = path ? `${path}.${key}` : key;
-      if (typeof obj1[key] === 'object' && obj1[key] !== null &&
-          typeof obj2[key] === 'object' && obj2[key] !== null) {
+      if (
+        typeof obj1[key] === 'object' &&
+        obj1[key] !== null &&
+        typeof obj2[key] === 'object' &&
+        obj2[key] !== null
+      ) {
         checkKeysMatch(obj1[key], obj2[key], newPath);
       }
     });
@@ -74,22 +88,26 @@ describe('Translation files', () => {
   const checkPlaceholders = (obj1, obj2, locale, path = '') => {
     Object.entries(obj1).forEach(([key, value]) => {
       const newPath = path ? `${path}.${key}` : key;
-      
+
       if (typeof value === 'string' && typeof obj2[key] === 'string') {
         const placeholders1 = getPlaceholders(value);
         const placeholders2 = getPlaceholders(obj2[key]);
-        
+
         try {
           expect(placeholders1).toEqual(placeholders2);
         } catch (error) {
           throw new Error(
             `Placeholder mismatch at "${newPath}" in ${locale} locale\n` +
-            `Expected: ${placeholders1.join(', ')}\n` +
-            `Received: ${placeholders2.join(', ')}`
+              `Expected: ${placeholders1.join(', ')}\n` +
+              `Received: ${placeholders2.join(', ')}`,
           );
         }
-      } else if (typeof value === 'object' && value !== null &&
-                 typeof obj2[key] === 'object' && obj2[key] !== null) {
+      } else if (
+        typeof value === 'object' &&
+        value !== null &&
+        typeof obj2[key] === 'object' &&
+        obj2[key] !== null
+      ) {
         checkPlaceholders(value, obj2[key], locale, newPath);
       }
     });

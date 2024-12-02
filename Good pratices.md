@@ -13,12 +13,15 @@ Documenter clairement l'API et les événements du composant
 Ajouter un CONTRIBUTING.md pour guider les contributeurs
 
 Sécurité
+
 ### Analyse des dépendances
+
 - Exécuter régulièrement `npm audit` pour vérifier les vulnérabilités dans les dépendances
 - Mettre à jour les dépendances lorsque des correctifs de sécurité sont disponibles
 - Intégrer l'analyse de sécurité dans le processus CI/CD
 
 ### Autres mesures de sécurité
+
 - Mettre en place des GitHub Security Advisories
 - Ajouter des scans de vulnérabilités avec Snyk ou SonarQube
 

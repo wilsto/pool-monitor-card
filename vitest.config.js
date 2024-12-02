@@ -4,7 +4,7 @@ export default {
     globals: true,
     reporters: ['default', 'html'],
     outputFile: {
-      html: './test-results/html/index.html'
+      html: './test-results/html/index.html',
     },
     coverage: {
       reporter: ['text', 'json', 'html'],
@@ -17,9 +17,9 @@ export default {
         'rollup.config.js',
         'vitest.config.js',
         'scripts/**',
-        'tests/**'
-      ]
+        'tests/**',
+      ],
     },
     include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
-}
+};

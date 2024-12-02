@@ -13,10 +13,10 @@ describe('Card Content', () => {
     card.setConfig({
       sensors: mockSensorConfigs,
       display: getDisplayConfig(),
-      colors: getColorConfig()
+      colors: getColorConfig(),
     });
     card.hass = { states: mockSensorStates };
-    
+
     // Calculate mockData using the same method as in the main component
     const sensor = mockSensorConfigs.temperature;
     mockData = card.calculateData(
@@ -34,14 +34,14 @@ describe('Card Content', () => {
       sensor.min_limit,
       sensor.override_value,
       sensor.override,
-      sensor.invalid
+      sensor.invalid,
     );
   });
 
   const mockConfig = {
     title: 'Pool Monitor',
     display: getDisplayConfig(),
-    colors: getColorConfig()
+    colors: getColorConfig(),
   };
 
   describe('generateTitle', () => {
@@ -58,7 +58,7 @@ describe('Card Content', () => {
       expect(htmlString).toBe('');
     });
   });
-  
+
   describe('generateBody', () => {
     it('should show warning message when no data provided', () => {
       const result = cardContent.generateBody(mockConfig, null);
@@ -103,7 +103,7 @@ describe('Card Content', () => {
     it('should render gradient when display.gradient is true', () => {
       const configWithGradient = {
         ...mockConfig,
-        display: { ...mockConfig.display, gradient: true }
+        display: { ...mockConfig.display, gradient: true },
       };
       const result = cardContent.generateBody(configWithGradient, mockData);
       const htmlString = String(result);
@@ -116,7 +116,7 @@ describe('Card Content', () => {
       expect(htmlString).toContain('cursor-text');
     });
   });
-  
+
   describe('generateCompactBody', () => {
     it('should show warning message when no data provided', () => {
       const result = cardContent.generateCompactBody(mockConfig, null);
@@ -140,7 +140,7 @@ describe('Card Content', () => {
       const htmlString = String(result);
       expect(htmlString).toContain('ha-icon');
       expect(htmlString).toContain('mdi:thermometer');
-      expect(htmlString).toContain('width: 24px');  // Vérification spécifique au mode compact
+      expect(htmlString).toContain('width: 24px'); // Vérification spécifique au mode compact
     });
 
     it('should render image when is_mdi is false', () => {
@@ -149,7 +149,7 @@ describe('Card Content', () => {
       const htmlString = String(result);
       expect(htmlString).toContain('<img');
       expect(htmlString).toContain('path/to/image.png');
-      expect(htmlString).toContain('width: 24px');  // Vérification spécifique au mode compact
+      expect(htmlString).toContain('width: 24px'); // Vérification spécifique au mode compact
     });
 
     it('should not render icon when hide_icon is true', () => {
@@ -163,7 +163,7 @@ describe('Card Content', () => {
     it('should render gradient when display.gradient is true', () => {
       const configWithGradient = {
         ...mockConfig,
-        display: { ...mockConfig.display, gradient: true }
+        display: { ...mockConfig.display, gradient: true },
       };
       const result = cardContent.generateCompactBody(configWithGradient, mockData);
       const htmlString = String(result);
@@ -174,12 +174,12 @@ describe('Card Content', () => {
       const heatflowData = { ...mockData, mode: 'heatflow' };
       const result = cardContent.generateCompactBody(mockConfig, heatflowData);
       const htmlString = String(result);
-      expect(htmlString).toContain('#00BFFF');  // cool
-      expect(htmlString).toContain('#fdcb6e');  // low
-      expect(htmlString).toContain('#e17055');  // warn
-      expect(htmlString).toContain('15%');      // Position du gradient
-      expect(htmlString).toContain('50%');      // Position du gradient
-      expect(htmlString).toContain('85%');      // Position du gradient
+      expect(htmlString).toContain('#00BFFF'); // cool
+      expect(htmlString).toContain('#fdcb6e'); // low
+      expect(htmlString).toContain('#e17055'); // warn
+      expect(htmlString).toContain('15%'); // Position du gradient
+      expect(htmlString).toContain('50%'); // Position du gradient
+      expect(htmlString).toContain('85%'); // Position du gradient
     });
   });
 
@@ -187,20 +187,20 @@ describe('Card Content', () => {
     beforeEach(() => {
       // Mock du DOM pour Home Assistant
       const mockHomeAssistant = {
-        dispatchEvent: vi.fn()
+        dispatchEvent: vi.fn(),
       };
       document.querySelector = vi.fn().mockReturnValue(mockHomeAssistant);
     });
 
     it('should dispatch custom event when called', () => {
       cardContent._moreinfo('sensor.pool_temperature');
-      
+
       expect(document.querySelector).toHaveBeenCalledWith('home-assistant');
       expect(document.querySelector('home-assistant').dispatchEvent).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'hass-more-info',
-          detail: { entityId: 'sensor.pool_temperature' }
-        })
+          detail: { entityId: 'sensor.pool_temperature' },
+        }),
       );
     });
 

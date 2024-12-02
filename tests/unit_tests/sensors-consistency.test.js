@@ -10,17 +10,18 @@ describe('Sensors consistency', () => {
   // Test presence in locale files
   it('should have all sensors in translation files', () => {
     const localesDir = path.join(process.cwd(), 'src', 'locales');
-    const localeFiles = fs.readdirSync(localesDir)
+    const localeFiles = fs
+      .readdirSync(localesDir)
       .filter(file => file.endsWith('.js') && file !== 'translations.js');
 
     localeFiles.forEach(localeFile => {
       const localePath = path.join(localesDir, localeFile);
       const localeContent = fs.readFileSync(localePath, 'utf8');
-      
+
       configuredSensors.forEach(sensor => {
         expect(
           localeContent.includes(`${sensor}:`),
-          `Sensor "${sensor}" missing in ${localeFile}`
+          `Sensor "${sensor}" missing in ${localeFile}`,
         ).toBe(true);
       });
     });
@@ -32,10 +33,9 @@ describe('Sensors consistency', () => {
     const readmeContent = fs.readFileSync(readmePath, 'utf8');
 
     configuredSensors.forEach(sensor => {
-      expect(
-        readmeContent.includes(sensor),
-        `Sensor "${sensor}" not documented in README.md`
-      ).toBe(true);
+      expect(readmeContent.includes(sensor), `Sensor "${sensor}" not documented in README.md`).toBe(
+        true,
+      );
     });
   });
 
@@ -47,7 +47,7 @@ describe('Sensors consistency', () => {
     configuredSensors.forEach(sensor => {
       expect(
         resourceFiles.some(file => file.startsWith(sensor) && file.endsWith('.png')),
-        `Image for sensor "${sensor}" missing in resources folder`
+        `Image for sensor "${sensor}" missing in resources folder`,
       ).toBe(true);
     });
   });
@@ -61,15 +61,15 @@ describe('Sensors consistency', () => {
       const sensorConfig = DEFAULT_CONFIG.sensors[sensor];
       expect(
         sensorsDocContent.toLowerCase().includes(sensor.toLowerCase()),
-        `Sensor "${sensor}" not found in sensors.md`
+        `Sensor "${sensor}" not found in sensors.md`,
       ).toBe(true);
       expect(
         sensorsDocContent.toLowerCase().includes(sensorConfig.name.toLowerCase()),
-        `Sensor name "${sensorConfig.name}" not found in sensors.md`
+        `Sensor name "${sensorConfig.name}" not found in sensors.md`,
       ).toBe(true);
       expect(
         sensorsDocContent.includes(sensorConfig.unit),
-        `Sensor unit "${sensorConfig.unit}" not found in sensors.md`
+        `Sensor unit "${sensorConfig.unit}" not found in sensors.md`,
       ).toBe(true);
     });
   });

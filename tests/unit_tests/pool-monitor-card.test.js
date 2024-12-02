@@ -1,7 +1,15 @@
 import './setup.js';
 import { describe, it, expect, beforeEach, vi, test } from 'vitest';
 import { PoolMonitorCard } from '../../src/pool_monitor_card.js';
-import { mockSensorConfigs, mockSensorStates, getDisplayConfig, getColorConfig, getSensorConfig, mockLegacyConfig, mockArraySensorConfigs } from './setup.js';
+import {
+  mockSensorConfigs,
+  mockSensorStates,
+  getDisplayConfig,
+  getColorConfig,
+  getSensorConfig,
+  mockLegacyConfig,
+  mockArraySensorConfigs,
+} from './setup.js';
 
 describe('Pool Monitor Card', () => {
   let card;
@@ -18,9 +26,9 @@ describe('Pool Monitor Card', () => {
   const minimalConfig = {
     sensors: {
       temperature: {
-        entity: 'sensor.pool_temperature'
-      }
-    }
+        entity: 'sensor.pool_temperature',
+      },
+    },
   };
 
   describe('Static Properties', () => {
@@ -72,9 +80,9 @@ describe('Pool Monitor Card', () => {
       card.hass = {
         states: {
           'sensor.pool_temp': {
-            state: 'unavailable'
-          }
-        }
+            state: 'unavailable',
+          },
+        },
       };
       const data = card.processData();
       expect(data.temperature_1.value).toBeNull();
@@ -82,7 +90,7 @@ describe('Pool Monitor Card', () => {
 
     it('should handle missing sensor entity', () => {
       card.hass = {
-        states: {}
+        states: {},
       };
       const data = card.processData();
       expect(data.temperature_1.value).toBeNull();
@@ -92,9 +100,9 @@ describe('Pool Monitor Card', () => {
       card.hass = {
         states: {
           'sensor.pool_temp': {
-            state: 'invalid'
-          }
-        }
+            state: 'invalid',
+          },
+        },
       };
       const data = card.processData();
       expect(data.temperature_1.value).toBeNull();
@@ -105,7 +113,7 @@ describe('Pool Monitor Card', () => {
     beforeEach(() => {
       card.setConfig({
         sensors: mockSensorConfigs,
-        display: getDisplayConfig()
+        display: getDisplayConfig(),
       });
       card.hass = { states: mockSensorStates };
     });
@@ -127,7 +135,7 @@ describe('Pool Monitor Card', () => {
         sensor.min_limit,
         sensor.override_value,
         sensor.override,
-        sensor.invalid
+        sensor.invalid,
       );
 
       expect(data).toBeDefined();
@@ -142,7 +150,9 @@ describe('Pool Monitor Card', () => {
       expect(data.title).toBe('Pool Temperature');
       expect(data.entity).toBe('sensor.pool_temperature');
       expect(data.is_mdi).toBe(false);
-      expect(data.img_src).toBe('https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/temperature.png');
+      expect(data.img_src).toBe(
+        'https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources/temperature.png',
+      );
       expect(data.hide_icon).toBe(false);
       expect(data.invalid).toBe(undefined);
       expect(data.separator).toBe('-');
@@ -165,7 +175,7 @@ describe('Pool Monitor Card', () => {
         sensor.min_limit,
         sensor.override_value,
         sensor.override,
-        sensor.invalid
+        sensor.invalid,
       );
 
       expect(data).toBeDefined();
@@ -203,7 +213,7 @@ describe('Pool Monitor Card', () => {
         sensor.min_limit,
         sensor.override_value,
         sensor.override,
-        sensor.invalid
+        sensor.invalid,
       );
 
       expect(data).toBeDefined();
@@ -223,8 +233,8 @@ describe('Pool Monitor Card', () => {
       const config = {
         sensors: {
           temperature: mockSensorConfigs.temperature,
-          ph: mockSensorConfigs.ph
-        }
+          ph: mockSensorConfigs.ph,
+        },
       };
       expect(() => card.setConfig(config)).not.toThrow();
       expect(card.config.sensors.temperature[0].nameDefinedByUser).toBe(true);
@@ -233,7 +243,7 @@ describe('Pool Monitor Card', () => {
 
     test('should handle array sensor configuration', () => {
       const config = {
-        sensors: mockArraySensorConfigs
+        sensors: mockArraySensorConfigs,
       };
       expect(() => card.setConfig(config)).not.toThrow();
       expect(card.config.sensors.temperature).toHaveLength(2);
@@ -248,8 +258,8 @@ describe('Pool Monitor Card', () => {
     test('should handle empty sensor array', () => {
       const config = {
         sensors: {
-          temperature: []
-        }
+          temperature: [],
+        },
       };
       expect(() => card.setConfig(config)).toThrow('Empty sensor array for temperature');
     });
@@ -257,8 +267,8 @@ describe('Pool Monitor Card', () => {
     test('should handle missing entity', () => {
       const config = {
         sensors: {
-          temperature: [{ name: 'Missing Entity' }]
-        }
+          temperature: [{ name: 'Missing Entity' }],
+        },
       };
       expect(() => card.setConfig(config)).toThrow('Missing entity for temperature[0]');
     });
@@ -266,8 +276,8 @@ describe('Pool Monitor Card', () => {
     test('should handle unsupported sensor type', () => {
       const config = {
         sensors: {
-          unsupported_sensor: mockSensorConfigs.unsupported_sensor
-        }
+          unsupported_sensor: mockSensorConfigs.unsupported_sensor,
+        },
       };
       expect(() => card.setConfig(config)).not.toThrow();
       expect(card.config.sensors.unsupported_sensor[0].invalid).toBe(true);
@@ -276,8 +286,8 @@ describe('Pool Monitor Card', () => {
     test('should handle sensor without name defined by user', () => {
       const config = {
         sensors: {
-          orp: mockSensorConfigs.orp
-        }
+          orp: mockSensorConfigs.orp,
+        },
       };
       expect(() => card.setConfig(config)).not.toThrow();
       expect(card.config.sensors.orp[0].nameDefinedByUser).toBe(false);

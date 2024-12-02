@@ -60,28 +60,30 @@ Hey dude! Help me out for a couple of :beers: or a :coffee:!
 ---
 
 ## Table of Contents <!-- omit in toc -->
+
 <!-- markdownlint-disable MD033 -->
-  - [Pool Monitor Card](#pool-monitor-card)
-  - [Description](#description)
-  - [Support](#support)
-  - [Multilanguage ReadMe](#multilanguage-readme)
-  - [Install](#install)
-    - [via HACS](#via-hacs)
-    - [Manually](#manually)
-  - [Lovelace Setup](#lovelace-setup)
-    - [Using UI](#using-ui)
-    - [Using YAML](#using-yaml)
-  - [Configuration](#configuration)
-    - [Card Options](#card-options)
-    - [Display Options](#display-options)
-    - [Color Options](#color-options)
-    - [Sensors Options](#sensors-options)
-  - [Min / Max Indicators](#min--max-indicators)
-  - [Hardware Compatibility](#hardware-compatibility)
-  - [Acknowledgments](#acknowledgments)
-  - [Roadmap](#roadmap)
-    - [Minor Enhancements](#minor-enhancements)
-    - [Major Updates](#major-updates)
+
+- [Pool Monitor Card](#pool-monitor-card)
+- [Description](#description)
+- [Support](#support)
+- [Multilanguage ReadMe](#multilanguage-readme)
+- [Install](#install)
+  - [via HACS](#via-hacs)
+  - [Manually](#manually)
+- [Lovelace Setup](#lovelace-setup)
+  - [Using UI](#using-ui)
+  - [Using YAML](#using-yaml)
+- [Configuration](#configuration)
+  - [Card Options](#card-options)
+  - [Display Options](#display-options)
+  - [Color Options](#color-options)
+  - [Sensors Options](#sensors-options)
+- [Min / Max Indicators](#min--max-indicators)
+- [Hardware Compatibility](#hardware-compatibility)
+- [Acknowledgments](#acknowledgments)
+- [Roadmap](#roadmap)
+  - [Minor Enhancements](#minor-enhancements)
+  - [Major Updates](#major-updates)
 
 ---
 
@@ -256,19 +258,19 @@ Needed to change the name, unit, setpoint, and steps ? No problem, see additionn
 
 #### For each sensor
 
-| Name        | Type   | Requirement  | Description5263                       |
-| ----------- | ------ | ------------ | --------------------------------------- |
-| `entity`    | String | **Required** | Sensor Entity                          |
-| `name`      | String | Optional     | Sensor Name                            |
-| `unit`      | String | Optional     | Sensor Unit (°C or °F)                 |
-| `setpoint`  | Number | Optional     | Sensor Set Point                       |
-| `step`      | Number | Optional     | Sensor Step                            |
-| `min`       | String | Optional     | Entity ID for daily minimum Sensor     |
-| `max`       | String | Optional     | Entity ID for daily maximum Sensor     |
+| Name        | Type   | Requirement  | Description5263                                                                             |
+| ----------- | ------ | ------------ | ------------------------------------------------------------------------------------------- |
+| `entity`    | String | **Required** | Sensor Entity                                                                               |
+| `name`      | String | Optional     | Sensor Name                                                                                 |
+| `unit`      | String | Optional     | Sensor Unit (°C or °F)                                                                      |
+| `setpoint`  | Number | Optional     | Sensor Set Point                                                                            |
+| `step`      | Number | Optional     | Sensor Step                                                                                 |
+| `min`       | String | Optional     | Entity ID for daily minimum Sensor                                                          |
+| `max`       | String | Optional     | Entity ID for daily maximum Sensor                                                          |
 | `icon`      | Object | Optional     | Configure the icon for Sensor. Use `mdi` for an MDI icon, or `hide` to hide the icon.       |
-| `image_url` | Object | Optional     | Configure the image URL for Sensor.     |
+| `image_url` | Object | Optional     | Configure the image URL for Sensor.                                                         |
 | `mode`      | String | Optional     | Sensor Display Mode : bidirectional (default for all) or heatflow (default for temperature) |
-| `min_limit` | Number | Optional     | Minimum acceptable value for the sensor |
+| `min_limit` | Number | Optional     | Minimum acceptable value for the sensor                                                     |
 
 ```yaml
 sensors:
@@ -448,6 +450,7 @@ These updates may require configuration changes when implemented:
 > **Note:** This roadmap is subject to change based on community feedback and needs. Feel free to contribute ideas by opening issues on GitHub!
 
 <!--URLS FOR BADGES-->
+
 [release-shield]: https://img.shields.io/github/v/release/wilsto/pool-monitor-card?include_prereleases&style=for-the-badge
 [release-link]: https://github.com/wilsto/pool-monitor-card/releases/latest
 [commits-shield]: https://img.shields.io/github/commit-activity/y/wilsto/pool-monitor-card.svg?style=for-the-badge
