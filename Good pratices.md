@@ -13,9 +13,14 @@ Documenter clairement l'API et les événements du composant
 Ajouter un CONTRIBUTING.md pour guider les contributeurs
 
 Sécurité
-Ajouter des analyses de sécurité des dépendances (avec npm audit)
-Mettre en place des GitHub Security Advisories
-Ajouter des scans de vulnérabilités avec Snyk ou SonarQube
+### Analyse des dépendances
+- Exécuter régulièrement `npm audit` pour vérifier les vulnérabilités dans les dépendances
+- Mettre à jour les dépendances lorsque des correctifs de sécurité sont disponibles
+- Intégrer l'analyse de sécurité dans le processus CI/CD
+
+### Autres mesures de sécurité
+- Mettre en place des GitHub Security Advisories
+- Ajouter des scans de vulnérabilités avec Snyk ou SonarQube
 
 CI/CD
 Renforcer le pipeline CI/CD avec des GitHub Actions pour :
@@ -33,9 +38,3 @@ Performances
 Ajouter des benchmarks de performance
 Mettre en place des analyses de bundle size
 Optimiser les imports pour réduire la taille du bundle
-
-Les modifications les plus urgentes que je recommande seraient :
-
-Mettre en place la couverture de code avec Jest
-Améliorer la documentation avec JSDoc
-Configurer des GitHub Actions pour l'automatisation
