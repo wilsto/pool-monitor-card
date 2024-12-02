@@ -213,7 +213,10 @@ export const DEFAULT_CONFIG = {
  * @returns {Object} The sensor configuration
  */
 export function getSensorConfig(type) {
-  return DEFAULT_CONFIG.sensors[type];
+  if (!SUPPORTED_SENSORS.includes(type)) {
+    throw new Error(`Unsupported sensor type: ${type}`);
+  }
+  return { ...DEFAULT_CONFIG.sensors[type] };
 }
 
 /**
@@ -222,7 +225,7 @@ export function getSensorConfig(type) {
  * @returns {Object} The display configuration
  */
 export function getDisplayConfig() {
-  return DEFAULT_CONFIG.display;
+  return { ...DEFAULT_CONFIG.display };
 }
 
 /**
@@ -231,7 +234,7 @@ export function getDisplayConfig() {
  * @returns {Object} The color configuration
  */
 export function getColorConfig() {
-  return DEFAULT_CONFIG.colors;
+  return { ...DEFAULT_CONFIG.colors };
 }
 
 /**

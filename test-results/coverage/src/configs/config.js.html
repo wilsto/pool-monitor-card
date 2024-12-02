@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.43% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>228/234</span>
+                <span class='fraction'>237/237</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.43% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>228/234</span>
+                <span class='fraction'>237/237</span>
             </div>
         
             
@@ -304,7 +304,10 @@
 <a name='L239'></a><a href='#L239'>239</a>
 <a name='L240'></a><a href='#L240'>240</a>
 <a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -519,8 +522,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -528,8 +534,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -537,8 +543,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -759,27 +765,30 @@ export const DEFAULT_CONFIG = {
  * @param {string} type - The type of sensor to get configuration for
  * @returns {Object} The sensor configuration
  */
-export <span class="fstat-no" title="function not covered" >function getSensorConfig(type) {</span>
-<span class="cstat-no" title="statement not covered" >  return DEFAULT_CONFIG.sensors[type];</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function getSensorConfig(type) {
+  if (!SUPPORTED_SENSORS.includes(type)) {
+    throw new Error(`Unsupported sensor type: ${type}`);
+  }
+  return { ...DEFAULT_CONFIG.sensors[type] };
+}
 &nbsp;
 /**
  * @function getDisplayConfig
  * @description Get the display configuration settings
  * @returns {Object} The display configuration
  */
-export <span class="fstat-no" title="function not covered" >function getDisplayConfig() {</span>
-<span class="cstat-no" title="statement not covered" >  return DEFAULT_CONFIG.display;</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function getDisplayConfig() {
+  return { ...DEFAULT_CONFIG.display };
+}
 &nbsp;
 /**
  * @function getColorConfig
  * @description Get the color configuration settings
  * @returns {Object} The color configuration
  */
-export <span class="fstat-no" title="function not covered" >function getColorConfig() {</span>
-<span class="cstat-no" title="statement not covered" >  return DEFAULT_CONFIG.colors;</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export function getColorConfig() {
+  return { ...DEFAULT_CONFIG.colors };
+}
 &nbsp;
 /**
  * @const {string[]} SUPPORTED_SENSORS - List of supported sensor types
@@ -793,7 +802,7 @@ export const SUPPORTED_SENSORS = Object.keys(DEFAULT_CONFIG.sensors);
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-01T20:52:05.987Z
+                at 2024-12-02T08:00:38.226Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
