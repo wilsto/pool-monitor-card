@@ -30,9 +30,15 @@ export default {
     ec: 'Condutividade Elétrica',
   },
   time: {
-    seconds: 'Agora',
-    minutes: '{minutes} Muntos{plural} atrás',
-    hours: '{hours} horas{plural} atrás',
-    days: '{days} dias{plural} atrás',
+    seconds: 'agora mesmo',
+    minutes: 'há {minutes} minuto',
+    hours: 'há {hours} hora',
+    days: 'há {days} dia',
+  },
+  time_plural: {
+    seconds: 'agora mesmo',
+    minutes: 'há {minutes} minutos',
+    hours: 'há {hours} horas',
+    days: 'há {days} dias',
   },
 };

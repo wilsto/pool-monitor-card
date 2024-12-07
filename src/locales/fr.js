@@ -30,9 +30,15 @@ export default {
     ec: 'Conductivité Électrique',
   },
   time: {
-    seconds: "à l'instant",
-    minutes: 'il y a {minutes} minute{plural}',
-    hours: 'il y a {hours} heure{plural}',
-    days: 'il y a {days} jour{plural}',
+    seconds: 'à l\'instant',
+    minutes: 'il y a {minutes} minute',
+    hours: 'il y a {hours} heure',
+    days: 'il y a {days} jour',
+  },
+  time_plural: {
+    seconds: 'à l\'instant',
+    minutes: 'il y a {minutes} minutes',
+    hours: 'il y a {hours} heures',
+    days: 'il y a {days} jours',
   },
 };

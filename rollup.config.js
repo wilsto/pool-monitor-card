@@ -12,6 +12,7 @@ export default {
     format: 'iife',
     sourcemap: true,
     name: 'PoolMonitorCard',
+    generatedCode: 'es2015', // Add this for better ES2015+ output
   },
   plugins: [
     replace({

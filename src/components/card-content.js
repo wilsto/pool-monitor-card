@@ -50,7 +50,7 @@ export class cardContent {
     }
     return html`
       <!-- ##### ${data.name} section ##### -->
-      <div class="section" @click=${() => this._moreinfo(data.entity)}>
+      <div class="section" @click=${() => cardContent._moreinfo(data.entity)}>
         <div class="pool-monitor-container-marker">
           <div
             class="marker"
@@ -227,7 +227,7 @@ export class cardContent {
     }
     return html`
       <!-- ##### ${data.name} section ##### -->
-      <div class="section-compact" @click=${() => this._moreinfo(data.entity)}>
+      <div class="section-compact" @click=${() => cardContent._moreinfo(data.entity)}>
         ${!data.hide_icon
           ? html`
               <div class="pool-monitor-entity-img">
@@ -373,6 +373,9 @@ export class cardContent {
       composed: true,
     });
     event.detail = { entityId: entity };
-    document.querySelector('home-assistant').dispatchEvent(event);
+    const homeAssistant = document.querySelector('home-assistant');
+    if (homeAssistant) {
+      homeAssistant.dispatchEvent(event);
+    }
   }
 }

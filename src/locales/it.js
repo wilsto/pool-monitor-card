@@ -31,8 +31,14 @@ export default {
   },
   time: {
     seconds: 'proprio ora',
-    minutes: '{minutes} minuto{plural} fa',
-    hours: '{hours} ora{plural} fa',
-    days: '{days} giorno{plural} fa',
+    minutes: '{minutes} minuto fa',
+    hours: '{hours} ora fa',
+    days: '{days} giorno fa',
+  },
+  time_plural: {
+    seconds: 'proprio ora',
+    minutes: '{minutes} minuti fa',
+    hours: '{hours} ore fa',
+    days: '{days} giorni fa',
   },
 };

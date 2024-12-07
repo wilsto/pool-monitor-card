@@ -15,6 +15,7 @@ export default {
         '**/*.test.js',
         '**/*.spec.js',
         'rollup.config.js',
+        'eslint.config.js',
         'vitest.config.js',
         'scripts/**',
         'tests/**',
