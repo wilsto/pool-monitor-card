@@ -6,6 +6,7 @@
 [![GitHub Activity][commits-shield]][commits-link]
 ![Github last commit][git-last-commit-badge]
 [![codecov][codecov-shield]][codecov-link]
+[![Coverage Status](https://codecov.io/gh/wilsto/pool-monitor-card/branch/master/graph/badge.svg)](https://codecov.io/gh/wilsto/pool-monitor-card)
 
 ![all](example/hero.png)
 [Click here to see various configurations and visual tests for Pool Monitor V2](example/screenshots.md)
@@ -408,6 +409,16 @@ This card wouldn't be what it is today without our amazing contributors! I'm inc
 >
 > - [hlaffez](https://github.com/hlaffez) for Tuya BLE-YL01 compatibility
 > - [DAVIZINH0](https://github.com/DAVIZINH0) for bluerriot compatibility information
+
+---
+
+## Quality Assurance
+[![Coverage Status](https://codecov.io/gh/wilsto/pool-monitor-card/branch/master/graph/badge.svg)](https://codecov.io/gh/wilsto/pool-monitor-card)
+
+- 📊 [Unit Test Coverage Report](test-results/html/index.html)
+- 🎨 [Visual Tests Report](example/visual-test-report.html)
+- 🔍 [Code Coverage Report](coverage/lcov-report/index.html)
+
 
 ---
 

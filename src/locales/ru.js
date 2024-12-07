@@ -31,8 +31,14 @@ export default {
   },
   time: {
     seconds: 'только что',
-    minutes: '{minutes} минут{plural} назад',
-    hours: '{hours} часов{plural} назад',
-    days: '{days} дней{plural} назад',
+    minutes: '{minutes} минуту назад',
+    hours: '{hours} час назад',
+    days: '{days} день назад',
+  },
+  time_plural: {
+    seconds: 'только что',
+    minutes: '{minutes} минут назад',
+    hours: '{hours} часов назад',
+    days: '{days} дней назад',
   },
 };

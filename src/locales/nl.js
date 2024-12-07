@@ -31,8 +31,14 @@ export default {
   },
   time: {
     seconds: 'zojuist',
-    minutes: '{minutes} minuut{plural} geleden',
-    hours: '{hours} uur{plural} geleden',
-    days: '{days} dag{plural} geleden',
+    minutes: '{minutes} minuut geleden',
+    hours: '{hours} uur geleden',
+    days: '{days} dag geleden',
+  },
+  time_plural: {
+    seconds: 'zojuist',
+    minutes: '{minutes} minuten geleden',
+    hours: '{hours} uur geleden',
+    days: '{days} dagen geleden',
   },
 };

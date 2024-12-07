@@ -37,11 +37,17 @@
  * @property {string} sensor.product_weight - Product weight sensor name
  * @property {string} sensor.ec - Electrical Conductivity sensor name
  *
- * @property {Object} time - Time-related translations
+ * @property {Object} time - Time-related translations (singular forms)
  * @property {string} time.seconds - Text for events that just happened
- * @property {string} time.minutes - Text format for minutes ago (uses {minutes} and {plural} placeholders)
- * @property {string} time.hours - Text format for hours ago (uses {hours} and {plural} placeholders)
- * @property {string} time.days - Text format for days ago (uses {days} and {plural} placeholders)
+ * @property {string} time.minutes - Text format for minutes ago (uses {minutes} placeholder)
+ * @property {string} time.hours - Text format for hours ago (uses {hours} placeholder)
+ * @property {string} time.days - Text format for days ago (uses {days} placeholder)
+ *
+ * @property {Object} time_plural - Time-related translations (plural forms)
+ * @property {string} time_plural.seconds - Text for events that just happened
+ * @property {string} time_plural.minutes - Text format for minutes ago (uses {minutes} placeholder)
+ * @property {string} time_plural.hours - Text format for hours ago (uses {hours} placeholder)
+ * @property {string} time_plural.days - Text format for days ago (uses {days} placeholder)
  */
 export default {
   state: {
@@ -76,8 +82,14 @@ export default {
   },
   time: {
     seconds: 'just now',
-    minutes: '{minutes} minute{plural} ago',
-    hours: '{hours} hour{plural} ago',
-    days: '{days} day{plural} ago',
+    minutes: '{minutes} minute ago',
+    hours: '{hours} hour ago',
+    days: '{days} day ago',
+  },
+  time_plural: {
+    seconds: 'just now',
+    minutes: '{minutes} minutes ago',
+    hours: '{hours} hours ago',
+    days: '{days} days ago',
   },
 };

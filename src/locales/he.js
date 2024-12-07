@@ -30,9 +30,15 @@ export default {
     ec: 'מוליכות חשמלית',
   },
   time: {
-    seconds: 'הרגע',
-    minutes: 'לפני {minutes} דקות{plural}',
-    hours: 'לפני {hours} שעות{plural}',
-    days: 'לפני {days} ימים{plural}',
+    seconds: 'כרגע',
+    minutes: 'לפני {minutes} דקה',
+    hours: 'לפני {hours} שעה',
+    days: 'לפני {days} יום',
+  },
+  time_plural: {
+    seconds: 'כרגע',
+    minutes: 'לפני {minutes} דקות',
+    hours: 'לפני {hours} שעות',
+    days: 'לפני {days} ימים',
   },
 };

@@ -24,7 +24,10 @@ async function takeScreenshot(page, screenshotConfig) {
   // Attendre que la carte soit chargée
   await page.waitForSelector(selectors.card);
   console.log('Attente du chargement complet de la carte...');
-  await page.waitForTimeout(2000);
+  
+  // Attendre que la page soit complètement chargée et stable
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(3000);
 
   // Prendre la capture d'écran
   const screenshotPath = path.join(__dirname, '../example');
@@ -75,7 +78,7 @@ async function takeScreenshots() {
     for (const screenshot of config.paths.screenshots) {
       await takeScreenshot(page, screenshot);
       // Attendre un peu entre chaque capture
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(3000);
     }
 
     console.log("Toutes les captures d'écran ont été réalisées avec succès !");

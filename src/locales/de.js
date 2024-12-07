@@ -31,8 +31,14 @@ export default {
   },
   time: {
     seconds: 'gerade erst',
-    minutes: 'vor {minutes} Minute{plural}',
-    hours: 'vor {hours} Stunde{plural}',
-    days: 'vor {days} Tag{plural}',
+    minutes: 'vor {minutes} Minute',
+    hours: 'vor {hours} Stunde',
+    days: 'vor {days} Tag',
+  },
+  time_plural: {
+    seconds: 'gerade erst',
+    minutes: 'vor {minutes} Minuten',
+    hours: 'vor {hours} Stunden',
+    days: 'vor {days} Tagen',
   },
 };

@@ -30,9 +30,15 @@ export default {
     ec: 'Conductivitate Electrică',
   },
   time: {
-    seconds: 'acum',
-    minutes: 'acum {minutes} minut{plural}',
-    hours: 'acum {hours} oră{plural}',
-    days: 'acum {days} zi{plural}',
+    seconds: 'chiar acum',
+    minutes: 'acum {minutes} minut',
+    hours: 'acum {hours} oră',
+    days: 'acum {days} zi',
+  },
+  time_plural: {
+    seconds: 'chiar acum',
+    minutes: 'acum {minutes} minute',
+    hours: 'acum {hours} ore',
+    days: 'acum {days} zile',
   },
 };

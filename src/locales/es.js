@@ -31,8 +31,14 @@ export default {
   },
   time: {
     seconds: 'justo ahora',
-    minutes: 'hace {minutes} minuto{plural}',
-    hours: 'hace {hours} hora{plural}',
-    days: 'hace {days} día{plural}',
+    minutes: 'hace {minutes} minuto',
+    hours: 'hace {hours} hora',
+    days: 'hace {days} día',
+  },
+  time_plural: {
+    seconds: 'justo ahora',
+    minutes: 'hace {minutes} minutos',
+    hours: 'hace {hours} horas',
+    days: 'hace {days} días',
   },
 };

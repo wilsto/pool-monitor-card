@@ -171,8 +171,71 @@ global.customElements = {
 
 // Mock translations
 vi.mock('../../src/locales/translations.js', () => ({
-  getTranslation: (lang, key) => key,
-  formatTranslation: translation => translation,
+  getTranslation: (lang, key) => {
+    const translations = {
+      en: {
+        time: {
+          seconds: 'just now',
+          minutes: '{minutes} minute ago',
+          hours: '{hours} hour ago',
+          days: '{days} day ago'
+        },
+        time_plural: {
+          seconds: 'just now',
+          minutes: '{minutes} minutes ago',
+          hours: '{hours} hours ago',
+          days: '{days} days ago'
+        }
+      },
+      fr: {
+        time: {
+          seconds: 'à l\'instant',
+          minutes: 'il y a {minutes} minute',
+          hours: 'il y a {hours} heure',
+          days: 'il y a {days} jour'
+        },
+        time_plural: {
+          seconds: 'à l\'instant',
+          minutes: 'il y a {minutes} minutes',
+          hours: 'il y a {hours} heures',
+          days: 'il y a {days} jours'
+        }
+      },
+      de: {
+        time: {
+          seconds: 'gerade eben',
+          minutes: 'vor {minutes} Minute',
+          hours: 'vor {hours} Stunde',
+          days: 'vor {days} Tag'
+        },
+        time_plural: {
+          seconds: 'gerade eben',
+          minutes: 'vor {minutes} Minuten',
+          hours: 'vor {hours} Stunden',
+          days: 'vor {days} Tagen'
+        }
+      }
+    };
+
+    const keys = key.split('.');
+    let result = translations[lang] || translations.en;
+
+    for (const k of keys) {
+      if (result && typeof result === 'object') {
+        result = result[k];
+      } else {
+        return key;
+      }
+    }
+
+    return result || key;
+  },
+  formatTranslation: (translation, values) => {
+    if (!values) return translation;
+    return Object.entries(values).reduce((acc, [key, value]) => {
+      return acc.replace(`{${key}}`, value);
+    }, translation);
+  }
 }));
 
 // Mock sensor configurations for tests

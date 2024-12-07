@@ -235,6 +235,7 @@ export class PoolMonitorCard extends LitElement {
     // Utiliser l'unité de la configuration par défaut si non spécifiée
     newData.unit = config.display.show_units ? unit || defaultConfig.unit || '' : '';
 
+    // Appliquer l'override après avoir lu la valeur du capteur
     if (override) {
       newData.value = override_value || defaultConfig.override;
     }
@@ -269,10 +270,6 @@ export class PoolMonitorCard extends LitElement {
           : 0.1;
 
     const countDecimals = Math.max(this.countDecimals(setpoint), this.countDecimals(setpoint_step));
-
-    if (newData.value) {
-      newData.value = parseFloat(this.hass.states[entity].state);
-    }
 
     newData.setpoint = setpoint;
 
@@ -431,11 +428,9 @@ export class PoolMonitorCard extends LitElement {
     const diff = Date.now() - date.getTime();
 
     const t = (key, n) => {
-      let plural = n == 1 ? '' : 's';
-      let translation = this.getTranslatedText(`time.${key}`);
-      translation = translation.replace('{' + key + '}', n);
-      translation = translation.replace('{plural}', plural);
-      return translation;
+      const translationKey = n === 1 ? 'time' : 'time_plural';
+      const values = { [key]: n };
+      return this.getTranslatedText(`${translationKey}.${key}`, values);
     };
 
     const minutes = Math.floor(diff / 60000);
@@ -541,21 +536,6 @@ export class PoolMonitorCard extends LitElement {
     });
 
     this.config = newConfig;
-  }
-
-  /**
-   * @method _moreinfo
-   * @description Opens the more info popup for an entity
-   * @param {string} entityinfo - The entity to open the more info popup for
-   */
-  static _moreinfo(entityinfo) {
-    const popupEvent = new Event('hass-more-info', {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-    });
-    popupEvent.detail = { entityId: entityinfo };
-    document.querySelector('home-assistant').dispatchEvent(popupEvent);
   }
 }
 

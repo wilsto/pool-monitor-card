@@ -31,8 +31,14 @@ export default {
   },
   time: {
     seconds: 'práve teraz',
-    minutes: '{minutes} minút{plural} pred',
-    hours: '{hours} hodín{plural} pred',
-    days: '{days} dní{plural} pred',
+    minutes: 'pred {minutes} minútou',
+    hours: 'pred {hours} hodinou',
+    days: 'pred {days} dňom',
+  },
+  time_plural: {
+    seconds: 'práve teraz',
+    minutes: 'pred {minutes} minútami',
+    hours: 'pred {hours} hodinami',
+    days: 'pred {days} dňami',
   },
 };
