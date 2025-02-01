@@ -225,11 +225,19 @@ export class PoolMonitorCard extends LitElement {
       return newData;
     }
 
-    newData.value = parseFloat(this.hass.states[entity].state);
+    const entityState = this.hass.states[entity];
+    // Get the configured precision from the entity's attributes
+    const precision = entityState.attributes?.display_precision ?? 
+                     entityState.attributes?.precision ?? 
+                     this.countDecimals(parseFloat(entityState.state));
+    
+    // Parse and format the value with the configured precision
+    const rawValue = parseFloat(entityState.state);
+    newData.value = isNaN(rawValue) ? null : Number(rawValue.toFixed(precision));
     newData.entity = entity;
 
     if (config.display.show_last_updated) {
-      newData.last_updated = this.timeFromNow(this.hass.states[entity].last_updated);
+      newData.last_updated = this.timeFromNow(entityState.last_updated);
     }
 
     // Utiliser l'unité de la configuration par défaut si non spécifiée

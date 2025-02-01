@@ -66,7 +66,7 @@ export class cardContent {
           </div>
           <div
             class="triangle"
-            style="border-top: 10px solid ${data.color} ;left: ${data.pct - 1}%;"
+            style="border-top: 10px solid ${data.color} ;left: ${data.pct_marker}%;"
           ></div>
         </div>
         ${!data.hide_icon
