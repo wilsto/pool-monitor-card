@@ -104,12 +104,16 @@ export const styles = css`
   .pool-monitor-container-marker .marker {
     text-align: center;
     justify-self: center;
-    width: 80px;
+    min-width: 80px;
     height: 20px;
     padding-top: 5px;
     border-radius: 5px;
     position: absolute;
     z-index: 1;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .pool-monitor-container-marker .marker-state {

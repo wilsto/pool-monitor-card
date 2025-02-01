@@ -168,3 +168,121 @@ cards:
                 min: sensor.pool_ph_min
                 max: sensor.pool_ph_max
           ```
+
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "EC Sensor Tests"
+        label: "Testing EC sensor configurations"
+
+      - type: custom:pool-monitor-card
+        title: "EC Sensor Basic Test"
+        sensors:
+          ec:
+            - name: "EC Standard"
+              entity: sensor.pool_ec
+              unit: µS/cm
+              min: 2000
+              max: 6000
+              setpoint: 4000
+              step: 200
+            - name: "EC with min_limit"
+              entity: sensor.pool_ec
+              unit: µS/cm
+              min: 2000
+              max: 6000
+              setpoint: 4000
+              step: 200
+              min_limit: 1000
+
+      - type: "markdown"
+        content: |
+          ```yaml
+          sensors:
+            ec:
+              - name: "EC Standard"
+                entity: sensor.pool_ec
+                unit: µS/cm
+                min: 2000
+                max: 6000
+                setpoint: 4000
+                step: 200
+              - name: "EC with min_limit"
+                entity: sensor.pool_ec
+                unit: µS/cm
+                min: 2000
+                max: 6000
+                setpoint: 4000
+                step: 200
+                min_limit: 1000
+          ```
+
+  - type: "vertical-stack"
+    cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "Min Limit Tests"
+        label: "Testing min_limit parameter for various sensors"
+
+      - type: custom:pool-monitor-card
+        title: "Min Limit Tests"
+        sensors:
+          temperature:
+            - name: "Temperature with min_limit"
+              entity: sensor.pool_temperature
+              unit: °C
+              min: 20
+              max: 32
+              setpoint: 27
+              step: 1
+              min_limit: 15
+          ph:
+            - name: "pH with min_limit"
+              entity: sensor.pool_ph
+              min: 6.8
+              max: 7.8
+              setpoint: 7.2
+              step: 0.1
+              min_limit: 6.0
+          orp:
+            - name: "ORP with min_limit"
+              entity: sensor.pool_orp
+              unit: mV
+              min: 650
+              max: 750
+              setpoint: 700
+              step: 10
+              min_limit: 500
+
+      - type: "markdown"
+        content: |
+          ```yaml
+          sensors:
+            temperature:
+              - name: "Temperature with min_limit"
+                entity: sensor.pool_temperature
+                unit: °C
+                min: 20
+                max: 32
+                setpoint: 27
+                step: 1
+                min_limit: 15
+            ph:
+              - name: "pH with min_limit"
+                entity: sensor.pool_ph
+                min: 6.8
+                max: 7.8
+                setpoint: 7.2
+                step: 0.1
+                min_limit: 0
+            orp:
+              - name: "ORP with min_limit"
+                entity: sensor.pool_orp
+                unit: mV
+                min: 650
+                max: 750
+                setpoint: 700
+                step: 10
+                min_limit: 500
+          ```

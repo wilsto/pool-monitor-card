@@ -1,0 +1,53 @@
+---
+title: "Pool Monitor Test Configurations V2"
+path: pool-sandbox
+icon: "mdi:pool"
+cards:
+  # Section Title
+  - type: "custom:button-card"
+    template: "card_title"
+    name: "Pool Monitor Card Tests V2"
+    label: "SANDBOX"
+
+  # Section 1: Basic Configuration Tests
+  - type: "vertical-stack"
+    cards:
+      - type: custom:pool-monitor-card
+        title: Pool Monitor
+        sensors:
+          temperature:
+            name: Temperature
+            entity: sensor.pool_temperature
+            setpoint : 27
+            step: 1
+            unit: °C
+            decimals: 1
+            icon: mdi:thermometer
+            min: 0
+            max: 40
+          ph:
+            name: pH
+            entity: sensor.pool_ph
+            setpoint : 7.5
+            step: 0.2
+            unit: pH
+            decimals: 1
+            icon: mdi:ph
+            min: 6.5
+            max: 8.5
+          orp:
+            name: ORP
+            entity: sensor.pool_orp
+            setpoint : 650
+            step: 10
+            unit: mV
+            decimals: 0
+            icon: mdi:flash
+            min: 500
+            max: 800
+        display:
+          compact_view: false
+          show_names: true
+          show_labels: true
+          show_last_updated: false      
+          show_icons: true 

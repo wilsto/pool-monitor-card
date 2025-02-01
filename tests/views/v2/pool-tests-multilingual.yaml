@@ -66,6 +66,82 @@ cards:
 
   - type: "vertical-stack"
     cards:
+      - type: "custom:button-card"
+        template: "card_title"
+        name: "Pluralization Tests"
+        label: "Testing pluralization in different languages"
+
+      - type: custom:pool-monitor-card
+        title: "French Pluralization"
+        display:
+          show_last_updated: true
+          language: "fr"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+            name: "Température"
+          ph:
+            entity: sensor.pool_ph
+            name: "pH"
+          orp:
+            entity: sensor.pool_orp
+            name: "ORP"
+
+      - type: custom:pool-monitor-card
+        title: "English Pluralization"
+        display:
+          show_last_updated: true
+          language: "en"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+            name: "Temperature"
+          ph:
+            entity: sensor.pool_ph
+            name: "pH"
+          orp:
+            entity: sensor.pool_orp
+            name: "ORP"
+
+      - type: custom:pool-monitor-card
+        title: "Spanish Pluralization"
+        display:
+          show_last_updated: true
+          language: "es"
+        sensors:
+          temperature:
+            entity: sensor.pool_temperature
+            name: "Temperatura"
+          ph:
+            entity: sensor.pool_ph
+            name: "pH"
+          orp:
+            entity: sensor.pool_orp
+            name: "ORP"
+
+      - type: "markdown"
+        content: |
+          ```yaml
+          # Test cases for pluralization in different languages
+          - type: custom:pool-monitor-card
+            title: "French Pluralization"
+            display:
+              show_last_updated: true
+              language: "fr"
+            sensors:
+              temperature:
+                entity: sensor.pool_temperature
+                name: "Température"
+              ph:
+                entity: sensor.pool_ph
+                name: "pH"
+              orp:
+                entity: sensor.pool_orp
+                name: "ORP"
+          ```
+
+  - type: "vertical-stack"
+    cards:
       - type: "custom:pool-monitor-card"
         template: "card_generic"
         title: " French Test Configuration"

@@ -1,0 +1,39 @@
+# **Code Source Architecture**
+
+The source code for the `pool-monitor-card` plugin is organized as follows:
+
+## **1. `src/` Directory**
+
+The core codebase resides in the `src/` directory, which is structured into logical subdirectories:
+
+### **a. `src/components/`**
+
+- **Purpose**: Contains components that define the UI and behavior of the card.
+- **Key File**: 
+  - `card-content.js`: Responsible for rendering the main card content.
+
+### **b. `src/configs/`**
+
+- **Purpose**: Handles configuration logic for the card.
+- **Key File**:
+  - `config.js`: Contains configuration defaults and utilities for managing settings.
+
+### **c. `src/locales/`**
+
+- **Purpose**: Manages internationalization (i18n) for the plugin.
+- **Key Files**:
+  - Language-specific files (`en.js`, `fr.js`, `es.js`, etc.): Define translations for supported languages.
+  - `translations.js`: Central module to load and manage translation files dynamically.
+
+### **d. `src/styles/`**
+
+- **Purpose**: Encapsulates styling logic for the card.
+- **Key Files**:
+  - `styles.js`: Defines CSS-in-JS styles for the card.
+  - `constants.js`: Contains reusable style-related constants.
+
+### **e. Root Files in `src/`**
+
+- **Key File**:
+  - `pool_monitor_card.js`: The main entry point for the card's logic, integrating configurations, components, styles, and translations.
+
