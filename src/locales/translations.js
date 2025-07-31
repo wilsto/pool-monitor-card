@@ -8,6 +8,7 @@ import en from './en.js';
 import fr from './fr.js';
 import es from './es.js';
 import de from './de.js';
+import hu from './hu.js';
 import it from './it.js';
 import nl from './nl.js';
 import pt from './pt.js';
@@ -26,6 +27,7 @@ import ru from './ru.js';
  * - es: Spanish
  * - de: German
  * - it: Italian
+ * - hu: Hungarian
  * - nl: Dutch
  * - pt: Portuguese
  * - pt-br: Brazilian Portuguese
@@ -39,6 +41,7 @@ export const translations = {
   fr,
   es,
   de,
+  hu,
   it,
   nl,
   pt,
