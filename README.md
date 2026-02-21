@@ -66,7 +66,7 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 *These tell you if your disinfection system is working properly.*
 
-![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/sg.png) ![Magnesium](resources/magnesium.png)
+![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png)
 
 | Sensor | Key | Unit | Default Setpoint |
 |--------|-----|------|:----------------:|
