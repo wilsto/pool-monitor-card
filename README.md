@@ -4,8 +4,9 @@
 
 > Keep your swimming pool safe and crystal clear by monitoring up to 20 water chemistry parameters at a glance.
 
-<!-- TODO: add hero screenshot -->
-<!-- ![screenshot](example/hero.png) -->
+![screenshot](example/hero.png)
+
+[See all configurations and visual tests](example/screenshots.md)
 
 > **Upgrading from v1?** The sensor configuration format changed in v2. See the [Migration Guide](docs/MIGRATION.md).
 
@@ -37,6 +38,8 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 *The core parameters every pool owner should monitor for safe, comfortable swimming.*
 
+![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) ![Electrical Conductivity](resources/ec.png)
+
 | Sensor | Unit | Default Setpoint |
 |--------|------|:----------------:|
 | Temperature | °C | 27 |
@@ -48,6 +51,8 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 ### Chemical Balance
 
 *Keeping these balanced prevents algae, scaling, and equipment damage.*
+
+![Salinity](resources/salinity.png) ![Cyanuric Acid](resources/cya.png) ![Calcium](resources/calcium.png) ![Phosphate](resources/phosphate.png) ![Alkalinity](resources/alkalinity.png)
 
 | Sensor | Unit | Default Setpoint |
 |--------|------|:----------------:|
@@ -61,6 +66,8 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 *These tell you if your disinfection system is working properly.*
 
+![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/sg.png) ![Magnesium](resources/magnesium.png)
+
 | Sensor | Unit | Default Setpoint |
 |--------|------|:----------------:|
 | Free Chlorine | ppm | 3 |
@@ -72,6 +79,8 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 ### Equipment & Maintenance
 
 *Track the health of your pool equipment and supply levels.*
+
+![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)
 
 | Sensor | Unit | Default Setpoint |
 |--------|------|:----------------:|
@@ -87,14 +96,20 @@ For detailed explanations of each sensor and why it matters, see [Sensor Details
 
 ## Compatible Hardware
 
-Community-tested devices that work with this card:
+Community-tested devices and their supported parameters:
 
-| Device | Integration | Description |
-|--------|-------------|-------------|
-| [Zodiac eXO iQ / Z400 iQ](https://www.zodiac.com.au/salt-chlorinators/exo-pro) | NodeRED + MQTT | Smart salt chlorinator and heat pump. Connect via NodeRED + MQTT. |
-| [Tuya Smart PH/TDS/EC/ORP Monitor](https://www.aliexpress.com/item/1005005050612094.html) | TuyaLocal | WiFi multi-parameter water tester. Works with TuyaLocal integration. |
-| Atlas Scientific EZO sensors | ESPHome | Lab-grade pH, ORP, EC, DO sensors. Connect via ESPHome or custom component. |
-| Blueriiot Blue Connect | Waterair / custom component | Floating pool analyzer (temperature, pH, ORP). Native HA integration. |
+| Brand | Model | Temp | pH | ORP | TDS | HA Support |
+|-------|-------|:----:|:--:|:---:|:---:|------------|
+| Bluerriot | [Bluerriot Blue Connect](https://www.blueriiot.com/us-en) | ✔️ | ✔️ | ✔️ | ❌ | [Blog](https://blog.mikejmcguire.com/2021/12/30/home-assistant-add-on-for-blueriiot-blue-connect-plus/) |
+| Bluerriot | [Bluerriot Blue Connect Plus Gold](https://www.blueriiot.com/us-en) | ✔️ | ✔️ | ✔️ | ✔️ | [Blog](https://blog.mikejmcguire.com/2021/12/30/home-assistant-add-on-for-blueriiot-blue-connect-plus/) |
+| Flipr | [Flipr AnalysR](https://goflipr.com/flipr-analysr-3/) | ✔️ | ✔️ | ✔️ | ❌ | [Component](https://www.home-assistant.io/integrations/flipr/) |
+| Inkbird | [Inkbird IBS-P01R](https://pool-thermometer.eu/shop/wifi-swimming-pool-thermometer-bundle-weather-station/?lang=en) | ✔️ | ❌ | ❌ | ❌ | [Component](https://www.home-assistant.io/integrations/inkbird/) |
+| iopool | [iopool ECO](https://iopool.com/pages/pool-monitor) | ✔️ | ✔️ | ✔️ | ❌ | [Tuto fr](https://forum.hacf.fr/t/tuto-gestion-de-sa-piscine-avec-sonde-iopool/24292) |
+| Ondilo | [Ondilo ICO Pool](https://ondilo.com/en/ico-pool/) | ✔️ | ✔️ | ✔️ | ✔️ | [Component](https://www.home-assistant.io/integrations/ondilo_ico/) |
+| Zodiac | [Zodiac iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq) | ✔️ | ✔️ | ✔️ | ❌ | [Tuto via nodeRED](example/zodiac.md) |
+| Tuya | [Tuya BLE-YL01](https://www.zigbee2mqtt.io/devices/BLE-YL01.html) | ✔️ | ✔️ | ✔️ | ✔️ | [Tuto](https://community.home-assistant.io/t/pool-monitoring-device-yieryi-ble-yl01-zigbee-ph-orp-free-chlorine-salinity-etc/659545) |
+
+> ✔️ = supported, ❌ = not supported. [See more hardware](example/hardware.md)
 
 > Know a device that works? [Open an issue](https://github.com/wilsto/pool-monitor-card/issues) to add it!
 
@@ -188,6 +203,26 @@ sensors:
 
 [![coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://bmc.link/wilsto)
 
+---
+
+## Acknowledgments
+
+This card wouldn't be what it is today without our amazing contributors!
+
+- [Gregtakacs](https://github.com/gregtakacs) — Min/Max Tickers and custom bar colors
+- [Djgel](https://github.com/djgel) — Specific gravity measurements + Portuguese translation
+- [JDeighty4](https://github.com/JDeighty4) — Magnesium sensor support
+- [Sebaer1976](https://github.com/sebaer1976) — German translation
+- [Splitti](https://github.com/splitti) — German translation
+- [jorgemiguel4](https://github.com/jorgemiguel4) — Portuguese translation
+- [CosminFRC](https://github.com/CosminFRC) — Romanian translation
+- [Misa1515](https://github.com/misa1515) — Slovak translation
+- [ViPeR5000](https://github.com/ViPeR5000) — Polish translation
+- [Yehuda](https://github.com/Yehuda) — Hebrew translation
+- [MrSnakeSPb](https://github.com/MrSnakeSPb) — Russian translation
+- [hlaffez](https://github.com/hlaffez) — Tuya BLE-YL01 compatibility
+- [DAVIZINH0](https://github.com/DAVIZINH0) — Bluerriot compatibility information
+
 ## Monitor Cards Family
 
 This card is part of the **monitor-cards** family — same rendering engine, same features, different presets:
@@ -201,8 +236,8 @@ This card is part of the **monitor-cards** family — same rendering engine, sam
 
 <!-- Badges -->
 [release-shield]: https://img.shields.io/github/v/release/wilsto/pool-monitor-card?style=flat-square
-[release-link]: https://github.com/wilsto/pool-monitor-card/releases
+[release-link]: https://github.com/wilsto/pool-monitor-card/releases/latest
 [hacs-shield]: https://img.shields.io/badge/HACS-Default-orange.svg?style=flat-square
 [hacs-link]: https://hacs.xyz/
 [commits-shield]: https://img.shields.io/github/commit-activity/y/wilsto/pool-monitor-card?style=flat-square
-[commits-link]: https://github.com/wilsto/pool-monitor-card/commits/master
+[commits-link]: https://github.com/wilsto/pool-monitor-card/commits/main
