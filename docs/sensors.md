@@ -98,6 +98,13 @@ Active chlorine available for sanitization (ideal: 1-3 ppm).
 
 Free + combined chlorine. If much higher than free chlorine, indicates chloramine buildup.
 
+### Bromine (`bromine`)
+
+- **Unit**: ppm
+- **Default setpoint**: 4
+
+Alternative disinfectant to chlorine (ideal: 3-5 ppm). Common in saltwater and hot tub systems. Better temperature resistance than chlorine.
+
 ### Filter Pressure (`pressure`)
 
 - **Unit**: psi

@@ -30,7 +30,7 @@ Preset ideal ranges for all 20 pool parameters mean you can get started with jus
 
 ---
 
-## Sensors (20 presets)
+## Sensors (21 presets)
 
 Every sensor comes with **preset ideal ranges** — just point to your entity and the card handles the rest. Override any value to match your setup.
 
@@ -66,12 +66,13 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 *These tell you if your disinfection system is working properly.*
 
-![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png)
+![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Bromine](resources/bromine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png)
 
 | Sensor | Key | Unit | Default Setpoint |
 |--------|-----|------|:----------------:|
 | Free Chlorine | `free_chlorine` | ppm | 3 |
 | Total Chlorine | `total_chlorine` | ppm | 3 |
+| Bromine | `bromine` | ppm | 4 |
 | Filter Pressure | `pressure` | psi | 12 |
 | Specific Gravity | `specific_gravity` | sg | 1.1 |
 | Magnesium | `magnesium` | ppm | 1200 |
@@ -222,6 +223,11 @@ This card wouldn't be what it is today without our amazing contributors!
 - [MrSnakeSPb](https://github.com/MrSnakeSPb) — Russian translation
 - [hlaffez](https://github.com/hlaffez) — Tuya BLE-YL01 compatibility
 - [DAVIZINH0](https://github.com/DAVIZINH0) — Bluerriot compatibility information
+- [Sangoku](https://github.com/Sangoku) — Bromine sensor support
+- [smashtup](https://github.com/smashtup) — Display precision fix (Entity Registry)
+- [taczirjak](https://github.com/taczirjak) — Hungarian translation
+- [KIDNORswe](https://github.com/KIDNORswe) — Swedish translation
+- [FejbyK](https://github.com/FejbyK) — Czech translation
 
 ## Monitor Cards Family
 
@@ -229,7 +235,7 @@ This card is part of the **monitor-cards** family — same rendering engine, sam
 
 | Card | For | Sensors |
 |------|-----|---------|
-| [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 20 presets ← *you are here* |
+| [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 21 presets ← *you are here* |
 | [Aquarium Monitor Card](https://github.com/wilsto/aquarium-monitor-card) | Freshwater & saltwater aquarium keepers | 15 presets |
 | [Air Quality Card](https://github.com/wilsto/air-quality-card) | Homeowners concerned about indoor air quality | 12 presets |
 | [Sensor Monitor Card](https://github.com/wilsto/sensor-monitor-card) | Home Assistant power users | unlimited (custom) |
