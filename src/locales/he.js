@@ -28,6 +28,7 @@ export default {
     product_volume: 'נפח מוצר',
     product_weight: 'משקל מוצר',
     ec: 'מוליכות חשמלית',
+    bromine: 'ברום',
   },
   time: {
     seconds: 'כרגע',

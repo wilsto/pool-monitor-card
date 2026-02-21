@@ -28,6 +28,7 @@ export default {
     product_volume: 'Volume Produto',
     product_weight: 'Peso Produto',
     ec: 'Condutividade Elétrica',
+    bromine: 'Bromo',
   },
   time: {
     seconds: 'agora mesmo',

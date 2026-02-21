@@ -28,6 +28,7 @@ export default {
     product_volume: 'Produktvolumen',
     product_weight: 'Produktgewicht',
     ec: 'Elektrische Leitfähigkeit',
+    bromine: 'Brom',
   },
   time: {
     seconds: 'gerade erst',

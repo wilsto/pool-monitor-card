@@ -28,6 +28,7 @@ export default {
     product_volume: 'Volum produs',
     product_weight: 'Greutate produs',
     ec: 'Conductivitate Electrică',
+    bromine: 'Brom',
   },
   time: {
     seconds: 'chiar acum',

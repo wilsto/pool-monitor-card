@@ -28,6 +28,7 @@ export default {
     product_volume: 'Productvolume',
     product_weight: 'Productgewicht',
     ec: 'Elektrische Geleidbaarheid',
+    bromine: 'Broom',
   },
   time: {
     seconds: 'zojuist',

@@ -5,8 +5,7 @@
  * for consistent theming across the application.
  */
 
-var LitElement = LitElement || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
-var css = LitElement.prototype.css;
+import { css } from 'lit';
 
 /**
  * @const {CSSResult} styles - CSS styles for the Pool Monitor Card

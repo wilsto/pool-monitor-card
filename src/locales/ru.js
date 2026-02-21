@@ -28,6 +28,7 @@ export default {
     product_volume: 'Объем продукта',
     product_weight: 'Вес продукта',
     ec: 'Электропроводность',
+    bromine: 'Бром',
   },
   time: {
     seconds: 'только что',

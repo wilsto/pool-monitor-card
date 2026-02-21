@@ -28,15 +28,16 @@ export default {
     product_volume: 'Volume Produit',
     product_weight: 'Poids Produit',
     ec: 'Conductivité Électrique',
+    bromine: 'Brome',
   },
   time: {
-    seconds: 'à l\'instant',
+    seconds: "à l'instant",
     minutes: 'il y a {minutes} minute',
     hours: 'il y a {hours} heure',
     days: 'il y a {days} jour',
   },
   time_plural: {
-    seconds: 'à l\'instant',
+    seconds: "à l'instant",
     minutes: 'il y a {minutes} minutes',
     hours: 'il y a {hours} heures',
     days: 'il y a {days} jours',

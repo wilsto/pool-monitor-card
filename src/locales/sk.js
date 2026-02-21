@@ -28,6 +28,7 @@ export default {
     product_volume: 'Objem produktu',
     product_weight: 'Hmotnosť produktu',
     ec: 'Elektrická Vodivosť',
+    bromine: 'Bróm',
   },
   time: {
     seconds: 'práve teraz',

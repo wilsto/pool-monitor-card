@@ -16,6 +16,9 @@ import ro from './ro.js';
 import sk from './sk.js';
 import he from './he.js';
 import ru from './ru.js';
+import hu from './hu.js';
+import sv from './sv.js';
+import cs from './cs.js';
 
 /**
  * @const {Object} translations
@@ -33,6 +36,9 @@ import ru from './ru.js';
  * - sk: Slovak
  * - he: Hebrew
  * - ru: Russian
+ * - hu: Hungarian
+ * - sv: Swedish
+ * - cs: Czech
  */
 export const translations = {
   en,
@@ -47,6 +53,9 @@ export const translations = {
   sk,
   he,
   ru,
+  hu,
+  sv,
+  cs,
 };
 
 /**

@@ -1,26 +1,16 @@
-export default {
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
   test: {
-    environment: 'jsdom',
     globals: true,
-    reporters: ['default', 'html'],
-    outputFile: {
-      html: './test-results/html/index.html',
-    },
+    environment: 'jsdom',
+    include: ['tests/**/*.{test,spec}.{js,ts}'],
+    reporters: ['default'],
     coverage: {
-      reporter: ['text', 'json', 'html'],
-      reportsDirectory: './test-results/coverage',
-      exclude: [
-        'test-results/**',
-        'coverage/**',
-        '**/*.test.js',
-        '**/*.spec.js',
-        'rollup.config.js',
-        'eslint.config.js',
-        'vitest.config.js',
-        'scripts/**',
-        'tests/**',
-      ],
+      provider: 'v8',
+      reporter: ['html', 'json', 'text'],
+      reportsDirectory: 'test-results/coverage',
+      include: ['src/**/*.js'],
     },
-    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
-};
+});

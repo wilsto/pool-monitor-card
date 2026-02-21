@@ -1,5 +1,4 @@
-var LitElement = LitElement || Object.getPrototypeOf(customElements.get('ha-panel-lovelace'));
-var html = LitElement.prototype.html;
+import { html } from 'lit';
 
 /**
  * @class cardContent
