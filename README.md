@@ -40,13 +40,13 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 ![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) ![Electrical Conductivity](resources/ec.png)
 
-| Sensor | Unit | Default Setpoint |
-|--------|------|:----------------:|
-| Temperature | °C | 27 |
-| pH | pH | 7.2 |
-| ORP | mV | 700 |
-| TDS | g/L | 5 |
-| Electrical Conductivity | µS/cm | 4000 |
+| Sensor | Key | Unit | Default Setpoint |
+|--------|-----|------|:----------------:|
+| Temperature | `temperature` | °C | 27 |
+| pH | `ph` | pH | 7.2 |
+| ORP | `orp` | mV | 700 |
+| TDS | `tds` | g/L | 5 |
+| Electrical Conductivity | `ec` | µS/cm | 4000 |
 
 ### Chemical Balance
 
@@ -54,13 +54,13 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 ![Salinity](resources/salinity.png) ![Cyanuric Acid](resources/cya.png) ![Calcium](resources/calcium.png) ![Phosphate](resources/phosphate.png) ![Alkalinity](resources/alkalinity.png)
 
-| Sensor | Unit | Default Setpoint |
-|--------|------|:----------------:|
-| Salinity | ppm | 3000 |
-| Cyanuric Acid | ppm | 40 |
-| Calcium | ppm | 300 |
-| Phosphate | ppb | 50 |
-| Alkalinity | ppm | 100 |
+| Sensor | Key | Unit | Default Setpoint |
+|--------|-----|------|:----------------:|
+| Salinity | `salinity` | ppm | 3000 |
+| Cyanuric Acid | `cya` | ppm | 40 |
+| Calcium | `calcium` | ppm | 300 |
+| Phosphate | `phosphate` | ppb | 50 |
+| Alkalinity | `alkalinity` | ppm | 100 |
 
 ### Treatment & Sanitization
 
@@ -68,13 +68,13 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 ![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/sg.png) ![Magnesium](resources/magnesium.png)
 
-| Sensor | Unit | Default Setpoint |
-|--------|------|:----------------:|
-| Free Chlorine | ppm | 3 |
-| Total Chlorine | ppm | 3 |
-| Filter Pressure | psi | 12 |
-| Specific Gravity | sg | 1.1 |
-| Magnesium | ppm | 1200 |
+| Sensor | Key | Unit | Default Setpoint |
+|--------|-----|------|:----------------:|
+| Free Chlorine | `free_chlorine` | ppm | 3 |
+| Total Chlorine | `total_chlorine` | ppm | 3 |
+| Filter Pressure | `pressure` | psi | 12 |
+| Specific Gravity | `specific_gravity` | sg | 1.1 |
+| Magnesium | `magnesium` | ppm | 1200 |
 
 ### Equipment & Maintenance
 
@@ -82,13 +82,13 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 ![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)
 
-| Sensor | Unit | Default Setpoint |
-|--------|------|:----------------:|
-| Water Level | % | 100 |
-| Flow Rate | m³/h | 10 |
-| UV Radiation | mW/cm² | 4 |
-| Product Volume | L | 20 |
-| Product Weight | kg | 25 |
+| Sensor | Key | Unit | Default Setpoint |
+|--------|-----|------|:----------------:|
+| Water Level | `water_level` | % | 100 |
+| Flow Rate | `flow_rate` | m³/h | 10 |
+| UV Radiation | `uv_radiation` | mW/cm² | 4 |
+| Product Volume | `product_volume` | L | 20 |
+| Product Weight | `product_weight` | kg | 25 |
 
 For detailed explanations of each sensor and why it matters, see [Sensor Details](docs/sensors.md).
 
