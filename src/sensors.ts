@@ -1,9 +1,6 @@
-/**
- * @fileoverview Pool-specific sensor presets
- * These define the default setpoints, units, and modes for pool chemistry sensors.
- */
+import type { SensorsRegistry } from '../../core/src/ha/types.js';
 
-export const POOL_SENSORS = {
+export const POOL_SENSORS: SensorsRegistry = {
   temperature: {
     name: 'Temperature',
     unit: '°C',

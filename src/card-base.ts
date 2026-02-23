@@ -1,41 +1,28 @@
-/**
- * @fileoverview Base class for all monitor cards
- * Contains shared logic: render, processData, calculateData, setConfig
- * Domain-specific cards extend this and provide their own CARD_INFO and SENSORS.
- */
-
-import { LitElement, html } from 'lit';
+import { LitElement, html, TemplateResult } from 'lit';
+import { property } from 'lit/decorators.js';
 import { getTranslation, formatTranslation } from './locales/translations.js';
 import { styles } from './styles/styles.js';
 import { cardContent } from './components/card-content.js';
 import { getDisplayConfig, getColorConfig, getSensorConfig } from './configs/config.js';
+import type {
+  HomeAssistant,
+  SensorsRegistry,
+  CardConfig,
+  CardInfo,
+  SensorData,
+} from './ha/types.js';
 
-/**
- * @class MonitorCardBase
- * @extends {LitElement}
- * @description Base class for monitor cards. Subclasses must define:
- *   - static CARD_INFO = { cardType, cardName, cardDescription }
- *   - static SENSORS = { sensorType: { name, unit, setpoint, step, mode, ... }, ... }
- *   - static IMAGE_BASE_URL (optional) - base URL for sensor images
- */
 export class MonitorCardBase extends LitElement {
-  static get properties() {
-    return {
-      hass: {},
-      config: {},
-    };
-  }
+  @property({ attribute: false }) hass!: HomeAssistant;
+  @property({ attribute: false }) config!: CardConfig;
+
+  static CARD_INFO: CardInfo;
+  static SENSORS: SensorsRegistry = {};
+  static IMAGE_BASE_URL = '';
 
   static styles = styles;
 
-  constructor() {
-    super();
-  }
-
-  /**
-   * @method render
-   */
-  render() {
+  render(): TemplateResult {
     const config = this.getConfig();
     const data = this.processData();
     const generateContent = config.display.compact
@@ -80,11 +67,8 @@ export class MonitorCardBase extends LitElement {
     </div>`;
   }
 
-  /**
-   * @method processData
-   */
-  processData() {
-    const data = {};
+  processData(): Record<string, SensorData> {
+    const data: Record<string, SensorData> = {};
     const config = this.getConfig();
 
     Object.entries(config.sensors).forEach(([sensorType, sensorConfigs]) => {
@@ -116,40 +100,34 @@ export class MonitorCardBase extends LitElement {
     return data;
   }
 
-  /**
-   * @method getTranslatedText
-   */
-  getTranslatedText(key, values) {
+  getTranslatedText(key: string, values?: Record<string, string | number>): string {
     const lang = this.config?.display.language || 'en';
     const translation = getTranslation(lang, key);
     return formatTranslation(translation, values);
   }
 
-  /**
-   * @method calculateData
-   */
   calculateData(
-    name,
-    title,
-    entity,
-    entity_min,
-    entity_max,
-    setpoint,
-    setpoint_step,
-    unit,
-    icon,
-    image_url,
-    mode,
-    min_limit,
-    override_value,
-    override,
-    invalid,
-  ) {
-    const newData = {};
+    name: string,
+    title: string,
+    entity: string,
+    entity_min: string | undefined,
+    entity_max: string | undefined,
+    setpoint: number | undefined,
+    setpoint_step: number | undefined,
+    unit: string | undefined,
+    icon: string | undefined,
+    image_url: string | undefined,
+    mode: string | undefined,
+    min_limit: number | undefined,
+    override_value: string | undefined,
+    override: boolean | undefined,
+    invalid: boolean | undefined,
+  ): SensorData {
+    const newData: any = {};
     const config = this.getConfig();
-    const sensorsRegistry = this.constructor.SENSORS || {};
+    const sensorsRegistry = (this.constructor as typeof MonitorCardBase).SENSORS || {};
     const defaultConfig = getSensorConfig(name, sensorsRegistry);
-    const imageBaseUrl = this.constructor.IMAGE_BASE_URL || '';
+    const imageBaseUrl = (this.constructor as typeof MonitorCardBase).IMAGE_BASE_URL || '';
 
     newData.name = name;
     newData.invalid = invalid;
@@ -193,8 +171,8 @@ export class MonitorCardBase extends LitElement {
     const entityRegistry = this.hass.entities?.[entity];
     const precision =
       entityRegistry?.display_precision ??
-      entityState.attributes?.display_precision ??
-      entityState.attributes?.precision ??
+      (entityState.attributes as any)?.display_precision ??
+      (entityState.attributes as any)?.precision ??
       this.countDecimals(parseFloat(entityState.state));
 
     const rawValue = parseFloat(entityState.state);
@@ -227,34 +205,34 @@ export class MonitorCardBase extends LitElement {
         : newData.value;
 
     // Setpoint calculations
-    setpoint =
+    const sp_val: number =
       setpoint != null
-        ? parseFloat(setpoint)
+        ? parseFloat(String(setpoint))
         : defaultConfig.setpoint != null
-          ? parseFloat(defaultConfig.setpoint)
+          ? parseFloat(String(defaultConfig.setpoint))
           : newData.value;
-    setpoint_step =
+    const sp_step: number =
       setpoint_step != null
-        ? parseFloat(setpoint_step)
+        ? parseFloat(String(setpoint_step))
         : defaultConfig.step != null
-          ? parseFloat(defaultConfig.step)
+          ? parseFloat(String(defaultConfig.step))
           : 0.1;
 
-    const countDecimals = Math.max(this.countDecimals(setpoint), this.countDecimals(setpoint_step));
+    const countDecimals = Math.max(this.countDecimals(sp_val), this.countDecimals(sp_step));
 
-    newData.setpoint = setpoint;
+    newData.setpoint = sp_val;
 
-    const minLimit = min_limit !== undefined ? Number(min_limit) : -Infinity;
-    const sp_minus_2 = Math.max(minLimit, setpoint - 2 * setpoint_step);
-    const sp_minus_1 = Math.max(minLimit, setpoint - setpoint_step);
-    const sp = Math.max(minLimit, setpoint);
-    const sp_plus_1 = Math.max(minLimit, setpoint + setpoint_step);
-    const sp_plus_2 = Math.max(minLimit, setpoint + 2 * setpoint_step);
+    const minLimitVal = min_limit !== undefined ? Number(min_limit) : -Infinity;
+    const sp_minus_2 = Math.max(minLimitVal, sp_val - 2 * sp_step);
+    const sp_minus_1 = Math.max(minLimitVal, sp_val - sp_step);
+    const sp_0 = Math.max(minLimitVal, sp_val);
+    const sp_plus_1 = Math.max(minLimitVal, sp_val + sp_step);
+    const sp_plus_2 = Math.max(minLimitVal, sp_val + 2 * sp_step);
 
     newData.setpoint_class = [
       sp_minus_2.toFixed(countDecimals),
       sp_minus_1.toFixed(countDecimals),
-      sp.toFixed(countDecimals),
+      sp_0.toFixed(countDecimals),
       sp_plus_1.toFixed(countDecimals),
       sp_plus_2.toFixed(countDecimals),
     ];
@@ -263,7 +241,7 @@ export class MonitorCardBase extends LitElement {
     newData.color = 'transparent';
 
     if (newData.value !== null) {
-      newData.value = Math.max(minLimit, newData.value);
+      newData.value = Math.max(minLimitVal, newData.value);
     }
 
     if (mode === 'heatflow') {
@@ -319,51 +297,38 @@ export class MonitorCardBase extends LitElement {
       0,
       Math.min(
         98.5,
-        (Math.max(0, newData.value - (setpoint - 3 * setpoint_step)) / (6 * setpoint_step)) *
-          0.85 *
-          100 +
-          15,
+        (Math.max(0, newData.value - (sp_val - 3 * sp_step)) / (6 * sp_step)) * 0.85 * 100 + 15,
       ),
     ).toFixed(0);
     newData.pct_min = Math.max(
       0,
       Math.min(
         98.5,
-        (Math.max(0, newData.min_value - (setpoint - 3 * setpoint_step)) / (6 * setpoint_step)) *
-          0.85 *
-          100 +
-          15,
+        (Math.max(0, newData.min_value - (sp_val - 3 * sp_step)) / (6 * sp_step)) * 0.85 * 100 + 15,
       ),
     ).toFixed(0);
     newData.pct_max = Math.max(
       0,
       Math.min(
         98.5,
-        (Math.max(0, newData.max_value - (setpoint - 3 * setpoint_step)) / (6 * setpoint_step)) *
-          0.85 *
-          100 +
-          15,
+        (Math.max(0, newData.max_value - (sp_val - 3 * sp_step)) / (6 * sp_step)) * 0.85 * 100 + 15,
       ),
     ).toFixed(0);
     newData.pct_marker = newData.value > newData.setpoint ? newData.pct - 12 : newData.pct - 5;
-    newData.side_align = newData.value > setpoint ? 'right' : 'left';
+    newData.side_align = newData.value > sp_val ? 'right' : 'left';
     newData.pct_cursor =
-      newData.value > setpoint ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) - 2;
+      newData.value > sp_val ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) - 2;
     newData.pct_state_step =
-      newData.value > setpoint ? 105 - parseFloat(newData.pct) : parseFloat(newData.pct) + 5;
+      newData.value > sp_val ? 105 - parseFloat(newData.pct) : parseFloat(newData.pct) + 5;
     newData.pct_min =
-      newData.value > setpoint
-        ? 100 - parseFloat(newData.pct_min)
-        : parseFloat(newData.pct_min) - 2;
+      newData.value > sp_val ? 100 - parseFloat(newData.pct_min) : parseFloat(newData.pct_min) - 2;
     newData.pct_max =
-      newData.value > setpoint
-        ? 100 - parseFloat(newData.pct_max)
-        : parseFloat(newData.pct_max) - 2;
+      newData.value > sp_val ? 100 - parseFloat(newData.pct_max) : parseFloat(newData.pct_max) - 2;
 
     return newData;
   }
 
-  countDecimals(number) {
+  countDecimals(number: number | undefined | null): number {
     if (number === undefined || number === null) return 0;
     if (Math.floor(number) === number) return 0;
     const str = number.toString();
@@ -371,11 +336,11 @@ export class MonitorCardBase extends LitElement {
     return 0;
   }
 
-  timeFromNow(dateTime) {
+  timeFromNow(dateTime: string): string {
     const date = new Date(dateTime);
     const diff = Date.now() - date.getTime();
 
-    const t = (key, n) => {
+    const t = (key: string, n: number): string => {
       const translationKey = n === 1 ? 'time' : 'time_plural';
       const values = { [key]: n };
       return this.getTranslatedText(`${translationKey}.${key}`, values);
@@ -391,16 +356,12 @@ export class MonitorCardBase extends LitElement {
     return t('days', days);
   }
 
-  getConfig() {
+  getConfig(): CardConfig {
     return this.config;
   }
 
-  /**
-   * @method setConfig
-   * @description Sets the card configuration. Uses the subclass SENSORS registry.
-   */
-  setConfig(config) {
-    const sensorsRegistry = this.constructor.SENSORS || {};
+  setConfig(config: any): void {
+    const sensorsRegistry = (this.constructor as typeof MonitorCardBase).SENSORS || {};
     const supportedSensors = Object.keys(sensorsRegistry);
 
     const defaultConfig = {
@@ -408,7 +369,7 @@ export class MonitorCardBase extends LitElement {
       colors: getColorConfig(),
     };
 
-    const newConfig = {
+    const newConfig: CardConfig = {
       ...config,
       display: {
         ...defaultConfig.display,
@@ -425,7 +386,7 @@ export class MonitorCardBase extends LitElement {
       throw new Error('Configuration requires sensors to be defined under the "sensors" key.');
     }
 
-    Object.entries(config.sensors).forEach(([sensorType, sensorConfig]) => {
+    Object.entries(config.sensors).forEach(([sensorType, sensorConfig]: [string, any]) => {
       const defaultSensorConfig = sensorsRegistry[sensorType] || {};
       const sensorArray = Array.isArray(sensorConfig) ? [...sensorConfig] : [{ ...sensorConfig }];
 
@@ -433,20 +394,19 @@ export class MonitorCardBase extends LitElement {
         throw new Error(`Empty sensor array for ${sensorType}`);
       }
 
-      const mergedSensorArray = sensorArray.map(sensor => ({
+      const mergedSensorArray = sensorArray.map((sensor: any) => ({
         ...defaultSensorConfig,
         ...sensor,
         nameDefinedByUser: !!sensor.name,
       }));
 
-      mergedSensorArray.forEach((sensor, index) => {
+      mergedSensorArray.forEach((sensor: any, index: number) => {
         if (!sensor.entity) {
           throw new Error(`Missing entity for ${sensorType}[${index}]`);
         }
         if (sensor.nameDefinedByUser) {
           sensor.title = sensor.name;
         }
-        // For cards with a fixed sensors list, mark unknown sensors as invalid
         if (supportedSensors.length > 0 && !supportedSensors.includes(sensorType)) {
           sensor.invalid = true;
         } else {

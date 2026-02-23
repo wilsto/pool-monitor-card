@@ -1,13 +1,11 @@
-/**
- * @fileoverview Pool Monitor Card - Home Assistant custom card for pool chemistry monitoring
- * Extends MonitorCardBase with pool-specific sensor presets.
- */
-
-import { MonitorCardBase } from './card-base.js';
+import { customElement } from 'lit/decorators.js';
+import { MonitorCardBase } from '../../core/src/card-base.js';
 import { POOL_SENSORS } from './sensors.js';
+import type { SensorsRegistry, CardInfo } from '../../core/src/ha/types.js';
 
-const VERSION = '2.2.0';
-/* global __BUILD_TIMESTAMP__ */
+declare let __BUILD_TIMESTAMP__: string;
+
+const VERSION = '2.3.0';
 const BUILD_TIMESTAMP = typeof __BUILD_TIMESTAMP__ !== 'undefined' ? __BUILD_TIMESTAMP__ : 'dev';
 const CARD_VERSION = `${VERSION} (${BUILD_TIMESTAMP})`;
 
@@ -17,18 +15,17 @@ console.info(
   'color: green; background: white; font-weight: 700;',
 );
 
+@customElement('pool-monitor-card')
 export class PoolMonitorCard extends MonitorCardBase {
-  static CARD_INFO = {
+  static CARD_INFO: CardInfo = {
     cardType: 'pool-monitor-card',
     cardName: 'Pool Monitor Card',
     cardDescription:
       'The "Pool Monitor Card" is a home assistant plugin that provides information about the temperature, pH, and ORP levels of your swimming pool',
   };
 
-  static SENSORS = POOL_SENSORS;
+  static SENSORS: SensorsRegistry = POOL_SENSORS;
 
   static IMAGE_BASE_URL =
     'https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources';
 }
-
-customElements.define('pool-monitor-card', PoolMonitorCard);

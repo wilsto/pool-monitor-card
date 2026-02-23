@@ -9,3 +9,16 @@ export {
   DEFAULT_DISPLAY,
   DEFAULT_COLORS,
 } from './configs/config.js';
+export type {
+  HomeAssistant,
+  HassEntity,
+  SensorPreset,
+  SensorsRegistry,
+  CardInfo,
+  DisplayConfig,
+  ColorConfig,
+  CardConfig,
+  SensorData,
+  SensorUserConfig,
+  TranslationSet,
+} from './ha/types.js';

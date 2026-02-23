@@ -1,19 +1,8 @@
-import { html } from 'lit';
+import { html, TemplateResult } from 'lit';
+import type { CardConfig, SensorData } from '../ha/types.js';
 
-/**
- * @class cardContent
- * @description Class responsible for generating the HTML content of the pool monitor card
- */
 export class cardContent {
-  /**
-   * @static
-   * @method generateTitle
-   * @description Generates the title section of the card
-   * @param {Object} config - The card configuration
-   * @param {string} [config.title] - Optional title to display
-   * @returns {TemplateResult} The rendered title HTML
-   */
-  static generateTitle(config) {
+  static generateTitle(config: CardConfig): TemplateResult {
     const title =
       config.title !== undefined
         ? html` <h1 class="pool-monitor-title">${config.title}</h1> `
@@ -22,28 +11,7 @@ export class cardContent {
     return html`${title}`;
   }
 
-  /**
-   * @static
-   * @method generateBody
-   * @description Generates the main body content of the card
-   * @param {Object} config - The card configuration
-   * @param {Object} data - The sensor data to display
-   * @param {string} data.name - Sensor name
-   * @param {string} data.entity - Entity ID
-   * @param {string} data.color - Color for the marker
-   * @param {number} data.pct_marker - Percentage position for the marker
-   * @param {string} data.value - Current sensor value
-   * @param {string} data.unit - Unit of measurement
-   * @param {string} data.state - Current state text
-   * @param {string} data.side_align - Alignment direction
-   * @param {number} data.pct_state_step - Percentage position for state
-   * @param {boolean} data.hide_icon - Whether to hide the icon
-   * @param {boolean} data.is_mdi - Whether the icon is an MDI icon
-   * @param {string} [data.mdi_icon] - MDI icon name if is_mdi is true
-   * @param {string} [data.img_src] - Image source if is_mdi is false
-   * @returns {TemplateResult} The rendered body HTML
-   */
-  static generateBody(config, data) {
+  static generateBody(config: CardConfig, data: SensorData): TemplateResult {
     if (!data) {
       return html` <div class="warning-message">No sensor data available</div> `;
     }
@@ -84,16 +52,16 @@ export class cardContent {
             ? html`
                 <div
                   class="progress-bar-child"
-                  style="background: linear-gradient(to right, 
+                  style="background: linear-gradient(to right,
               ${data.mode === 'heatflow'
-                    ? `${config.colors.cool} 15%, 
-                 ${config.colors.low} 50%, 
+                    ? `${config.colors.cool} 15%,
+                 ${config.colors.low} 50%,
                  ${config.colors.warn} 85%`
-                    : `${config.colors.warn} 5%, 
-                 ${config.colors.low} 30%, 
-                 ${config.colors.normal}, 
-                 ${config.colors.normal}, 
-                 ${config.colors.low} 70%, 
+                    : `${config.colors.warn} 5%,
+                 ${config.colors.low} 30%,
+                 ${config.colors.normal},
+                 ${config.colors.normal},
+                 ${config.colors.low} 70%,
                  ${config.colors.warn} 95%`}
             );"
                 ></div>
@@ -130,8 +98,8 @@ export class cardContent {
                 <div
                   style="display: flex; justify-content: space-between; margin: 0 10px; font-size: 0.7em; color: var(--secondary-text-color);"
                 >
-                  <span>${data.min}</span>
-                  <span>${data.max}</span>
+                  <span>${(data as any).min}</span>
+                  <span>${(data as any).max}</span>
                 </div>
               `}
           ${data.pct_min !== data.pct_cursor
@@ -199,28 +167,7 @@ export class cardContent {
     `;
   }
 
-  /**
-   * @static
-   * @method generateCompactBody
-   * @description Generates the compact body content of the card
-   * @param {Object} config - The card configuration
-   * @param {Object} data - The sensor data to display
-   * @param {string} data.name - Sensor name
-   * @param {string} data.entity - Entity ID
-   * @param {string} data.color - Color for the marker
-   * @param {number} data.pct_marker - Percentage position for the marker
-   * @param {string} data.value - Current sensor value
-   * @param {string} data.unit - Unit of measurement
-   * @param {string} data.state - Current state text
-   * @param {string} data.side_align - Alignment direction
-   * @param {number} data.pct_state_step - Percentage position for state
-   * @param {boolean} data.hide_icon - Whether to hide the icon
-   * @param {boolean} data.is_mdi - Whether the icon is an MDI icon
-   * @param {string} [data.mdi_icon] - MDI icon name if is_mdi is true
-   * @param {string} [data.img_src] - Image source if is_mdi is false
-   * @returns {TemplateResult} The rendered compact body HTML
-   */
-  static generateCompactBody(config, data) {
+  static generateCompactBody(config: CardConfig, data: SensorData): TemplateResult {
     if (!data) {
       return html` <div class="warning-message">No sensor data available</div> `;
     }
@@ -243,23 +190,22 @@ export class cardContent {
             ? html`
                 <div
                   class="progress-bar-child"
-                  style="background: linear-gradient(to right, 
+                  style="background: linear-gradient(to right,
               ${data.mode === 'heatflow'
-                    ? `${config.colors.cool} 15%, 
-                 ${config.colors.low} 50%, 
+                    ? `${config.colors.cool} 15%,
+                 ${config.colors.low} 50%,
                  ${config.colors.warn} 85%`
-                    : `${config.colors.warn} 5%, 
-                 ${config.colors.low} 30%, 
-                 ${config.colors.normal}, 
-                 ${config.colors.normal}, 
-                 ${config.colors.low} 70%, 
+                    : `${config.colors.warn} 5%,
+                 ${config.colors.low} 30%,
+                 ${config.colors.normal},
+                 ${config.colors.normal},
+                 ${config.colors.low} 70%,
                  ${config.colors.warn} 95%`}
             );"
                 ></div>
               `
             : html`
                 <div class="grid-container">
-                  <!-- <div style="background-color: transparent; grid-column: 1 ; border: 0px; box-shadow:none" class="grid-item item-row"> <div style="font-size: 0.8em;color:lightgrey;text-align:left;margin:3px 2px 0 0 ">${data.unit}</div></div> -->
                   <div
                     style="background-color: ${config.colors
                       .warn}; grid-column: 1; border-radius: 5px 0px 0px 5px"
@@ -290,13 +236,14 @@ export class cardContent {
                 <div
                   style="display: flex; justify-content: space-between; margin: 0 10px; font-size: 0.7em; color: var(--secondary-text-color);"
                 >
-                  <span>${data.min}</span>
-                  <span>${data.max}</span>
+                  <span>${(data as any).min}</span>
+                  <span>${(data as any).max}</span>
                 </div>
               `}
           <div
             class="cursor-text"
-            style="border-${data.side_align}: 5px solid ${config.marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;"
+            style="border-${data.side_align}: 5px solid ${(config as any)
+              .marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;"
           >
             &nbsp; ${data.title} ${data.value} ${data.unit} ${data.separator} ${data.state} &nbsp;
           </div>
@@ -360,17 +307,11 @@ export class cardContent {
     `;
   }
 
-  /**
-   * @static
-   * @method _moreinfo
-   * @description Dispatches a more-info event for the given entity
-   * @param {string} entity - Entity ID
-   */
-  static _moreinfo(entity) {
+  static _moreinfo(entity: string): void {
     const event = new Event('hass-more-info', {
       bubbles: true,
       composed: true,
-    });
+    }) as any;
     event.detail = { entityId: entity };
     const homeAssistant = document.querySelector('home-assistant');
     if (homeAssistant) {
