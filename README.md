@@ -3,6 +3,8 @@
 [![Release][release-shield]][release-link] [![HACS][hacs-shield]][hacs-link] [![GitHub Activity][commits-shield]][commits-link]
 
 > Keep your swimming pool safe and crystal clear by monitoring up to 20 water chemistry parameters at a glance.
+>
+> **Visual editor included** — configure everything from the UI, no YAML needed.
 
 ![screenshot](example/hero.png)
 
@@ -135,6 +137,16 @@ Community-tested devices and their supported parameters:
 
 ## Quick Start
 
+### Visual Editor (recommended)
+
+1. In your dashboard, click **Edit Dashboard** (pencil icon)
+2. Click **+ Add Card** → select **Manual** → type `custom:pool-monitor-card`
+3. Click **Show Visual Editor** to configure sensors, display options and colors — no YAML needed
+
+![editor](resources/editor.png)
+
+### YAML
+
 ```yaml
 type: custom:pool-monitor-card
 title: "My Pool"
@@ -152,6 +164,8 @@ That's it! The card uses sensible defaults for everything else.
 ---
 
 ## Configuration
+
+> All options below are also available in the visual editor.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|

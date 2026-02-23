@@ -22,3 +22,7 @@ export type {
   SensorUserConfig,
   TranslationSet,
 } from './ha/types.js';
+export { MonitorEditorBase } from './editor/editor-base.js';
+export { MonitorSensorEditor } from './editor/sensor-editor.js';
+export { fireEvent } from './editor/types.js';
+export type { LovelaceCardEditor, HaFormSchema, HaFormSelector } from './editor/types.js';

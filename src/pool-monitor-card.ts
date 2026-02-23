@@ -1,7 +1,7 @@
 import { customElement } from 'lit/decorators.js';
-import { MonitorCardBase } from '../../core/src/card-base.js';
+import { MonitorCardBase } from './card-base.js';
 import { POOL_SENSORS } from './sensors.js';
-import type { SensorsRegistry, CardInfo } from '../../core/src/ha/types.js';
+import type { SensorsRegistry, CardInfo } from './ha/types.js';
 
 declare let __BUILD_TIMESTAMP__: string;
 
@@ -14,6 +14,15 @@ console.info(
   'color: white; background: green; font-weight: 700;',
   'color: green; background: white; font-weight: 700;',
 );
+
+(window as any).customCards = (window as any).customCards || [];
+(window as any).customCards.push({
+  type: 'pool-monitor-card',
+  name: 'Pool Monitor Card',
+  description: 'Monitor your pool water parameters with 21 preset sensors',
+  preview: true,
+  documentationURL: 'https://github.com/wilsto/pool-monitor-card',
+});
 
 @customElement('pool-monitor-card')
 export class PoolMonitorCard extends MonitorCardBase {
@@ -28,4 +37,17 @@ export class PoolMonitorCard extends MonitorCardBase {
 
   static IMAGE_BASE_URL =
     'https://raw.githubusercontent.com/wilsto/pool-monitor-card/master/resources';
+
+  static async getConfigElement(): Promise<HTMLElement> {
+    await import('./editor.js');
+    return document.createElement('pool-monitor-card-editor');
+  }
+
+  static getStubConfig(): Record<string, unknown> {
+    return {
+      sensors: {
+        temperature: { entity: '' },
+      },
+    };
+  }
 }

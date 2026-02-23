@@ -3,6 +3,20 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.4.0] - 2026-02-23
+
+### Added
+
+- Visual card editor with live preview — configure cards directly from the HA UI
+- Cards now appear in the Home Assistant card picker under "Custom cards"
+- Sensor list with expand/collapse, entity picker, and delete per sensor
+- Preset sensor dropdown with all 21 pool chemistry presets
+- Display Options and Colors sections in editor
+
+### Fixed
+
+- Cards no longer crash when multiple monitor cards are on the same dashboard
+
 ## [2.3.0] - 2026-02-23
 
 ### Changed
