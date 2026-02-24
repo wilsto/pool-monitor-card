@@ -46,6 +46,22 @@ export const mockSensorStates = {
     attributes: { unit_of_measurement: 'mV', friendly_name: 'Pool ORP' },
     last_updated: new Date().toISOString(),
   },
+  'sensor.ondilo_battery': {
+    state: '85',
+    attributes: { unit_of_measurement: '%', friendly_name: 'Ondilo Battery' },
+  },
+  'sensor.flipr_battery': {
+    state: '15',
+    attributes: { unit_of_measurement: '%', friendly_name: 'Flipr Battery' },
+  },
+  'sensor.battery_half': {
+    state: '35',
+    attributes: { unit_of_measurement: '%' },
+  },
+  'sensor.battery_unavailable': {
+    state: 'unavailable',
+    attributes: {},
+  },
 };
 
 // Mock hass object

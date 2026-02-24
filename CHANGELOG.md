@@ -3,6 +3,14 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.9.0] - 2026-02-24
+
+### Added
+
+- Per-sensor `battery_entity` parameter: displays battery level indicator (icon + percentage) next to the sensor name in normal mode and in the overlay bar in compact mode — closes #9
+- Dynamic battery icon (full/half/low/unknown) with color coding (green >50%, orange 20-50%, red <20%)
+- Visual card editor field for Battery entity per sensor
+
 ## [2.8.0] - 2026-02-24
 
 ### Added

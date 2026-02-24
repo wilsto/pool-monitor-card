@@ -177,7 +177,14 @@ export class cardContent {
         </div>
       </div>
       <div style="text-align:left;padding-left:15px;">
-        ${data.title}<br /><small style="position: relative;top:-5px;font-size:9px;color:lightgrey"
+        ${data.title}
+        ${data.battery_icon
+          ? html`<span class="battery-indicator" style="color: ${data.battery_color};">
+              <ha-icon icon="${data.battery_icon}" style="--mdc-icon-size: 14px;"></ha-icon>
+              ${data.battery_level != null ? html`${data.battery_level}%` : ''}
+            </span>`
+          : ''}
+        <br /><small style="position: relative;top:-5px;font-size:9px;color:lightgrey"
           >${data.last_updated}</small
         >
       </div>
@@ -263,7 +270,15 @@ export class cardContent {
               .marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;"
           >
             &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : '—'}
-            ${data.separator} ${data.state} &nbsp;
+            ${data.separator} ${data.state}
+            ${data.battery_icon
+              ? html`<ha-icon
+                    icon="${data.battery_icon}"
+                    style="--mdc-icon-size: 12px; color: ${data.battery_color};"
+                  ></ha-icon
+                  >${data.battery_level != null ? html`${data.battery_level}%` : ''}`
+              : ''}
+            &nbsp;
           </div>
           ${data.pct_min !== data.pct_cursor
             ? html`<div

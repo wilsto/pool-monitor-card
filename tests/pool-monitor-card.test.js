@@ -1587,4 +1587,154 @@ describe('PoolMonitorCard', () => {
       expect(result).toContain('il y a');
     });
   });
+
+  // -------------------------------------------------------------------
+  // battery_entity (#9)
+  // -------------------------------------------------------------------
+  describe('battery_entity', () => {
+    test('should store battery_entity in config when provided', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.ondilo_battery',
+          },
+        },
+      });
+      const config = card.getConfig();
+      const tempSensor = config.sensors.temperature[0];
+      expect(tempSensor.battery_entity).toBe('sensor.ondilo_battery');
+    });
+
+    test('should resolve battery level from entity state', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.ondilo_battery',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_level).toBe(85);
+      expect(data.temperature_1.battery_icon).toBe('mdi:battery');
+    });
+
+    test('should use mdi:battery-50 for 20-50% level', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.battery_half',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_level).toBe(35);
+      expect(data.temperature_1.battery_icon).toBe('mdi:battery-50');
+    });
+
+    test('should use mdi:battery-20 for <20% level', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.flipr_battery',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_level).toBe(15);
+      expect(data.temperature_1.battery_icon).toBe('mdi:battery-20');
+    });
+
+    test('should use mdi:battery-unknown for unavailable entity', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.battery_unavailable',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_level).toBeNull();
+      expect(data.temperature_1.battery_icon).toBe('mdi:battery-unknown');
+    });
+
+    test('should use mdi:battery-unknown for missing entity', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.nonexistent_battery',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_level).toBeNull();
+      expect(data.temperature_1.battery_icon).toBe('mdi:battery-unknown');
+    });
+
+    test('should not set battery fields when battery_entity is not configured', () => {
+      card.setConfig(validConfig);
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_level).toBeUndefined();
+      expect(data.temperature_1.battery_icon).toBeUndefined();
+    });
+
+    test('should resolve battery color green for >50%', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.ondilo_battery',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_color).toBe(
+        'var(--state-sensor-battery-high-color, #4caf50)',
+      );
+    });
+
+    test('should resolve battery color orange for 20-50%', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.battery_half',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_color).toBe(
+        'var(--state-sensor-battery-medium-color, #ff9800)',
+      );
+    });
+
+    test('should resolve battery color red for <20%', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            battery_entity: 'sensor.flipr_battery',
+          },
+        },
+      });
+      card.hass = mockHass;
+      const data = card.processData();
+      expect(data.temperature_1.battery_color).toBe(
+        'var(--state-sensor-battery-low-color, #f44336)',
+      );
+    });
+  });
 });

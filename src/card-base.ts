@@ -107,6 +107,32 @@ export class MonitorCardBase extends LitElement {
           const availState = this.hass?.states?.[sensor.availability_entity]?.state;
           data[sensorKey].disabled = availState === 'off' || availState === 'unavailable';
         }
+
+        if (sensor.battery_entity) {
+          const battState = this.hass?.states?.[sensor.battery_entity];
+          if (!battState || battState.state === 'unavailable' || battState.state === 'unknown') {
+            data[sensorKey].battery_level = null;
+            data[sensorKey].battery_icon = 'mdi:battery-unknown';
+            data[sensorKey].battery_color = 'var(--disabled-text-color, #bdbdbd)';
+          } else {
+            const level = parseFloat(battState.state);
+            if (isNaN(level)) {
+              data[sensorKey].battery_level = null;
+              data[sensorKey].battery_icon = 'mdi:battery-unknown';
+              data[sensorKey].battery_color = 'var(--disabled-text-color, #bdbdbd)';
+            } else {
+              data[sensorKey].battery_level = level;
+              data[sensorKey].battery_icon =
+                level > 50 ? 'mdi:battery' : level >= 20 ? 'mdi:battery-50' : 'mdi:battery-20';
+              data[sensorKey].battery_color =
+                level > 50
+                  ? 'var(--state-sensor-battery-high-color, #4caf50)'
+                  : level >= 20
+                    ? 'var(--state-sensor-battery-medium-color, #ff9800)'
+                    : 'var(--state-sensor-battery-low-color, #f44336)';
+            }
+          }
+        }
       });
     });
 

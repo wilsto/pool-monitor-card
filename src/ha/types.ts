@@ -81,6 +81,7 @@ export interface SensorUserConfig {
   last_updated_attribute?: string;
   setpoint_entity?: string;
   min_limit_entity?: string;
+  battery_entity?: string;
 }
 
 export interface CardConfig {
@@ -129,6 +130,9 @@ export interface SensorData {
   pct_cursor: number;
   pct_state_step: number;
   disabled?: boolean;
+  battery_level?: number | null;
+  battery_icon?: string;
+  battery_color?: string;
 }
 
 export interface TranslationSet {

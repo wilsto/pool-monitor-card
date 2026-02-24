@@ -225,6 +225,16 @@ export class MonitorSensorEditor extends LitElement {
             this._updateField(type, index, 'availability_entity', e.detail.value || undefined)}
         ></ha-entity-picker>
 
+        <ha-entity-picker
+          .hass=${this.hass}
+          .value=${config.battery_entity || ''}
+          .label=${'Battery entity (optional — shows battery level)'}
+          .includeDomains=${['sensor']}
+          allow-custom-entity
+          @value-changed=${(e: CustomEvent) =>
+            this._updateField(type, index, 'battery_entity', e.detail.value || undefined)}
+        ></ha-entity-picker>
+
         <div class="sensor-field-row">
           <ha-entity-picker
             .hass=${this.hass}

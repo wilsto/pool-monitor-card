@@ -242,6 +242,12 @@ export const styles = css`
     flex-shrink: 0;
   }
 
+  .battery-indicator {
+    font-size: 9px;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
