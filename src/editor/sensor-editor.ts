@@ -247,6 +247,27 @@ export class MonitorSensorEditor extends LitElement {
           ></ha-textfield>
         </div>
 
+        <div class="sensor-field-row">
+          <ha-entity-picker
+            .hass=${this.hass}
+            .value=${config.setpoint_entity || ''}
+            .label=${'Setpoint entity (optional — overrides static setpoint)'}
+            .includeDomains=${['input_number', 'number', 'sensor']}
+            allow-custom-entity
+            @value-changed=${(e: CustomEvent) =>
+              this._updateField(type, index, 'setpoint_entity', e.detail.value || undefined)}
+          ></ha-entity-picker>
+          <ha-entity-picker
+            .hass=${this.hass}
+            .value=${config.min_limit_entity || ''}
+            .label=${'Min limit entity (optional — overrides static min_limit)'}
+            .includeDomains=${['input_number', 'number', 'sensor']}
+            allow-custom-entity
+            @value-changed=${(e: CustomEvent) =>
+              this._updateField(type, index, 'min_limit_entity', e.detail.value || undefined)}
+          ></ha-entity-picker>
+        </div>
+
         ${this.freeform || !this.registry[type]
           ? html`
               <div class="sensor-field-row">

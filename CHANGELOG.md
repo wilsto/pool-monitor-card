@@ -3,6 +3,13 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.7.0] - 2026-02-24
+
+### Added
+
+- Dynamic setpoint and min_limit from entities: optional `setpoint_entity` and `min_limit_entity` per sensor to read threshold values from `input_number` helpers or template sensors at runtime — closes #59
+- Visual card editor fields for Setpoint entity / Min limit entity
+
 ## [2.6.0] - 2026-02-24
 
 ### Added

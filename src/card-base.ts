@@ -97,6 +97,8 @@ export class MonitorCardBase extends LitElement {
           sensor.step_high,
           sensor.last_updated_entity,
           sensor.last_updated_attribute,
+          sensor.setpoint_entity,
+          sensor.min_limit_entity,
         );
 
         if (sensor.availability_entity) {
@@ -135,6 +137,8 @@ export class MonitorCardBase extends LitElement {
     step_high?: number | undefined,
     last_updated_entity?: string | undefined,
     last_updated_attribute?: string | undefined,
+    setpoint_entity?: string | undefined,
+    min_limit_entity?: string | undefined,
   ): SensorData {
     const newData: any = {};
     const config = this.getConfig();
@@ -248,13 +252,16 @@ export class MonitorCardBase extends LitElement {
         ? parseFloat(this.hass.states[entity_max].state)
         : newData.value;
 
-    // Setpoint calculations
+    // Setpoint calculations — entity overrides static value
+    const setpointFromEntity = this.resolveEntityNumber(setpoint_entity);
     const sp_val: number =
-      setpoint != null
-        ? parseFloat(String(setpoint))
-        : defaultConfig.setpoint != null
-          ? parseFloat(String(defaultConfig.setpoint))
-          : newData.value;
+      setpointFromEntity != null
+        ? setpointFromEntity
+        : setpoint != null
+          ? parseFloat(String(setpoint))
+          : defaultConfig.setpoint != null
+            ? parseFloat(String(defaultConfig.setpoint))
+            : newData.value;
     const sp_step: number =
       setpoint_step != null
         ? parseFloat(String(setpoint_step))
@@ -284,7 +291,14 @@ export class MonitorCardBase extends LitElement {
 
     newData.setpoint = sp_val;
 
-    const minLimitVal = min_limit !== undefined ? Number(min_limit) : -Infinity;
+    // min_limit — entity overrides static value
+    const minLimitFromEntity = this.resolveEntityNumber(min_limit_entity);
+    const minLimitVal =
+      minLimitFromEntity != null
+        ? minLimitFromEntity
+        : min_limit !== undefined
+          ? Number(min_limit)
+          : -Infinity;
     const sp_minus_2 = Math.max(minLimitVal, sp_val - 2 * sp_step_low);
     const sp_minus_1 = Math.max(minLimitVal, sp_val - sp_step_low);
     const sp_0 = Math.max(minLimitVal, sp_val);
@@ -391,6 +405,14 @@ export class MonitorCardBase extends LitElement {
     const str = number.toString();
     if (str.includes('.')) return str.split('.')[1].length || 0;
     return 0;
+  }
+
+  resolveEntityNumber(entityId?: string): number | null {
+    if (!entityId) return null;
+    const entityState = this.hass?.states?.[entityId];
+    if (!entityState) return null;
+    const val = parseFloat(entityState.state);
+    return isNaN(val) ? null : val;
   }
 
   resolveLastUpdated(

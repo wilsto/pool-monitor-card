@@ -744,6 +744,199 @@ describe('PoolMonitorCard', () => {
   });
 
   // -------------------------------------------------------------------
+  // setpoint_entity / min_limit_entity (#59)
+  // -------------------------------------------------------------------
+  describe('setpoint_entity / min_limit_entity', () => {
+    beforeEach(() => {
+      card.setConfig({
+        sensors: { ph: { entity: 'sensor.pool_ph' } },
+        display: { show_labels: true },
+      });
+      card.hass = {
+        states: {
+          'sensor.pool_ph': {
+            state: '7.3',
+            attributes: { unit_of_measurement: 'pH' },
+            last_updated: new Date().toISOString(),
+          },
+          'input_number.ph_setpoint': {
+            state: '7.4',
+            attributes: {},
+          },
+          'input_number.ph_min_limit': {
+            state: '7.0',
+            attributes: {},
+          },
+        },
+      };
+    });
+
+    test('should use setpoint_entity value instead of static setpoint', () => {
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false, undefined, undefined,
+        undefined, undefined,
+        'input_number.ph_setpoint', undefined,
+      );
+      // setpoint should be 7.4 (from entity) not 7.2 (static)
+      expect(data.setpoint).toBe(7.4);
+      // Breakpoints should be centered on 7.4
+      expect(parseFloat(data.setpoint_class[2])).toBeCloseTo(7.4, 1);
+    });
+
+    test('should use min_limit_entity value instead of static min_limit', () => {
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false, undefined, undefined,
+        undefined, undefined,
+        undefined, 'input_number.ph_min_limit',
+      );
+      // min_limit from entity = 7.0 (not static 0)
+      // Without min_limit: breakpoint[0] = 7.2 - 2*0.2 = 6.8
+      // With min_limit=7.0: breakpoint[0] = max(7.0, 6.8) = 7.0
+      expect(parseFloat(data.setpoint_class[0])).toBeCloseTo(7.0, 1);
+      // breakpoint[1] = max(7.0, 7.2 - 0.2) = max(7.0, 7.0) = 7.0
+      expect(parseFloat(data.setpoint_class[1])).toBeCloseTo(7.0, 1);
+    });
+
+    test('should use both setpoint_entity and min_limit_entity together', () => {
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false, undefined, undefined,
+        undefined, undefined,
+        'input_number.ph_setpoint', 'input_number.ph_min_limit',
+      );
+      // setpoint from entity = 7.4, min_limit from entity = 7.0
+      expect(data.setpoint).toBe(7.4);
+      // breakpoint[0] = max(7.0, 7.4 - 2*0.2) = max(7.0, 7.0) = 7.0
+      expect(parseFloat(data.setpoint_class[0])).toBeCloseTo(7.0, 1);
+    });
+
+    test('should fall back to static values when entities are unavailable', () => {
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        5.0, undefined, undefined, false, undefined, undefined,
+        undefined, undefined,
+        'input_number.nonexistent', 'input_number.also_nonexistent',
+      );
+      // Should fall back to static setpoint=7.2 and min_limit=5.0
+      expect(data.setpoint).toBe(7.2);
+      expect(parseFloat(data.setpoint_class[0])).toBeGreaterThanOrEqual(5.0);
+    });
+
+    test('setConfig should pass setpoint_entity/min_limit_entity from user config', () => {
+      card.setConfig({
+        sensors: {
+          ph: {
+            entity: 'sensor.pool_ph',
+            setpoint_entity: 'input_number.ph_setpoint',
+            min_limit_entity: 'input_number.ph_min_limit',
+          },
+        },
+      });
+      const cfg = card.getConfig();
+      expect(cfg.sensors.ph[0].setpoint_entity).toBe('input_number.ph_setpoint');
+      expect(cfg.sensors.ph[0].min_limit_entity).toBe('input_number.ph_min_limit');
+    });
+
+    test('processData should resolve setpoint from entity at runtime', () => {
+      card.setConfig({
+        sensors: {
+          ph: {
+            entity: 'sensor.pool_ph',
+            setpoint: 7.2,
+            step: 0.2,
+            setpoint_entity: 'input_number.ph_setpoint',
+          },
+        },
+        display: { show_labels: true },
+      });
+      card.hass = card.hass;
+      const data = card.processData();
+      // setpoint should come from entity (7.4), not static config (7.2)
+      expect(data['ph_1'].setpoint).toBe(7.4);
+      // Breakpoints should be centered on 7.4, NOT 7.2
+      expect(parseFloat(data['ph_1'].setpoint_class[2])).toBeCloseTo(7.4, 1);
+      expect(parseFloat(data['ph_1'].setpoint_class[0])).toBeCloseTo(7.0, 1);
+      expect(parseFloat(data['ph_1'].setpoint_class[4])).toBeCloseTo(7.8, 1);
+    });
+
+    test('processData should resolve min_limit from entity at runtime', () => {
+      card.setConfig({
+        sensors: {
+          ph: {
+            entity: 'sensor.pool_ph',
+            setpoint: 7.2,
+            step: 0.2,
+            min_limit: 0,
+            min_limit_entity: 'input_number.ph_min_limit',
+          },
+        },
+        display: { show_labels: true },
+      });
+      card.hass = card.hass;
+      const data = card.processData();
+      // min_limit from entity = 7.0 (not static 0)
+      // Breakpoint[0] = max(7.0, 7.2 - 2*0.2) = max(7.0, 6.8) = 7.0 (clamped!)
+      expect(parseFloat(data['ph_1'].setpoint_class[0])).toBeCloseTo(7.0, 1);
+      // Breakpoint[1] = max(7.0, 7.2 - 0.2) = max(7.0, 7.0) = 7.0
+      expect(parseFloat(data['ph_1'].setpoint_class[1])).toBeCloseTo(7.0, 1);
+    });
+
+    test('processData should resolve both setpoint_entity and min_limit_entity', () => {
+      card.setConfig({
+        sensors: {
+          ph: {
+            entity: 'sensor.pool_ph',
+            setpoint: 7.2,
+            step: 0.2,
+            min_limit: 0,
+            setpoint_entity: 'input_number.ph_setpoint',
+            min_limit_entity: 'input_number.ph_min_limit',
+          },
+        },
+        display: { show_labels: true },
+      });
+      card.hass = card.hass;
+      const data = card.processData();
+      // setpoint from entity = 7.4, min_limit from entity = 7.0
+      expect(data['ph_1'].setpoint).toBe(7.4);
+      // Breakpoint[0] = max(7.0, 7.4 - 2*0.2) = max(7.0, 7.0) = 7.0
+      expect(parseFloat(data['ph_1'].setpoint_class[0])).toBeCloseTo(7.0, 1);
+      expect(parseFloat(data['ph_1'].setpoint_class[2])).toBeCloseTo(7.4, 1);
+    });
+
+    test('should handle entity with state "unavailable"', () => {
+      card.hass = {
+        states: {
+          'sensor.pool_ph': {
+            state: '7.3',
+            attributes: { unit_of_measurement: 'pH' },
+            last_updated: new Date().toISOString(),
+          },
+          'input_number.ph_setpoint': {
+            state: 'unavailable',
+            attributes: {},
+          },
+        },
+      };
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false, undefined, undefined,
+        undefined, undefined,
+        'input_number.ph_setpoint', undefined,
+      );
+      // "unavailable" is NaN → should fall back to static setpoint 7.2
+      expect(data.setpoint).toBe(7.2);
+    });
+  });
+
+  // -------------------------------------------------------------------
   // timeFromNow
   // -------------------------------------------------------------------
   describe('timeFromNow', () => {

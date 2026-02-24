@@ -79,6 +79,8 @@ export interface SensorUserConfig {
   availability_entity?: string;
   last_updated_entity?: string;
   last_updated_attribute?: string;
+  setpoint_entity?: string;
+  min_limit_entity?: string;
 }
 
 export interface CardConfig {
