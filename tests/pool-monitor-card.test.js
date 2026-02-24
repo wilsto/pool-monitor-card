@@ -1,5 +1,11 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest';
-import { mockHass, mockSensorStates, validConfig, multiSensorConfig, arraySensorConfig } from './setup.js';
+import {
+  mockHass,
+  mockSensorStates,
+  validConfig,
+  multiSensorConfig,
+  arraySensorConfig,
+} from './setup.js';
 import { PoolMonitorCard } from '../src/pool-monitor-card.js';
 import { POOL_SENSORS } from '../src/sensors.js';
 
@@ -149,9 +155,21 @@ describe('PoolMonitorCard', () => {
 
     test('should calculate temperature data correctly', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        'sensor.pool_temp_min', 'sensor.pool_temp_max',
-        27, 1, '°C', undefined, undefined, 'heatflow', undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        'sensor.pool_temp_min',
+        'sensor.pool_temp_max',
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.value).toBe(26.5);
       expect(data.entity).toBe('sensor.pool_temperature');
@@ -162,9 +180,21 @@ describe('PoolMonitorCard', () => {
 
     test('should return null value and not_found for missing entity', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.nonexistent',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.nonexistent',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.value).toBeNull();
       expect(data.entity).toBe('sensor.nonexistent');
@@ -174,14 +204,30 @@ describe('PoolMonitorCard', () => {
     test('should handle non-numeric entity state (unavailable) without not_found', () => {
       const hass = {
         states: {
-          'sensor.bad': { state: 'unavailable', attributes: {}, last_updated: new Date().toISOString() },
+          'sensor.bad': {
+            state: 'unavailable',
+            attributes: {},
+            last_updated: new Date().toISOString(),
+          },
         },
       };
       card.hass = hass;
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.bad',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.bad',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.value).toBeNull();
       expect(data.not_found).toBeUndefined();
@@ -193,14 +239,30 @@ describe('PoolMonitorCard', () => {
     test('should handle "unknown" entity state without not_found', () => {
       const hass = {
         states: {
-          'sensor.unknown': { state: 'unknown', attributes: {}, last_updated: new Date().toISOString() },
+          'sensor.unknown': {
+            state: 'unknown',
+            attributes: {},
+            last_updated: new Date().toISOString(),
+          },
         },
       };
       card.hass = hass;
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.unknown',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        undefined, undefined, undefined, false,
+        'ph',
+        'pH',
+        'sensor.unknown',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.value).toBeNull();
       expect(data.not_found).toBeUndefined();
@@ -211,36 +273,84 @@ describe('PoolMonitorCard', () => {
 
     test('should use default setpoint from POOL_SENSORS when not provided', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, undefined, undefined, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.setpoint).toBe(27); // from POOL_SENSORS
     });
 
     test('should use user-provided setpoint over default', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 30, 2, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        30,
+        2,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.setpoint).toBe(30);
     });
 
     test('should compute 5 setpoint_class values', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.setpoint_class).toHaveLength(5);
     });
 
     test('should handle min_limit clamping', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
       );
       // All setpoint_class values should be >= min_limit (0)
       data.setpoint_class.forEach(v => {
@@ -250,9 +360,21 @@ describe('PoolMonitorCard', () => {
 
     test('should read min/max entity values', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        'sensor.pool_temp_min', 'sensor.pool_temp_max',
-        27, 1, '°C', undefined, undefined, 'heatflow', undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        'sensor.pool_temp_min',
+        'sensor.pool_temp_max',
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.min_value).toBe(25.0);
       expect(data.max_value).toBe(28.0);
@@ -260,9 +382,21 @@ describe('PoolMonitorCard', () => {
 
     test('should fall back to value when min/max entities are missing', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.min_value).toBe(data.value);
       expect(data.max_value).toBe(data.value);
@@ -271,9 +405,21 @@ describe('PoolMonitorCard', () => {
     // --- Icon handling ---
     test('should use MDI icon when provided', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', 'mdi:thermometer', undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        'mdi:thermometer',
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.is_mdi).toBe(true);
       expect(data.mdi_icon).toBe('mdi:thermometer');
@@ -281,27 +427,63 @@ describe('PoolMonitorCard', () => {
 
     test('should use image_url when provided', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', undefined, 'http://example.com/icon.png', 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        'http://example.com/icon.png',
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.img_src).toBe('http://example.com/icon.png');
     });
 
     test('should hide icon when icon is "hide"', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', 'hide', undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        'hide',
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.hide_icon).toBe(true);
     });
 
     test('should use IMAGE_BASE_URL when no icon or image_url is provided', () => {
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.img_src).toContain('temperature.png');
       expect(data.img_src).toContain('pool-monitor-card');
@@ -310,9 +492,21 @@ describe('PoolMonitorCard', () => {
     test('should hide icon when show_icons is false', () => {
       card.setConfig({ ...validConfig, display: { show_icons: false } });
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.hide_icon).toBe(true);
     });
@@ -322,9 +516,21 @@ describe('PoolMonitorCard', () => {
       card.setConfig({ ...multiSensorConfig, display: { show_last_updated: true } });
       card.hass = mockHass;
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.last_updated).toBeDefined();
       expect(typeof data.last_updated).toBe('string');
@@ -334,9 +540,21 @@ describe('PoolMonitorCard', () => {
     test('should hide unit when show_units is false', () => {
       card.setConfig({ ...validConfig, display: { show_units: false } });
       const data = card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
       expect(data.unit).toBe('');
     });
@@ -422,9 +640,21 @@ describe('PoolMonitorCard', () => {
       };
       card.hass = hass;
       return card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
       );
     }
 
@@ -482,9 +712,21 @@ describe('PoolMonitorCard', () => {
       };
       card.hass = hass;
       return card.calculateData(
-        'temperature', 'Temperature', 'sensor.pool_temperature',
-        undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
-        undefined, undefined, undefined, false,
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
       );
     }
 
@@ -568,9 +810,23 @@ describe('PoolMonitorCard', () => {
       };
       card.hass = hass;
       return card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 3, undefined, 'ppm', undefined, undefined, 'centric',
-        0, undefined, undefined, false, step_low, step_high,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        3,
+        undefined,
+        'ppm',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
+        step_low,
+        step_high,
       );
     }
 
@@ -579,11 +835,11 @@ describe('PoolMonitorCard', () => {
       // Expected breakpoints: 3-2*1.4=0.2, 3-1.4=1.6, 3, 3+2.4=5.4, 3+2*2.4=7.8
       const data = calcWithAsymmetricStep(3, 1.4, 2.4);
       expect(data.setpoint_class).toHaveLength(5);
-      expect(parseFloat(data.setpoint_class[0])).toBeCloseTo(0.2, 1);  // sp - 2*step_low
-      expect(parseFloat(data.setpoint_class[1])).toBeCloseTo(1.6, 1);  // sp - 1*step_low
-      expect(parseFloat(data.setpoint_class[2])).toBeCloseTo(3.0, 1);  // sp
-      expect(parseFloat(data.setpoint_class[3])).toBeCloseTo(5.4, 1);  // sp + 1*step_high
-      expect(parseFloat(data.setpoint_class[4])).toBeCloseTo(7.8, 1);  // sp + 2*step_high
+      expect(parseFloat(data.setpoint_class[0])).toBeCloseTo(0.2, 1); // sp - 2*step_low
+      expect(parseFloat(data.setpoint_class[1])).toBeCloseTo(1.6, 1); // sp - 1*step_low
+      expect(parseFloat(data.setpoint_class[2])).toBeCloseTo(3.0, 1); // sp
+      expect(parseFloat(data.setpoint_class[3])).toBeCloseTo(5.4, 1); // sp + 1*step_high
+      expect(parseFloat(data.setpoint_class[4])).toBeCloseTo(7.8, 1); // sp + 2*step_high
     });
 
     test('should classify value in asymmetric "Ideal" range correctly', () => {
@@ -623,9 +879,21 @@ describe('PoolMonitorCard', () => {
       card.hass = hass;
       // No step_low/step_high → symmetric with step=0.2
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
       );
       // Symmetric: 6.8, 7.0, 7.2, 7.4, 7.6
       expect(parseFloat(data.setpoint_class[0])).toBeCloseTo(6.8, 1);
@@ -678,10 +946,25 @@ describe('PoolMonitorCard', () => {
 
     test('should use last_updated_attribute from same entity when set', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.poollab_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false, undefined, undefined,
-        undefined, 'measured_at',
+        'ph',
+        'pH',
+        'sensor.poollab_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        undefined,
+        'measured_at',
       );
       // Should use the measured_at attribute date, not HA's last_updated
       expect(data.last_updated).toBeDefined();
@@ -690,10 +973,25 @@ describe('PoolMonitorCard', () => {
 
     test('should use last_updated_entity to read timestamp from a different entity', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false, undefined, undefined,
-        'sensor.poollab_ph', 'measured_at',
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        'sensor.poollab_ph',
+        'measured_at',
       );
       // Should read timestamp from sensor.poollab_ph.attributes.measured_at
       expect(data.last_updated).toBeDefined();
@@ -702,9 +1000,21 @@ describe('PoolMonitorCard', () => {
 
     test('should fall back to HA last_updated when params not provided', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
       );
       // Default behavior: use entityState.last_updated
       expect(data.last_updated).toBeDefined();
@@ -773,11 +1083,27 @@ describe('PoolMonitorCard', () => {
 
     test('should use setpoint_entity value instead of static setpoint', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false, undefined, undefined,
-        undefined, undefined,
-        'input_number.ph_setpoint', undefined,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        'input_number.ph_setpoint',
+        undefined,
       );
       // setpoint should be 7.4 (from entity) not 7.2 (static)
       expect(data.setpoint).toBe(7.4);
@@ -787,11 +1113,27 @@ describe('PoolMonitorCard', () => {
 
     test('should use min_limit_entity value instead of static min_limit', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false, undefined, undefined,
-        undefined, undefined,
-        undefined, 'input_number.ph_min_limit',
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        'input_number.ph_min_limit',
       );
       // min_limit from entity = 7.0 (not static 0)
       // Without min_limit: breakpoint[0] = 7.2 - 2*0.2 = 6.8
@@ -803,11 +1145,27 @@ describe('PoolMonitorCard', () => {
 
     test('should use both setpoint_entity and min_limit_entity together', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false, undefined, undefined,
-        undefined, undefined,
-        'input_number.ph_setpoint', 'input_number.ph_min_limit',
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        'input_number.ph_setpoint',
+        'input_number.ph_min_limit',
       );
       // setpoint from entity = 7.4, min_limit from entity = 7.0
       expect(data.setpoint).toBe(7.4);
@@ -817,11 +1175,27 @@ describe('PoolMonitorCard', () => {
 
     test('should fall back to static values when entities are unavailable', () => {
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        5.0, undefined, undefined, false, undefined, undefined,
-        undefined, undefined,
-        'input_number.nonexistent', 'input_number.also_nonexistent',
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        5.0,
+        undefined,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        'input_number.nonexistent',
+        'input_number.also_nonexistent',
       );
       // Should fall back to static setpoint=7.2 and min_limit=5.0
       expect(data.setpoint).toBe(7.2);
@@ -925,14 +1299,242 @@ describe('PoolMonitorCard', () => {
         },
       };
       const data = card.calculateData(
-        'ph', 'pH', 'sensor.pool_ph',
-        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
-        0, undefined, undefined, false, undefined, undefined,
-        undefined, undefined,
-        'input_number.ph_setpoint', undefined,
+        'ph',
+        'pH',
+        'sensor.pool_ph',
+        undefined,
+        undefined,
+        7.2,
+        0.2,
+        'pH',
+        undefined,
+        undefined,
+        'centric',
+        0,
+        undefined,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        'input_number.ph_setpoint',
+        undefined,
       );
       // "unavailable" is NaN → should fall back to static setpoint 7.2
       expect(data.setpoint).toBe(7.2);
+    });
+  });
+
+  // -------------------------------------------------------------------
+  // status_entity (#10) — global status badge
+  // -------------------------------------------------------------------
+  describe('status_entity', () => {
+    test('setConfig should accept status_entity in config', () => {
+      card.setConfig({
+        ...validConfig,
+        status_entity: 'sensor.pool_status',
+      });
+      const cfg = card.getConfig();
+      expect(cfg.status_entity).toBe('sensor.pool_status');
+    });
+
+    test('resolveStatus should return null when no status_entity configured', () => {
+      card.setConfig(validConfig);
+      card.hass = mockHass;
+      const status = card.resolveStatus();
+      expect(status).toBeNull();
+    });
+
+    test('resolveStatus should return null when entity not found', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.nonexistent' });
+      card.hass = mockHass;
+      const status = card.resolveStatus();
+      expect(status).toBeNull();
+    });
+
+    test('resolveStatus should map numeric 0-33 to danger (red)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_score' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_score': { state: '20', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status).toBeDefined();
+      expect(status.color).toBe('#e17055');
+      expect(status.label).toBe('20');
+      expect(status.icon).toBe('mdi:alert-octagon');
+      expect(status.entity_id).toBe('sensor.pool_score');
+    });
+
+    test('resolveStatus should map numeric 34-66 to warning (orange)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_score' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_score': { state: '50', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status).toBeDefined();
+      expect(status.color).toBe('#fdcb6e');
+      expect(status.label).toBe('50');
+      expect(status.icon).toBe('mdi:alert');
+    });
+
+    test('resolveStatus should map numeric 67-100 to good (green)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_score' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_score': { state: '85', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status).toBeDefined();
+      expect(status.color).toBe('#00b894');
+      expect(status.label).toBe('85');
+      expect(status.icon).toBe('mdi:check-circle');
+    });
+
+    test('resolveStatus should map text "safe" to green', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'safe', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#00b894');
+      expect(status.label).toBe('safe');
+      expect(status.icon).toBe('mdi:check-circle');
+    });
+
+    test('resolveStatus should map text "good" to green', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'good', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#00b894');
+    });
+
+    test('resolveStatus should map text "ok" to green', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'ok', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#00b894');
+    });
+
+    test('resolveStatus should map text "warning" to orange', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'warning', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#fdcb6e');
+      expect(status.label).toBe('warning');
+    });
+
+    test('resolveStatus should map text "caution" to orange', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'caution', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#fdcb6e');
+    });
+
+    test('resolveStatus should map text "danger" to red', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'danger', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#e17055');
+    });
+
+    test('resolveStatus should map text "critical" to red', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'critical', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#e17055');
+    });
+
+    test('resolveStatus should map text "bad" to red', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'bad', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#e17055');
+    });
+
+    test('resolveStatus should use default gray for unknown text state', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'custom_state', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('var(--disabled-text-color, #bdbdbd)');
+      expect(status.label).toBe('custom_state');
+      expect(status.icon).toBe('mdi:help-circle');
+    });
+
+    test('resolveStatus should use friendly_name as label when available', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'safe', attributes: { friendly_name: 'Pool Status' } },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.label).toBe('safe');
+      expect(status.friendly_name).toBe('Pool Status');
+    });
+
+    test('resolveStatus should handle entity with state "unavailable"', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'unavailable', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status).toBeNull();
     });
   });
 

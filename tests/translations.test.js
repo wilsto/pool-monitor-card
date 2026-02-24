@@ -1,7 +1,23 @@
 import { describe, test, expect } from 'vitest';
 import { translations, getTranslation, formatTranslation } from '../src/locales/translations.js';
 
-const SUPPORTED_LANGUAGES = ['en', 'fr', 'es', 'de', 'it', 'nl', 'pt', 'pt-br', 'ro', 'sk', 'he', 'ru', 'hu', 'sv', 'cs'];
+const SUPPORTED_LANGUAGES = [
+  'en',
+  'fr',
+  'es',
+  'de',
+  'it',
+  'nl',
+  'pt',
+  'pt-br',
+  'ro',
+  'sk',
+  'he',
+  'ru',
+  'hu',
+  'sv',
+  'cs',
+];
 
 describe('Translations', () => {
   describe('translations object', () => {

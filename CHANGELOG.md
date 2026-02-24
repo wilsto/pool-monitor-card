@@ -3,6 +3,13 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.8.0] - 2026-02-24
+
+### Added
+
+- Global `status_entity` parameter: displays a colored status badge at the top of the card with auto-detection (numeric 0-100 or text states like safe/warning/danger) — closes #10
+- Visual card editor field for Status entity in General section
+
 ## [2.7.0] - 2026-02-24
 
 ### Added

@@ -85,9 +85,18 @@ export interface SensorUserConfig {
 
 export interface CardConfig {
   title?: string;
+  status_entity?: string;
   display: DisplayConfig;
   colors: ColorConfig;
   sensors: Record<string, SensorUserConfig | SensorUserConfig[]>;
+}
+
+export interface StatusData {
+  label: string;
+  color: string;
+  icon: string;
+  friendly_name?: string;
+  entity_id: string;
 }
 
 export interface SensorData {

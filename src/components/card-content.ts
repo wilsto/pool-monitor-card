@@ -1,5 +1,5 @@
 import { html, TemplateResult } from 'lit';
-import type { CardConfig, SensorData } from '../ha/types.js';
+import type { CardConfig, SensorData, StatusData } from '../ha/types.js';
 
 export class cardContent {
   static generateTitle(config: CardConfig): TemplateResult {
@@ -9,6 +9,20 @@ export class cardContent {
         : html``;
 
     return html`${title}`;
+  }
+
+  static generateStatusBadge(status: StatusData): TemplateResult {
+    return html`
+      <div class="status-container" @click=${() => cardContent._moreinfo(status.entity_id)}>
+        <span class="status-badge" style="background-color: ${status.color};">
+          <ha-icon icon="${status.icon}" style="--mdc-icon-size: 16px;"></ha-icon>
+          ${status.label}
+        </span>
+        ${status.friendly_name
+          ? html`<span class="status-friendly-name">${status.friendly_name}</span>`
+          : ''}
+      </div>
+    `;
   }
 
   static generateBody(config: CardConfig, data: SensorData): TemplateResult {

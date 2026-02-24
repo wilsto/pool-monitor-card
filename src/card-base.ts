@@ -10,6 +10,7 @@ import type {
   CardConfig,
   CardInfo,
   SensorData,
+  StatusData,
 } from './ha/types.js';
 
 export class MonitorCardBase extends LitElement {
@@ -25,6 +26,7 @@ export class MonitorCardBase extends LitElement {
   render(): TemplateResult {
     const config = this.getConfig();
     const data = this.processData();
+    const status = this.resolveStatus();
     const generateContent = config.display.compact
       ? cardContent.generateCompactBody
       : cardContent.generateBody;
@@ -39,7 +41,7 @@ export class MonitorCardBase extends LitElement {
     }
 
     return html` <div id="pool-monitor-card">
-      ${cardContent.generateTitle(config)}
+      ${cardContent.generateTitle(config)} ${status ? cardContent.generateStatusBadge(status) : ''}
       ${Object.values(data).map(sensorData => {
         if (sensorData?.invalid) {
           return html`
@@ -407,6 +409,61 @@ export class MonitorCardBase extends LitElement {
     return 0;
   }
 
+  resolveStatus(): StatusData | null {
+    const config = this.getConfig();
+    const entityId = config.status_entity;
+    if (!entityId) return null;
+
+    const entityState = this.hass?.states?.[entityId];
+    if (!entityState) return null;
+
+    const stateVal = entityState.state;
+    if (stateVal === 'unavailable' || stateVal === 'unknown') return null;
+
+    const colors = config.colors;
+    const friendly_name = (entityState.attributes as any)?.friendly_name;
+    const numVal = parseFloat(stateVal);
+
+    // level: 'good' | 'warning' | 'danger' | 'unknown'
+    let level: string;
+
+    if (!isNaN(numVal)) {
+      // Numeric: 0-33 danger, 34-66 warning, 67-100 good
+      level = numVal <= 33 ? 'danger' : numVal <= 66 ? 'warning' : 'good';
+    } else {
+      const lower = stateVal.toLowerCase();
+      const greenStates = ['safe', 'good', 'ok', 'healthy', 'optimal'];
+      const orangeStates = ['warning', 'caution', 'moderate'];
+      const redStates = ['danger', 'critical', 'bad', 'poor', 'unsafe'];
+
+      if (greenStates.includes(lower)) level = 'good';
+      else if (orangeStates.includes(lower)) level = 'warning';
+      else if (redStates.includes(lower)) level = 'danger';
+      else level = 'unknown';
+    }
+
+    const colorMap: Record<string, string> = {
+      good: colors.normal,
+      warning: colors.low,
+      danger: colors.warn,
+      unknown: 'var(--disabled-text-color, #bdbdbd)',
+    };
+    const iconMap: Record<string, string> = {
+      good: 'mdi:check-circle',
+      warning: 'mdi:alert',
+      danger: 'mdi:alert-octagon',
+      unknown: 'mdi:help-circle',
+    };
+
+    return {
+      label: stateVal,
+      color: colorMap[level],
+      icon: iconMap[level],
+      friendly_name,
+      entity_id: entityId,
+    };
+  }
+
   resolveEntityNumber(entityId?: string): number | null {
     if (!entityId) return null;
     const entityState = this.hass?.states?.[entityId];
@@ -475,6 +532,7 @@ export class MonitorCardBase extends LitElement {
 
     const newConfig: CardConfig = {
       ...config,
+      status_entity: config.status_entity,
       display: {
         ...defaultConfig.display,
         ...(config.display || {}),

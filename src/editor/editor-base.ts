@@ -34,7 +34,10 @@ export abstract class MonitorEditorBase extends LitElement implements LovelaceCa
         <div class="section">
           <ha-form
             .hass=${this.hass}
-            .data=${{ title: this._config.title || '' }}
+            .data=${{
+              title: this._config.title || '',
+              status_entity: this._config.status_entity || '',
+            }}
             .schema=${GENERAL_SCHEMA}
             .computeLabel=${this._computeLabel}
             @value-changed=${this._generalChanged}
@@ -72,7 +75,11 @@ export abstract class MonitorEditorBase extends LitElement implements LovelaceCa
   private _generalChanged(ev: CustomEvent): void {
     ev.stopPropagation();
     const value = ev.detail.value as Record<string, unknown>;
-    this._config = { ...this._config, title: (value.title as string) || undefined };
+    this._config = {
+      ...this._config,
+      title: (value.title as string) || undefined,
+      status_entity: (value.status_entity as string) || undefined,
+    };
     this._fireConfigChanged();
   }
 

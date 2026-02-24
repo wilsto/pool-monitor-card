@@ -192,6 +192,35 @@ export const styles = css`
     overflow: hidden;
   }
 
+  .status-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px 10px;
+    cursor: pointer;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+  }
+
+  .status-badge ha-icon {
+    color: white;
+  }
+
+  .status-friendly-name {
+    font-size: 0.8em;
+    color: var(--secondary-text-color, #888);
+  }
+
   .warning-message {
     background-color: var(--warning-color, rgba(255, 152, 0, 0.1));
     border-left: 4px solid var(--warning-color, #ff9800);
