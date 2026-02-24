@@ -29,6 +29,10 @@ export default {
     product_weight: 'Hmotnosť produktu',
     ec: 'Elektrická Vodivosť',
     bromine: 'Bróm',
+    chlorinator: 'Nastavenie chlórovača',
+    pump_speed: 'Rýchlosť čerpadla',
+    light_brightness: 'Jas svetla',
+    heat_pump_setpoint: 'Nastavená teplota tepelného čerpadla',
   },
   time: {
     seconds: 'práve teraz',

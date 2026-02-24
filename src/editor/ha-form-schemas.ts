@@ -1,8 +1,6 @@
 import type { HaFormSchema } from './types.js';
 
-export const GENERAL_SCHEMA: HaFormSchema[] = [
-  { name: 'title', selector: { text: {} } },
-];
+export const GENERAL_SCHEMA: HaFormSchema[] = [{ name: 'title', selector: { text: {} } }];
 
 export const DISPLAY_SCHEMA: HaFormSchema[] = [
   { name: 'compact', selector: { boolean: {} } },

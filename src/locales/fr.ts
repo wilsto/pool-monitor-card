@@ -29,6 +29,10 @@ export default {
     product_weight: 'Poids Produit',
     ec: 'Conductivité Électrique',
     bromine: 'Brome',
+    chlorinator: 'Réglage du chlorateur',
+    pump_speed: 'Vitesse de pompe',
+    light_brightness: 'Luminosité éclairage',
+    heat_pump_setpoint: 'Consigne PAC',
   },
   time: {
     seconds: "à l'instant",

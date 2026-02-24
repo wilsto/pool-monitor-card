@@ -1,4 +1,4 @@
-import { LitElement, html, nothing, type TemplateResult } from 'lit';
+import { LitElement, html, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant, CardConfig, SensorsRegistry } from '../ha/types.js';
 import type { LovelaceCardEditor, HaFormSchema } from './types.js';

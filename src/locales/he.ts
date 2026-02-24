@@ -29,6 +29,10 @@ export default {
     product_weight: 'משקל מוצר',
     ec: 'מוליכות חשמלית',
     bromine: 'ברום',
+    chlorinator: 'הגדרת מחלור',
+    pump_speed: 'מהירות משאבה',
+    light_brightness: 'בהירות תאורה',
+    heat_pump_setpoint: 'נקודת כיוון משאבת חום',
   },
   time: {
     seconds: 'כרגע',

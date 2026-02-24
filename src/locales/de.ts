@@ -29,6 +29,10 @@ export default {
     product_weight: 'Produktgewicht',
     ec: 'Elektrische Leitfähigkeit',
     bromine: 'Brom',
+    chlorinator: 'Chlorator-Einstellung',
+    pump_speed: 'Pumpengeschwindigkeit',
+    light_brightness: 'Lichthelligkeit',
+    heat_pump_setpoint: 'Wärmepumpe Sollwert',
   },
   time: {
     seconds: 'gerade erst',

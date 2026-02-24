@@ -45,6 +45,12 @@ export const styles = css`
     padding: 0px;
   }
 
+  .section.disabled {
+    opacity: 0.4;
+    filter: grayscale(0.8);
+    pointer-events: none;
+  }
+
   .section-compact {
     padding-bottom: 5px;
     padding: 0px;

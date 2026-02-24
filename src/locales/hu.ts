@@ -29,6 +29,10 @@ export default {
     product_weight: 'Termék tömeg',
     ec: 'Elektromos vezetőképesség',
     bromine: 'Bróm',
+    chlorinator: 'Klórozó beállítás',
+    pump_speed: 'Szivattyú sebesség',
+    light_brightness: 'Fény fényerő',
+    heat_pump_setpoint: 'Hőszivattyú beállítás',
   },
   time: {
     seconds: 'éppen most',

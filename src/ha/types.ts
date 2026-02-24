@@ -24,6 +24,7 @@ export interface SensorPreset {
   mode: 'centric' | 'heatflow';
   min_limit?: number;
   override?: string;
+  category?: 'water_chemistry' | 'chemical_balance' | 'treatment' | 'equipment';
 }
 
 export type SensorsRegistry = Record<string, SensorPreset>;
@@ -71,6 +72,7 @@ export interface SensorUserConfig {
   override?: boolean;
   invalid?: boolean;
   nameDefinedByUser?: boolean;
+  availability_entity?: string;
 }
 
 export interface CardConfig {
@@ -83,6 +85,7 @@ export interface CardConfig {
 export interface SensorData {
   name: string;
   invalid: boolean;
+  not_found?: boolean;
   mode: string;
   title: any;
   hide_icon: boolean;
@@ -108,6 +111,7 @@ export interface SensorData {
   side_align: string;
   pct_cursor: number;
   pct_state_step: number;
+  disabled?: boolean;
 }
 
 export interface TranslationSet {

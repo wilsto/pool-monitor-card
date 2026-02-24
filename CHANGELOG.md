@@ -3,6 +3,20 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.4.1] - 2026-02-24
+
+### Added
+
+- Equipment & Maintenance presets: `chlorinator` (%), `pump_speed` (%), `light_brightness` (%), `heat_pump_setpoint` (°C) — closes #58 (Hayward OmniLogic / OmniPL compatibility)
+- Hayward OmniLogic added to Compatible Hardware table in README
+- `availability_entity` option per sensor: grays out the sensor row when the linked binary_sensor/switch is `off` or `unavailable` (e.g. heat pump turned off)
+- All presets now include a `category` field enabling grouped display in the card editor
+
+### Fixed
+
+- Badge color for heatflow mode was orange instead of green when value was in ideal range — closes #60
+- Sensors with unavailable or unknown state (NaN) now display a clear "entity not found" message instead of crashing — closes #38
+
 ## [2.4.0] - 2026-02-23
 
 ### Added
@@ -10,7 +24,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Visual card editor with live preview — configure cards directly from the HA UI
 - Cards now appear in the Home Assistant card picker under "Custom cards"
 - Sensor list with expand/collapse, entity picker, and delete per sensor
-- Preset sensor dropdown with all 21 pool chemistry presets
+- Preset sensor dropdown with all pool chemistry presets
 - Display Options and Colors sections in editor
 
 ### Fixed

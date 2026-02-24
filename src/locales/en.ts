@@ -80,6 +80,10 @@ export default {
     product_weight: 'Product Weight',
     ec: 'Electrical Conductivity',
     bromine: 'Bromine',
+    chlorinator: 'Chlorinator',
+    pump_speed: 'Pump Speed',
+    light_brightness: 'Light Brightness',
+    heat_pump_setpoint: 'Heat Pump Setpoint',
   },
   time: {
     seconds: 'just now',

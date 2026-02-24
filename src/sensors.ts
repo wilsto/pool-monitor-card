@@ -1,12 +1,14 @@
 import type { SensorsRegistry } from './ha/types.js';
 
 export const POOL_SENSORS: SensorsRegistry = {
+  // --- Essential Water Chemistry ---
   temperature: {
     name: 'Temperature',
     unit: '°C',
     setpoint: 27,
     step: 1,
     mode: 'heatflow',
+    category: 'water_chemistry',
   },
   orp: {
     name: 'ORP',
@@ -15,6 +17,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 50,
     mode: 'centric',
     min_limit: 0,
+    category: 'water_chemistry',
   },
   ec: {
     name: 'Electrical Conductivity',
@@ -23,6 +26,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 200,
     mode: 'centric',
     min_limit: 0,
+    category: 'water_chemistry',
   },
   tds: {
     name: 'TDS',
@@ -31,6 +35,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 0.5,
     mode: 'centric',
     min_limit: 0,
+    category: 'water_chemistry',
   },
   ph: {
     name: 'pH',
@@ -39,7 +44,10 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 0.2,
     mode: 'centric',
     min_limit: 0,
+    category: 'water_chemistry',
   },
+
+  // --- Chemical Balance ---
   salinity: {
     name: 'Salinity',
     unit: 'ppm',
@@ -47,6 +55,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 500,
     mode: 'centric',
     min_limit: 0,
+    category: 'chemical_balance',
   },
   cya: {
     name: 'Cyanuric Acid',
@@ -55,6 +64,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 10,
     mode: 'centric',
     min_limit: 0,
+    category: 'chemical_balance',
   },
   calcium: {
     name: 'Calcium',
@@ -63,6 +73,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 100,
     mode: 'centric',
     min_limit: 0,
+    category: 'chemical_balance',
   },
   phosphate: {
     name: 'Phosphate',
@@ -71,6 +82,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 10,
     mode: 'centric',
     min_limit: 0,
+    category: 'chemical_balance',
   },
   alkalinity: {
     name: 'Alkalinity',
@@ -79,7 +91,10 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 20,
     mode: 'centric',
     min_limit: 0,
+    category: 'chemical_balance',
   },
+
+  // --- Treatment & Sanitization ---
   free_chlorine: {
     name: 'Free Chlorine',
     unit: 'ppm',
@@ -87,6 +102,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 0.5,
     mode: 'centric',
     min_limit: 0,
+    category: 'treatment',
   },
   total_chlorine: {
     name: 'Total Chlorine',
@@ -95,68 +111,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 0.5,
     mode: 'centric',
     min_limit: 0,
-  },
-  pressure: {
-    name: 'Filter Pressure',
-    unit: 'psi',
-    setpoint: 12,
-    step: 2,
-    mode: 'centric',
-  },
-  specific_gravity: {
-    name: 'Specific Gravity',
-    unit: 'sg',
-    setpoint: 1.1,
-    step: 0.2,
-    mode: 'centric',
-  },
-  magnesium: {
-    name: 'Magnesium',
-    unit: 'ppm',
-    setpoint: 1200,
-    step: 100,
-    mode: 'centric',
-    min_limit: 0,
-  },
-  water_level: {
-    name: 'Water Level',
-    unit: '%',
-    setpoint: 100,
-    step: 10,
-    mode: 'centric',
-    min_limit: 0,
-  },
-  flow_rate: {
-    name: 'Flow Rate',
-    unit: 'm³/h',
-    setpoint: 10,
-    step: 1,
-    mode: 'centric',
-    min_limit: 0,
-  },
-  uv_radiation: {
-    name: 'UV Radiation',
-    unit: 'mW/cm²',
-    setpoint: 4,
-    step: 1,
-    mode: 'centric',
-    min_limit: 0,
-  },
-  product_volume: {
-    name: 'Product Volume',
-    unit: 'L',
-    setpoint: 20,
-    step: 5,
-    mode: 'centric',
-    min_limit: 0,
-  },
-  product_weight: {
-    name: 'Product Weight',
-    unit: 'kg',
-    setpoint: 25,
-    step: 5,
-    mode: 'centric',
-    min_limit: 0,
+    category: 'treatment',
   },
   bromine: {
     name: 'Bromine',
@@ -165,5 +120,114 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 1,
     mode: 'centric',
     min_limit: 0,
+    category: 'treatment',
+  },
+  pressure: {
+    name: 'Filter Pressure',
+    unit: 'psi',
+    setpoint: 12,
+    step: 2,
+    mode: 'centric',
+    category: 'treatment',
+  },
+  specific_gravity: {
+    name: 'Specific Gravity',
+    unit: 'sg',
+    setpoint: 1.1,
+    step: 0.2,
+    mode: 'centric',
+    category: 'treatment',
+  },
+  magnesium: {
+    name: 'Magnesium',
+    unit: 'ppm',
+    setpoint: 1200,
+    step: 100,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'treatment',
+  },
+  chlorinator: {
+    name: 'Chlorinator Setting',
+    unit: '%',
+    setpoint: 50,
+    step: 10,
+    mode: 'heatflow',
+    min_limit: 0,
+    category: 'treatment',
+  },
+
+  // --- Equipment & Maintenance ---
+  water_level: {
+    name: 'Water Level',
+    unit: '%',
+    setpoint: 100,
+    step: 10,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  flow_rate: {
+    name: 'Flow Rate',
+    unit: 'm³/h',
+    setpoint: 10,
+    step: 1,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  uv_radiation: {
+    name: 'UV Radiation',
+    unit: 'mW/cm²',
+    setpoint: 4,
+    step: 1,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  product_volume: {
+    name: 'Product Volume',
+    unit: 'L',
+    setpoint: 20,
+    step: 5,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  product_weight: {
+    name: 'Product Weight',
+    unit: 'kg',
+    setpoint: 25,
+    step: 5,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  pump_speed: {
+    name: 'Pump Speed',
+    unit: '%',
+    setpoint: 50,
+    step: 10,
+    mode: 'heatflow',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  light_brightness: {
+    name: 'Light Brightness',
+    unit: '%',
+    setpoint: 80,
+    step: 10,
+    mode: 'heatflow',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  heat_pump_setpoint: {
+    name: 'Heat Pump Setpoint',
+    unit: '°C',
+    setpoint: 28,
+    step: 1,
+    mode: 'centric',
+    min_limit: 10,
+    category: 'equipment',
   },
 };

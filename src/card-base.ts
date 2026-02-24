@@ -51,7 +51,7 @@ export class MonitorCardBase extends LitElement {
               >
             </div>
           `;
-        } else if (sensorData?.value === null) {
+        } else if (sensorData?.not_found) {
           return html`
             <div class="warning-message">
               <ha-icon icon="mdi:alert"></ha-icon>
@@ -94,6 +94,11 @@ export class MonitorCardBase extends LitElement {
           sensor.override,
           sensor.invalid,
         );
+
+        if (sensor.availability_entity) {
+          const availState = this.hass?.states?.[sensor.availability_entity]?.state;
+          data[sensorKey].disabled = availState === 'off' || availState === 'unavailable';
+        }
       });
     });
 
@@ -164,6 +169,7 @@ export class MonitorCardBase extends LitElement {
       console.warn(`Entity not found: ${entity}`);
       newData.value = null;
       newData.entity = entity;
+      newData.not_found = true;
       return newData;
     }
 
@@ -176,8 +182,30 @@ export class MonitorCardBase extends LitElement {
       this.countDecimals(parseFloat(entityState.state));
 
     const rawValue = parseFloat(entityState.state);
-    newData.value = isNaN(rawValue) ? null : Number(rawValue.toFixed(precision));
     newData.entity = entity;
+
+    if (isNaN(rawValue)) {
+      newData.value = null;
+      newData.state = '';
+      newData.color = 'var(--disabled-text-color, #bdbdbd)';
+      newData.pct = '50';
+      newData.pct_min = '50';
+      newData.pct_max = '50';
+      newData.pct_cursor = '50';
+      newData.pct_marker = '50';
+      newData.pct_state_step = '50';
+      newData.side_align = 'left';
+      newData.separator = '';
+      newData.unit = '';
+      newData.setpoint_class = ['', '', '', '', ''];
+      newData.progressClass = '';
+      if (config.display.show_last_updated) {
+        newData.last_updated = this.timeFromNow(entityState.last_updated);
+      }
+      return newData;
+    }
+
+    newData.value = Number(rawValue.toFixed(precision));
 
     if (config.display.show_last_updated) {
       newData.last_updated = this.timeFromNow(entityState.last_updated);
@@ -253,7 +281,7 @@ export class MonitorCardBase extends LitElement {
         Number(newData.value) < Number(newData.setpoint_class[3])
       ) {
         newData.state = config.display.show_labels ? this.getTranslatedText('state.3') : '';
-        newData.color = config.colors.low;
+        newData.color = config.colors.normal;
       } else {
         newData.state = config.display.show_labels ? this.getTranslatedText('state.5') : '';
         newData.color = config.colors.warn;

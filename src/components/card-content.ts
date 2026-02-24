@@ -17,13 +17,16 @@ export class cardContent {
     }
     return html`
       <!-- ##### ${data.name} section ##### -->
-      <div class="section" @click=${() => cardContent._moreinfo(data.entity)}>
+      <div
+        class="${data.disabled ? 'section disabled' : 'section'}"
+        @click=${() => cardContent._moreinfo(data.entity)}
+      >
         <div class="pool-monitor-container-marker">
           <div
             class="marker"
             style="background-color: ${data.color} ;color: black;left: ${data.pct_marker}%;"
           >
-            ${data.value} ${data.unit}
+            ${data.value != null ? `${data.value} ${data.unit}` : '—'}
           </div>
           <div
             class="marker-state"
@@ -245,7 +248,8 @@ export class cardContent {
             style="border-${data.side_align}: 5px solid ${(config as any)
               .marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;"
           >
-            &nbsp; ${data.title} ${data.value} ${data.unit} ${data.separator} ${data.state} &nbsp;
+            &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : '—'}
+            ${data.separator} ${data.state} &nbsp;
           </div>
           ${data.pct_min !== data.pct_cursor
             ? html`<div

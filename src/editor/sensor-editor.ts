@@ -9,7 +9,8 @@ interface ExpandedState {
 
 export class MonitorSensorEditor extends LitElement {
   @property({ attribute: false }) hass!: HomeAssistant;
-  @property({ attribute: false }) sensors: Record<string, SensorUserConfig | SensorUserConfig[]> = {};
+  @property({ attribute: false }) sensors: Record<string, SensorUserConfig | SensorUserConfig[]> =
+    {};
   @property({ attribute: false }) registry: SensorsRegistry = {};
   @property({ type: Boolean }) freeform = false;
 
@@ -31,7 +32,10 @@ export class MonitorSensorEditor extends LitElement {
     `;
   }
 
-  private _renderSensorType(type: string, config: SensorUserConfig | SensorUserConfig[]): TemplateResult {
+  private _renderSensorType(
+    type: string,
+    config: SensorUserConfig | SensorUserConfig[],
+  ): TemplateResult {
     if (Array.isArray(config)) {
       return html`${config.map((c, i) => this._renderSensorRow(type, c, i, config.length > 1))}`;
     }
@@ -57,14 +61,20 @@ export class MonitorSensorEditor extends LitElement {
             <ha-icon icon=${expanded ? 'mdi:chevron-down' : 'mdi:chevron-right'}></ha-icon>
             <span>${label}</span>
             ${config.entity
-              ? html`<span style="color: var(--secondary-text-color); font-weight: normal; font-size: 12px;">${config.entity}</span>`
+              ? html`<span
+                  style="color: var(--secondary-text-color); font-weight: normal; font-size: 12px;"
+                  >${config.entity}</span
+                >`
               : nothing}
           </div>
           <div class="sensor-row-actions">
             <ha-icon-button
               class="delete-btn"
               .path=${'M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z'}
-              @click=${(e: Event) => { e.stopPropagation(); this._removeSensor(type, index); }}
+              @click=${(e: Event) => {
+                e.stopPropagation();
+                this._removeSensor(type, index);
+              }}
             ></ha-icon-button>
           </div>
         </div>
@@ -73,7 +83,11 @@ export class MonitorSensorEditor extends LitElement {
     `;
   }
 
-  private _renderSensorFields(type: string, config: SensorUserConfig, index: number): TemplateResult {
+  private _renderSensorFields(
+    type: string,
+    config: SensorUserConfig,
+    index: number,
+  ): TemplateResult {
     return html`
       <div class="sensor-row-content">
         <ha-entity-picker
@@ -81,19 +95,32 @@ export class MonitorSensorEditor extends LitElement {
           .value=${config.entity || ''}
           .label=${'Entity'}
           allow-custom-entity
-          @value-changed=${(e: CustomEvent) => this._updateField(type, index, 'entity', e.detail.value)}
+          @value-changed=${(e: CustomEvent) =>
+            this._updateField(type, index, 'entity', e.detail.value)}
         ></ha-entity-picker>
 
         <div class="sensor-field-row">
           <ha-textfield
             .label=${'Name override'}
             .value=${config.name || ''}
-            @change=${(e: Event) => this._updateField(type, index, 'name', (e.target as HTMLInputElement).value || undefined)}
+            @change=${(e: Event) =>
+              this._updateField(
+                type,
+                index,
+                'name',
+                (e.target as HTMLInputElement).value || undefined,
+              )}
           ></ha-textfield>
           <ha-textfield
             .label=${'Unit override'}
             .value=${config.unit || ''}
-            @change=${(e: Event) => this._updateField(type, index, 'unit', (e.target as HTMLInputElement).value || undefined)}
+            @change=${(e: Event) =>
+              this._updateField(
+                type,
+                index,
+                'unit',
+                (e.target as HTMLInputElement).value || undefined,
+              )}
           ></ha-textfield>
         </div>
 
@@ -133,14 +160,16 @@ export class MonitorSensorEditor extends LitElement {
             .value=${config.min || ''}
             .label=${'Min entity'}
             allow-custom-entity
-            @value-changed=${(e: CustomEvent) => this._updateField(type, index, 'min', e.detail.value || undefined)}
+            @value-changed=${(e: CustomEvent) =>
+              this._updateField(type, index, 'min', e.detail.value || undefined)}
           ></ha-entity-picker>
           <ha-entity-picker
             .hass=${this.hass}
             .value=${config.max || ''}
             .label=${'Max entity'}
             allow-custom-entity
-            @value-changed=${(e: CustomEvent) => this._updateField(type, index, 'max', e.detail.value || undefined)}
+            @value-changed=${(e: CustomEvent) =>
+              this._updateField(type, index, 'max', e.detail.value || undefined)}
           ></ha-entity-picker>
         </div>
 
@@ -149,27 +178,47 @@ export class MonitorSensorEditor extends LitElement {
             .hass=${this.hass}
             .value=${config.icon || ''}
             .label=${'Icon'}
-            @value-changed=${(e: CustomEvent) => this._updateField(type, index, 'icon', e.detail.value || undefined)}
+            @value-changed=${(e: CustomEvent) =>
+              this._updateField(type, index, 'icon', e.detail.value || undefined)}
           ></ha-icon-picker>
           <ha-textfield
             .label=${'Image URL'}
             .value=${config.image_url || ''}
-            @change=${(e: Event) => this._updateField(type, index, 'image_url', (e.target as HTMLInputElement).value || undefined)}
+            @change=${(e: Event) =>
+              this._updateField(
+                type,
+                index,
+                'image_url',
+                (e.target as HTMLInputElement).value || undefined,
+              )}
           ></ha-textfield>
         </div>
 
-        ${this.freeform || !this.registry[type] ? html`
-          <div class="sensor-field-row">
-            <ha-select
-              .label=${'Mode'}
-              .value=${config.mode || 'centric'}
-              @selected=${(e: CustomEvent) => this._updateField(type, index, 'mode', (e.target as HTMLSelectElement).value)}
-            >
-              <mwc-list-item value="centric">Centric</mwc-list-item>
-              <mwc-list-item value="heatflow">Heatflow</mwc-list-item>
-            </ha-select>
-          </div>
-        ` : nothing}
+        <ha-entity-picker
+          .hass=${this.hass}
+          .value=${config.availability_entity || ''}
+          .label=${'Availability entity (optional — grays out when off)'}
+          .includeDomains=${['binary_sensor', 'switch', 'input_boolean']}
+          allow-custom-entity
+          @value-changed=${(e: CustomEvent) =>
+            this._updateField(type, index, 'availability_entity', e.detail.value || undefined)}
+        ></ha-entity-picker>
+
+        ${this.freeform || !this.registry[type]
+          ? html`
+              <div class="sensor-field-row">
+                <ha-select
+                  .label=${'Mode'}
+                  .value=${config.mode || 'centric'}
+                  @selected=${(e: CustomEvent) =>
+                    this._updateField(type, index, 'mode', (e.target as HTMLSelectElement).value)}
+                >
+                  <mwc-list-item value="centric">Centric</mwc-list-item>
+                  <mwc-list-item value="heatflow">Heatflow</mwc-list-item>
+                </ha-select>
+              </div>
+            `
+          : nothing}
       </div>
     `;
   }
@@ -181,7 +230,9 @@ export class MonitorSensorEditor extends LitElement {
           <ha-textfield
             .label=${'Sensor type key'}
             .value=${this._newSensorType}
-            @input=${(e: Event) => { this._newSensorType = (e.target as HTMLInputElement).value; }}
+            @input=${(e: Event) => {
+              this._newSensorType = (e.target as HTMLInputElement).value;
+            }}
           ></ha-textfield>
           <ha-icon-button
             .path=${'M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z'}
@@ -191,14 +242,44 @@ export class MonitorSensorEditor extends LitElement {
       `;
     }
 
-    // Preset mode: show available types not yet configured
+    // Preset mode: show available types not yet configured, grouped by category
     const availableTypes = Object.entries(this.registry)
       .filter(([key]) => !this.sensors[key])
-      .map(([key, preset]) => ({ value: key, label: preset.name }));
+      .map(([key, preset]) => ({
+        value: key,
+        label: preset.name,
+        category: preset.category || 'other',
+      }));
 
     if (availableTypes.length === 0) {
       return html`<div class="empty-message">All sensor types are configured.</div>`;
     }
+
+    const categoryLabels: Record<string, string> = {
+      water_chemistry: 'Essential Water Chemistry',
+      chemical_balance: 'Chemical Balance',
+      treatment: 'Treatment & Sanitization',
+      equipment: 'Equipment & Maintenance',
+      other: 'Other',
+    };
+
+    const grouped = availableTypes.reduce(
+      (acc, item) => {
+        const cat = item.category;
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(item);
+        return acc;
+      },
+      {} as Record<string, typeof availableTypes>,
+    );
+
+    const categoryOrder = [
+      'water_chemistry',
+      'chemical_balance',
+      'treatment',
+      'equipment',
+      'other',
+    ];
 
     return html`
       <div class="add-sensor-row">
@@ -210,9 +291,18 @@ export class MonitorSensorEditor extends LitElement {
             if (type) this._addPresetSensor(type);
           }}
         >
-          ${availableTypes.map(
-            (opt) => html`<mwc-list-item .value=${opt.value}>${opt.label}</mwc-list-item>`,
-          )}
+          ${categoryOrder
+            .filter(cat => grouped[cat]?.length > 0)
+            .map(
+              cat => html`
+                <mwc-list-item disabled value="" style="opacity: 0.6; font-weight: bold;">
+                  — ${categoryLabels[cat]} —
+                </mwc-list-item>
+                ${grouped[cat].map(
+                  opt => html`<mwc-list-item .value=${opt.value}>${opt.label}</mwc-list-item>`,
+                )}
+              `,
+            )}
         </ha-select>
       </div>
     `;
@@ -229,7 +319,11 @@ export class MonitorSensorEditor extends LitElement {
   }
 
   private _addFreeformSensor(): void {
-    const type = this._newSensorType.trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+    const type = this._newSensorType
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '_')
+      .replace(/[^a-z0-9_]/g, '');
     if (!type) return;
 
     if (this.sensors[type]) {
@@ -255,6 +349,7 @@ export class MonitorSensorEditor extends LitElement {
       const arr = existing.filter((_, i) => i !== index);
       if (arr.length === 0) {
         const { [type]: _, ...rest } = this.sensors;
+        void _;
         this._fireSensorsChanged(rest);
       } else if (arr.length === 1) {
         this._fireSensorsChanged({ ...this.sensors, [type]: arr[0] });
@@ -263,6 +358,7 @@ export class MonitorSensorEditor extends LitElement {
       }
     } else {
       const { [type]: _, ...rest } = this.sensors;
+      void _;
       this._fireSensorsChanged(rest);
     }
   }
@@ -287,7 +383,9 @@ export class MonitorSensorEditor extends LitElement {
     }
   }
 
-  private _fireSensorsChanged(sensors: Record<string, SensorUserConfig | SensorUserConfig[]>): void {
+  private _fireSensorsChanged(
+    sensors: Record<string, SensorUserConfig | SensorUserConfig[]>,
+  ): void {
     this.dispatchEvent(
       new CustomEvent('sensors-changed', {
         bubbles: true,

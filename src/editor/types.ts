@@ -25,7 +25,5 @@ export type HaFormSelector =
 
 // fireEvent helper (standard HA pattern)
 export function fireEvent(node: HTMLElement, type: string, detail?: unknown): void {
-  node.dispatchEvent(
-    new CustomEvent(type, { bubbles: true, composed: true, detail }),
-  );
+  node.dispatchEvent(new CustomEvent(type, { bubbles: true, composed: true, detail }));
 }

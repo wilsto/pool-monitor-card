@@ -29,6 +29,10 @@ export default {
     product_weight: 'Productgewicht',
     ec: 'Elektrische Geleidbaarheid',
     bromine: 'Broom',
+    chlorinator: 'Chloormaker instelling',
+    pump_speed: 'Pompsnelheid',
+    light_brightness: 'Lichthelderheid',
+    heat_pump_setpoint: 'Warmtepomp instelpunt',
   },
   time: {
     seconds: 'zojuist',

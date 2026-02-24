@@ -29,6 +29,10 @@ export default {
     product_weight: 'Вес продукта',
     ec: 'Электропроводность',
     bromine: 'Бром',
+    chlorinator: 'Настройка хлоратора',
+    pump_speed: 'Скорость насоса',
+    light_brightness: 'Яркость освещения',
+    heat_pump_setpoint: 'Уставка теплового насоса',
   },
   time: {
     seconds: 'только что',

@@ -29,6 +29,10 @@ export default {
     product_weight: 'Greutate produs',
     ec: 'Conductivitate Electrică',
     bromine: 'Brom',
+    chlorinator: 'Setare clorinator',
+    pump_speed: 'Viteza pompei',
+    light_brightness: 'Luminozitate lumina',
+    heat_pump_setpoint: 'Punct de reglaj pompa de caldura',
   },
   time: {
     seconds: 'chiar acum',

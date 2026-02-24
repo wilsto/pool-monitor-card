@@ -78,8 +78,10 @@ describe('cardContent', () => {
 
     test('should render body with section class', () => {
       const result = cardContent.generateBody(defaultConfig, defaultData);
-      const { statics } = templateParts(result);
-      expect(statics).toContain('class="section"');
+      const { statics, values } = templateParts(result);
+      // class is dynamically rendered; check values contains 'section'
+      const hasSection = values.some(v => typeof v === 'string' && v.includes('section'));
+      expect(hasSection).toBe(true);
       expect(statics).toContain('pool-monitor-container');
     });
 
@@ -137,6 +139,22 @@ describe('cardContent', () => {
         v => v && v.strings && v.strings.join('').includes('cursor-text'),
       );
       expect(hasMarker).toBe(true);
+    });
+
+    test('should apply disabled class when sensorData.disabled is true', () => {
+      const data = { ...defaultData, disabled: true };
+      const result = cardContent.generateBody(defaultConfig, data);
+      const { values } = templateParts(result);
+      const hasDisabled = values.some(v => v === 'section disabled');
+      expect(hasDisabled).toBe(true);
+    });
+
+    test('should not apply disabled class when sensorData.disabled is false', () => {
+      const data = { ...defaultData, disabled: false };
+      const result = cardContent.generateBody(defaultConfig, data);
+      const { values } = templateParts(result);
+      const hasDisabled = values.some(v => v === 'section disabled');
+      expect(hasDisabled).toBe(false);
     });
   });
 

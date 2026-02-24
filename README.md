@@ -2,7 +2,7 @@
 
 [![Release][release-shield]][release-link] [![HACS][hacs-shield]][hacs-link] [![GitHub Activity][commits-shield]][commits-link]
 
-> Keep your swimming pool safe and crystal clear by monitoring up to 20 water chemistry parameters at a glance.
+> Keep your swimming pool safe and crystal clear by monitoring up to 25 water chemistry parameters at a glance.
 >
 > **Visual editor included** — configure everything from the UI, no YAML needed.
 
@@ -32,7 +32,7 @@ Preset ideal ranges for all 20 pool parameters mean you can get started with jus
 
 ---
 
-## Sensors (21 presets)
+## Sensors (25 presets)
 
 Every sensor comes with **preset ideal ranges** — just point to your entity and the card handles the rest. Override any value to match your setup.
 
@@ -68,7 +68,7 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 *These tell you if your disinfection system is working properly.*
 
-![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Bromine](resources/bromine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png)
+![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Bromine](resources/bromine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png) ![Chlorinator](resources/chlorinator.png)
 
 | Sensor | Key | Unit | Default Setpoint |
 |--------|-----|------|:----------------:|
@@ -78,12 +78,13 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 | Filter Pressure | `pressure` | psi | 12 |
 | Specific Gravity | `specific_gravity` | sg | 1.1 |
 | Magnesium | `magnesium` | ppm | 1200 |
+| Chlorinator Setting | `chlorinator` | % | 50 |
 
 ### Equipment & Maintenance
 
 *Track the health of your pool equipment and supply levels.*
 
-![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)
+![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png) ![Pump Speed](resources/pump_speed.png) ![Light Brightness](resources/light_brightness.png) ![Heat Pump Setpoint](resources/heat_pump_setpoint.png)
 
 | Sensor | Key | Unit | Default Setpoint |
 |--------|-----|------|:----------------:|
@@ -92,6 +93,11 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 | UV Radiation | `uv_radiation` | mW/cm² | 4 |
 | Product Volume | `product_volume` | L | 20 |
 | Product Weight | `product_weight` | kg | 25 |
+| Pump Speed | `pump_speed` | % | 50 |
+| Light Brightness | `light_brightness` | % | 80 |
+| Heat Pump Setpoint | `heat_pump_setpoint` | °C | 28 |
+
+> **Hayward OmniLogic users**: The `chlorinator`, `pump_speed` and `heat_pump_setpoint` presets map directly to OmniLogic entities (`sensor.*_chlorinator_setting`, `sensor.*_pump_speed`, etc.). Use `availability_entity` to gray out equipment rows when the device is off.
 
 For detailed explanations of each sensor and why it matters, see [Sensor Details](docs/sensors.md).
 
@@ -111,6 +117,7 @@ Community-tested devices and their supported parameters:
 | Ondilo | [Ondilo ICO Pool](https://ondilo.com/en/ico-pool/) | ✔️ | ✔️ | ✔️ | ✔️ | [Component](https://www.home-assistant.io/integrations/ondilo_ico/) |
 | Zodiac | [Zodiac iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq) | ✔️ | ✔️ | ✔️ | ❌ | [Tuto via nodeRED](example/zodiac.md) |
 | Tuya | [Tuya BLE-YL01](https://www.zigbee2mqtt.io/devices/BLE-YL01.html) | ✔️ | ✔️ | ✔️ | ✔️ | [Tuto](https://community.home-assistant.io/t/pool-monitoring-device-yieryi-ble-yl01-zigbee-ph-orp-free-chlorine-salinity-etc/659545) |
+| Hayward | [OmniLogic / OmniPL](https://www.hayward.com/shop/controls/omni-controls) | ✔️ | ✔️ | ✔️ | ❌ | [Component](https://www.home-assistant.io/integrations/omnilogic/) |
 
 > ✔️ = supported, ❌ = not supported. [See more hardware](example/hardware.md)
 
@@ -181,7 +188,7 @@ That's it! The card uses sensible defaults for everything else.
 | `display.show_icons` | boolean | `true` | Show sensor icons |
 | `language` | string | `en` | Language code |
 
-### Per-sensor overrides
+### Per-sensor options
 
 ```yaml
 sensors:
@@ -195,7 +202,31 @@ sensors:
     step: 2                   # threshold step for colors
     icon: mdi:thermometer     # MDI icon
     mode: centric             # centric | heatflow
+    availability_entity: binary_sensor.heat_pump  # gray out when off/unavailable
 ```
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `entity` | string | **Required.** Entity ID |
+| `name` | string | Override display name |
+| `unit` | string | Override unit |
+| `setpoint` | number | Ideal value |
+| `min` / `max` | number | Range boundaries |
+| `step` | number | Threshold step for colors |
+| `icon` | string | MDI icon (e.g. `mdi:thermometer`) |
+| `mode` | string | `centric` or `heatflow` |
+| `availability_entity` | string | Entity to track — grays out the row when `off` or `unavailable` |
+
+### Color modes
+
+| Mode | Gradient | Badge color | Best for |
+|------|----------|-------------|----------|
+| `centric` | warn → low → **normal** → low → warn | Matches gradient zone | pH, ORP — ideal value in the center |
+| `heatflow` | cool → low → warn (blue → orange → red) | **Green** when ideal | Temperature — natural thermal scale |
+
+In **centric** mode, the gradient and badge use the same colors — you see at a glance which zone the value is in.
+
+In **heatflow** mode, the gradient shows the physical temperature scale (cold to hot), while the badge uses green to indicate the value is in the ideal range. Two complementary readings: *where* on the scale vs *is it good*.
 
 ### Multiple sensors of the same type
 
@@ -249,7 +280,7 @@ This card is part of the **monitor-cards** family — same rendering engine, sam
 
 | Card | For | Sensors |
 |------|-----|---------|
-| [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 21 presets ← *you are here* |
+| [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 25 presets ← *you are here* |
 | [Aquarium Monitor Card](https://github.com/wilsto/aquarium-monitor-card) | Freshwater & saltwater aquarium keepers | 15 presets |
 | [Air Quality Card](https://github.com/wilsto/air-quality-card) | Homeowners concerned about indoor air quality | 12 presets |
 | [Sensor Monitor Card](https://github.com/wilsto/sensor-monitor-card) | Home Assistant power users | unlimited (custom) |

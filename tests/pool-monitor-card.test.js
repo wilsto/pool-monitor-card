@@ -160,7 +160,7 @@ describe('PoolMonitorCard', () => {
       expect(data.name).toBe('temperature');
     });
 
-    test('should return null value for missing entity', () => {
+    test('should return null value and not_found for missing entity', () => {
       const data = card.calculateData(
         'temperature', 'Temperature', 'sensor.nonexistent',
         undefined, undefined, 27, 1, '°C', undefined, undefined, 'heatflow',
@@ -168,9 +168,10 @@ describe('PoolMonitorCard', () => {
       );
       expect(data.value).toBeNull();
       expect(data.entity).toBe('sensor.nonexistent');
+      expect(data.not_found).toBe(true);
     });
 
-    test('should handle non-numeric entity state', () => {
+    test('should handle non-numeric entity state (unavailable) without not_found', () => {
       const hass = {
         states: {
           'sensor.bad': { state: 'unavailable', attributes: {}, last_updated: new Date().toISOString() },
@@ -183,6 +184,29 @@ describe('PoolMonitorCard', () => {
         undefined, undefined, undefined, false,
       );
       expect(data.value).toBeNull();
+      expect(data.not_found).toBeUndefined();
+      expect(data.color).toBe('var(--disabled-text-color, #bdbdbd)');
+      expect(data.state).toBe('');
+      expect(data.pct).toBe('50');
+    });
+
+    test('should handle "unknown" entity state without not_found', () => {
+      const hass = {
+        states: {
+          'sensor.unknown': { state: 'unknown', attributes: {}, last_updated: new Date().toISOString() },
+        },
+      };
+      card.hass = hass;
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.unknown',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        undefined, undefined, undefined, false,
+      );
+      expect(data.value).toBeNull();
+      expect(data.not_found).toBeUndefined();
+      expect(data.color).toBe('var(--disabled-text-color, #bdbdbd)');
+      expect(data.state).toBe('');
+      expect(data.pct).toBe('50');
     });
 
     test('should use default setpoint from POOL_SENSORS when not provided', () => {
@@ -319,6 +343,62 @@ describe('PoolMonitorCard', () => {
   });
 
   // -------------------------------------------------------------------
+  // availability_entity (disabled flag)
+  // -------------------------------------------------------------------
+  describe('availability_entity', () => {
+    beforeEach(() => {
+      card.hass = {
+        states: {
+          'sensor.pool_temperature': {
+            state: '27',
+            attributes: {},
+            last_updated: new Date().toISOString(),
+          },
+          'binary_sensor.heat_pump_on': { state: 'on', attributes: {} },
+          'binary_sensor.heat_pump_off': { state: 'off', attributes: {} },
+        },
+      };
+    });
+
+    test('processData should set disabled=true when availability_entity is off', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            availability_entity: 'binary_sensor.heat_pump_off',
+          },
+        },
+      });
+      card.hass = card.hass;
+      const data = card.processData();
+      expect(data['temperature_1'].disabled).toBe(true);
+    });
+
+    test('processData should set disabled=false when availability_entity is on', () => {
+      card.setConfig({
+        sensors: {
+          temperature: {
+            entity: 'sensor.pool_temperature',
+            availability_entity: 'binary_sensor.heat_pump_on',
+          },
+        },
+      });
+      const data = card.processData();
+      expect(data['temperature_1'].disabled).toBe(false);
+    });
+
+    test('processData should not set disabled when availability_entity is absent', () => {
+      card.setConfig({
+        sensors: {
+          temperature: { entity: 'sensor.pool_temperature' },
+        },
+      });
+      const data = card.processData();
+      expect(data['temperature_1'].disabled).toBeUndefined();
+    });
+  });
+
+  // -------------------------------------------------------------------
   // State/color calculation (centric mode)
   // -------------------------------------------------------------------
   describe('state/color in centric mode', () => {
@@ -413,9 +493,9 @@ describe('PoolMonitorCard', () => {
       expect(data.color).toBe('#00BFFF'); // cool
     });
 
-    test('should return low for values in [sp-step, sp+step)', () => {
+    test('should return normal for values in [sp-step, sp+step)', () => {
       const data = calcTemp(27);
-      expect(data.color).toBe('#fdcb6e'); // low
+      expect(data.color).toBe('#00b894'); // normal (ideal range)
     });
 
     test('should return warn for values >= sp+step', () => {

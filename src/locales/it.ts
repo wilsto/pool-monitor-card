@@ -29,6 +29,10 @@ export default {
     product_weight: 'Peso prodotto',
     ec: 'Conducibilità Elettrica',
     bromine: 'Bromo',
+    chlorinator: 'Impostazione clorinatore',
+    pump_speed: 'Velocità pompa',
+    light_brightness: 'Luminosità luce',
+    heat_pump_setpoint: 'Setpoint pompa di calore',
   },
   time: {
     seconds: 'proprio ora',

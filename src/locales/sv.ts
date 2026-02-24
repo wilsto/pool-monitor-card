@@ -29,6 +29,10 @@ export default {
     product_weight: 'Produkt Vikt',
     ec: 'Elektrisk Ledningsförmåga',
     bromine: 'Brom',
+    chlorinator: 'Kloratorinställning',
+    pump_speed: 'Pumphastighet',
+    light_brightness: 'Ljusstyrka',
+    heat_pump_setpoint: 'Värmepump börvärde',
   },
   time: {
     seconds: 'nu',

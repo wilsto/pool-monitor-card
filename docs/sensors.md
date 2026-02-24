@@ -126,6 +126,14 @@ Indicates if substances float or sink in your pool water. Reference: pure water 
 
 Prevents scaling and staining (ideal: 1000-1400 ppm). Important for mineral pool systems.
 
+### Chlorinator Setting (`chlorinator`)
+
+- **Unit**: %
+- **Default setpoint**: 50
+- **Compatible with**: Hayward OmniLogic, AquaLogic/ProLogic
+
+Salt chlorinator output percentage (0-100%). Available via the Hayward OmniLogic integration as `sensor.chlorinator_setting`. Ideal range depends on pool load and size.
+
 ## Equipment & Maintenance
 
 *Track the health of your pool equipment and supply levels.*
@@ -164,3 +172,24 @@ Track liquid chemical stock levels (pH+, pH-, etc.).
 - **Default setpoint**: 25
 
 Track powdered chemical stock levels.
+
+### Pump Speed (`pump_speed`)
+
+- **Unit**: % (override to `rpm` in the editor for RPM-based pumps)
+- **Default setpoint**: 50
+
+Variable speed pump operating level. Shows if the pump is running at its target speed.
+
+### Light Brightness (`light_brightness`)
+
+- **Unit**: %
+- **Default setpoint**: 80
+
+Pool light brightness level. Compatible with dimmable LED pool lights (e.g., Pentair ColorSplash, Jandy ColorLogic).
+
+### Heat Pump Setpoint (`heat_pump_setpoint`)
+
+- **Unit**: °C
+- **Default setpoint**: 28
+
+Target temperature configured on your heat pump (PAC). Use `availability_entity` with a `binary_sensor` to gray out the row when the heat pump is off.
