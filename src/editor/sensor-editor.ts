@@ -155,6 +155,27 @@ export class MonitorSensorEditor extends LitElement {
         </div>
 
         <div class="sensor-field-row">
+          <ha-textfield
+            .label=${'Step low'}
+            .value=${config.step_low != null ? String(config.step_low) : ''}
+            type="number"
+            @change=${(e: Event) => {
+              const val = (e.target as HTMLInputElement).value;
+              this._updateField(type, index, 'step_low', val ? Number(val) : undefined);
+            }}
+          ></ha-textfield>
+          <ha-textfield
+            .label=${'Step high'}
+            .value=${config.step_high != null ? String(config.step_high) : ''}
+            type="number"
+            @change=${(e: Event) => {
+              const val = (e.target as HTMLInputElement).value;
+              this._updateField(type, index, 'step_high', val ? Number(val) : undefined);
+            }}
+          ></ha-textfield>
+        </div>
+
+        <div class="sensor-field-row">
           <ha-entity-picker
             .hass=${this.hass}
             .value=${config.min || ''}
@@ -203,6 +224,28 @@ export class MonitorSensorEditor extends LitElement {
           @value-changed=${(e: CustomEvent) =>
             this._updateField(type, index, 'availability_entity', e.detail.value || undefined)}
         ></ha-entity-picker>
+
+        <div class="sensor-field-row">
+          <ha-entity-picker
+            .hass=${this.hass}
+            .value=${config.last_updated_entity || ''}
+            .label=${'Last updated entity (optional)'}
+            allow-custom-entity
+            @value-changed=${(e: CustomEvent) =>
+              this._updateField(type, index, 'last_updated_entity', e.detail.value || undefined)}
+          ></ha-entity-picker>
+          <ha-textfield
+            .label=${'Last updated attribute'}
+            .value=${config.last_updated_attribute || ''}
+            @change=${(e: Event) =>
+              this._updateField(
+                type,
+                index,
+                'last_updated_attribute',
+                (e.target as HTMLInputElement).value || undefined,
+              )}
+          ></ha-textfield>
+        </div>
 
         ${this.freeform || !this.registry[type]
           ? html`

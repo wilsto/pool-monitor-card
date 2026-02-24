@@ -546,6 +546,204 @@ describe('PoolMonitorCard', () => {
   });
 
   // -------------------------------------------------------------------
+  // step_low / step_high (asymmetric ranges) — #72
+  // -------------------------------------------------------------------
+  describe('asymmetric ranges (step_low/step_high)', () => {
+    beforeEach(() => {
+      card.setConfig({
+        sensors: { ph: { entity: 'sensor.pool_ph' } },
+        display: { show_labels: true },
+      });
+    });
+
+    function calcWithAsymmetricStep(phValue, step_low, step_high) {
+      const hass = {
+        states: {
+          'sensor.pool_ph': {
+            state: String(phValue),
+            attributes: { unit_of_measurement: 'pH' },
+            last_updated: new Date().toISOString(),
+          },
+        },
+      };
+      card.hass = hass;
+      return card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 3, undefined, 'ppm', undefined, undefined, 'centric',
+        0, undefined, undefined, false, step_low, step_high,
+      );
+    }
+
+    test('should compute asymmetric setpoint_class with step_low=1.4, step_high=2.4', () => {
+      // FC ideal=3, step_low=1.4, step_high=2.4
+      // Expected breakpoints: 3-2*1.4=0.2, 3-1.4=1.6, 3, 3+2.4=5.4, 3+2*2.4=7.8
+      const data = calcWithAsymmetricStep(3, 1.4, 2.4);
+      expect(data.setpoint_class).toHaveLength(5);
+      expect(parseFloat(data.setpoint_class[0])).toBeCloseTo(0.2, 1);  // sp - 2*step_low
+      expect(parseFloat(data.setpoint_class[1])).toBeCloseTo(1.6, 1);  // sp - 1*step_low
+      expect(parseFloat(data.setpoint_class[2])).toBeCloseTo(3.0, 1);  // sp
+      expect(parseFloat(data.setpoint_class[3])).toBeCloseTo(5.4, 1);  // sp + 1*step_high
+      expect(parseFloat(data.setpoint_class[4])).toBeCloseTo(7.8, 1);  // sp + 2*step_high
+    });
+
+    test('should classify value in asymmetric "Ideal" range correctly', () => {
+      // Value 4.0 is between sp-step_low (1.6) and sp+step_high (5.4) → should be "Ideal"
+      const data = calcWithAsymmetricStep(4.0, 1.4, 2.4);
+      expect(data.color).toBe('#00b894'); // normal/ideal
+    });
+
+    test('should classify value below asymmetric low range as "Acceptable Low"', () => {
+      // Value 1.0 is between sp-2*step_low (0.2) and sp-step_low (1.6) → "Acceptable Low"
+      const data = calcWithAsymmetricStep(1.0, 1.4, 2.4);
+      expect(data.color).toBe('#fdcb6e'); // low
+    });
+
+    test('should classify value above asymmetric high range as "Acceptable High"', () => {
+      // Value 6.0 is between sp+step_high (5.4) and sp+2*step_high (7.8) → "Acceptable High"
+      const data = calcWithAsymmetricStep(6.0, 1.4, 2.4);
+      expect(data.color).toBe('#fdcb6e'); // low
+    });
+
+    test('should classify value way above as "Too High"', () => {
+      // Value 8.0 >= sp+2*step_high (7.8) → "Too High"
+      const data = calcWithAsymmetricStep(8.0, 1.4, 2.4);
+      expect(data.color).toBe('#e17055'); // warn
+    });
+
+    test('should fall back to symmetric step when step_low/step_high not provided', () => {
+      const hass = {
+        states: {
+          'sensor.pool_ph': {
+            state: '7.3',
+            attributes: {},
+            last_updated: new Date().toISOString(),
+          },
+        },
+      };
+      card.hass = hass;
+      // No step_low/step_high → symmetric with step=0.2
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false,
+      );
+      // Symmetric: 6.8, 7.0, 7.2, 7.4, 7.6
+      expect(parseFloat(data.setpoint_class[0])).toBeCloseTo(6.8, 1);
+      expect(parseFloat(data.setpoint_class[4])).toBeCloseTo(7.6, 1);
+    });
+
+    test('setConfig should pass step_low/step_high from user config to sensor', () => {
+      card.setConfig({
+        sensors: {
+          free_chlorine: {
+            entity: 'sensor.pool_ph',
+            setpoint: 3,
+            step_low: 1.4,
+            step_high: 2.4,
+          },
+        },
+      });
+      const cfg = card.getConfig();
+      expect(cfg.sensors.free_chlorine[0].step_low).toBe(1.4);
+      expect(cfg.sensors.free_chlorine[0].step_high).toBe(2.4);
+    });
+  });
+
+  // -------------------------------------------------------------------
+  // last_updated_entity / last_updated_attribute (#65)
+  // -------------------------------------------------------------------
+  describe('last_updated_entity / last_updated_attribute', () => {
+    const measureDate = '2025-05-11T14:38:19.000Z';
+
+    beforeEach(() => {
+      card.setConfig({
+        sensors: { ph: { entity: 'sensor.pool_ph' } },
+        display: { show_last_updated: true },
+      });
+      card.hass = {
+        states: {
+          'sensor.pool_ph': {
+            state: '7.3',
+            attributes: { unit_of_measurement: 'pH' },
+            last_updated: new Date().toISOString(),
+          },
+          'sensor.poollab_ph': {
+            state: '7.1',
+            attributes: { measured_at: measureDate },
+            last_updated: new Date().toISOString(),
+          },
+        },
+      };
+    });
+
+    test('should use last_updated_attribute from same entity when set', () => {
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.poollab_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false, undefined, undefined,
+        undefined, 'measured_at',
+      );
+      // Should use the measured_at attribute date, not HA's last_updated
+      expect(data.last_updated).toBeDefined();
+      expect(data.last_updated).toContain('ago');
+    });
+
+    test('should use last_updated_entity to read timestamp from a different entity', () => {
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false, undefined, undefined,
+        'sensor.poollab_ph', 'measured_at',
+      );
+      // Should read timestamp from sensor.poollab_ph.attributes.measured_at
+      expect(data.last_updated).toBeDefined();
+      expect(data.last_updated).toContain('ago');
+    });
+
+    test('should fall back to HA last_updated when params not provided', () => {
+      const data = card.calculateData(
+        'ph', 'pH', 'sensor.pool_ph',
+        undefined, undefined, 7.2, 0.2, 'pH', undefined, undefined, 'centric',
+        0, undefined, undefined, false,
+      );
+      // Default behavior: use entityState.last_updated
+      expect(data.last_updated).toBeDefined();
+    });
+
+    test('setConfig should pass last_updated_entity/attribute from user config', () => {
+      card.setConfig({
+        sensors: {
+          ph: {
+            entity: 'sensor.pool_ph',
+            last_updated_entity: 'sensor.poollab_ph',
+            last_updated_attribute: 'measured_at',
+          },
+        },
+      });
+      const cfg = card.getConfig();
+      expect(cfg.sensors.ph[0].last_updated_entity).toBe('sensor.poollab_ph');
+      expect(cfg.sensors.ph[0].last_updated_attribute).toBe('measured_at');
+    });
+
+    test('processData should pass last_updated params to calculateData', () => {
+      card.setConfig({
+        sensors: {
+          ph: {
+            entity: 'sensor.pool_ph',
+            last_updated_entity: 'sensor.poollab_ph',
+            last_updated_attribute: 'measured_at',
+          },
+        },
+        display: { show_last_updated: true },
+      });
+      card.hass = card.hass;
+      const data = card.processData();
+      // Should have used the poollab_ph measured_at attribute
+      expect(data['ph_1'].last_updated).toBeDefined();
+    });
+  });
+
+  // -------------------------------------------------------------------
   // timeFromNow
   // -------------------------------------------------------------------
   describe('timeFromNow', () => {

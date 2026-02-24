@@ -21,6 +21,8 @@ export interface SensorPreset {
   unit: string;
   setpoint: number;
   step: number;
+  step_low?: number;
+  step_high?: number;
   mode: 'centric' | 'heatflow';
   min_limit?: number;
   override?: string;
@@ -63,6 +65,8 @@ export interface SensorUserConfig {
   max?: string;
   setpoint?: number;
   step?: number;
+  step_low?: number;
+  step_high?: number;
   unit?: string;
   icon?: string;
   image_url?: string;
@@ -73,6 +77,8 @@ export interface SensorUserConfig {
   invalid?: boolean;
   nameDefinedByUser?: boolean;
   availability_entity?: string;
+  last_updated_entity?: string;
+  last_updated_attribute?: string;
 }
 
 export interface CardConfig {
