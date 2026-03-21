@@ -74,6 +74,10 @@ export const styles = css`
     margin-top: 35px;
   }
 
+  .section-compact .pool-monitor-entity-img {
+    margin-top: 0;
+  }
+
   .section-row {
     display: flex;
     align-items: flex-start;

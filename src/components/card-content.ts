@@ -169,17 +169,21 @@ export class cardContent {
           </div>
         </div>
       </div>
-      <div style="text-align:left;padding-left:15px;">
-        ${data.title}
-        ${data.battery_icon
-          ? html`<span class="battery-indicator" style="color: ${data.battery_color};">
-              <ha-icon icon="${data.battery_icon}" style="--mdc-icon-size: 14px;"></ha-icon>
-              ${data.battery_level != null ? html`${data.battery_level}%` : ''}
-            </span>`
+      <div
+        style="display:flex;justify-content:space-between;align-items:center;padding:0 15px;margin-top:-5px;font-size:0.8em;color:var(--secondary-text-color);"
+      >
+        <span>
+          ${data.title}
+          ${data.battery_icon
+            ? html`<span class="battery-indicator" style="color: ${data.battery_color};">
+                <ha-icon icon="${data.battery_icon}" style="--mdc-icon-size: 14px;"></ha-icon>
+                ${data.battery_level != null ? html`${data.battery_level}%` : ''}
+              </span>`
+            : ''}
+        </span>
+        ${data.last_updated
+          ? html`<span style="font-size:0.85em;opacity:0.7;">${data.last_updated}</span>`
           : ''}
-        <br /><small style="position: relative;top:-5px;font-size:9px;color:lightgrey"
-          >${data.last_updated}</small
-        >
       </div>
     `;
   }
