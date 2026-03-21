@@ -71,6 +71,7 @@ export const styles = css`
     text-align: right;
     width: 10%;
     flex-shrink: 0;
+    margin-top: 35px;
   }
 
   .section-row {
