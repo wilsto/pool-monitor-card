@@ -1737,4 +1737,128 @@ describe('PoolMonitorCard', () => {
       );
     });
   });
+
+  // -------------------------------------------------------------------
+  // Marker positioning (#75, #76) — unified coordinate system
+  // -------------------------------------------------------------------
+  describe('marker positioning', () => {
+    beforeEach(() => {
+      card.setConfig(multiSensorConfig);
+      card.hass = mockHass;
+    });
+
+    function calcWithValue(value, setpoint = 27, step = 1) {
+      const hass = {
+        ...mockHass,
+        states: {
+          ...mockHass.states,
+          'sensor.pool_temperature': {
+            state: String(value),
+            attributes: { unit_of_measurement: '°C' },
+            last_updated: new Date().toISOString(),
+          },
+        },
+      };
+      card.hass = hass;
+      return card.calculateData(
+        'temperature',
+        'Temperature',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        setpoint,
+        step,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
+      );
+    }
+
+    test('pct for setpoint value should be 50%', () => {
+      const data = calcWithValue(27);
+      expect(parseFloat(data.pct)).toBeCloseTo(50, 0);
+    });
+
+    test('pct for barLeft value should be 0%', () => {
+      // barLeft = 27 - 3*1 = 24
+      const data = calcWithValue(24);
+      expect(parseFloat(data.pct)).toBe(0);
+    });
+
+    test('pct for barLeft+barWidth value should be 100%', () => {
+      // barLeft+barWidth = 24 + 6 = 30
+      const data = calcWithValue(30);
+      expect(parseFloat(data.pct)).toBe(100);
+    });
+
+    test('pct should clamp below 0%', () => {
+      const data = calcWithValue(20);
+      expect(parseFloat(data.pct)).toBe(0);
+    });
+
+    test('pct should clamp above 100%', () => {
+      const data = calcWithValue(35);
+      expect(parseFloat(data.pct)).toBe(100);
+    });
+
+    test('pct_marker should equal pct (no hardcoded offsets)', () => {
+      const data = calcWithValue(26.5);
+      expect(parseFloat(data.pct_marker)).toBeCloseTo(parseFloat(data.pct), 1);
+    });
+
+    test('label_positions should exist and have 5 entries', () => {
+      const data = calcWithValue(27);
+      expect(data.label_positions).toBeDefined();
+      expect(data.label_positions).toHaveLength(5);
+    });
+
+    test('label_positions[2] (setpoint) should equal 50% for symmetric steps', () => {
+      const data = calcWithValue(27);
+      expect(data.label_positions[2]).toBeCloseTo(50, 1);
+    });
+
+    test('label_positions should be evenly spaced for symmetric steps', () => {
+      const data = calcWithValue(27);
+      // sp=27, step=1: labels at 25,26,27,28,29 → ratios 1/6,2/6,3/6,4/6,5/6
+      expect(data.label_positions[0]).toBeCloseTo(16.67, 0);
+      expect(data.label_positions[1]).toBeCloseTo(33.33, 0);
+      expect(data.label_positions[2]).toBeCloseTo(50.0, 0);
+      expect(data.label_positions[3]).toBeCloseTo(66.67, 0);
+      expect(data.label_positions[4]).toBeCloseTo(83.33, 0);
+    });
+
+    test('label_positions should be proportional for asymmetric steps', () => {
+      const data = card.calculateData(
+        'free_chlorine',
+        'FC',
+        'sensor.pool_temperature',
+        undefined,
+        undefined,
+        3,
+        undefined,
+        'ppm',
+        undefined,
+        undefined,
+        'centric',
+        undefined,
+        undefined,
+        undefined,
+        false,
+        1.4,
+        2.4,
+      );
+      expect(data.label_positions).toBeDefined();
+      // Asymmetric: step_low=1.4, step_high=2.4
+      // barLeft = 3-3*1.4 = -1.2, barWidth = 3*1.4+3*2.4 = 11.4
+      // label[0]=0.2: (0.2-(-1.2))/11.4 = 12.28%
+      // label[2]=3.0: (3.0-(-1.2))/11.4 = 36.84%
+      expect(data.label_positions[0]).toBeCloseTo(12.28, 0);
+      expect(data.label_positions[2]).toBeCloseTo(36.84, 0);
+    });
+  });
 });

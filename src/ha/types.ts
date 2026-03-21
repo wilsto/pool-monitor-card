@@ -129,6 +129,7 @@ export interface SensorData {
   side_align: string;
   pct_cursor: number;
   pct_state_step: number;
+  label_positions: number[];
   disabled?: boolean;
   battery_level?: number | null;
   battery_icon?: string;

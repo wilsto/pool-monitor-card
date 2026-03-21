@@ -34,6 +34,7 @@ export const styles = css`
     box-shadow: var(--ha-card-box-shadow);
     color: var(--primary-text-color);
     display: block;
+    overflow: hidden;
     transition: all 0.3s ease-out 0s;
     position: relative;
     padding-top: 25px;
@@ -69,31 +70,75 @@ export const styles = css`
   .pool-monitor-entity-img {
     text-align: right;
     width: 10%;
-    float: left;
+    flex-shrink: 0;
+  }
+
+  .section-row {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  /** Unified gauge container — marker, bar, labels share same coordinate space */
+  .sensor-gauge {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .gauge-marker-zone {
+    position: relative;
+    height: 35px;
+  }
+
+  .gauge-marker-zone .marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 20px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .gauge-marker-zone .marker-state {
+    font-size: 0.85em;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  .gauge-marker-zone .triangle {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    position: absolute;
+    bottom: 0px;
+    z-index: 2;
   }
 
   /** Main container layouts */
   .pool-monitor-container {
     display: grid;
-    padding: 5px;
+    padding: 5px 0;
     height: 15px;
-  }
-
-  .pool-monitor-container-values {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    padding-top: 0px;
-    padding-left: 20px;
-    margin-top: -10px;
-  }
-
-  .pool-monitor-container-marker {
-    display: grid;
-    grid-template-columns: 10% repeat(6, 1fr) 5%;
-    padding: 10px;
-    grid-template-rows: 15px;
-    line-height: 15px;
     position: relative;
+  }
+
+  .gauge-labels {
+    position: relative;
+    height: 18px;
+    margin-top: -5px;
+  }
+
+  .gauge-label {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: 0.8em;
+    white-space: nowrap;
   }
 
   .grid-container {
@@ -104,37 +149,6 @@ export const styles = css`
     line-height: 15px;
     position: relative;
     margin: 0px;
-  }
-
-  .pool-monitor-container-marker .marker {
-    text-align: center;
-    justify-self: center;
-    min-width: 80px;
-    height: 20px;
-    padding-top: 5px;
-    border-radius: 5px;
-    position: absolute;
-    z-index: 1;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  .pool-monitor-container-marker .marker-state {
-    width: 60px;
-    position: absolute;
-    z-index: 1;
-  }
-
-  .pool-monitor-container-marker .triangle {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: absolute;
-    bottom: 0px;
-    transform: translateX(-50%);
   }
 
   .grid-item {
@@ -165,16 +179,15 @@ export const styles = css`
   .cursor-text {
     position: absolute;
     width: 200px;
-    height: 17px;
+    height: 15px;
     padding-left: 3px;
     padding-right: 3px;
     padding-top: 0px;
-    margin-top: -1px;
+    top: 5px;
     font-size: 11px;
     font-weight: 500;
     text-align: right;
     color: black;
-    justify-self: right;
     z-index: 1;
   }
 

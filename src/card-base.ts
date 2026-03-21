@@ -69,6 +69,27 @@ export class MonitorCardBase extends LitElement {
     </div>`;
   }
 
+  getCardSize(): number {
+    if (!this.config?.sensors) return 3;
+    const sensorCount = Object.values(this.config.sensors).reduce(
+      (count: number, s: unknown) => count + (Array.isArray(s) ? s.length : 1),
+      0,
+    );
+    const compact = this.config?.display?.compact;
+    const titleRows = this.config?.title ? 1 : 0;
+    return titleRows + sensorCount * (compact ? 2 : 3);
+  }
+
+  getGridOptions(): { rows: number; min_rows: number; columns: number; min_columns: number } {
+    const size = this.getCardSize();
+    return {
+      rows: size,
+      min_rows: Math.max(2, Math.ceil(size / 2)),
+      columns: 12,
+      min_columns: 6,
+    };
+  }
+
   processData(): Record<string, SensorData> {
     const data: Record<string, SensorData> = {};
     const config = this.getConfig();
@@ -401,28 +422,29 @@ export class MonitorCardBase extends LitElement {
     const barLeft = sp_val - 3 * sp_step_low;
     const barWidth = 3 * sp_step_low + 3 * sp_step_high;
 
-    newData.pct = Math.max(
-      0,
-      Math.min(98.5, (Math.max(0, newData.value - barLeft) / barWidth) * 0.85 * 100 + 15),
-    ).toFixed(0);
-    newData.pct_min = Math.max(
-      0,
-      Math.min(98.5, (Math.max(0, newData.min_value - barLeft) / barWidth) * 0.85 * 100 + 15),
-    ).toFixed(0);
-    newData.pct_max = Math.max(
-      0,
-      Math.min(98.5, (Math.max(0, newData.max_value - barLeft) / barWidth) * 0.85 * 100 + 15),
-    ).toFixed(0);
-    newData.pct_marker = newData.value > newData.setpoint ? newData.pct - 12 : newData.pct - 5;
+    // Unified ratio formula: maps value to [0, 1] within the bar range
+    const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+    const toRatio = (v: number) => (barWidth > 0 ? clamp01((v - barLeft) / barWidth) : 0);
+
+    const ratio = toRatio(newData.value);
+    newData.pct = (ratio * 100).toFixed(1);
+    newData.pct_marker = ratio * 100;
     newData.side_align = newData.value > sp_val ? 'right' : 'left';
-    newData.pct_cursor =
-      newData.value > sp_val ? 100 - parseFloat(newData.pct) : parseFloat(newData.pct) - 2;
-    newData.pct_state_step =
-      newData.value > sp_val ? 105 - parseFloat(newData.pct) : parseFloat(newData.pct) + 5;
-    newData.pct_min =
-      newData.value > sp_val ? 100 - parseFloat(newData.pct_min) : parseFloat(newData.pct_min) - 2;
-    newData.pct_max =
-      newData.value > sp_val ? 100 - parseFloat(newData.pct_max) : parseFloat(newData.pct_max) - 2;
+    newData.pct_cursor = newData.value > sp_val ? 100 - ratio * 100 : ratio * 100;
+    newData.pct_state_step = newData.value > sp_val ? 100 - ratio * 100 + 1 : ratio * 100 + 1;
+    const ratioMinVal = toRatio(newData.min_value) * 100;
+    const ratioMaxVal = toRatio(newData.max_value) * 100;
+    newData.pct_min = newData.value > sp_val ? 100 - ratioMinVal : ratioMinVal;
+    newData.pct_max = newData.value > sp_val ? 100 - ratioMaxVal : ratioMaxVal;
+
+    // Label positions: same formula applied to each label value
+    newData.label_positions = [
+      toRatio(sp_minus_2) * 100,
+      toRatio(sp_minus_1) * 100,
+      toRatio(sp_0) * 100,
+      toRatio(sp_plus_1) * 100,
+      toRatio(sp_plus_2) * 100,
+    ];
 
     return newData;
   }

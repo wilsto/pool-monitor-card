@@ -63,6 +63,7 @@ describe('cardContent', () => {
       mdi_icon: 'mdi:thermometer',
       mode: 'heatflow',
       setpoint_class: ['25', '26', '27', '28', '29'],
+      label_positions: [16.67, 33.33, 50, 66.67, 83.33],
       pct_min: 48,
       pct_max: 52,
       pct_cursor: 50,
@@ -125,10 +126,28 @@ describe('cardContent', () => {
       expect(hasGrid).toBe(true);
     });
 
-    test('should render setpoint values container', () => {
+    test('should wrap icon and bar in section-row flex container', () => {
       const result = cardContent.generateBody(defaultConfig, defaultData);
       const { statics } = templateParts(result);
-      expect(statics).toContain('pool-monitor-container-values');
+      expect(statics).toContain('section-row');
+    });
+
+    test('should contain sensor-gauge unified container', () => {
+      const result = cardContent.generateBody(defaultConfig, defaultData);
+      const { statics } = templateParts(result);
+      expect(statics).toContain('sensor-gauge');
+    });
+
+    test('should contain gauge-labels for absolute-positioned labels', () => {
+      const result = cardContent.generateBody(defaultConfig, defaultData);
+      const { statics } = templateParts(result);
+      expect(statics).toContain('gauge-labels');
+    });
+
+    test('should contain gauge-label class for individual labels', () => {
+      const result = cardContent.generateBody(defaultConfig, defaultData);
+      const { statics } = templateParts(result);
+      expect(statics).toContain('gauge-label');
     });
 
     test('should render min/max markers when different from cursor', () => {
@@ -186,6 +205,7 @@ describe('cardContent', () => {
       mdi_icon: 'mdi:flask',
       mode: 'centric',
       setpoint_class: ['6.8', '7.0', '7.2', '7.4', '7.6'],
+      label_positions: [16.67, 33.33, 50, 66.67, 83.33],
       separator: '-',
       title: 'pH',
       pct_min: 48,
@@ -203,6 +223,12 @@ describe('cardContent', () => {
       const result = cardContent.generateCompactBody(defaultConfig, defaultData);
       const { statics } = templateParts(result);
       expect(statics).toContain('section-compact');
+    });
+
+    test('should wrap icon and bar in section-row flex container', () => {
+      const result = cardContent.generateCompactBody(defaultConfig, defaultData);
+      const { statics } = templateParts(result);
+      expect(statics).toContain('section-row');
     });
 
     test('should include cursor-text in compact display', () => {
