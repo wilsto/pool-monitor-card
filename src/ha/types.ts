@@ -46,6 +46,8 @@ export interface DisplayConfig {
   show_units: boolean;
   gradient: boolean;
   language: string;
+  name_font_size?: string;
+  name_font_weight?: string;
 }
 
 export interface ColorConfig {

@@ -3,6 +3,13 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.11.0] - 2026-03-29
+
+### Added
+
+- Customizable name font: `name_font_size` and `name_font_weight` display options for both normal and compact modes — closes #79
+- Visual editor fields for name font size and weight under Display settings
+
 ## [2.10.2] - 2026-03-29
 
 ### Fixed

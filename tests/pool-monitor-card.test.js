@@ -73,6 +73,30 @@ describe('PoolMonitorCard', () => {
       expect(cfg.display.show_names).toBe(true);
     });
 
+    test('should default name_font_size to undefined', () => {
+      card.setConfig(validConfig);
+      const cfg = card.getConfig();
+      expect(cfg.display.name_font_size).toBeUndefined();
+    });
+
+    test('should default name_font_weight to undefined', () => {
+      card.setConfig(validConfig);
+      const cfg = card.getConfig();
+      expect(cfg.display.name_font_weight).toBeUndefined();
+    });
+
+    test('should accept custom name_font_size', () => {
+      card.setConfig({ ...validConfig, display: { name_font_size: '1.2em' } });
+      const cfg = card.getConfig();
+      expect(cfg.display.name_font_size).toBe('1.2em');
+    });
+
+    test('should accept custom name_font_weight', () => {
+      card.setConfig({ ...validConfig, display: { name_font_weight: 'bold' } });
+      const cfg = card.getConfig();
+      expect(cfg.display.name_font_weight).toBe('bold');
+    });
+
     test('should merge color defaults', () => {
       card.setConfig(validConfig);
       const cfg = card.getConfig();

@@ -170,9 +170,14 @@ export class cardContent {
         </div>
       </div>
       <div
-        style="display:flex;justify-content:space-between;align-items:center;padding:0 15px;margin-top:-5px;font-size:0.8em;color:var(--secondary-text-color);"
+        style="display:flex;justify-content:space-between;align-items:center;padding:0 15px;margin-top:-5px;font-size:${config
+          .display.name_font_size || '0.8em'};color:var(--secondary-text-color);"
       >
-        <span>
+        <span
+          style="${config.display.name_font_weight
+            ? `font-weight:${config.display.name_font_weight}`
+            : ''}"
+        >
           ${data.title}
           ${data.battery_icon
             ? html`<span class="battery-indicator" style="color: ${data.battery_color};">
@@ -269,7 +274,12 @@ export class cardContent {
               <div
                 class="cursor-text"
                 style="border-${data.side_align}: 5px solid ${config.colors
-                  .marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;"
+                  .marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;${config
+                  .display.name_font_size
+                  ? `font-size:${config.display.name_font_size}`
+                  : ''}${config.display.name_font_weight
+                  ? `;font-weight:${config.display.name_font_weight}`
+                  : ''}"
               >
                 &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : '—'}
                 ${data.separator} ${data.state}

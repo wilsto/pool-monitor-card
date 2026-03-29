@@ -34,6 +34,22 @@ export const DISPLAY_SCHEMA: HaFormSchema[] = [
       },
     },
   },
+  { name: 'name_font_size', label: 'Name font size (e.g. 0.8em, 14px)', selector: { text: {} } },
+  {
+    name: 'name_font_weight',
+    label: 'Name font weight',
+    selector: {
+      select: {
+        options: [
+          { value: '', label: 'Default' },
+          { value: 'normal', label: 'Normal' },
+          { value: 'bold', label: 'Bold' },
+          { value: '300', label: 'Light (300)' },
+          { value: '600', label: 'Semi-bold (600)' },
+        ],
+      },
+    },
+  },
 ];
 
 export const COLORS_SCHEMA: HaFormSchema[] = [
