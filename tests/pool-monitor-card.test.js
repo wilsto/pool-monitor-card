@@ -271,6 +271,74 @@ describe('PoolMonitorCard', () => {
       expect(data.pct).toBe('50');
     });
 
+    test('should set label_positions as array of 5 numbers for NaN state (#80)', () => {
+      const hass = {
+        states: {
+          'sensor.bad': {
+            state: 'unavailable',
+            attributes: {},
+            last_updated: new Date().toISOString(),
+          },
+        },
+      };
+      card.hass = hass;
+      const data = card.calculateData(
+        'free_chlorine',
+        'Free Chlorine',
+        'sensor.bad',
+        undefined,
+        undefined,
+        3,
+        1,
+        'ppm',
+        undefined,
+        undefined,
+        'centric',
+        undefined,
+        undefined,
+        undefined,
+        false,
+      );
+      expect(data.label_positions).toBeDefined();
+      expect(Array.isArray(data.label_positions)).toBe(true);
+      expect(data.label_positions).toHaveLength(5);
+      data.label_positions.forEach(pos => {
+        expect(typeof pos).toBe('number');
+        expect(isNaN(pos)).toBe(false);
+      });
+    });
+
+    test('should set pct_marker as number (not string) for NaN state (#80)', () => {
+      const hass = {
+        states: {
+          'sensor.bad': {
+            state: 'unknown',
+            attributes: {},
+            last_updated: new Date().toISOString(),
+          },
+        },
+      };
+      card.hass = hass;
+      const data = card.calculateData(
+        'temperature',
+        'Temperature',
+        'sensor.bad',
+        undefined,
+        undefined,
+        27,
+        1,
+        '°C',
+        undefined,
+        undefined,
+        'heatflow',
+        undefined,
+        undefined,
+        undefined,
+        false,
+      );
+      expect(typeof data.pct_marker).toBe('number');
+    });
+
     test('should use default setpoint from POOL_SENSORS when not provided', () => {
       const data = card.calculateData(
         'temperature',
@@ -1535,6 +1603,78 @@ describe('PoolMonitorCard', () => {
       };
       const status = card.resolveStatus();
       expect(status).toBeNull();
+    });
+
+    test('resolveStatus should map WaterGuru "GREEN" to green (#77)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'GREEN', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#00b894');
+    });
+
+    test('resolveStatus should map WaterGuru "RED" to red (#77)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'RED', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#e17055');
+    });
+
+    test('resolveStatus should map WaterGuru "YELLOW" to orange (#77)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'YELLOW', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#fdcb6e');
+    });
+
+    test('resolveStatus should map "high" to red (#77)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'high', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#e17055');
+    });
+
+    test('resolveStatus should map "low" to red (#77)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'low', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#e17055');
+    });
+
+    test('resolveStatus should map "normal" to green (#77)', () => {
+      card.setConfig({ ...validConfig, status_entity: 'sensor.pool_status' });
+      card.hass = {
+        states: {
+          ...mockSensorStates,
+          'sensor.pool_status': { state: 'normal', attributes: {} },
+        },
+      };
+      const status = card.resolveStatus();
+      expect(status.color).toBe('#00b894');
     });
   });
 

@@ -3,6 +3,17 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.10.2] - 2026-03-29
+
+### Fixed
+
+- Sensors with unavailable/unknown state no longer crash the entire card — closes #80
+- Sensor add dropdown in visual editor now works on HA 2026.2+ (replaced deprecated mwc-list-item with native select) — closes #78
+
+### Added
+
+- WaterGuru device support: status_entity now recognizes GREEN/RED/YELLOW/high/low/normal text states — closes #77
+
 ## [2.9.0] - 2026-02-24
 
 ### Added

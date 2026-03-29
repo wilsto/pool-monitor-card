@@ -357,27 +357,27 @@ export class MonitorSensorEditor extends LitElement {
 
     return html`
       <div class="add-sensor-row">
-        <ha-select
-          .label=${'Add sensor'}
-          .value=${''}
-          @selected=${(e: CustomEvent) => {
-            const type = (e.target as HTMLSelectElement).value;
-            if (type) this._addPresetSensor(type);
+        <select
+          class="sensor-select"
+          @change=${(e: Event) => {
+            const select = e.target as HTMLSelectElement;
+            const type = select.value;
+            if (type) {
+              this._addPresetSensor(type);
+              select.value = '';
+            }
           }}
         >
+          <option value="">Add sensor...</option>
           ${categoryOrder
             .filter(cat => grouped[cat]?.length > 0)
             .map(
               cat => html`
-                <mwc-list-item disabled value="" style="opacity: 0.6; font-weight: bold;">
-                  — ${categoryLabels[cat]} —
-                </mwc-list-item>
-                ${grouped[cat].map(
-                  opt => html`<mwc-list-item .value=${opt.value}>${opt.label}</mwc-list-item>`,
-                )}
+                <option disabled>— ${categoryLabels[cat]} —</option>
+                ${grouped[cat].map(opt => html`<option value=${opt.value}>${opt.label}</option>`)}
               `,
             )}
-        </ha-select>
+        </select>
       </div>
     `;
   }

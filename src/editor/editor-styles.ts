@@ -133,6 +133,27 @@ export const editorStyles = css`
     color: var(--secondary-text-color);
   }
 
+  .sensor-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--divider-color);
+    border-radius: 8px;
+    background: var(--secondary-background-color);
+    color: var(--primary-text-color);
+    font-size: 14px;
+    cursor: pointer;
+    appearance: auto;
+  }
+
+  .sensor-select:hover {
+    border-color: var(--primary-color);
+  }
+
+  .sensor-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+
   .empty-message {
     padding: 16px;
     text-align: center;

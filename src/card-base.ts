@@ -253,12 +253,13 @@ export class MonitorCardBase extends LitElement {
       newData.pct_min = '50';
       newData.pct_max = '50';
       newData.pct_cursor = '50';
-      newData.pct_marker = '50';
+      newData.pct_marker = 50;
       newData.pct_state_step = '50';
       newData.side_align = 'left';
       newData.separator = '';
       newData.unit = '';
       newData.setpoint_class = ['', '', '', '', ''];
+      newData.label_positions = [50, 50, 50, 50, 50];
       newData.progressClass = '';
       if (config.display.show_last_updated) {
         newData.last_updated = this.resolveLastUpdated(
@@ -480,9 +481,9 @@ export class MonitorCardBase extends LitElement {
       level = numVal <= 33 ? 'danger' : numVal <= 66 ? 'warning' : 'good';
     } else {
       const lower = stateVal.toLowerCase();
-      const greenStates = ['safe', 'good', 'ok', 'healthy', 'optimal'];
-      const orangeStates = ['warning', 'caution', 'moderate'];
-      const redStates = ['danger', 'critical', 'bad', 'poor', 'unsafe'];
+      const greenStates = ['safe', 'good', 'ok', 'healthy', 'optimal', 'green', 'normal'];
+      const orangeStates = ['warning', 'caution', 'moderate', 'yellow'];
+      const redStates = ['danger', 'critical', 'bad', 'poor', 'unsafe', 'red', 'high', 'low'];
 
       if (greenStates.includes(lower)) level = 'good';
       else if (orangeStates.includes(lower)) level = 'warning';
