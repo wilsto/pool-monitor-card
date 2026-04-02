@@ -15,6 +15,7 @@ import ru from './ru.js';
 import hu from './hu.js';
 import sv from './sv.js';
 import cs from './cs.js';
+import da from './da.js';
 
 export const translations: Record<string, TranslationSet> = {
   en,
@@ -32,6 +33,7 @@ export const translations: Record<string, TranslationSet> = {
   hu,
   sv,
   cs,
+  da
 };
 
 export const getTranslation = (lang: string, key: string): string => {
