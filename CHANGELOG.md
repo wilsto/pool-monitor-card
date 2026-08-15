@@ -3,6 +3,12 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.11.1] - 2026-08-15
+
+### Fixed
+
+- The console banner reported `2.10.1` while the card was published as `2.11.0`. The version is duplicated between `package.json` and a constant in the source, and the two had drifted. A test now fails when they diverge.
+
 ## [2.11.0] - 2026-03-29
 
 ### Added
