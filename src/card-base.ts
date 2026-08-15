@@ -32,41 +32,46 @@ export class MonitorCardBase extends LitElement {
       : cardContent.generateBody;
 
     if (!data || Object.keys(data).length === 0) {
-      return html` <div id="pool-monitor-card">
-        <div class="warning-message">
-          <ha-icon icon="mdi:alert"></ha-icon>
-          <span>No valid sensor data available</span>
-        </div>
-      </div>`;
+      return html` <ha-card
+        ><div id="pool-monitor-card">
+          <div class="warning-message">
+            <ha-icon icon="mdi:alert"></ha-icon>
+            <span>No valid sensor data available</span>
+          </div>
+        </div></ha-card
+      >`;
     }
 
-    return html` <div id="pool-monitor-card">
-      ${cardContent.generateTitle(config)} ${status ? cardContent.generateStatusBadge(status) : ''}
-      ${Object.values(data).map(sensorData => {
-        if (sensorData?.invalid) {
-          return html`
-            <div class="warning-message">
-              <ha-icon icon="mdi:alert"></ha-icon>
-              <span
-                >Sensor ${sensorData?.name || 'unknown'} is not supported. Please verify its
-                configuration and ensure it is compatible with the card.</span
-              >
-            </div>
-          `;
-        } else if (sensorData?.not_found) {
-          return html`
-            <div class="warning-message">
-              <ha-icon icon="mdi:alert"></ha-icon>
-              <span
-                >Entity ${sensorData?.entity || 'unknown'} could not be found. Please verify its
-                name and ensure the entity is properly configured.</span
-              >
-            </div>
-          `;
-        }
-        return generateContent(config, sensorData);
-      })}
-    </div>`;
+    return html` <ha-card
+      ><div id="pool-monitor-card">
+        ${cardContent.generateTitle(config)}
+        ${status ? cardContent.generateStatusBadge(status) : ''}
+        ${Object.values(data).map(sensorData => {
+          if (sensorData?.invalid) {
+            return html`
+              <div class="warning-message">
+                <ha-icon icon="mdi:alert"></ha-icon>
+                <span
+                  >Sensor ${sensorData?.name || 'unknown'} is not supported. Please verify its
+                  configuration and ensure it is compatible with the card.</span
+                >
+              </div>
+            `;
+          } else if (sensorData?.not_found) {
+            return html`
+              <div class="warning-message">
+                <ha-icon icon="mdi:alert"></ha-icon>
+                <span
+                  >Entity ${sensorData?.entity || 'unknown'} could not be found. Please verify its
+                  name and ensure the entity is properly configured.</span
+                >
+              </div>
+            `;
+          }
+          return generateContent(config, sensorData);
+        })}
+      </div></ha-card
+    >`;
   }
 
   getCardSize(): number {
@@ -697,4 +702,30 @@ export class MonitorCardBase extends LitElement {
 
     this.config = newConfig;
   }
+}
+
+/**
+ * Registers a card, tolerating a name already taken by another HACS card.
+ *
+ * `@customElement` defines the element at module evaluation and throws a
+ * DOMException if the name exists — which kills the whole module, not just the
+ * registration. Measured on wilsto/air-quality-card#3: another card publishes
+ * the same `air-quality-card` element name, so whichever loads second dies
+ * outright rather than merely failing to render.
+ *
+ * We do not rename: that would break every existing configuration for a case
+ * that only affects users who installed both. We do refuse to take the page
+ * down over it, and we say why in the console instead of failing mutely.
+ *
+ * The same guard already protects `monitor-sensor-editor`.
+ */
+export function defineCard(name: string, ctor: CustomElementConstructor): void {
+  if (customElements.get(name)) {
+    console.warn(
+      `[${name}] another custom card already registered this element name, so this one ` +
+        `will not render. Both cannot coexist — keep the one you want and remove the other.`,
+    );
+    return;
+  }
+  customElements.define(name, ctor);
 }

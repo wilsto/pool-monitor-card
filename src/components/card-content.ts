@@ -44,13 +44,8 @@ export class cardContent {
             ? html`
                 <div class="pool-monitor-entity-img">
                   ${data.is_mdi
-                    ? html`
-                        <ha-icon
-                          icon="${data.mdi_icon}"
-                          style="width: 32px; height: 32px;"
-                        ></ha-icon>
-                      `
-                    : html` <img src="${data.img_src}" style="width: 32px; height: 32px;" /> `}
+                    ? html` <ha-icon icon="${data.mdi_icon}" class="entity-icon"></ha-icon> `
+                    : html` <img src="${data.img_src}" class="entity-icon" /> `}
                 </div>
               `
             : ''}
@@ -121,9 +116,7 @@ export class cardContent {
                         class="grid-item item-row"
                       ></div>
                     </div>
-                    <div
-                      style="display: flex; justify-content: space-between; margin: 0 10px; font-size: 0.7em; color: var(--secondary-text-color);"
-                    >
+                    <div class="gauge-scale">
                       <span>${(data as any).min}</span>
                       <span>${(data as any).max}</span>
                     </div>
@@ -186,9 +179,7 @@ export class cardContent {
               </span>`
             : ''}
         </span>
-        ${data.last_updated
-          ? html`<span style="font-size:0.85em;opacity:0.7;">${data.last_updated}</span>`
-          : ''}
+        ${data.last_updated ? html`<span class="status-note">${data.last_updated}</span>` : ''}
       </div>
     `;
   }
@@ -206,12 +197,9 @@ export class cardContent {
                 <div class="pool-monitor-entity-img">
                   ${data.is_mdi
                     ? html`
-                        <ha-icon
-                          icon="${data.mdi_icon}"
-                          style="width: 24px; height: 24px;"
-                        ></ha-icon>
+                        <ha-icon icon="${data.mdi_icon}" class="entity-icon-compact"></ha-icon>
                       `
-                    : html` <img src="${data.img_src}" style="width: 24px; height: 24px;" /> `}
+                    : html` <img src="${data.img_src}" class="entity-icon-compact" /> `}
                 </div>
               `
             : ''}
@@ -264,9 +252,7 @@ export class cardContent {
                         class="grid-item item-row"
                       ></div>
                     </div>
-                    <div
-                      style="display: flex; justify-content: space-between; margin: 0 10px; font-size: 0.7em; color: var(--secondary-text-color);"
-                    >
+                    <div class="gauge-scale">
                       <span>${(data as any).min}</span>
                       <span>${(data as any).max}</span>
                     </div>

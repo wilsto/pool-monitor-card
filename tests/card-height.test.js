@@ -10,10 +10,13 @@ describe('Card Height & Layout (issue #74)', () => {
       expect(cssText).not.toMatch(/float\s*:/);
     });
 
-    test('should have overflow: hidden on :host', () => {
-      const hostMatch = cssText.match(/:host\s*\{([^}]+)\}/);
-      expect(hostMatch).not.toBeNull();
-      expect(hostMatch[1]).toMatch(/overflow\s*:\s*hidden/);
+    // The container moved from a bare :host to an ha-card, so that card-mod
+    // and HA themes can reach it like they do on every other card (#1).
+    // Clipping belongs to the container, wherever it lives.
+    test('should have overflow: hidden on the card container', () => {
+      const cardMatch = cssText.match(/(?:^|\s)ha-card\s*\{([^}]+)\}/);
+      expect(cardMatch).not.toBeNull();
+      expect(cardMatch[1]).toMatch(/overflow\s*:\s*hidden/);
     });
 
     test('should define section-row as flex container', () => {

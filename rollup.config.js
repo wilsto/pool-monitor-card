@@ -1,7 +1,9 @@
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
+import { readFileSync } from 'fs';
 
+const BUILD_VERSION = JSON.parse(readFileSync('./package.json', 'utf-8')).version;
 const BUILD_TIMESTAMP = new Date().toISOString().replace(/[:.T]/g, '-').substring(0, 16);
 
 export default {
@@ -16,6 +18,7 @@ export default {
   plugins: [
     replace({
       __BUILD_TIMESTAMP__: JSON.stringify(BUILD_TIMESTAMP),
+      __BUILD_VERSION__: JSON.stringify(BUILD_VERSION),
       preventAssignment: true,
     }),
     resolve(),

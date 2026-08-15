@@ -18,22 +18,24 @@ import { css } from 'lit';
  * - Gradient and color transitions
  * - Responsive design adjustments
  *
- * Uses Home Assistant CSS variables for theming:
- * - --ha-card-background
- * - --ha-card-border-radius
- * - --ha-card-border-width
- * - --ha-card-box-shadow
+ * The card container is an ha-card, so Home Assistant's own theming applies
+ * without this file restating it. Remaining variables used here:
  * - --primary-text-color
+ * - --secondary-text-color
+ * - --warning-color
  */
 export const styles = css`
-  /** Host element styles */
+  /**
+   * The card renders an ha-card, which carries Home Assistant's own background,
+   * radius, border and shadow — and which card-mod can target, as it does on
+   * every other card. :host used to imitate all of that, which is why a
+   * card-mod rule on ha-card matched nothing here (#1).
+   */
   :host {
-    background: var(--ha-card-background, var(--card-background-color, white));
-    border-radius: var(--ha-card-border-radius, 12px);
-    border-width: var(--ha-card-border-width, 4px);
-    box-shadow: var(--ha-card-box-shadow);
-    color: var(--primary-text-color);
     display: block;
+  }
+
+  ha-card {
     overflow: hidden;
     transition: all 0.3s ease-out 0s;
     position: relative;
@@ -237,6 +239,36 @@ export const styles = css`
   .status-friendly-name {
     font-size: 0.8em;
     color: var(--secondary-text-color, #888);
+  }
+
+  /**
+   * Static sizing lives here, not in inline style attributes. An inline style
+   * beats any injected stylesheet by specificity, so card-mod could not reach
+   * these — which is what @apsmith12 ran into asking to adjust element and font
+   * sizes (#1). Dynamic values (computed positions, colours from the reading)
+   * stay inline: they change per render.
+   */
+  .entity-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .entity-icon-compact {
+    width: 24px;
+    height: 24px;
+  }
+
+  .gauge-scale {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    font-size: 0.7em;
+    color: var(--secondary-text-color);
+  }
+
+  .status-note {
+    font-size: 0.85em;
+    opacity: 0.7;
   }
 
   .warning-message {

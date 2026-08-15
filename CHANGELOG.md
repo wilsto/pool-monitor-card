@@ -3,6 +3,39 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.13.0] - 2026-08-15
+
+### Fixed
+
+- **Two cards publishing the same element name no longer take the page down.** Registration is now guarded: the card that loads second declines and explains itself in the console, instead of throwing an uncaught error that killed its whole script.
+- The version announced in the console banner is read from the release itself, so it can no longer drift from the published version.
+
+### Changed
+
+- **The card now renders a standard Home Assistant `ha-card` container.** It previously drew a plain container and imitated one, which is why card-mod had no effect on it while working on every other card. Styling it works now:
+
+```yaml
+card_mod:
+  style: |
+    ha-card {
+      background: transparent;
+      box-shadow: none;
+      border: none;
+    }
+```
+
+  ⚠️ If you had worked around this by styling `:host`, check your rules — the background, border and shadow are now painted by `ha-card`.
+
+- **Sizes and colours can be restyled.** Static sizing moved out of inline attributes into named classes, so a stylesheet can reach it. An inline style beats any injected rule, which is what made this impossible before:
+
+```yaml
+card_mod:
+  style: |
+    .pool-monitor-title { font-size: 2rem; }
+    .entity-icon { color: var(--error-color); }
+    .gauge-scale { font-size: 1.1em; }
+```
+
 ## [2.12.0] - 2026-08-15
 
 ### Fixed

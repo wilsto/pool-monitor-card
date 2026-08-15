@@ -1,11 +1,11 @@
-import { customElement } from 'lit/decorators.js';
-import { MonitorCardBase } from './card-base.js';
+import { MonitorCardBase, defineCard } from './card-base.js';
 import { POOL_SENSORS } from './sensors.js';
 import type { SensorsRegistry, CardInfo } from './ha/types.js';
 
 declare let __BUILD_TIMESTAMP__: string;
+declare let __BUILD_VERSION__: string;
 
-const VERSION = '2.12.0';
+const VERSION = typeof __BUILD_VERSION__ !== 'undefined' ? __BUILD_VERSION__ : 'dev';
 const BUILD_TIMESTAMP = typeof __BUILD_TIMESTAMP__ !== 'undefined' ? __BUILD_TIMESTAMP__ : 'dev';
 const CARD_VERSION = `${VERSION} (${BUILD_TIMESTAMP})`;
 
@@ -24,7 +24,6 @@ console.info(
   documentationURL: 'https://github.com/wilsto/pool-monitor-card',
 });
 
-@customElement('pool-monitor-card')
 export class PoolMonitorCard extends MonitorCardBase {
   static CARD_INFO: CardInfo = {
     cardType: 'pool-monitor-card',
@@ -51,3 +50,5 @@ export class PoolMonitorCard extends MonitorCardBase {
     };
   }
 }
+
+defineCard('pool-monitor-card', PoolMonitorCard);
