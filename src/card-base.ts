@@ -122,6 +122,8 @@ export class MonitorCardBase extends LitElement {
           sensor.last_updated_attribute,
           sensor.setpoint_entity,
           sensor.min_limit_entity,
+          sensor.limits,
+          sensor.direction,
         );
 
         if (sensor.availability_entity) {
@@ -170,8 +172,8 @@ export class MonitorCardBase extends LitElement {
     name: string,
     title: string,
     entity: string,
-    entity_min: string | undefined,
-    entity_max: string | undefined,
+    entity_min: string | number | undefined,
+    entity_max: string | number | undefined,
     setpoint: number | undefined,
     setpoint_step: number | undefined,
     unit: string | undefined,
@@ -188,6 +190,8 @@ export class MonitorCardBase extends LitElement {
     last_updated_attribute?: string | undefined,
     setpoint_entity?: string | undefined,
     min_limit_entity?: string | undefined,
+    limits?: number[] | undefined,
+    direction?: 'lower_is_better' | 'higher_is_better' | undefined,
   ): SensorData {
     const newData: any = {};
     const config = this.getConfig();
@@ -287,19 +291,34 @@ export class MonitorCardBase extends LitElement {
       newData.value = override_value || defaultConfig.override;
     }
 
-    // Min/max entities
+    // `min` and `max` accept two forms and the type decides — PO decision
+    // 2026-08-15 (#5). A number is a scale boundary, which is what the README
+    // has always documented; a string is a tracking entity placing a marker on
+    // the bar. Before this, a number was resolved as an entity id, matched
+    // nothing, and silently fell back to the current value.
+    const asBound = (v: string | number | undefined): number | undefined =>
+      typeof v === 'number' && !isNaN(v) ? v : undefined;
+    const asEntity = (v: string | number | undefined): string | undefined =>
+      typeof v === 'string' && v !== '' ? v : undefined;
+
+    const boundMin = asBound(entity_min);
+    const boundMax = asBound(entity_max);
+    const trackMin = asEntity(entity_min);
+    const trackMax = asEntity(entity_max);
+
+    // Markers: entity form only. A boundary is not an observation.
     newData.min_value =
-      entity_min !== undefined &&
-      this.hass.states[entity_min] &&
-      !isNaN(parseFloat(this.hass.states[entity_min].state))
-        ? parseFloat(this.hass.states[entity_min].state)
+      trackMin !== undefined &&
+      this.hass.states[trackMin] &&
+      !isNaN(parseFloat(this.hass.states[trackMin].state))
+        ? parseFloat(this.hass.states[trackMin].state)
         : newData.value;
 
     newData.max_value =
-      entity_max !== undefined &&
-      this.hass.states[entity_max] &&
-      !isNaN(parseFloat(this.hass.states[entity_max].state))
-        ? parseFloat(this.hass.states[entity_max].state)
+      trackMax !== undefined &&
+      this.hass.states[trackMax] &&
+      !isNaN(parseFloat(this.hass.states[trackMax].state))
+        ? parseFloat(this.hass.states[trackMax].state)
         : newData.value;
 
     // Setpoint calculations — entity overrides static value
@@ -333,11 +352,19 @@ export class MonitorCardBase extends LitElement {
           ? parseFloat(String(defaultConfig.step_high))
           : sp_step;
 
-    const countDecimals = Math.max(
-      this.countDecimals(sp_val),
-      this.countDecimals(sp_step_low),
-      this.countDecimals(sp_step_high),
-    );
+    const useLimits = Array.isArray(limits) && limits.length === 4;
+    const resolvedLimits = (limits || []).map(Number);
+
+    // Decimals follow whatever actually drives the scale: the limits when they
+    // are given, the setpoint and steps otherwise. Reading them from an ignored
+    // setpoint produced labels like "0.0" for an integer boundary.
+    const countDecimals = useLimits
+      ? Math.max(...resolvedLimits.map(l => this.countDecimals(l)), 0)
+      : Math.max(
+          this.countDecimals(sp_val),
+          this.countDecimals(sp_step_low),
+          this.countDecimals(sp_step_high),
+        );
 
     newData.setpoint = sp_val;
 
@@ -349,11 +376,26 @@ export class MonitorCardBase extends LitElement {
         : min_limit !== undefined
           ? Number(min_limit)
           : -Infinity;
-    const sp_minus_2 = Math.max(minLimitVal, sp_val - 2 * sp_step_low);
-    const sp_minus_1 = Math.max(minLimitVal, sp_val - sp_step_low);
-    const sp_0 = Math.max(minLimitVal, sp_val);
-    const sp_plus_1 = Math.max(minLimitVal, sp_val + sp_step_high);
-    const sp_plus_2 = Math.max(minLimitVal, sp_val + 2 * sp_step_high);
+    // Explicit boundaries win over the setpoint computation — PO decision
+    // 2026-08-15 (#7). Approach adapted from @rpirsc13
+    // (wilsto/air-quality-card#4): reuse the existing five-class mechanism and
+    // only change how the five numbers are filled, rather than adding a
+    // parallel rendering path.
+    const sp_minus_2 = useLimits
+      ? Math.max(minLimitVal, boundMin != null ? boundMin : 0)
+      : Math.max(minLimitVal, sp_val - 2 * sp_step_low);
+    const sp_minus_1 = useLimits
+      ? Math.max(minLimitVal, resolvedLimits[0])
+      : Math.max(minLimitVal, sp_val - sp_step_low);
+    const sp_0 = useLimits
+      ? Math.max(minLimitVal, resolvedLimits[1])
+      : Math.max(minLimitVal, sp_val);
+    const sp_plus_1 = useLimits
+      ? Math.max(minLimitVal, resolvedLimits[2])
+      : Math.max(minLimitVal, sp_val + sp_step_high);
+    const sp_plus_2 = useLimits
+      ? Math.max(minLimitVal, resolvedLimits[3])
+      : Math.max(minLimitVal, sp_val + 2 * sp_step_high);
 
     newData.setpoint_class = [
       sp_minus_2.toFixed(countDecimals),
@@ -370,7 +412,28 @@ export class MonitorCardBase extends LitElement {
       newData.value = Math.max(minLimitVal, newData.value);
     }
 
-    if (mode === 'heatflow') {
+    if (useLimits) {
+      // Monotonic ramp. lower_is_better is the default: it fits pollutants
+      // (PM2.5, CO2, VOC). higher_is_better covers ORP (pool-monitor-card#85),
+      // which the original 'quality' mode could not express.
+      const ramp = [
+        config.colors.cool,
+        config.colors.normal,
+        config.colors.low,
+        config.colors.warn,
+        config.colors.hazardous,
+      ];
+      const labels = ['state.1', 'state.2', 'state.3', 'state.5', 'state.6'];
+      if (direction === 'higher_is_better') {
+        ramp.reverse();
+        labels.reverse();
+      }
+      const v = Number(newData.value);
+      const band = [1, 2, 3, 4].findIndex(i => v < Number(newData.setpoint_class[i]));
+      const idx = band === -1 ? 4 : band;
+      newData.color = ramp[idx];
+      newData.state = config.display.show_labels ? this.getTranslatedText(labels[idx]) : '';
+    } else if (mode === 'heatflow') {
       if (Number(newData.value) < Number(newData.setpoint_class[1])) {
         newData.state = config.display.show_labels ? this.getTranslatedText('state.1') : '';
         newData.color = config.colors.cool;
@@ -419,9 +482,13 @@ export class MonitorCardBase extends LitElement {
     }
     newData.progressClass = name === 'temperature' ? 'progress-temp' : 'progress';
 
-    // Bar width: 3 steps below setpoint + 3 steps above setpoint
-    const barLeft = sp_val - 3 * sp_step_low;
-    const barWidth = 3 * sp_step_low + 3 * sp_step_high;
+    // Bar range: explicit numeric bounds when given, otherwise derived from
+    // the setpoint (3 steps below, 3 steps above).
+    const barLeft = boundMin != null ? boundMin : sp_val - 3 * sp_step_low;
+    const barRight = boundMax != null ? boundMax : sp_val + 3 * sp_step_high;
+    const barWidth = barRight - barLeft;
+    newData.bar_min = barLeft;
+    newData.bar_max = barRight;
 
     // Unified ratio formula: maps value to [0, 1] within the bar range
     const clamp01 = (v: number) => Math.max(0, Math.min(1, v));

@@ -16,6 +16,7 @@ export const DEFAULT_COLORS: ColorConfig = {
   warn: '#e17055',
   normal: '#00b894',
   cool: '#00BFFF',
+  hazardous: '#8e44ad',
   marker: '#000000',
   hi_low: '#00000099',
 };

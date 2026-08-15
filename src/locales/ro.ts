@@ -1,4 +1,5 @@
 export default {
+  language: 'Română',
   state: {
     1: 'Prea mic',
     2: 'Mic',

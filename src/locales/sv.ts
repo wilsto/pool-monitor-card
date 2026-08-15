@@ -1,4 +1,5 @@
 export default {
+  language: 'Svenska',
   state: {
     1: 'För Lågt',
     2: 'Lågt, Acceptabelt',

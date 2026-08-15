@@ -1,4 +1,5 @@
 export default {
+  language: 'Deutsch',
   state: {
     1: 'Zu niedrig',
     2: 'Akzeptabler Tiefstwert',

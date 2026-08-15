@@ -1,4 +1,5 @@
 export default {
+  language: 'Nederlands',
   state: {
     1: 'Te laag',
     2: 'Acceptabel laag',

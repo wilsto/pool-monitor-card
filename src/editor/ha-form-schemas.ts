@@ -1,4 +1,25 @@
 import type { HaFormSchema } from './types.js';
+import { translations } from '../locales/translations.js';
+
+/**
+ * The language menu is derived from the translations registry — never a second
+ * hand-maintained list. The two had drifted: three languages were offered with
+ * nothing behind them (`pl`, `zh-cn`, `zh-tw`, falling back to English in
+ * silence) while six translated ones were unreachable, including three
+ * community contributions.
+ *
+ * Each locale declares its own name, so adding a translation adds its menu
+ * entry with no second edit.
+ *
+ * Intl.DisplayNames was tried first and rejected: Chrome resolves it to the
+ * browser's locale whatever you request — measured 2026-08-15, a French
+ * browser listed every language in French ("Anglais", "Allemand"). Node does
+ * honour the request, so a unit test would have passed while production was
+ * wrong.
+ */
+export const LANGUAGE_OPTIONS: { value: string; label: string }[] = Object.entries(
+  translations,
+).map(([code, set]) => ({ value: code, label: set.language || code }));
 
 export const GENERAL_SCHEMA: HaFormSchema[] = [
   { name: 'title', selector: { text: {} } },
@@ -17,20 +38,7 @@ export const DISPLAY_SCHEMA: HaFormSchema[] = [
     name: 'language',
     selector: {
       select: {
-        options: [
-          { value: 'en', label: 'English' },
-          { value: 'fr', label: 'Français' },
-          { value: 'de', label: 'Deutsch' },
-          { value: 'es', label: 'Español' },
-          { value: 'it', label: 'Italiano' },
-          { value: 'pt', label: 'Português' },
-          { value: 'nl', label: 'Nederlands' },
-          { value: 'pl', label: 'Polski' },
-          { value: 'sk', label: 'Slovenčina' },
-          { value: 'pt-br', label: 'Português (Brasil)' },
-          { value: 'zh-cn', label: '中文 (简体)' },
-          { value: 'zh-tw', label: '中文 (繁體)' },
-        ],
+        options: LANGUAGE_OPTIONS,
       },
     },
   },

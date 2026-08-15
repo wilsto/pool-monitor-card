@@ -2,9 +2,7 @@
 
 [![Release][release-shield]][release-link] [![HACS][hacs-shield]][hacs-link] [![GitHub Activity][commits-shield]][commits-link]
 
-> Keep your swimming pool safe and crystal clear by monitoring up to 25 water chemistry parameters at a glance.
->
-> **Visual editor included** — configure everything from the UI, no YAML needed.
+> Keep your swimming pool safe and crystal clear by monitoring up to 20 water chemistry parameters at a glance.
 
 ![screenshot](example/hero.png)
 
@@ -68,7 +66,7 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 *These tell you if your disinfection system is working properly.*
 
-![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Bromine](resources/bromine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png) ![Chlorinator](resources/chlorinator.png)
+![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Bromine](resources/bromine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png)
 
 | Sensor | Key | Unit | Default Setpoint |
 |--------|-----|------|:----------------:|
@@ -78,13 +76,12 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 | Filter Pressure | `pressure` | psi | 12 |
 | Specific Gravity | `specific_gravity` | sg | 1.1 |
 | Magnesium | `magnesium` | ppm | 1200 |
-| Chlorinator Setting | `chlorinator` | % | 50 |
 
 ### Equipment & Maintenance
 
 *Track the health of your pool equipment and supply levels.*
 
-![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png) ![Pump Speed](resources/pump_speed.png) ![Light Brightness](resources/light_brightness.png) ![Heat Pump Setpoint](resources/heat_pump_setpoint.png)
+![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)    
 
 | Sensor | Key | Unit | Default Setpoint |
 |--------|-----|------|:----------------:|
@@ -93,11 +90,10 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 | UV Radiation | `uv_radiation` | mW/cm² | 4 |
 | Product Volume | `product_volume` | L | 20 |
 | Product Weight | `product_weight` | kg | 25 |
+| Chlorinator Setting | `chlorinator` | % | 50 |
 | Pump Speed | `pump_speed` | % | 50 |
 | Light Brightness | `light_brightness` | % | 80 |
 | Heat Pump Setpoint | `heat_pump_setpoint` | °C | 28 |
-
-> **Hayward OmniLogic users**: The `chlorinator`, `pump_speed` and `heat_pump_setpoint` presets map directly to OmniLogic entities (`sensor.*_chlorinator_setting`, `sensor.*_pump_speed`, etc.). Use `availability_entity` to gray out equipment rows when the device is off.
 
 For detailed explanations of each sensor and why it matters, see [Sensor Details](docs/sensors.md).
 
@@ -117,7 +113,6 @@ Community-tested devices and their supported parameters:
 | Ondilo | [Ondilo ICO Pool](https://ondilo.com/en/ico-pool/) | ✔️ | ✔️ | ✔️ | ✔️ | [Component](https://www.home-assistant.io/integrations/ondilo_ico/) |
 | Zodiac | [Zodiac iAqualink eXO iQ](https://www.zodiac-poolcare.com/traitement-de-l-eau/electrolyseurs-au-sel/gamme-exo--iq/exo--iq) | ✔️ | ✔️ | ✔️ | ❌ | [Tuto via nodeRED](example/zodiac.md) |
 | Tuya | [Tuya BLE-YL01](https://www.zigbee2mqtt.io/devices/BLE-YL01.html) | ✔️ | ✔️ | ✔️ | ✔️ | [Tuto](https://community.home-assistant.io/t/pool-monitoring-device-yieryi-ble-yl01-zigbee-ph-orp-free-chlorine-salinity-etc/659545) |
-| Hayward | [OmniLogic / OmniPL](https://www.hayward.com/shop/controls/omni-controls) | ✔️ | ✔️ | ✔️ | ❌ | [Component](https://www.home-assistant.io/integrations/omnilogic/) |
 
 > ✔️ = supported, ❌ = not supported. [See more hardware](example/hardware.md)
 
@@ -144,16 +139,6 @@ Community-tested devices and their supported parameters:
 
 ## Quick Start
 
-### Visual Editor (recommended)
-
-1. In your dashboard, click **Edit Dashboard** (pencil icon)
-2. Click **+ Add Card** → select **Manual** → type `custom:pool-monitor-card`
-3. Click **Show Visual Editor** to configure sensors, display options and colors — no YAML needed
-
-![editor](resources/editor.png)
-
-### YAML
-
 ```yaml
 type: custom:pool-monitor-card
 title: "My Pool"
@@ -172,8 +157,6 @@ That's it! The card uses sensible defaults for everything else.
 
 ## Configuration
 
-> All options below are also available in the visual editor.
-
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `title` | string | — | Card title |
@@ -188,7 +171,7 @@ That's it! The card uses sensible defaults for everything else.
 | `display.show_icons` | boolean | `true` | Show sensor icons |
 | `language` | string | `en` | Language code |
 
-### Per-sensor options
+### Per-sensor overrides
 
 ```yaml
 sensors:
@@ -197,36 +180,36 @@ sensors:
     name: Custom Name         # override display name
     unit: "°C"                # override unit
     setpoint: 25              # ideal value
-    min: 10                   # min of the range
-    max: 40                   # max of the range
+    min: 10                   # number = scale bound, string = tracking entity
+    max: 40                   # same
     step: 2                   # threshold step for colors
     icon: mdi:thermometer     # MDI icon
     mode: centric             # centric | heatflow
-    availability_entity: binary_sensor.heat_pump  # gray out when off/unavailable
 ```
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `entity` | string | **Required.** Entity ID |
-| `name` | string | Override display name |
-| `unit` | string | Override unit |
-| `setpoint` | number | Ideal value |
-| `min` / `max` | number | Range boundaries |
-| `step` | number | Threshold step for colors |
-| `icon` | string | MDI icon (e.g. `mdi:thermometer`) |
-| `mode` | string | `centric` or `heatflow` |
-| `availability_entity` | string | Entity to track — grays out the row when `off` or `unavailable` |
+`min` and `max` accept two forms and the type decides: a **number** is a bound
+of the visible scale, a **string** is an entity whose value places a tracking
+marker on the bar.
 
-### Color modes
+Without them, the bar spans `setpoint ± 3 × step`, and the coloured zones
+change every `step`. So `step` is what widens or narrows the green zone —
+a larger `step` is more tolerant, a smaller one more strict.
 
-| Mode | Gradient | Badge color | Best for |
-|------|----------|-------------|----------|
-| `centric` | warn → low → **normal** → low → warn | Matches gradient zone | pH, ORP — ideal value in the center |
-| `heatflow` | cool → low → warn (blue → orange → red) | **Green** when ideal | Temperature — natural thermal scale |
+### Quantities whose ideal is at one end
 
-In **centric** mode, the gradient and badge use the same colors — you see at a glance which zone the value is in.
+`centric` and `heatflow` both place the ideal value in the middle. For PM2.5,
+where 0 is best, or ORP, where higher is better, give the four class
+boundaries explicitly and say which way the scale reads:
 
-In **heatflow** mode, the gradient shows the physical temperature scale (cold to hot), while the badge uses green to indicate the value is in the ideal range. Two complementary readings: *where* on the scale vs *is it good*.
+```yaml
+sensors:
+  pm25:
+    entity: sensor.pm25
+    min: 0
+    max: 20
+    limits: [2, 5, 10, 15]    # four boundaries, replaces setpoint/step
+    # direction: lower_is_better (default) | higher_is_better
+```
 
 ### Multiple sensors of the same type
 
@@ -241,7 +224,9 @@ sensors:
 
 ### Languages
 
-12 languages supported: 🇬🇧 English, 🇫🇷 French, 🇩🇪 German, 🇪🇸 Spanish, 🇮🇹 Italian, 🇵🇹 Portuguese, 🇳🇱 Dutch, 🇵🇱 Polish, 🇨🇿 Czech, 🇸🇰 Slovak, 🇮🇱 Hebrew, 🇷🇺 Russian.
+15 languages supported: Čeština, Deutsch, English, Español, Français, עברית, Magyar, Italiano, Nederlands, Português, Português (Brasil), Română, Русский, Slovenčina, Svenska.
+
+Set one with `display.language`, or pick it in the visual editor.
 
 ---
 

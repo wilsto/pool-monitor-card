@@ -1,4 +1,5 @@
 export default {
+  language: 'Português (Brasil)',
   state: {
     1: 'Muito Baixo',
     2: 'Aceitavel Baixo',

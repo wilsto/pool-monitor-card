@@ -55,6 +55,7 @@ export interface ColorConfig {
   warn: string;
   normal: string;
   cool: string;
+  hazardous: string;
   marker: string;
   hi_low: string;
 }
@@ -63,8 +64,13 @@ export interface SensorUserConfig {
   entity: string;
   title?: string;
   name?: string;
-  min?: string;
-  max?: string;
+  /** Number = scale boundary. String = tracking entity placing a marker. */
+  min?: string | number;
+  max?: string | number;
+  /** Four explicit class boundaries. Replaces the setpoint/step computation. */
+  limits?: number[];
+  /** Colour ramp direction when `limits` is used. Defaults to lower_is_better. */
+  direction?: 'lower_is_better' | 'higher_is_better';
   setpoint?: number;
   step?: number;
   step_low?: number;
@@ -118,6 +124,8 @@ export interface SensorData {
   unit: string;
   min_value: number;
   max_value: number;
+  bar_min: number;
+  bar_max: number;
   setpoint: number;
   setpoint_class: string[];
   separator: string;
@@ -139,6 +147,8 @@ export interface SensorData {
 }
 
 export interface TranslationSet {
+  /** The language's own name, as its speakers write it. Drives the editor menu. */
+  language: string;
   state: Record<string, string>;
   sensor: Record<string, string>;
   time: Record<string, string>;

@@ -1,4 +1,5 @@
 export default {
+  language: 'Magyar',
   state: {
     1: 'Túl alacsony',
     2: 'Elfogadhatóan alacsony',

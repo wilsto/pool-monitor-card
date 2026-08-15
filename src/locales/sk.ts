@@ -1,4 +1,5 @@
 export default {
+  language: 'Slovenčina',
   state: {
     1: 'Príliš nízky',
     2: 'Akceptovateľne nízky',

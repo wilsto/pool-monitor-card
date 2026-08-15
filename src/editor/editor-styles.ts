@@ -116,8 +116,45 @@ export const editorStyles = css`
     align-items: flex-end;
   }
 
-  .freeform-input ha-textfield {
+  .freeform-input .text-field {
     flex: 1;
+  }
+
+  /* Native text field. HA removed ha-textfield in 2026.5 and states plainly
+     that custom cards should not depend on its internal components, so the
+     editor styles its own inputs with HA's CSS variables instead. */
+  .text-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .text-field-label {
+    font-size: 12px;
+    color: var(--secondary-text-color);
+  }
+
+  .text-field-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid var(--divider-color);
+    border-radius: 8px;
+    background: var(--secondary-background-color);
+    color: var(--primary-text-color);
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .text-field-input:hover {
+    border-color: var(--primary-color);
+  }
+
+  .text-field-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
   }
 
   ha-icon-button {

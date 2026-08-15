@@ -1,4 +1,5 @@
 export default {
+  language: 'Português',
   state: {
     1: 'Muito Baixo',
     2: 'Torelavel mas Baixo',

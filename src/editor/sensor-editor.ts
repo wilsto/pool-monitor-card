@@ -32,6 +32,40 @@ export class MonitorSensorEditor extends LitElement {
     `;
   }
 
+  /**
+   * Native text field. Home Assistant removed `ha-textfield` in 2026.5 and
+   * states that custom cards should not rely on its internal components, so
+   * the editor renders its own input rather than tracking the next one.
+   */
+  private _textField(opts: {
+    label: string;
+    value: string;
+    numeric?: boolean;
+    live?: boolean;
+    onChange: (value: string) => void;
+  }): TemplateResult {
+    const handle = (e: Event) => opts.onChange((e.target as HTMLInputElement).value);
+    const type = opts.numeric ? 'number' : 'text';
+    return html`
+      <label class="text-field">
+        <span class="text-field-label">${opts.label}</span>
+        ${opts.live
+          ? html`<input
+              class="text-field-input"
+              type=${type}
+              .value=${opts.value}
+              @input=${handle}
+            />`
+          : html`<input
+              class="text-field-input"
+              type=${type}
+              .value=${opts.value}
+              @change=${handle}
+            />`}
+      </label>
+    `;
+  }
+
   private _renderSensorType(
     type: string,
     config: SensorUserConfig | SensorUserConfig[],
@@ -100,79 +134,52 @@ export class MonitorSensorEditor extends LitElement {
         ></ha-entity-picker>
 
         <div class="sensor-field-row">
-          <ha-textfield
-            .label=${'Name override'}
-            .value=${config.name || ''}
-            @change=${(e: Event) =>
-              this._updateField(
-                type,
-                index,
-                'name',
-                (e.target as HTMLInputElement).value || undefined,
-              )}
-          ></ha-textfield>
-          <ha-textfield
-            .label=${'Unit override'}
-            .value=${config.unit || ''}
-            @change=${(e: Event) =>
-              this._updateField(
-                type,
-                index,
-                'unit',
-                (e.target as HTMLInputElement).value || undefined,
-              )}
-          ></ha-textfield>
+          ${this._textField({
+            label: 'Name override',
+            value: config.name || '',
+            onChange: v => this._updateField(type, index, 'name', v || undefined),
+          })}
+          ${this._textField({
+            label: 'Unit override',
+            value: config.unit || '',
+            onChange: v => this._updateField(type, index, 'unit', v || undefined),
+          })}
         </div>
 
         <div class="sensor-field-row">
-          <ha-textfield
-            .label=${'Setpoint'}
-            .value=${config.setpoint != null ? String(config.setpoint) : ''}
-            type="number"
-            @change=${(e: Event) => {
-              const val = (e.target as HTMLInputElement).value;
-              this._updateField(type, index, 'setpoint', val ? Number(val) : undefined);
-            }}
-          ></ha-textfield>
-          <ha-textfield
-            .label=${'Step'}
-            .value=${config.step != null ? String(config.step) : ''}
-            type="number"
-            @change=${(e: Event) => {
-              const val = (e.target as HTMLInputElement).value;
-              this._updateField(type, index, 'step', val ? Number(val) : undefined);
-            }}
-          ></ha-textfield>
-          <ha-textfield
-            .label=${'Min limit'}
-            .value=${config.min_limit != null ? String(config.min_limit) : ''}
-            type="number"
-            @change=${(e: Event) => {
-              const val = (e.target as HTMLInputElement).value;
-              this._updateField(type, index, 'min_limit', val ? Number(val) : undefined);
-            }}
-          ></ha-textfield>
+          ${this._textField({
+            label: 'Setpoint',
+            value: config.setpoint != null ? String(config.setpoint) : '',
+            numeric: true,
+            onChange: v => this._updateField(type, index, 'setpoint', v ? Number(v) : undefined),
+          })}
+          ${this._textField({
+            label: 'Step',
+            value: config.step != null ? String(config.step) : '',
+            numeric: true,
+            onChange: v => this._updateField(type, index, 'step', v ? Number(v) : undefined),
+          })}
+          ${this._textField({
+            label: 'Min limit',
+            value: config.min_limit != null ? String(config.min_limit) : '',
+            numeric: true,
+            onChange: v => this._updateField(type, index, 'min_limit', v ? Number(v) : undefined),
+          })}
         </div>
 
         <div class="sensor-field-row">
-          <ha-textfield
-            .label=${'Step low'}
-            .value=${config.step_low != null ? String(config.step_low) : ''}
-            type="number"
-            @change=${(e: Event) => {
-              const val = (e.target as HTMLInputElement).value;
-              this._updateField(type, index, 'step_low', val ? Number(val) : undefined);
-            }}
-          ></ha-textfield>
-          <ha-textfield
-            .label=${'Step high'}
-            .value=${config.step_high != null ? String(config.step_high) : ''}
-            type="number"
-            @change=${(e: Event) => {
-              const val = (e.target as HTMLInputElement).value;
-              this._updateField(type, index, 'step_high', val ? Number(val) : undefined);
-            }}
-          ></ha-textfield>
+          ${this._textField({
+            label: 'Step low',
+            value: config.step_low != null ? String(config.step_low) : '',
+            numeric: true,
+            onChange: v => this._updateField(type, index, 'step_low', v ? Number(v) : undefined),
+          })}
+          ${this._textField({
+            label: 'Step high',
+            value: config.step_high != null ? String(config.step_high) : '',
+            numeric: true,
+            onChange: v => this._updateField(type, index, 'step_high', v ? Number(v) : undefined),
+          })}
         </div>
 
         <div class="sensor-field-row">
@@ -202,17 +209,11 @@ export class MonitorSensorEditor extends LitElement {
             @value-changed=${(e: CustomEvent) =>
               this._updateField(type, index, 'icon', e.detail.value || undefined)}
           ></ha-icon-picker>
-          <ha-textfield
-            .label=${'Image URL'}
-            .value=${config.image_url || ''}
-            @change=${(e: Event) =>
-              this._updateField(
-                type,
-                index,
-                'image_url',
-                (e.target as HTMLInputElement).value || undefined,
-              )}
-          ></ha-textfield>
+          ${this._textField({
+            label: 'Image URL',
+            value: config.image_url || '',
+            onChange: v => this._updateField(type, index, 'image_url', v || undefined),
+          })}
         </div>
 
         <ha-entity-picker
@@ -244,17 +245,11 @@ export class MonitorSensorEditor extends LitElement {
             @value-changed=${(e: CustomEvent) =>
               this._updateField(type, index, 'last_updated_entity', e.detail.value || undefined)}
           ></ha-entity-picker>
-          <ha-textfield
-            .label=${'Last updated attribute'}
-            .value=${config.last_updated_attribute || ''}
-            @change=${(e: Event) =>
-              this._updateField(
-                type,
-                index,
-                'last_updated_attribute',
-                (e.target as HTMLInputElement).value || undefined,
-              )}
-          ></ha-textfield>
+          ${this._textField({
+            label: 'Last updated attribute',
+            value: config.last_updated_attribute || '',
+            onChange: v => this._updateField(type, index, 'last_updated_attribute', v || undefined),
+          })}
         </div>
 
         <div class="sensor-field-row">
@@ -281,15 +276,21 @@ export class MonitorSensorEditor extends LitElement {
         ${this.freeform || !this.registry[type]
           ? html`
               <div class="sensor-field-row">
-                <ha-select
-                  .label=${'Mode'}
-                  .value=${config.mode || 'centric'}
-                  @selected=${(e: CustomEvent) =>
-                    this._updateField(type, index, 'mode', (e.target as HTMLSelectElement).value)}
-                >
-                  <mwc-list-item value="centric">Centric</mwc-list-item>
-                  <mwc-list-item value="heatflow">Heatflow</mwc-list-item>
-                </ha-select>
+                <label class="text-field">
+                  <span class="text-field-label">Mode</span>
+                  <select
+                    class="sensor-select"
+                    @change=${(e: Event) =>
+                      this._updateField(type, index, 'mode', (e.target as HTMLSelectElement).value)}
+                  >
+                    <option value="centric" ?selected=${(config.mode || 'centric') === 'centric'}>
+                      Centric
+                    </option>
+                    <option value="heatflow" ?selected=${config.mode === 'heatflow'}>
+                      Heatflow
+                    </option>
+                  </select>
+                </label>
               </div>
             `
           : nothing}
@@ -301,13 +302,14 @@ export class MonitorSensorEditor extends LitElement {
     if (this.freeform) {
       return html`
         <div class="freeform-input">
-          <ha-textfield
-            .label=${'Sensor type key'}
-            .value=${this._newSensorType}
-            @input=${(e: Event) => {
-              this._newSensorType = (e.target as HTMLInputElement).value;
-            }}
-          ></ha-textfield>
+          ${this._textField({
+            label: 'Sensor type key',
+            value: this._newSensorType,
+            live: true,
+            onChange: v => {
+              this._newSensorType = v;
+            },
+          })}
           <ha-icon-button
             .path=${'M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z'}
             @click=${this._addFreeformSensor}

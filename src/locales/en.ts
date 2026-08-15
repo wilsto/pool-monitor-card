@@ -50,6 +50,7 @@
  * @property {string} time_plural.days - Text format for days ago (uses {days} placeholder)
  */
 export default {
+  language: 'English',
   state: {
     1: 'Too Low',
     2: 'Acceptable Low',

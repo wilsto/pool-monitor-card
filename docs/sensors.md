@@ -126,14 +126,6 @@ Indicates if substances float or sink in your pool water. Reference: pure water 
 
 Prevents scaling and staining (ideal: 1000-1400 ppm). Important for mineral pool systems.
 
-### Chlorinator Setting (`chlorinator`)
-
-- **Unit**: %
-- **Default setpoint**: 50
-- **Compatible with**: Hayward OmniLogic, AquaLogic/ProLogic
-
-Salt chlorinator output percentage (0-100%). Available via the Hayward OmniLogic integration as `sensor.chlorinator_setting`. Ideal range depends on pool load and size.
-
 ## Equipment & Maintenance
 
 *Track the health of your pool equipment and supply levels.*
@@ -173,9 +165,16 @@ Track liquid chemical stock levels (pH+, pH-, etc.).
 
 Track powdered chemical stock levels.
 
+### Chlorinator Setting (`chlorinator`)
+
+- **Unit**: %
+- **Default setpoint**: 50
+
+Salt chlorinator output percentage (0-100%). Available via the Hayward OmniLogic integration as `sensor.chlorinator_setting`. Ideal range depends on pool load and size.
+
 ### Pump Speed (`pump_speed`)
 
-- **Unit**: % (override to `rpm` in the editor for RPM-based pumps)
+- **Unit**: %
 - **Default setpoint**: 50
 
 Variable speed pump operating level. Shows if the pump is running at its target speed.

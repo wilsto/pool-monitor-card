@@ -1,4 +1,5 @@
 export default {
+  language: 'Français',
   state: {
     1: 'Trop bas',
     2: 'Acceptable bas',
