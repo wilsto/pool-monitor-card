@@ -3,6 +3,12 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.13.1] - 2026-08-15
+
+### Documentation
+
+- **Added a Styling section to the README.** The previous release made the card work with [card-mod](https://github.com/thomasloven/lovelace-card-mod) but said so only in the release notes, which scroll away. The README now carries copy-paste examples and the list of classes you can target — transparent background, title size, icon colour, scale size.
+
 ## [2.13.0] - 2026-08-15
 
 ### Fixed

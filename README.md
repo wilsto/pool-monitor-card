@@ -222,6 +222,51 @@ sensors:
       name: Location 2
 ```
 
+### Styling
+
+The card renders a standard `ha-card`, so it responds to your Home Assistant
+theme and to [card-mod](https://github.com/thomasloven/lovelace-card-mod) like
+any other card.
+
+**Transparent, borderless:**
+
+```yaml
+type: custom:pool-monitor-card
+card_mod:
+  style: |
+    ha-card {
+      background: transparent;
+      box-shadow: none;
+      border: none;
+    }
+sensors: ...
+```
+
+**Sizes, colours, spacing** — target the classes below:
+
+```yaml
+card_mod:
+  style: |
+    .pool-monitor-title { font-size: 2rem; }
+    .entity-icon { color: var(--error-color); }
+    .gauge-scale { font-size: 1.1em; }
+```
+
+| Class | What it is |
+| --- | --- |
+| `.pool-monitor-title` | Card title |
+| `.entity-icon` / `.entity-icon-compact` | Sensor icon, normal and compact modes |
+| `.gauge-scale` | Row of numbers under the bar |
+| `.grid-item-text-box` | Sensor name and value |
+| `.status-badge` | Status badge |
+| `.battery-indicator` | Battery level indicator |
+| `.progress-bar-child` | The coloured bar itself |
+| `.cursor` / `.cursor-text` | Current-value marker and its label |
+
+> Marker positions and colours are computed per reading and set inline, so
+> they follow the sensor value rather than a stylesheet. Everything listed
+> above is static and can be overridden.
+
 ### Languages
 
 15 languages supported: Čeština, Deutsch, English, Español, Français, עברית, Magyar, Italiano, Nederlands, Português, Português (Brasil), Română, Русский, Slovenčina, Svenska.
