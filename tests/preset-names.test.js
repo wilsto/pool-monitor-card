@@ -49,3 +49,21 @@ describe('a name is a name, not a key', () => {
   });
 });
 
+
+// The editor's preset picker reads the name from the card's own registry, the
+// card reads it from the names table. They disagreed on five presets: choosing
+// CO2 in the editor displayed Carbon Dioxide, General Hardness displayed GH.
+// Picking a name and getting another one is a small thing that makes the editor
+// feel untrustworthy.
+describe('the name offered and the name shown are the same name', () => {
+  for (const [card, Card] of Object.entries(CARDS)) {
+    it(card, () => {
+      const disagree = Object.entries(Card.SENSORS)
+        .filter(([, preset]) => preset.name)
+        .map(([key, preset]) => [key, preset.name, new Card().sensorName(key)])
+        .filter(([, offered, shown]) => offered !== shown)
+        .map(([key, offered, shown]) => `${key}: editeur "${offered}", carte "${shown}"`);
+      expect(disagree).toEqual([]);
+    });
+  }
+});

@@ -165,7 +165,7 @@ Track liquid chemical stock levels (pH+, pH-, etc.).
 
 Track powdered chemical stock levels.
 
-### Chlorinator Setting (`chlorinator`)
+### Chlorinator (`chlorinator`)
 
 - **Unit**: %
 - **Defaults**: 50

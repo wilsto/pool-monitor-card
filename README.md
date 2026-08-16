@@ -90,7 +90,7 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 | UV Radiation | `uv_radiation` | mW/cm² | 4 |
 | Product Volume | `product_volume` | L | 20 |
 | Product Weight | `product_weight` | kg | 25 |
-| Chlorinator Setting | `chlorinator` | % | 50 |
+| Chlorinator | `chlorinator` | % | 50 |
 | Pump Speed | `pump_speed` | % | 50 |
 | Light Brightness | `light_brightness` | % | 80 |
 | Heat Pump Setpoint | `heat_pump_setpoint` | °C | 28 |

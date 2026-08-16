@@ -148,7 +148,7 @@ export const POOL_SENSORS: SensorsRegistry = {
     category: 'treatment',
   },
   chlorinator: {
-    name: 'Chlorinator Setting',
+    name: 'Chlorinator',
     unit: '%',
     setpoint: 50,
     step: 10,

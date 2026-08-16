@@ -3,6 +3,12 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.17.1] - 2026-08-16
+
+### Changed
+
+- **The chlorinator preset is called Chlorinator in the editor**, as it already was on the card. It was listed as Chlorinator Setting there, and every other preset is named after what it measures. French already said Réglage du chlorateur and is unchanged.
+
 ## [2.17.0] - 2026-08-16
 
 ### Fixed
