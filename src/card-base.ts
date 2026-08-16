@@ -129,6 +129,7 @@ export class MonitorCardBase extends LitElement {
           sensor.min_limit_entity,
           sensor.limits,
           sensor.direction,
+          sensor.attribute,
         );
 
         if (sensor.availability_entity) {
@@ -197,6 +198,7 @@ export class MonitorCardBase extends LitElement {
     min_limit_entity?: string | undefined,
     limits?: number[] | undefined,
     direction?: 'lower_is_better' | 'higher_is_better' | undefined,
+    attribute?: string | undefined,
   ): SensorData {
     const newData: any = {};
     const config = this.getConfig();
@@ -251,7 +253,14 @@ export class MonitorCardBase extends LitElement {
       (entityState.attributes as any)?.precision ??
       this.countDecimals(parseFloat(entityState.state));
 
-    const rawValue = parseFloat(entityState.state);
+    // A reading may live on an attribute rather than the state: several
+    // integrations publish more than one measurement per entity, and today each
+    // one needs a template sensor just to be displayed (sensor-monitor-card#3).
+    // A missing attribute reads as no value — not as the state, which would show
+    // an unrelated number as if it were the one asked for.
+    const rawValue = parseFloat(
+      attribute ? ((entityState.attributes as any)?.[attribute] as string) : entityState.state,
+    );
     newData.entity = entity;
 
     if (isNaN(rawValue)) {
@@ -413,6 +422,10 @@ export class MonitorCardBase extends LitElement {
     newData.separator = config.display.show_labels ? '-' : '';
     newData.color = 'transparent';
 
+    // Held outside the branch below so the bar can be painted with the very
+    // colours the reading is classified against — one ramp, not two that drift.
+    let monotonicRamp: string[] | null = null;
+
     if (newData.value !== null) {
       newData.value = Math.max(minLimitVal, newData.value);
     }
@@ -421,22 +434,32 @@ export class MonitorCardBase extends LitElement {
       // Monotonic ramp. lower_is_better is the default: it fits pollutants
       // (PM2.5, CO2, VOC). higher_is_better covers ORP (pool-monitor-card#85),
       // which the original 'quality' mode could not express.
-      const ramp = [
-        config.colors.cool,
+      //
+      // The colours run good to bad, and never start on `cool`: blue at the
+      // clean end of a pollutant scale reads as a fault, which is how carbon
+      // monoxide came to announce 3 ppm of perfectly good air as "Too Low".
+      //
+      // The band names are the European Air Quality Index ones — good, fair,
+      // moderate, poor, very poor — rather than the centric vocabulary, whose
+      // middle band is by construction the ideal. On a monotonic scale the
+      // middle band is already an exceedance: CO at 20 ppm was announced as
+      // "Ideal", more than twice the WHO eight-hour guideline.
+      monotonicRamp = [
         config.colors.normal,
+        config.colors.fair,
         config.colors.low,
         config.colors.warn,
         config.colors.hazardous,
       ];
-      const labels = ['state.1', 'state.2', 'state.3', 'state.5', 'state.6'];
+      const labels = ['band.1', 'band.2', 'band.3', 'band.4', 'band.5'];
       if (direction === 'higher_is_better') {
-        ramp.reverse();
+        monotonicRamp.reverse();
         labels.reverse();
       }
       const v = Number(newData.value);
       const band = [1, 2, 3, 4].findIndex(i => v < Number(newData.setpoint_class[i]));
       const idx = band === -1 ? 4 : band;
-      newData.color = ramp[idx];
+      newData.color = monotonicRamp[idx];
       newData.state = config.display.show_labels ? this.getTranslatedText(labels[idx]) : '';
     } else if (mode === 'heatflow') {
       if (Number(newData.value) < Number(newData.setpoint_class[1])) {
@@ -487,10 +510,19 @@ export class MonitorCardBase extends LitElement {
     }
     newData.progressClass = name === 'temperature' ? 'progress-temp' : 'progress';
 
-    // Bar range: explicit numeric bounds when given, otherwise derived from
-    // the setpoint (3 steps below, 3 steps above).
-    const barLeft = boundMin != null ? boundMin : sp_val - 3 * sp_step_low;
-    const barRight = boundMax != null ? boundMax : sp_val + 3 * sp_step_high;
+    // Bar range, in order of precedence:
+    //   1. explicit numeric min/max
+    //   2. the limits themselves, when a sensor is driven by them
+    //   3. the setpoint, three steps either side
+    //
+    // Step 2 exists because a preset may carry limits and nothing else — carbon
+    // monoxide has published thresholds and no meaningful setpoint. Deriving the
+    // range from an absent setpoint gave a zero-width bar and stacked all five
+    // labels on top of each other at 100%. Every earlier test passed min and max
+    // explicitly, so none of them saw it; it took looking at the rendered card.
+    const barLeft = boundMin != null ? boundMin : useLimits ? sp_minus_2 : sp_val - 3 * sp_step_low;
+    const barRight =
+      boundMax != null ? boundMax : useLimits ? sp_plus_2 : sp_val + 3 * sp_step_high;
     const barWidth = barRight - barLeft;
     newData.bar_min = barLeft;
     newData.bar_max = barRight;
@@ -518,6 +550,15 @@ export class MonitorCardBase extends LitElement {
       toRatio(sp_plus_1) * 100,
       toRatio(sp_plus_2) * 100,
     ];
+
+    // A monotonic bar changes colour on its thresholds rather than in fixed
+    // proportions, so the eye lands on the same boundary the numbers announce.
+    // Centric and heatflow scales keep their own gradient untouched.
+    if (monotonicRamp) {
+      newData.monotonic_stops = monotonicRamp
+        .map((colour, i) => `${colour} ${newData.label_positions[i]}%`)
+        .join(', ');
+    }
 
     return newData;
   }

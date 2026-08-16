@@ -32,13 +32,19 @@ describe('Translations', () => {
     });
   });
 
+  // A locale no longer has to carry every key: a missing one falls back to
+  // English rather than rendering raw. Strict parity meant a new sensor could
+  // not ship until fifteen translations existed, which in practice meant
+  // inventing languages nobody could verify.
+  //
+  // An EXTRA key is still an error — it is a typo, and it will never be read.
   describe('key consistency across locales', () => {
     const referenceKeys = getDeepKeys(translations.en);
 
     SUPPORTED_LANGUAGES.forEach(lang => {
-      test(`${lang} should have the same keys as en`, () => {
-        const langKeys = getDeepKeys(translations[lang]);
-        expect(langKeys.sort()).toEqual(referenceKeys.sort());
+      test(`${lang} defines no key that English does not`, () => {
+        const orphelines = getDeepKeys(translations[lang]).filter(k => !referenceKeys.includes(k));
+        expect(orphelines, `${lang} has keys absent from en — likely typos`).toEqual([]);
       });
     });
   });

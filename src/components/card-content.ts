@@ -1,6 +1,32 @@
 import { html, TemplateResult } from 'lit';
 import type { CardConfig, SensorData, StatusData } from '../ha/types.js';
 
+/**
+ * Horizontal offset for a scale label.
+ *
+ * Labels are centred on their position, which puts half of them outside the
+ * card at 0% and 100% — and the card clips its overflow, so `87` rendered as
+ * `8`. A truncated number is worse than an ugly one: it reads as a different
+ * value. Edge labels are therefore aligned inwards instead of centred.
+ *
+ * Only reachable with explicit `limits`: the setpoint/step scale keeps its
+ * labels between 16.7% and 83.3%, well clear of the edges.
+ */
+const labelShift = (position: number): string => {
+  if (position <= 0.5) return 'translateX(0)';
+  if (position >= 99.5) return 'translateX(-100%)';
+  return 'translateX(-50%)';
+};
+
+/**
+ * The bar has three shapes, and only two of them are fixed.
+ *
+ * A centric scale is bad-good-bad and a heatflow scale cool-to-warm; both can
+ * be painted from constants. A monotonic scale cannot: it runs good to bad, and
+ * its colours have to change on the thresholds the labels announce. Painting it
+ * with the centric gradient put red at 0 ppm of carbon monoxide and green in
+ * the middle — the exact inverse of the message.
+ */
 export class cardContent {
   static generateTitle(config: CardConfig): TemplateResult {
     const title =
@@ -74,11 +100,13 @@ export class cardContent {
                     <div
                       class="progress-bar-child"
                       style="background: linear-gradient(to right,
-                  ${data.mode === 'heatflow'
-                        ? `${config.colors.cool} 15%,
+                  ${data.monotonic_stops
+                        ? data.monotonic_stops
+                        : data.mode === 'heatflow'
+                          ? `${config.colors.cool} 15%,
                      ${config.colors.low} 50%,
                      ${config.colors.warn} 85%`
-                        : `${config.colors.warn} 5%,
+                          : `${config.colors.warn} 5%,
                      ${config.colors.low} 30%,
                      ${config.colors.normal},
                      ${config.colors.normal},
@@ -141,21 +169,39 @@ export class cardContent {
                 : ''}
             </div>
             <div class="gauge-labels">
-              <span class="gauge-label" style="left: ${data.label_positions[0]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[0]}%;transform:${labelShift(
+                  data.label_positions[0],
+                )}"
                 >${data.setpoint_class[0]}</span
               >
-              <span class="gauge-label" style="left: ${data.label_positions[1]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[1]}%;transform:${labelShift(
+                  data.label_positions[1],
+                )}"
                 >${data.setpoint_class[1]}</span
               >
               <span
                 class="gauge-label"
-                style="left: ${data.label_positions[2]}%;color:${config.colors.normal}"
+                style="left: ${data.label_positions[2]}%;transform:${labelShift(
+                  data.label_positions[2],
+                )};color:${config.colors.normal}"
                 >${data.setpoint_class[2]}</span
               >
-              <span class="gauge-label" style="left: ${data.label_positions[3]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[3]}%;transform:${labelShift(
+                  data.label_positions[3],
+                )}"
                 >${data.setpoint_class[3]}</span
               >
-              <span class="gauge-label" style="left: ${data.label_positions[4]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[4]}%;transform:${labelShift(
+                  data.label_positions[4],
+                )}"
                 >${data.setpoint_class[4]}</span
               >
             </div>
@@ -210,11 +256,13 @@ export class cardContent {
                     <div
                       class="progress-bar-child"
                       style="background: linear-gradient(to right,
-                  ${data.mode === 'heatflow'
-                        ? `${config.colors.cool} 15%,
+                  ${data.monotonic_stops
+                        ? data.monotonic_stops
+                        : data.mode === 'heatflow'
+                          ? `${config.colors.cool} 15%,
                      ${config.colors.low} 50%,
                      ${config.colors.warn} 85%`
-                        : `${config.colors.warn} 5%,
+                          : `${config.colors.warn} 5%,
                      ${config.colors.low} 30%,
                      ${config.colors.normal},
                      ${config.colors.normal},
@@ -298,21 +346,39 @@ export class cardContent {
                 : ''}
             </div>
             <div class="gauge-labels">
-              <span class="gauge-label" style="left: ${data.label_positions[0]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[0]}%;transform:${labelShift(
+                  data.label_positions[0],
+                )}"
                 >${data.setpoint_class[0]}</span
               >
-              <span class="gauge-label" style="left: ${data.label_positions[1]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[1]}%;transform:${labelShift(
+                  data.label_positions[1],
+                )}"
                 >${data.setpoint_class[1]}</span
               >
               <span
                 class="gauge-label"
-                style="left: ${data.label_positions[2]}%;color:${config.colors.normal}"
+                style="left: ${data.label_positions[2]}%;transform:${labelShift(
+                  data.label_positions[2],
+                )};color:${config.colors.normal}"
                 >${data.setpoint_class[2]}</span
               >
-              <span class="gauge-label" style="left: ${data.label_positions[3]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[3]}%;transform:${labelShift(
+                  data.label_positions[3],
+                )}"
                 >${data.setpoint_class[3]}</span
               >
-              <span class="gauge-label" style="left: ${data.label_positions[4]}%"
+              <span
+                class="gauge-label"
+                style="left: ${data.label_positions[4]}%;transform:${labelShift(
+                  data.label_positions[4],
+                )}"
                 >${data.setpoint_class[4]}</span
               >
             </div>

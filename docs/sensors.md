@@ -192,3 +192,24 @@ Pool light brightness level. Compatible with dimmable LED pool lights (e.g., Pen
 - **Default setpoint**: 28
 
 Target temperature configured on your heat pump (PAC). Use `availability_entity` with a `binary_sensor` to gray out the row when the heat pump is off.
+
+### Humidity (`humidity`)
+
+- **Unit**: %
+- **Default setpoint**: 60
+
+Air humidity around an indoor pool. High humidity drives condensation and, over time, structural damage — it is the reading indoor pool owners watch most after temperature.
+
+### Filtration Time (`filtration_time`)
+
+- **Unit**: h
+- **Default setpoint**: 8
+
+Daily filtration runtime. Too little and the water is not turned over; far more than needed is wasted energy.
+
+### Pump Energy (`pump_energy`)
+
+- **Unit**: kWh
+- **Default setpoint**: 5
+
+Daily energy drawn by the pump. Pair it with filtration time to see whether the pump is running efficiently.

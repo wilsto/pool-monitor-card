@@ -8,7 +8,20 @@ export default {
     5: 'Acceptable élevé',
     6: 'Trop élevé',
   },
+  // Bands of a monotonic scale. These are the French wording of the European
+  // Air Quality Index, not a translation of the English band names.
+  band: {
+    1: 'Bon',
+    2: 'Moyen',
+    3: 'Dégradé',
+    4: 'Mauvais',
+    5: 'Très mauvais',
+  },
   sensor: {
+    humidity: 'Humidité',
+    filtration_time: 'Temps de filtration',
+    pump_energy: 'Énergie pompe',
+    co: 'Monoxyde de carbone',
     temperature: 'Température',
     ph: 'pH',
     orp: 'ORP',

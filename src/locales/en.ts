@@ -59,7 +59,21 @@ export default {
     5: 'Acceptable High',
     6: 'Too High',
   },
+  // Bands of a monotonic scale, named after the European Air Quality Index.
+  // The centric `state` vocabulary above cannot serve here: its middle entry is
+  // the ideal, whereas the middle band of a monotonic scale is an exceedance.
+  band: {
+    1: 'Good',
+    2: 'Fair',
+    3: 'Moderate',
+    4: 'Poor',
+    5: 'Very Poor',
+  },
   sensor: {
+    humidity: 'Humidity',
+    filtration_time: 'Filtration Time',
+    pump_energy: 'Pump Energy',
+    co: 'Carbon Monoxide',
     temperature: 'Temperature',
     ph: 'pH',
     orp: 'ORP',

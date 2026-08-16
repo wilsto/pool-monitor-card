@@ -15,6 +15,11 @@ export const DEFAULT_COLORS: ColorConfig = {
   low: '#fdcb6e',
   warn: '#e17055',
   normal: '#00b894',
+  // Halfway between normal and low, so it cannot clash with either. A monotonic
+  // scale needs five steps from good to bad; the palette only had four once
+  // cool was ruled out — blue at the clean end of a pollutant scale reads as a
+  // problem, which is how carbon monoxide came to show 3 ppm as "Too Low".
+  fair: '#7ec181',
   cool: '#00BFFF',
   hazardous: '#8e44ad',
   marker: '#000000',

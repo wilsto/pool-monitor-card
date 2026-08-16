@@ -30,7 +30,7 @@ Preset ideal ranges for all 20 pool parameters mean you can get started with jus
 
 ---
 
-## Sensors (25 presets)
+## Sensors (28 presets)
 
 Every sensor comes with **preset ideal ranges** — just point to your entity and the card handles the rest. Override any value to match your setup.
 
@@ -81,7 +81,7 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 
 *Track the health of your pool equipment and supply levels.*
 
-![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)    
+![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)       
 
 | Sensor | Key | Unit | Default Setpoint |
 |--------|-----|------|:----------------:|
@@ -94,6 +94,9 @@ Every sensor comes with **preset ideal ranges** — just point to your entity an
 | Pump Speed | `pump_speed` | % | 50 |
 | Light Brightness | `light_brightness` | % | 80 |
 | Heat Pump Setpoint | `heat_pump_setpoint` | °C | 28 |
+| Humidity | `humidity` | % | 60 |
+| Filtration Time | `filtration_time` | h | 8 |
+| Pump Energy | `pump_energy` | kWh | 5 |
 
 For detailed explanations of each sensor and why it matters, see [Sensor Details](docs/sensors.md).
 
@@ -247,10 +250,19 @@ sensors: ...
 ```yaml
 card_mod:
   style: |
-    .pool-monitor-title { font-size: 2rem; }
+    .pool-monitor-title { font-size: 2rem !important; }
     .entity-icon { color: var(--error-color); }
-    .gauge-scale { font-size: 1.1em; }
+    .gauge-scale { font-size: 1.1em !important; }
 ```
+
+> **Why some rules need `!important`.** The card ships its styles as an
+> adopted stylesheet, and those win over an injected one at equal
+> specificity. So a property the card already sets — a font size, a bar
+> height — needs `!important` or a more specific selector such as
+> `h1.pool-monitor-title`. A property the card does **not** set, like the
+> icon colour above, applies with no ceremony. Styling `ha-card` itself
+> also works plainly: that rule crosses a shadow boundary, where the
+> outer stylesheet wins.
 
 | Class | What it is |
 | --- | --- |
@@ -310,7 +322,7 @@ This card is part of the **monitor-cards** family — same rendering engine, sam
 
 | Card | For | Sensors |
 |------|-----|---------|
-| [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 25 presets ← *you are here* |
+| [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 28 presets ← *you are here* |
 | [Aquarium Monitor Card](https://github.com/wilsto/aquarium-monitor-card) | Freshwater & saltwater aquarium keepers | 15 presets |
 | [Air Quality Card](https://github.com/wilsto/air-quality-card) | Homeowners concerned about indoor air quality | 12 presets |
 | [Sensor Monitor Card](https://github.com/wilsto/sensor-monitor-card) | Home Assistant power users | unlimited (custom) |

@@ -53,9 +53,10 @@ describe('sensor editor — no dependency on removed HA components', () => {
   it('renders the Mode dropdown as a native select with both modes', async () => {
     const el = await renderEditor({ freeform: true });
     const selects = [...el.shadowRoot.querySelectorAll('select')];
-    const mode = selects.find(s =>
-      [...s.options].some(o => o.value === 'centric') &&
-      [...s.options].some(o => o.value === 'heatflow'),
+    const mode = selects.find(
+      s =>
+        [...s.options].some(o => o.value === 'centric') &&
+        [...s.options].some(o => o.value === 'heatflow'),
     );
     expect(mode, 'no native select offering centric and heatflow').toBeTruthy();
   });

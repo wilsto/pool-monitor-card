@@ -203,6 +203,49 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'equipment',
   },
+  // Indoor pools: humidity drives condensation and structural damage.
+  // Requested in pool-monitor-card#87, where the only workaround was to
+  // repurpose the water-level sensor.
+  humidity: {
+    name: 'Humidity',
+    unit: '%',
+    // No artwork for this preset: without an explicit icon the card looks
+    // for humidity.png and renders a broken image.
+    icon: 'mdi:water-percent',
+    setpoint: 60,
+    step: 10,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'equipment',
+  },
+
+  // Requested in pool-monitor-card#91: daily filtration runtime and pump energy.
+  filtration_time: {
+    name: 'Filtration Time',
+    unit: 'h',
+    // No artwork for this preset: without an explicit icon the card looks
+    // for filtration_time.png and renders a broken image.
+    icon: 'mdi:timer-outline',
+    setpoint: 8,
+    step: 2,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'equipment',
+  },
+
+  pump_energy: {
+    name: 'Pump Energy',
+    unit: 'kWh',
+    // No artwork for this preset: without an explicit icon the card looks
+    // for pump_energy.png and renders a broken image.
+    icon: 'mdi:lightning-bolt',
+    setpoint: 5,
+    step: 2,
+    mode: 'heatflow',
+    min_limit: 0,
+    category: 'equipment',
+  },
+
   pump_speed: {
     name: 'Pump Speed',
     unit: '%',

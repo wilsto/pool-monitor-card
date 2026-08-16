@@ -19,11 +19,24 @@ export interface EntityRegistryEntry {
 export interface SensorPreset {
   name: string;
   unit: string;
-  setpoint: number;
-  step: number;
+  /**
+   * A preset drives its scale either from setpoint/step or from explicit
+   * `limits`. Carbon monoxide, for instance, has published thresholds that are
+   * not evenly spaced, so inventing a setpoint and a step for it would be
+   * making up a shape the standard does not have.
+   */
+  setpoint?: number;
+  step?: number;
   step_low?: number;
   step_high?: number;
-  mode: 'centric' | 'heatflow';
+  limits?: number[];
+  direction?: 'lower_is_better' | 'higher_is_better';
+  mode?: 'centric' | 'heatflow';
+  /**
+   * MDI icon for presets that have no artwork. Cards with an IMAGE_BASE_URL
+   * otherwise look for `<key>.png` and render a broken image when it is absent.
+   */
+  icon?: string;
   min_limit?: number;
   override?: string;
   category?: 'water_chemistry' | 'chemical_balance' | 'treatment' | 'equipment';
@@ -54,6 +67,12 @@ export interface ColorConfig {
   low: string;
   warn: string;
   normal: string;
+  /**
+   * The second band of a monotonic scale — still acceptable, no longer ideal.
+   * A centric scale has no use for it: it reads good outwards to bad in both
+   * directions and never needs a fifth step.
+   */
+  fair: string;
   cool: string;
   hazardous: string;
   marker: string;
@@ -67,6 +86,8 @@ export interface SensorUserConfig {
   /** Number = scale boundary. String = tracking entity placing a marker. */
   min?: string | number;
   max?: string | number;
+  /** Read this attribute of the entity instead of its state. */
+  attribute?: string;
   /** Four explicit class boundaries. Replaces the setpoint/step computation. */
   limits?: number[];
   /** Colour ramp direction when `limits` is used. Defaults to lower_is_better. */
@@ -140,6 +161,12 @@ export interface SensorData {
   pct_cursor: number;
   pct_state_step: number;
   label_positions: number[];
+  /**
+   * Colour stops for a monotonic bar, already in reading order and positioned
+   * on the thresholds themselves. Absent on centric and heatflow scales, which
+   * keep their own fixed gradient.
+   */
+  monotonic_stops?: string;
   disabled?: boolean;
   battery_level?: number | null;
   battery_icon?: string;

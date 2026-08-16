@@ -34,20 +34,32 @@ export const translations: Record<string, TranslationSet> = {
   cs,
 };
 
-export const getTranslation = (lang: string, key: string): string => {
-  const keys = key.split('.');
-  let result: any = translations[lang] || translations.en;
-
-  for (const k of keys) {
+/**
+ * Looks a key up in `lang`, falling back to English key by key.
+ *
+ * A key missing from a locale used to be rendered raw — a French user saw
+ * `sensor.humidity` instead of a name. That forced every new sensor to arrive
+ * with fifteen translations at once, or not at all: either someone invents
+ * Hungarian and Hebrew they cannot verify, or users get nothing.
+ *
+ * English is the language every locale file is written against, so falling back
+ * to it turns a broken label into a merely untranslated one, and a contributor
+ * can improve it later without anyone being blocked meanwhile.
+ */
+const lookup = (set: TranslationSet | undefined, key: string): string | undefined => {
+  let result: any = set;
+  for (const k of key.split('.')) {
     if (result && typeof result === 'object') {
       result = result[k];
     } else {
-      return key;
+      return undefined;
     }
   }
-
-  return result || key;
+  return typeof result === 'string' ? result : undefined;
 };
+
+export const getTranslation = (lang: string, key: string): string =>
+  lookup(translations[lang], key) ?? lookup(translations.en, key) ?? key;
 
 export const formatTranslation = (
   translation: string,

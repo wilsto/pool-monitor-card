@@ -9,7 +9,11 @@ import { PoolMonitorCard } from '../../pool-monitor/src/pool-monitor-card.js';
 
 const hass = {
   states: {
-    'sensor.power': { state: '3000', attributes: { unit_of_measurement: 'W' }, last_updated: '2026-08-15T10:00:00Z' },
+    'sensor.power': {
+      state: '3000',
+      attributes: { unit_of_measurement: 'W' },
+      last_updated: '2026-08-15T10:00:00Z',
+    },
     'sensor.observed_low': { state: '1000', attributes: {} },
     'sensor.observed_high': { state: '5000', attributes: {} },
   },
