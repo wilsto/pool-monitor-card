@@ -197,4 +197,84 @@ export const editorStyles = css`
     color: var(--secondary-text-color);
     font-style: italic;
   }
+
+  /* Collapsible groups. Eighteen fields at the same visual weight made every
+     one of them look like work waiting to be done, while only the entity is
+     actually required. */
+  .sensor-section {
+    border-top: 1px solid var(--divider-color);
+    margin-top: 4px;
+  }
+
+  .sensor-section:last-of-type {
+    border-bottom: 1px solid var(--divider-color);
+  }
+
+  .sensor-section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 2px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .sensor-section-head::-webkit-details-marker {
+    display: none;
+  }
+
+  .sensor-section-head::before {
+    content: '▸';
+    color: var(--secondary-text-color);
+    font-size: 0.8em;
+    width: 12px;
+    flex: none;
+  }
+
+  .sensor-section[open] > .sensor-section-head::before {
+    content: '▾';
+  }
+
+  .sensor-section-head:hover .sensor-section-name {
+    color: var(--primary-color);
+  }
+
+  .sensor-section-name {
+    font-weight: 500;
+  }
+
+  .sensor-section-sub {
+    margin-left: auto;
+    text-align: right;
+    color: var(--secondary-text-color);
+    font-size: 0.85em;
+  }
+
+  .sensor-section-body {
+    padding: 2px 0 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* The one field that is genuinely required says so, and says it where the
+     eye already is rather than in a panel to the side. */
+  .sensor-required.missing {
+    border-left: 3px solid var(--error-color, #db4437);
+    padding-left: 8px;
+    margin-left: -11px;
+  }
+
+  .sensor-error {
+    color: var(--error-color, #db4437);
+    font-size: 0.8em;
+    margin: 4px 0 0;
+  }
+
+  .sensor-hint {
+    color: var(--secondary-text-color);
+    font-size: 0.8em;
+    margin: 2px 0 6px;
+    line-height: 1.4;
+  }
 `;

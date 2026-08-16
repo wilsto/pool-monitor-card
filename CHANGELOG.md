@@ -3,6 +3,43 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.15.0] - 2026-08-16
+
+### Fixed
+
+- **Two colours could not be changed from the visual editor.** The colour list in the editor was written by hand and had drifted from the palette the card actually paints with: `hazardous`, used for the worst band of a monotonic scale, had been missing since it was added, and `fair` since the day it landed. Both were on screen and neither was editable. The list is now derived from the palette itself, so it cannot drift again.
+
+### Added
+
+- **The card offers itself when you pick an entity.** Home Assistant 2026.6 lets a card appear in the card picker under a *Community* section once you have selected an entity. Add a pH probe and the card is proposed, with a live preview, without having to know it exists.
+
+  It only volunteers when the reading is unambiguously one of its own: a redox probe, ammonia, carbon monoxide, particulates. A plain temperature or humidity belongs to every card, so none of them claims it. Measured on a test system: 47 sensors out of 113 offered a card, and the other 66 were left alone.
+
+- **The visual editor speaks your language.** Every label was written in English in the markup, while the card itself has seventeen translations. A Hungarian user read their card in Hungarian and configured it in English.
+
+  The editor now follows the language Home Assistant is set to, which is deliberately not the card's display language: the person configuring a card is not always the person looking at it. English and French are written; every other language falls back to English rather than blocking, so a translation can be contributed at any time.
+
+### Changed
+
+- **The sensor editor no longer shows eighteen fields at once.** Only one of them is actually required, and nothing said so. What you see when you open a sensor is the entity, marked as required, and the attribute below it. Everything else is folded away.
+
+  ```text
+  Entity (required)     pool_ph
+  Attribute             leave empty to use the state
+
+   > Content                                        inherited
+   > Appearance                                  icon, image
+   > Scale                              Setpoint 7.2 (inherited)
+   > Linked entities      setpoint, bounds, availability, battery
+   > Timestamp           where the measurement time comes from
+  ```
+
+  A folded section says what it holds **and where its value comes from**, so you can see at a glance whether there is anything to do in it.
+
+- **Three options that previously needed YAML are in the editor.** `attribute`, to read a value from an attribute rather than the state. `limits` and `direction`, to give the four class boundaries yourself for a reading whose ideal sits at one end.
+
+- **Setpoint and explicit thresholds are now a choice, not two things you can both fill in.** They were always exclusive: giving `limits` made the setpoint ignored, silently. The editor asks which one you want and shows only that one, so the rule is visible instead of hidden.
+
 ## [2.14.1] - 2026-08-16
 
 ### Fixed

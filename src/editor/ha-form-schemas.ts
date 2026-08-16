@@ -1,5 +1,9 @@
 import type { HaFormSchema } from './types.js';
 import { translations } from '../locales/translations.js';
+import { DEFAULT_COLORS } from '../configs/config.js';
+
+/** Resolves an editor label. Supplied by the editor, which knows the language. */
+type Translate = (key: string) => string;
 
 /**
  * The language menu is derived from the translations registry, never a second
@@ -21,50 +25,58 @@ export const LANGUAGE_OPTIONS: { value: string; label: string }[] = Object.entri
   translations,
 ).map(([code, set]) => ({ value: code, label: set.language || code }));
 
-export const GENERAL_SCHEMA: HaFormSchema[] = [
-  { name: 'title', selector: { text: {} } },
-  { name: 'status_entity', label: 'Status entity', selector: { entity: {} } },
+export const generalSchema = (t: Translate): HaFormSchema[] => [
+  { name: 'title', label: t('card_title'), selector: { text: {} } },
+  { name: 'status_entity', label: t('status_entity'), selector: { entity: {} } },
 ];
 
-export const DISPLAY_SCHEMA: HaFormSchema[] = [
-  { name: 'compact', selector: { boolean: {} } },
-  { name: 'show_names', selector: { boolean: {} } },
-  { name: 'show_labels', selector: { boolean: {} } },
-  { name: 'show_last_updated', selector: { boolean: {} } },
-  { name: 'show_icons', selector: { boolean: {} } },
-  { name: 'show_units', selector: { boolean: {} } },
-  { name: 'gradient', selector: { boolean: {} } },
+export const displaySchema = (t: Translate): HaFormSchema[] => [
+  { name: 'compact', label: t('compact'), selector: { boolean: {} } },
+  { name: 'show_names', label: t('show_names'), selector: { boolean: {} } },
+  { name: 'show_labels', label: t('show_labels'), selector: { boolean: {} } },
+  { name: 'show_last_updated', label: t('show_last_updated'), selector: { boolean: {} } },
+  { name: 'show_icons', label: t('show_icons'), selector: { boolean: {} } },
+  { name: 'show_units', label: t('show_units'), selector: { boolean: {} } },
+  { name: 'gradient', label: t('gradient'), selector: { boolean: {} } },
   {
     name: 'language',
+    label: t('language'),
     selector: {
       select: {
         options: LANGUAGE_OPTIONS,
       },
     },
   },
-  { name: 'name_font_size', label: 'Name font size (e.g. 0.8em, 14px)', selector: { text: {} } },
+  { name: 'name_font_size', label: t('name_font_size'), selector: { text: {} } },
   {
     name: 'name_font_weight',
-    label: 'Name font weight',
+    label: t('name_font_weight'),
     selector: {
       select: {
         options: [
-          { value: '', label: 'Default' },
-          { value: 'normal', label: 'Normal' },
-          { value: 'bold', label: 'Bold' },
-          { value: '300', label: 'Light (300)' },
-          { value: '600', label: 'Semi-bold (600)' },
+          { value: '', label: t('font_weight.default') },
+          { value: 'normal', label: t('font_weight.normal') },
+          { value: 'bold', label: t('font_weight.bold') },
+          { value: '300', label: t('font_weight.light') },
+          { value: '600', label: t('font_weight.semi_bold') },
         ],
       },
     },
   },
 ];
 
-export const COLORS_SCHEMA: HaFormSchema[] = [
-  { name: 'low', label: 'Low', selector: { text: {} } },
-  { name: 'warn', label: 'Warn', selector: { text: {} } },
-  { name: 'normal', label: 'Normal', selector: { text: {} } },
-  { name: 'cool', label: 'Cool', selector: { text: {} } },
-  { name: 'marker', label: 'Marker', selector: { text: {} } },
-  { name: 'hi_low', label: 'Hi/Low', selector: { text: {} } },
-];
+/**
+ * Derived from the palette, never a hand-written list. The two had already
+ * drifted: `hazardous` was missing since it was added, and `fair` was missing
+ * the day it landed, so neither colour could be changed from the editor while
+ * both are used on screen.
+ *
+ * This is the same failure as the language menu, the options table and the
+ * documented CSS classes. A second list always ends up lying.
+ */
+export const colorsSchema = (t: Translate): HaFormSchema[] =>
+  Object.keys(DEFAULT_COLORS).map(name => ({
+    name,
+    label: t(`color.${name}`),
+    selector: { text: {} },
+  }));

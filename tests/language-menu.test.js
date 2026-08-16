@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { DISPLAY_SCHEMA } from '../src/editor/ha-form-schemas.js';
+import { displaySchema } from '../src/editor/ha-form-schemas.js';
 import { translations } from '../src/locales/translations.js';
 
 // The language menu used to be a second hand-maintained list, and the two
@@ -7,7 +7,7 @@ import { translations } from '../src/locales/translations.js';
 // zh-tw, silently falling back to English) while 6 translated ones were
 // unreachable (cs, he, hu, ro, ru, sv), including three community contributions.
 const menuOptions = () =>
-  DISPLAY_SCHEMA.find(f => f.name === 'language')?.selector?.select?.options ?? [];
+  displaySchema(k => k).find(f => f.name === 'language')?.selector?.select?.options ?? [];
 
 describe('language menu is derived from the translations registry', () => {
   it('offers exactly the registered languages, no more, no fewer', () => {

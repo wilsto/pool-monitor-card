@@ -1,6 +1,7 @@
 import { MonitorCardBase, defineCard } from './card-base.js';
 import { POOL_SENSORS } from './sensors.js';
 import type { SensorsRegistry, CardInfo } from './ha/types.js';
+import { buildEntitySuggestion } from './entity-suggestion.js';
 
 declare let __BUILD_TIMESTAMP__: string;
 declare let __BUILD_VERSION__: string;
@@ -22,6 +23,33 @@ console.info(
   description: 'Monitor your pool water parameters with 21 preset sensors',
   preview: true,
   documentationURL: 'https://github.com/wilsto/pool-monitor-card',
+  // Home Assistant 2026.6 and later: offer this card when the user picks an
+  // entity this card actually has a preset for. Returns null otherwise, so
+  // the picker does not fill up with cards that cannot render the reading.
+  getEntitySuggestion: buildEntitySuggestion(
+    'pool-monitor-card',
+    POOL_SENSORS,
+    { ph: 'ph', conductivity: 'ec' },
+    [
+      'orp',
+      'free_chlorine',
+      'total_chlorine',
+      'cya',
+      'salinity',
+      'alkalinity',
+      'tds',
+      'bromine',
+      'phosphate',
+      'calcium',
+      'magnesium',
+      'chlorinator',
+      'filtration_time',
+      'pump_energy',
+      'pump_speed',
+      'flow_rate',
+      'specific_gravity',
+    ],
+  ),
 });
 
 export class PoolMonitorCard extends MonitorCardBase {
