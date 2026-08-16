@@ -114,7 +114,7 @@ export class MonitorCardBase extends LitElement {
 
         data[sensorKey] = this.calculateData(
           sensorType,
-          sensor.title || this.getTranslatedText('sensor.' + sensorType),
+          sensor.title || this.sensorName(sensorType),
           sensor.entity,
           sensor.min,
           sensor.max,
@@ -162,6 +162,28 @@ export class MonitorCardBase extends LitElement {
     });
 
     return data;
+  }
+
+  /**
+   * The name to write under the bar for a preset.
+   *
+   * The names table is shared by the four cards, and it is right to be: of the
+   * forty-three presets, thirty-one belong to a single card and most of the
+   * rest mean the same thing everywhere. `pressure` does not. It is the filter
+   * on a pool and the weather on an air monitor, so whichever card wrote the
+   * entry named it for the other one too.
+   *
+   * A card may therefore keep its own name for a preset, under its own key in
+   * the table. The key the user writes in YAML is not involved: it still finds
+   * the preset the same way, with the same unit and the same ideal value. Only
+   * the label changes.
+   */
+  sensorName(sensorType: string): string {
+    const card = (this.constructor as typeof MonitorCardBase).CARD_INFO?.cardType;
+    const own = `sensor.${card}.${sensorType}`;
+    const name = card ? this.getTranslatedText(own) : own;
+    // getTranslation hands back the key itself when nothing answers to it
+    return name === own ? this.getTranslatedText(`sensor.${sensorType}`) : name;
   }
 
   getTranslatedText(key: string, values?: Record<string, string | number>): string {

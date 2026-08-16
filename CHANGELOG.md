@@ -3,6 +3,18 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.17.0] - 2026-08-16
+
+### Fixed
+
+- **Four measurements were only ever named in English.** Humidity, filtration time, pump energy and carbon monoxide had no translation in sixteen of the seventeen languages, so a card set to German, Spanish or Swedish showed those four in English while everything around them was translated.
+
+  They are translated now, in all seventeen.
+
+### Changed
+
+- **The sensor table in the documentation has a Defaults column** instead of Default Setpoint. Measurements built around thresholds rather than an ideal value can be listed there truthfully, which is what let the air card document its carbon monoxide preset. Nothing changes on the card itself.
+
 ## [2.16.1] - 2026-08-16
 
 ### Documentation

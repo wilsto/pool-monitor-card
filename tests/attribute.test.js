@@ -64,7 +64,11 @@ describe('decimals follow whatever supplies the number', () => {
     const card = new SensorMonitorCard();
     card.hass = {
       states: {
-        'climate.living': { state: 'heat', attributes: attrs, last_updated: '2026-08-16T10:00:00Z' },
+        'climate.living': {
+          state: 'heat',
+          attributes: attrs,
+          last_updated: '2026-08-16T10:00:00Z',
+        },
       },
       entities: {},
     };
@@ -87,13 +91,17 @@ describe('decimals follow whatever supplies the number', () => {
   });
 
   it('still lets an explicit display_precision win', () => {
-    expect(climate({ temperature: 20.567, display_precision: 1 }, { attribute: 'temperature' }).value).toBe(20.6);
+    expect(
+      climate({ temperature: 20.567, display_precision: 1 }, { attribute: 'temperature' }).value,
+    ).toBe(20.6);
   });
 
   it('leaves a plain state sensor alone', () => {
     const card = new SensorMonitorCard();
     card.hass = {
-      states: { 'sensor.t': { state: '20.5', attributes: {}, last_updated: '2026-08-16T10:00:00Z' } },
+      states: {
+        'sensor.t': { state: '20.5', attributes: {}, last_updated: '2026-08-16T10:00:00Z' },
+      },
       entities: {},
     };
     card.setConfig({ sensors: { t: { entity: 'sensor.t', name: 'T' } } });

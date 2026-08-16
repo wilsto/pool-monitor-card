@@ -38,7 +38,10 @@ describe('one battery for the whole device', () => {
     const card = build(
       {
         battery_entity: 'sensor.wg_battery',
-        sensors: { ph: { entity: 'sensor.wg_ph' }, free_chlorine: { entity: 'sensor.wg_chlorine' } },
+        sensors: {
+          ph: { entity: 'sensor.wg_ph' },
+          free_chlorine: { entity: 'sensor.wg_chlorine' },
+        },
       },
       STATES,
     );

@@ -62,9 +62,9 @@ describe('the three options that were only reachable from YAML', () => {
       n.textContent.trim(),
     );
     expect(labels).toContain('Attribute');
-    expect(sections(el).map(d => d.querySelector('.sensor-section-name').textContent.trim())).not.toContain(
-      'Attribute',
-    );
+    expect(
+      sections(el).map(d => d.querySelector('.sensor-section-name').textContent.trim()),
+    ).not.toContain('Attribute');
   });
 
   it('offers explicit thresholds and a reading direction', async () => {

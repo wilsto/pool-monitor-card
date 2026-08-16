@@ -71,7 +71,10 @@ describe('the documentation says what the card actually reads', () => {
       const end = rest.indexOf('\n\n');
       return rest.slice(0, end === -1 ? undefined : end);
     };
-    for (const header of ['| Option | Type | Default | Description |', '| Option | Type | Description |']) {
+    for (const header of [
+      '| Option | Type | Default | Description |',
+      '| Option | Type | Description |',
+    ]) {
       const rows = [...tableAt(header).matchAll(/^\| (`[^`]+`) \|/gm)].map(m => m[1]);
       const seen = new Set();
       const twice = rows.filter(r => (seen.has(r) ? true : (seen.add(r), false)));

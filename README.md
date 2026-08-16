@@ -40,7 +40,7 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 
 ![Temperature](resources/temperature.png) ![pH](resources/ph.png) ![ORP](resources/orp.png) ![TDS](resources/tds.png) ![Electrical Conductivity](resources/ec.png)
 
-| Sensor | Key | Unit | Default Setpoint |
+| Sensor | Key | Unit | Defaults |
 |--------|-----|------|:----------------:|
 | Temperature | `temperature` | °C | 27 |
 | pH | `ph` | pH | 7.2 |
@@ -54,7 +54,7 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 
 ![Salinity](resources/salinity.png) ![Cyanuric Acid](resources/cya.png) ![Calcium](resources/calcium.png) ![Phosphate](resources/phosphate.png) ![Alkalinity](resources/alkalinity.png)
 
-| Sensor | Key | Unit | Default Setpoint |
+| Sensor | Key | Unit | Defaults |
 |--------|-----|------|:----------------:|
 | Salinity | `salinity` | ppm | 3000 |
 | Cyanuric Acid | `cya` | ppm | 40 |
@@ -68,7 +68,7 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 
 ![Free Chlorine](resources/free_chlorine.png) ![Total Chlorine](resources/total_chlorine.png) ![Bromine](resources/bromine.png) ![Filter Pressure](resources/pressure.png) ![Specific Gravity](resources/specific_gravity.png) ![Magnesium](resources/magnesium.png)
 
-| Sensor | Key | Unit | Default Setpoint |
+| Sensor | Key | Unit | Defaults |
 |--------|-----|------|:----------------:|
 | Free Chlorine | `free_chlorine` | ppm | 3 |
 | Total Chlorine | `total_chlorine` | ppm | 3 |
@@ -83,7 +83,7 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 
 ![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)       
 
-| Sensor | Key | Unit | Default Setpoint |
+| Sensor | Key | Unit | Defaults |
 |--------|-----|------|:----------------:|
 | Water Level | `water_level` | % | 100 |
 | Flow Rate | `flow_rate` | m³/h | 10 |
@@ -361,7 +361,7 @@ This card is part of the **monitor-cards** family: same rendering engine, same f
 |------|-----|---------|
 | [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 28 presets ← *you are here* |
 | [Aquarium Monitor Card](https://github.com/wilsto/aquarium-monitor-card) | Freshwater & saltwater aquarium keepers | 15 presets |
-| [Air Quality Card](https://github.com/wilsto/air-quality-card) | Homeowners concerned about indoor air quality | 12 presets |
+| [Air Monitor Card](https://github.com/wilsto/air-quality-card) | Homeowners concerned about indoor air quality | 13 presets |
 | [Sensor Monitor Card](https://github.com/wilsto/sensor-monitor-card) | Home Assistant power users | unlimited (custom) |
 
 <!-- Badges -->

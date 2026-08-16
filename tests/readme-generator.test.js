@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { supportedLanguages, loadSensors, CARDS } from '../../../scripts/generate-readmes.js';
 import { translations } from '../src/locales/translations.js';
+import { PoolMonitorCard } from '../../pool-monitor/src/pool-monitor-card.js';
+import { AquariumMonitorCard } from '../../aquarium-monitor/src/aquarium-monitor-card.js';
+import { AirQualityCard } from '../../air-quality/src/air-quality-card.js';
 
 // The README announced "12 languages supported" and named Polish, which has no
 // translation, while omitting Hungarian, Swedish, Romanian and Brazilian
@@ -61,4 +64,37 @@ describe('README generator, every sensor belongs to a category', () => {
       expect(orphans).toEqual([]);
     });
   });
+});
+
+// `co` shipped on the air card for the Amazon Smart Air Quality Monitor and
+// appears in no README. Two hand-maintained lists had to agree on it and
+// neither did: the parser below wants a `setpoint`, and `co` is the only preset
+// defined by thresholds instead, while the category list had forgotten it too.
+
+const SENSORS = {
+  'pool-monitor': PoolMonitorCard.SENSORS,
+  'aquarium-monitor': AquariumMonitorCard.SENSORS,
+  'air-quality': AirQualityCard.SENSORS,
+};
+
+describe('README generator, no preset is dropped on the way to the page', () => {
+  for (const card of CARDS.filter(c => !c.isGeneric)) {
+    const declared = Object.keys(SENSORS[card.package] ?? {});
+
+    it(`${card.package}: the parser reads them all`, () => {
+      expect(declared.length).toBeGreaterThan(0);
+      const parsed = loadSensors(card.package).map(s => s.key);
+      expect(declared.filter(k => !parsed.includes(k))).toEqual([]);
+    });
+
+    it(`${card.package}: each one is filed under a category`, () => {
+      const filed = card.sensorCategories.flatMap(c => c.keys);
+      expect(declared.filter(k => !filed.includes(k))).toEqual([]);
+    });
+
+    it(`${card.package}: no category names a preset that does not exist`, () => {
+      const filed = card.sensorCategories.flatMap(c => c.keys);
+      expect(filed.filter(k => !declared.includes(k))).toEqual([]);
+    });
+  }
 });
