@@ -108,6 +108,7 @@ Community-tested devices and their supported parameters:
 
 | Brand | Model | Temp | pH | ORP | TDS | HA Support |
 |-------|-------|:----:|:--:|:---:|:---:|------------|
+| WaterGuru | [WaterGuru SENSE](https://waterguru.com/products/waterguru-sense) | ✔️ | ✔️ | ❌ | ❌ | [Integration](https://github.com/dwradcliffe/home-assistant-waterguru) |
 | Bluerriot | [Bluerriot Blue Connect](https://www.blueriiot.com/us-en) | ✔️ | ✔️ | ✔️ | ❌ | [Blog](https://blog.mikejmcguire.com/2021/12/30/home-assistant-add-on-for-blueriiot-blue-connect-plus/) |
 | Bluerriot | [Bluerriot Blue Connect Plus Gold](https://www.blueriiot.com/us-en) | ✔️ | ✔️ | ✔️ | ✔️ | [Blog](https://blog.mikejmcguire.com/2021/12/30/home-assistant-add-on-for-blueriiot-blue-connect-plus/) |
 | Flipr | [Flipr AnalysR](https://goflipr.com/flipr-analysr-3/) | ✔️ | ✔️ | ✔️ | ❌ | [Component](https://www.home-assistant.io/integrations/flipr/) |
@@ -118,6 +119,10 @@ Community-tested devices and their supported parameters:
 | Tuya | [Tuya BLE-YL01](https://www.zigbee2mqtt.io/devices/BLE-YL01.html) | ✔️ | ✔️ | ✔️ | ✔️ | [Tuto](https://community.home-assistant.io/t/pool-monitoring-device-yieryi-ble-yl01-zigbee-ph-orp-free-chlorine-salinity-etc/659545) |
 
 > ✔️ = supported, ❌ = not supported. [See more hardware](example/hardware.md)
+
+> The columns cover the four parameters most devices share. Several measure more:
+> the WaterGuru SENSE reads free chlorine, and its S2 and S3 models also read total
+> alkalinity, cyanuric acid and calcium hardness. The card has a preset for each.
 
 > Know a device that works? [Open an issue](https://github.com/wilsto/pool-monitor-card/issues) to add it!
 

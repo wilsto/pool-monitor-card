@@ -3,6 +3,14 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.16.1] - 2026-08-16
+
+### Documentation
+
+- **The WaterGuru SENSE is in the compatible hardware table.** Two options exist because of it, a card-level battery and a status per measurement, and it was still not listed as a device the card works with. Its Home Assistant integration is linked.
+
+- **The table now says what its columns do not cover.** They show temperature, pH, ORP and TDS, which most devices share. Several measure more: the WaterGuru SENSE reads free chlorine, and its S2 and S3 models also read total alkalinity, cyanuric acid and calcium hardness. Two crosses in those columns no longer read as a device that only measures two things.
+
 ## [2.16.0] - 2026-08-16
 
 ### Added
