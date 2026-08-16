@@ -3,6 +3,14 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.17.3] - 2026-08-16
+
+### Documentation
+
+- **The picture at the top of this page now shows both layouts.** The compact one appeared nowhere, although it is half of what the card can do. The full layout is on the left, the compact one on the right, on the same dashboard and inside the same story.
+
+  A compact row fits in half the height, so the compact card carries about twice as many, which is what it is for: it is the layout to pick when there is a lot to show.
+
 ## [2.17.2] - 2026-08-16
 
 ### Documentation
