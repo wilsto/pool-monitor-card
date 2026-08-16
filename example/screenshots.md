@@ -1,49 +1,54 @@
-# Pool Monitor V2 Screenshots
+# Pool Monitor Card in detail
 
-This section showcases various configurations and visual tests for the Pool Monitor V2 card, allowing you to see different parameter settings and verify the proper functioning of the latest version.
+Eight ways to configure the same card. Each one is generated from the source
+at the current version, so what is below is what this version does.
 
-## Configuration Examples
+Back to the [README](../README.md).
 
-Each screenshot represents a different configuration of the Pool Monitor V2 card:
+## Default
 
-1. [**Hero**](#quick-overview): Overview of the card's capabilities
-2. [**Standard**](#standard-configuration): Default configuration with all basic features
-3. [**Display**](#display-options): Enhanced display with additional information
-4. [**Compact**](#compact-display): Space-efficient version for smaller dashboards
-5. [**Advanced**](#advanced-display): Extended configuration with all features enabled
-6. [**Full Page**](#full-page-configuration): Full dashboard integration example
-7. [**Multilanguage**](#multilanguage-support): Demonstration of language support
+Point it at your entities and stop there. Every preset carries its own unit, ideal value and thresholds.
 
-For detailed configuration options, please refer to the [README.md](../README.md) file.
+![Default](default.png)
 
-## Quick Overview
+## Compact
 
-<a href="hero.png">![Pool Monitor V2 Hero](hero.png)</a>
+The name, the reading and the verdict move inside the bar. A row takes half the height, which is what makes a dozen measurements fit on a phone.
 
-## Standard Configuration
+![Compact](compact.png)
 
-<a href="Pool-Monitor-V2.png">![Pool Monitor V2](Pool-Monitor-V2.png)</a>
+## Nothing but the bars
 
-## Display Options
+Names, labels, icons and units can each be turned off. Useful when the card sits under a heading that already says what it is.
 
-### Default Display
+![Nothing but the bars](bare.png)
 
-<a href="Pool-Monitor-V2-Display.png">![Pool Monitor V2 Display](Pool-Monitor-V2-Display.png)</a>
+## Your own colours
 
-### Compact Display
+The six colours of the scale are yours to set, so the card can follow a theme instead of fighting it.
 
-<a href="Pool-Monitor-V2-Compact.png">![Pool Monitor V2 Compact](Pool-Monitor-V2-Compact.png)</a>
+![Your own colours](colors.png)
 
-### Advanced Display
+## Thresholds you set yourself
 
-<a href="Pool-Monitor-V2-Advanced-Display.png">![Pool Monitor V2 Advanced Display](Pool-Monitor-V2-Advanced-Display.png)</a>
+When the ideal sits at one end rather than in the middle, give the four boundaries and say which way the scale reads. The colours then run one way instead of meeting in the middle.
 
-### Full Page Display
+![Thresholds you set yourself](thresholds.png)
 
-<a href="Pool-Monitor-V2-Fullpage.png">![Pool Monitor V2 Full Page](Pool-Monitor-V2-Fullpage.png)</a>
+## Seventeen languages
 
-## Additional Features
+Measurement names and verdicts follow the language you pick, or the one Home Assistant is already in. This one is French.
 
-### Multilanguage Support
+![Seventeen languages](language.png)
 
-<a href="Pool-Monitor-V2-Multilangue.png">![Pool Monitor V2 Multilangue](Pool-Monitor-V2-Multilangue.png)</a>
+## Status and battery
+
+A device that publishes its own verdict can show it, for the whole card or for one measurement, and a battery is read once for the device rather than repeated on every row.
+
+![Status and battery](status.png)
+
+## When a sensor stops answering
+
+A reading that is missing, unavailable or not a number is drawn grey and left flat, rather than pretending to be zero.
+
+![When a sensor stops answering](unavailable.png)

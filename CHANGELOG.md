@@ -3,6 +3,14 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.17.4] - 2026-08-16
+
+### Documentation
+
+- **There is a detail page now, linked from the top of this one.** Eight ways to configure the same card, each saying what it is for: the default, the compact layout, everything turned off but the bars, your own colours, thresholds you set yourself in either direction, another language, status and battery, and what a sensor that stopped answering looks like.
+
+  Every picture is generated from the source at this version, so the page shows what this version does rather than what an older one did.
+
 ## [2.17.3] - 2026-08-16
 
 ### Documentation

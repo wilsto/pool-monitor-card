@@ -112,10 +112,20 @@ describe('every picture a README points at is really there', () => {
   for (const card of CARDS) {
     it(card.package, () => {
       const dir = resolve(root, 'scripts/dist-readmes', card.repo.split('/')[1]);
-      const readme = readFileSync(resolve(dir, 'README.md'), 'utf8');
-      const referenced = [...readme.matchAll(/!\[[^\]]*\]\((?!https?:)([^)]+)\)/g)].map(m => m[1]);
-      expect(referenced.length).toBeGreaterThan(0);
-      const missing = referenced.filter(rel => !existsSync(resolve(dir, rel)));
+      // the detail page counts too: its pictures sit beside it, in example/
+      const pages = [
+        ['README.md', dir],
+        ['example/screenshots.md', resolve(dir, 'example')],
+      ];
+      const missing = [];
+      let seen = 0;
+      for (const [page, base] of pages) {
+        const text = readFileSync(resolve(dir, page), 'utf8');
+        const referenced = [...text.matchAll(/!\[[^\]]*\]\((?!https?:)([^)]+)\)/g)].map(m => m[1]);
+        seen += referenced.length;
+        missing.push(...referenced.filter(rel => !existsSync(resolve(base, rel))).map(r => `${page} -> ${r}`));
+      }
+      expect(seen).toBeGreaterThan(0);
       expect(missing).toEqual([]);
     });
   }

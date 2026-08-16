@@ -6,7 +6,7 @@
 
 ![screenshot](example/hero.gif)
 
-[See all configurations and visual tests](example/screenshots.md)
+[See the eight ways to configure this card](example/screenshots.md)
 
 > **Upgrading from v1?** The sensor configuration format changed in v2. See the [Migration Guide](docs/MIGRATION.md).
 
