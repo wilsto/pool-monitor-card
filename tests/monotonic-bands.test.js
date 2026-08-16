@@ -5,8 +5,8 @@ import { AirQualityCard } from '../../air-quality/src/air-quality-card.js';
 import { PoolMonitorCard } from '../../pool-monitor/src/pool-monitor-card.js';
 
 // Found by looking at the screen, not by unit tests. The card announced 20 ppm
-// of carbon monoxide as "Ideal" — more than twice the WHO eight-hour guideline
-// — and 3 ppm of perfectly good air as "Too Low", in blue. Both come from the
+// of carbon monoxide as "Ideal", more than twice the WHO eight-hour guideline
+//, and 3 ppm of perfectly good air as "Too Low", in blue. Both come from the
 // same cause: a monotonic scale was being described with the vocabulary and the
 // gradient of a centric one, whose middle band is by construction the ideal.
 //
@@ -38,7 +38,7 @@ const pool = (sensor, state) => {
 };
 
 describe('a monotonic scale is not described as a centric one', () => {
-  it('never calls a middle band ideal — 20 ppm of CO is not an ideal reading', () => {
+  it('never calls a middle band ideal, 20 ppm of CO is not an ideal reading', () => {
     expect(co(20).state).not.toBe('Ideal');
     expect(co(20).state).toBe('Moderate');
   });
@@ -107,7 +107,7 @@ describe('the bar is painted the way the reading is classified', () => {
 });
 
 // The two blocks above only prove what the card computes. The gradient is
-// written in the template, and there are two of them — full and compact. A
+// written in the template, and there are two of them, full and compact. A
 // value that never reaches the style attribute is a value nobody sees.
 //
 // Asserting on a single colour is not enough: the centric gradient also

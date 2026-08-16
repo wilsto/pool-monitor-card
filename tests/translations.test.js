@@ -17,6 +17,8 @@ const SUPPORTED_LANGUAGES = [
   'hu',
   'sv',
   'cs',
+  'ca',
+  'da',
 ];
 
 describe('Translations', () => {
@@ -37,14 +39,14 @@ describe('Translations', () => {
   // not ship until fifteen translations existed, which in practice meant
   // inventing languages nobody could verify.
   //
-  // An EXTRA key is still an error — it is a typo, and it will never be read.
+  // An EXTRA key is still an error, it is a typo, and it will never be read.
   describe('key consistency across locales', () => {
     const referenceKeys = getDeepKeys(translations.en);
 
     SUPPORTED_LANGUAGES.forEach(lang => {
       test(`${lang} defines no key that English does not`, () => {
         const orphelines = getDeepKeys(translations[lang]).filter(k => !referenceKeys.includes(k));
-        expect(orphelines, `${lang} has keys absent from en — likely typos`).toEqual([]);
+        expect(orphelines, `${lang} has keys absent from en, likely typos`).toEqual([]);
       });
     });
   });

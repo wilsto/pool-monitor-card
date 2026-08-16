@@ -2,7 +2,7 @@ import type { HaFormSchema } from './types.js';
 import { translations } from '../locales/translations.js';
 
 /**
- * The language menu is derived from the translations registry — never a second
+ * The language menu is derived from the translations registry, never a second
  * hand-maintained list. The two had drifted: three languages were offered with
  * nothing behind them (`pl`, `zh-cn`, `zh-tw`, falling back to English in
  * silence) while six translated ones were unreachable, including three
@@ -12,7 +12,7 @@ import { translations } from '../locales/translations.js';
  * entry with no second edit.
  *
  * Intl.DisplayNames was tried first and rejected: Chrome resolves it to the
- * browser's locale whatever you request — measured 2026-08-15, a French
+ * browser's locale whatever you request, measured 2026-08-15, a French
  * browser listed every language in French ("Anglais", "Allemand"). Node does
  * honour the request, so a unit test would have passed while production was
  * wrong.

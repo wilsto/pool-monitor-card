@@ -21,7 +21,7 @@ function build(sensor, state) {
 
 const PM25 = { entity: 'sensor.x', limits: [2, 5, 10, 15], min: 0, max: 20 };
 
-describe('limits — explicit boundaries', () => {
+describe('limits, explicit boundaries', () => {
   it('the five class boundaries come from the array, not from setpoint', () => {
     const d = build(PM25, 3);
     expect(d.setpoint_class.map(Number)).toEqual([0, 2, 5, 10, 15]);
@@ -34,12 +34,12 @@ describe('limits — explicit boundaries', () => {
   });
 });
 
-describe('limits — reading direction', () => {
+describe('limits, reading direction', () => {
   it('lower is better by default: a low value is good, a high one is not', () => {
     const bon = build(PM25, 1);
     const mauvais = build(PM25, 18);
     expect(bon.color).not.toBe(mauvais.color);
-    expect(bon.color).toBe('#00b894'); // normal — green, the best band
+    expect(bon.color).toBe('#00b894'); // normal, green, the best band
   });
 
   it('higher is better: the ramp is reversed', () => {
@@ -57,7 +57,7 @@ describe('limits — reading direction', () => {
   });
 });
 
-describe('limits — no regression without them', () => {
+describe('limits, no regression without them', () => {
   it('a sensor without limits keeps the derived scale', () => {
     const d = build({ entity: 'sensor.x', setpoint: 10, step: 2 }, 10);
     expect(d.setpoint_class.map(Number)).toEqual([6, 8, 10, 12, 14]);
@@ -66,7 +66,7 @@ describe('limits — no regression without them', () => {
 
 // Found by looking at the screen, not by unit tests: every test above passes
 // `min` and `max` explicitly, so none exercised limits on their own. The CO
-// preset has limits and no setpoint/step at all — the bar range was still
+// preset has limits and no setpoint/step at all, the bar range was still
 // derived from setpoint ± 3·step, which are absent, so it collapsed to zero
 // width and all five labels stacked at 100%.
 describe('limits without explicit bounds still span the bar', () => {

@@ -4,13 +4,13 @@ import { translations } from '../src/locales/translations.js';
 
 // The language menu used to be a second hand-maintained list, and the two
 // drifted: 3 languages were offered with no translation behind them (pl, zh-cn,
-// zh-tw — silently falling back to English) while 6 translated ones were
+// zh-tw, silently falling back to English) while 6 translated ones were
 // unreachable (cs, he, hu, ro, ru, sv), including three community contributions.
 const menuOptions = () =>
   DISPLAY_SCHEMA.find(f => f.name === 'language')?.selector?.select?.options ?? [];
 
 describe('language menu is derived from the translations registry', () => {
-  it('offers exactly the registered languages — no more, no fewer', () => {
+  it('offers exactly the registered languages, no more, no fewer', () => {
     const offered = menuOptions()
       .map(o => o.value)
       .sort();

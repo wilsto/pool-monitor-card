@@ -247,20 +247,27 @@ export class MonitorCardBase extends LitElement {
 
     const entityState = this.hass.states[entity];
     const entityRegistry = this.hass.entities?.[entity];
+    // A reading may live on an attribute rather than the state: several
+    // integrations publish more than one measurement per entity, and today each
+    // one needs a template sensor just to be displayed (sensor-monitor-card#3).
+    // A missing attribute reads as no value, not as the state, which would show
+    // an unrelated number as if it were the one asked for.
+    const rawSource = attribute
+      ? ((entityState.attributes as any)?.[attribute] as string)
+      : entityState.state;
+
+    // Decimals are counted on whatever actually supplies the number. Reading
+    // them from the state while the value comes from an attribute is how a
+    // climate entity, whose state is the word "heat", made 20.5 render as 21:
+    // parseFloat("heat") is NaN, NaN has no decimals, so the value was rounded
+    // to the nearest integer without anything saying so.
     const precision =
       entityRegistry?.display_precision ??
       (entityState.attributes as any)?.display_precision ??
       (entityState.attributes as any)?.precision ??
-      this.countDecimals(parseFloat(entityState.state));
+      this.countDecimals(parseFloat(rawSource));
 
-    // A reading may live on an attribute rather than the state: several
-    // integrations publish more than one measurement per entity, and today each
-    // one needs a template sensor just to be displayed (sensor-monitor-card#3).
-    // A missing attribute reads as no value — not as the state, which would show
-    // an unrelated number as if it were the one asked for.
-    const rawValue = parseFloat(
-      attribute ? ((entityState.attributes as any)?.[attribute] as string) : entityState.state,
-    );
+    const rawValue = parseFloat(rawSource);
     newData.entity = entity;
 
     if (isNaN(rawValue)) {
@@ -305,7 +312,7 @@ export class MonitorCardBase extends LitElement {
       newData.value = override_value || defaultConfig.override;
     }
 
-    // `min` and `max` accept two forms and the type decides — PO decision
+    // `min` and `max` accept two forms and the type decides, PO decision
     // 2026-08-15 (#5). A number is a scale boundary, which is what the README
     // has always documented; a string is a tracking entity placing a marker on
     // the bar. Before this, a number was resolved as an entity id, matched
@@ -335,7 +342,7 @@ export class MonitorCardBase extends LitElement {
         ? parseFloat(this.hass.states[trackMax].state)
         : newData.value;
 
-    // Setpoint calculations — entity overrides static value
+    // Setpoint calculations, entity overrides static value
     const setpointFromEntity = this.resolveEntityNumber(setpoint_entity);
     const sp_val: number =
       setpointFromEntity != null
@@ -382,7 +389,7 @@ export class MonitorCardBase extends LitElement {
 
     newData.setpoint = sp_val;
 
-    // min_limit — entity overrides static value
+    // min_limit, entity overrides static value
     const minLimitFromEntity = this.resolveEntityNumber(min_limit_entity);
     const minLimitVal =
       minLimitFromEntity != null
@@ -390,7 +397,7 @@ export class MonitorCardBase extends LitElement {
         : min_limit !== undefined
           ? Number(min_limit)
           : -Infinity;
-    // Explicit boundaries win over the setpoint computation — PO decision
+    // Explicit boundaries win over the setpoint computation, PO decision
     // 2026-08-15 (#7). Approach adapted from @rpirsc13
     // (wilsto/air-quality-card#4): reuse the existing five-class mechanism and
     // only change how the five numbers are filled, rather than adding a
@@ -423,7 +430,7 @@ export class MonitorCardBase extends LitElement {
     newData.color = 'transparent';
 
     // Held outside the branch below so the bar can be painted with the very
-    // colours the reading is classified against — one ramp, not two that drift.
+    // colours the reading is classified against, one ramp, not two that drift.
     let monotonicRamp: string[] | null = null;
 
     if (newData.value !== null) {
@@ -439,8 +446,8 @@ export class MonitorCardBase extends LitElement {
       // clean end of a pollutant scale reads as a fault, which is how carbon
       // monoxide came to announce 3 ppm of perfectly good air as "Too Low".
       //
-      // The band names are the European Air Quality Index ones — good, fair,
-      // moderate, poor, very poor — rather than the centric vocabulary, whose
+      // The band names are the European Air Quality Index ones, good, fair,
+      // moderate, poor, very poor, rather than the centric vocabulary, whose
       // middle band is by construction the ideal. On a monotonic scale the
       // middle band is already an exceedance: CO at 20 ppm was announced as
       // "Ideal", more than twice the WHO eight-hour guideline.
@@ -515,7 +522,7 @@ export class MonitorCardBase extends LitElement {
     //   2. the limits themselves, when a sensor is driven by them
     //   3. the setpoint, three steps either side
     //
-    // Step 2 exists because a preset may carry limits and nothing else — carbon
+    // Step 2 exists because a preset may carry limits and nothing else, carbon
     // monoxide has published thresholds and no meaningful setpoint. Deriving the
     // range from an absent setpoint gave a zero-width bar and stacked all five
     // labels on top of each other at 100%. Every earlier test passed min and max
@@ -749,7 +756,7 @@ export class MonitorCardBase extends LitElement {
  * Registers a card, tolerating a name already taken by another HACS card.
  *
  * `@customElement` defines the element at module evaluation and throws a
- * DOMException if the name exists — which kills the whole module, not just the
+ * DOMException if the name exists, which kills the whole module, not just the
  * registration. Measured on wilsto/air-quality-card#3: another card publishes
  * the same `air-quality-card` element name, so whichever loads second dies
  * outright rather than merely failing to render.
@@ -764,7 +771,7 @@ export function defineCard(name: string, ctor: CustomElementConstructor): void {
   if (customElements.get(name)) {
     console.warn(
       `[${name}] another custom card already registered this element name, so this one ` +
-        `will not render. Both cannot coexist — keep the one you want and remove the other.`,
+        `will not render. Both cannot coexist, keep the one you want and remove the other.`,
     );
     return;
   }

@@ -27,7 +27,7 @@ import { css } from 'lit';
 export const styles = css`
   /**
    * The card renders an ha-card, which carries Home Assistant's own background,
-   * radius, border and shadow — and which card-mod can target, as it does on
+   * radius, border and shadow, and which card-mod can target, as it does on
    * every other card. :host used to imitate all of that, which is why a
    * card-mod rule on ha-card matched nothing here (#1).
    */
@@ -85,7 +85,7 @@ export const styles = css`
     align-items: flex-start;
   }
 
-  /** Unified gauge container — marker, bar, labels share same coordinate space */
+  /** Unified gauge container, marker, bar, labels share same coordinate space */
   .sensor-gauge {
     flex: 1;
     min-width: 0;
@@ -244,7 +244,7 @@ export const styles = css`
   /**
    * Static sizing lives here, not in inline style attributes. An inline style
    * beats any injected stylesheet by specificity, so card-mod could not reach
-   * these — which is what @apsmith12 ran into asking to adjust element and font
+   * these, which is what @apsmith12 ran into asking to adjust element and font
    * sizes (#1). Dynamic values (computed positions, colours from the reading)
    * stay inline: they change per render.
    */

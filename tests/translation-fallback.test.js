@@ -3,7 +3,7 @@ import { getTranslation, translations } from '../src/locales/translations.js';
 
 // A key missing from a locale used to be shown raw: a French user saw
 // "sensor.humidity" instead of a name. That forced every new sensor to arrive
-// with fifteen translations at once, or not at all — so either someone invents
+// with fifteen translations at once, or not at all, so either someone invents
 // Hungarian and Hebrew they cannot verify, or users get nothing.
 //
 // English is the language every locale file is written against, so falling back

@@ -68,7 +68,7 @@ export interface ColorConfig {
   warn: string;
   normal: string;
   /**
-   * The second band of a monotonic scale — still acceptable, no longer ideal.
+   * The second band of a monotonic scale, still acceptable, no longer ideal.
    * A centric scale has no use for it: it reads good outwards to bad in both
    * directions and never needs a fifth step.
    */

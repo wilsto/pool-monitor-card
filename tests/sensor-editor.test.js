@@ -10,7 +10,7 @@ import '../src/editor/sensor-editor.js';
 //
 // PO decision 2026-08-15: the editor uses native elements for these, so it does
 // not depend on which HA version the user runs. ha-entity-picker, ha-form,
-// ha-icon* are deliberately kept — they still exist and provide real value.
+// ha-icon* are deliberately kept, they still exist and provide real value.
 const REMOVED_OR_CHANGED = ['ha-textfield', 'ha-select', 'mwc-list-item'];
 
 async function renderEditor({ freeform = false } = {}) {
@@ -27,7 +27,7 @@ async function renderEditor({ freeform = false } = {}) {
   return el;
 }
 
-describe('sensor editor — no dependency on removed HA components', () => {
+describe('sensor editor, no dependency on removed HA components', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
   });

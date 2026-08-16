@@ -7,13 +7,13 @@ import { resolve } from 'node:path';
 // work with Pool Monitor cards." (#1)
 //
 // The reason: the card rendered a bare <div> and imitated ha-card on :host.
-// card-mod users write `ha-card { ... }`, which matched nothing here — while it
+// card-mod users write `ha-card { ... }`, which matched nothing here, while it
 // matches on every other card. Mushroom, button-card, mini-graph-card and
 // apexcharts-card all render an <ha-card>; ours did not.
 //
 // Second half: 22 static inline styles beat any injected CSS by specificity,
 // so even with ha-card in place card-mod could not reach font sizes (@apsmith12).
-// Dynamic inline styles — computed positions and colours — legitimately stay.
+// Dynamic inline styles, computed positions and colours, legitimately stay.
 
 const root = resolve(__dirname, '../..');
 const read = p => readFileSync(resolve(root, p), 'utf8');
@@ -42,7 +42,7 @@ describe('static styling lives in the stylesheet, where card-mod can reach it', 
     expect(tailles).toEqual([]);
   });
 
-  it('keeps dynamic inline styles — they compute positions and colours', () => {
+  it('keeps dynamic inline styles, they compute positions and colours', () => {
     const inline = content().match(/style="[^"]*"/g) ?? [];
     expect(inline.filter(s => s.includes('${')).length).toBeGreaterThan(15);
   });

@@ -880,7 +880,7 @@ describe('PoolMonitorCard', () => {
   });
 
   // -------------------------------------------------------------------
-  // step_low / step_high (asymmetric ranges) — #72
+  // step_low / step_high (asymmetric ranges), #72
   // -------------------------------------------------------------------
   describe('asymmetric ranges (step_low/step_high)', () => {
     beforeEach(() => {
@@ -1419,7 +1419,7 @@ describe('PoolMonitorCard', () => {
   });
 
   // -------------------------------------------------------------------
-  // status_entity (#10) — global status badge
+  // status_entity (#10), global status badge
   // -------------------------------------------------------------------
   describe('status_entity', () => {
     test('setConfig should accept status_entity in config', () => {
@@ -1903,7 +1903,7 @@ describe('PoolMonitorCard', () => {
   });
 
   // -------------------------------------------------------------------
-  // Marker positioning (#75, #76) — unified coordinate system
+  // Marker positioning (#75, #76), unified coordinate system
   // -------------------------------------------------------------------
   describe('marker positioning', () => {
     beforeEach(() => {

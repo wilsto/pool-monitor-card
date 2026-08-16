@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { PoolMonitorCard } from '../../pool-monitor/src/pool-monitor-card.js';
 
 // PO decision 2026-08-15 (#5): `min` and `max` accept both forms, the type
-// decides at runtime — a number is a scale boundary (what the README has always
+// decides at runtime, a number is a scale boundary (what the README has always
 // documented), a string is a tracking entity that places a marker on the bar.
 // Until now a number was resolved as an entity id, found nothing, and silently
 // fell back to the current value: sensor-monitor-card#5, #6, pool-monitor-card#88.
@@ -27,7 +27,7 @@ function build(sensor) {
   return card.processData().power_1;
 }
 
-describe('min/max — numeric form sets the scale bounds', () => {
+describe('min/max, numeric form sets the scale bounds', () => {
   beforeEach(() => vi.restoreAllMocks());
 
   it('a numeric min/max defines the visible range, independently of setpoint', () => {
@@ -56,7 +56,7 @@ describe('min/max — numeric form sets the scale bounds', () => {
   });
 });
 
-describe('min/max — string form keeps the tracking-entity behaviour', () => {
+describe('min/max, string form keeps the tracking-entity behaviour', () => {
   it('resolves an entity id to its state', () => {
     const d = build({
       entity: 'sensor.power',

@@ -14,11 +14,11 @@
 
 ## Why this card?
 
-Whether you have a chlorine pool, a saltwater system, or a heated spa, this card gives you an **instant visual overview** of your water quality — right from your Home Assistant dashboard.
+Whether you have a chlorine pool, a saltwater system, or a heated spa, this card gives you an **instant visual overview** of your water quality, right from your Home Assistant dashboard.
 
 Color-coded gradient bars show you at a glance if each parameter is in its ideal range. No need to memorize numbers or look up charts.
 
-Preset ideal ranges for all 20 pool parameters mean you can get started with just an entity ID — the card knows what "good" looks like for pool water.
+Preset ideal ranges for all 20 pool parameters mean you can get started with just an entity ID: the card knows what "good" looks like for pool water.
 
 ### What you can do
 
@@ -32,7 +32,7 @@ Preset ideal ranges for all 20 pool parameters mean you can get started with jus
 
 ## Sensors (28 presets)
 
-Every sensor comes with **preset ideal ranges** — just point to your entity and the card handles the rest. Override any value to match your setup.
+Every sensor comes with **preset ideal ranges**: just point to your entity and the card handles the rest. Override any value to match your setup.
 
 ### Essential Water Chemistry
 
@@ -162,8 +162,8 @@ That's it! The card uses sensible defaults for everything else.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `title` | string | — | Card title |
-| `sensors` | object | — | Sensor definitions (see below) |
+| `title` | string | - | Card title |
+| `sensors` | object | - | Sensor definitions (see below) |
 | `display.compact` | boolean | `false` | Compact display mode |
 | `display.show_names` | boolean | `true` | Show sensor names |
 | `display.show_icons` | boolean | `true` | Show sensor icons |
@@ -195,7 +195,7 @@ of the visible scale, a **string** is an entity whose value places a tracking
 marker on the bar.
 
 Without them, the bar spans `setpoint ± 3 × step`, and the coloured zones
-change every `step`. So `step` is what widens or narrows the green zone —
+change every `step`. So `step` is what widens or narrows the green zone:
 a larger `step` is more tolerant, a smaller one more strict.
 
 ### Quantities whose ideal is at one end
@@ -245,7 +245,7 @@ card_mod:
 sensors: ...
 ```
 
-**Sizes, colours, spacing** — target the classes below:
+**Sizes, colours, spacing**: target the classes below:
 
 ```yaml
 card_mod:
@@ -257,8 +257,8 @@ card_mod:
 
 > **Why some rules need `!important`.** The card ships its styles as an
 > adopted stylesheet, and those win over an injected one at equal
-> specificity. So a property the card already sets — a font size, a bar
-> height — needs `!important` or a more specific selector such as
+> specificity. So a property the card already sets (a font size, a bar
+> height) needs `!important` or a more specific selector such as
 > `h1.pool-monitor-title`. A property the card does **not** set, like the
 > icon colour above, applies with no ceremony. Styling `ha-card` itself
 > also works plainly: that rule crosses a shadow boundary, where the
@@ -281,7 +281,7 @@ card_mod:
 
 ### Languages
 
-15 languages supported: Čeština, Deutsch, English, Español, Français, עברית, Magyar, Italiano, Nederlands, Português, Português (Brasil), Română, Русский, Slovenčina, Svenska.
+17 languages supported: Català, Čeština, Dansk, Deutsch, English, Español, Français, עברית, Magyar, Italiano, Nederlands, Português, Português (Brasil), Română, Русский, Slovenčina, Svenska.
 
 Set one with `display.language`, or pick it in the visual editor.
 
@@ -297,28 +297,28 @@ Set one with `display.language`, or pick it in the visual editor.
 
 This card wouldn't be what it is today without our amazing contributors!
 
-- [Gregtakacs](https://github.com/gregtakacs) — Min/Max Tickers and custom bar colors
-- [Djgel](https://github.com/djgel) — Specific gravity measurements + Portuguese translation
-- [JDeighty4](https://github.com/JDeighty4) — Magnesium sensor support
-- [Sebaer1976](https://github.com/sebaer1976) — German translation
-- [Splitti](https://github.com/splitti) — German translation
-- [jorgemiguel4](https://github.com/jorgemiguel4) — Portuguese translation
-- [CosminFRC](https://github.com/CosminFRC) — Romanian translation
-- [Misa1515](https://github.com/misa1515) — Slovak translation
-- [ViPeR5000](https://github.com/ViPeR5000) — Polish translation
-- [Yehuda](https://github.com/Yehuda) — Hebrew translation
-- [MrSnakeSPb](https://github.com/MrSnakeSPb) — Russian translation
-- [hlaffez](https://github.com/hlaffez) — Tuya BLE-YL01 compatibility
-- [DAVIZINH0](https://github.com/DAVIZINH0) — Bluerriot compatibility information
-- [Sangoku](https://github.com/Sangoku) — Bromine sensor support
-- [smashtup](https://github.com/smashtup) — Display precision fix (Entity Registry)
-- [taczirjak](https://github.com/taczirjak) — Hungarian translation
-- [KIDNORswe](https://github.com/KIDNORswe) — Swedish translation
-- [FejbyK](https://github.com/FejbyK) — Czech translation
+- [Gregtakacs](https://github.com/gregtakacs): Min/Max Tickers and custom bar colors
+- [Djgel](https://github.com/djgel): Specific gravity measurements + Portuguese translation
+- [JDeighty4](https://github.com/JDeighty4): Magnesium sensor support
+- [Sebaer1976](https://github.com/sebaer1976): German translation
+- [Splitti](https://github.com/splitti): German translation
+- [jorgemiguel4](https://github.com/jorgemiguel4): Portuguese translation
+- [CosminFRC](https://github.com/CosminFRC): Romanian translation
+- [Misa1515](https://github.com/misa1515): Slovak translation
+- [ViPeR5000](https://github.com/ViPeR5000): Polish translation
+- [Yehuda](https://github.com/Yehuda): Hebrew translation
+- [MrSnakeSPb](https://github.com/MrSnakeSPb): Russian translation
+- [hlaffez](https://github.com/hlaffez): Tuya BLE-YL01 compatibility
+- [DAVIZINH0](https://github.com/DAVIZINH0): Bluerriot compatibility information
+- [Sangoku](https://github.com/Sangoku): Bromine sensor support
+- [smashtup](https://github.com/smashtup): Display precision fix (Entity Registry)
+- [taczirjak](https://github.com/taczirjak): Hungarian translation
+- [KIDNORswe](https://github.com/KIDNORswe): Swedish translation
+- [FejbyK](https://github.com/FejbyK): Czech translation
 
 ## Monitor Cards Family
 
-This card is part of the **monitor-cards** family — same rendering engine, same features, different presets:
+This card is part of the **monitor-cards** family: same rendering engine, same features, different presets:
 
 | Card | For | Sensors |
 |------|-----|---------|

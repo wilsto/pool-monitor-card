@@ -15,6 +15,8 @@ import ru from './ru.js';
 import hu from './hu.js';
 import sv from './sv.js';
 import cs from './cs.js';
+import ca from './ca.js';
+import da from './da.js';
 
 export const translations: Record<string, TranslationSet> = {
   en,
@@ -32,12 +34,14 @@ export const translations: Record<string, TranslationSet> = {
   hu,
   sv,
   cs,
+  ca,
+  da,
 };
 
 /**
  * Looks a key up in `lang`, falling back to English key by key.
  *
- * A key missing from a locale used to be rendered raw — a French user saw
+ * A key missing from a locale used to be rendered raw, a French user saw
  * `sensor.humidity` instead of a name. That forced every new sensor to arrive
  * with fifteen translations at once, or not at all: either someone invents
  * Hungarian and Hebrew they cannot verify, or users get nothing.

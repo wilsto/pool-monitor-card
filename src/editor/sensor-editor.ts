@@ -219,7 +219,7 @@ export class MonitorSensorEditor extends LitElement {
         <ha-entity-picker
           .hass=${this.hass}
           .value=${config.availability_entity || ''}
-          .label=${'Availability entity (optional — grays out when off)'}
+          .label=${'Availability entity (optional, grays out when off)'}
           .includeDomains=${['binary_sensor', 'switch', 'input_boolean']}
           allow-custom-entity
           @value-changed=${(e: CustomEvent) =>
@@ -229,7 +229,7 @@ export class MonitorSensorEditor extends LitElement {
         <ha-entity-picker
           .hass=${this.hass}
           .value=${config.battery_entity || ''}
-          .label=${'Battery entity (optional — shows battery level)'}
+          .label=${'Battery entity (optional, shows battery level)'}
           .includeDomains=${['sensor']}
           allow-custom-entity
           @value-changed=${(e: CustomEvent) =>
@@ -256,7 +256,7 @@ export class MonitorSensorEditor extends LitElement {
           <ha-entity-picker
             .hass=${this.hass}
             .value=${config.setpoint_entity || ''}
-            .label=${'Setpoint entity (optional — overrides static setpoint)'}
+            .label=${'Setpoint entity (optional, overrides static setpoint)'}
             .includeDomains=${['input_number', 'number', 'sensor']}
             allow-custom-entity
             @value-changed=${(e: CustomEvent) =>
@@ -265,7 +265,7 @@ export class MonitorSensorEditor extends LitElement {
           <ha-entity-picker
             .hass=${this.hass}
             .value=${config.min_limit_entity || ''}
-            .label=${'Min limit entity (optional — overrides static min_limit)'}
+            .label=${'Min limit entity (optional, overrides static min_limit)'}
             .includeDomains=${['input_number', 'number', 'sensor']}
             allow-custom-entity
             @value-changed=${(e: CustomEvent) =>
@@ -375,7 +375,7 @@ export class MonitorSensorEditor extends LitElement {
             .filter(cat => grouped[cat]?.length > 0)
             .map(
               cat => html`
-                <option disabled>— ${categoryLabels[cat]} —</option>
+                <option disabled>, ${categoryLabels[cat]} ,</option>
                 ${grouped[cat].map(opt => html`<option value=${opt.value}>${opt.label}</option>`)}
               `,
             )}

@@ -1,0 +1,53 @@
+// Contributed by @XattSPT, wilsto/pool-monitor-card#86.
+// Ported here rather than merged there: the distribution repository is
+// regenerated on every release, so nothing committed to it survives.
+export default {
+  language: 'Català',
+  state: {
+    1: 'Massa baix',
+    2: 'Aceptable baix',
+    3: 'Perfecte',
+    4: 'Perfecte',
+    5: 'Aceptable alt',
+    6: 'Massa alt',
+  },
+  sensor: {
+    temperature: 'Temperatura',
+    ph: 'pH',
+    orp: 'ORP',
+    tds: 'TDS',
+    salinity: 'Salinitat',
+    cya: 'Ácid cianúric',
+    calcium: 'Calci',
+    phosphate: 'Fosfat',
+    alkalinity: 'Alcalinitat',
+    free_chlorine: 'Clor lliure',
+    total_chlorine: 'Clor total',
+    pressure: 'Presió del filtre relativa',
+    specific_gravity: 'Densitat relativa',
+    magnesium: 'Magnesi',
+    water_level: 'Nivell aigua',
+    flow_rate: 'Cabal',
+    uv_radiation: 'Radiació UV',
+    product_volume: 'Volum Producte',
+    product_weight: 'Pes Producte',
+    ec: 'Conductivitat Eléctrica',
+    bromine: 'Brom',
+    chlorinator: 'Ajust del clorador',
+    pump_speed: 'Velocitat de bomba',
+    light_brightness: 'Brillantor de llum',
+    heat_pump_setpoint: 'Consigna bomba de calor',
+  },
+  time: {
+    seconds: 'ara mateix',
+    minutes: 'fa {minutes} minut',
+    hours: 'fa {hours} hora',
+    days: 'fa {days} dia',
+  },
+  time_plural: {
+    seconds: 'ara mateix',
+    minutes: 'fa {minutes} minuts',
+    hours: 'fa {hours} hores',
+    days: 'fa {days} dies',
+  },
+};

@@ -1,7 +1,7 @@
 # Contributing to pool-monitor-card
 
 Thank you for wanting to help. Please read the first section before opening a
-pull request — it will save you a lot of work.
+pull request, it will save you a lot of work.
 
 ## This repository is generated
 
@@ -22,7 +22,7 @@ Overwritten on every release: `src/`, `tests/`, `dist/`, `package.json`,
 **A pull request opened here is still read.** It cannot be merged, but it can be
 ported into the core by hand, and you are credited by name in the README
 acknowledgments. That is how several features and translations arrived. Say in
-the description what problem you are solving — the intent matters more than the
+the description what problem you are solving, the intent matters more than the
 diff, since the diff has to be re-applied elsewhere.
 
 **Reporting a bug or asking for a feature**: open an issue here. That is the
@@ -52,7 +52,7 @@ export default {
 ```
 
 Copy `src/locales/en.ts`, translate the values, keep every key and every
-`{placeholder}`. The menu entry appears on its own — the language list is
+`{placeholder}`. The menu entry appears on its own, the language list is
 derived from the files, so there is no second place to edit.
 
 Open a pull request with just that file. It ports in minutes.

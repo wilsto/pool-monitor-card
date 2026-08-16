@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 
 // The version used to live in two places: package.json, which drives the release
 // tag, and a VERSION constant in the card source, which drives the console banner
-// users read when reporting a bug. Nothing kept them in sync and they drifted —
+// users read when reporting a bug. Nothing kept them in sync and they drifted ,
 // pool-monitor shipped as 2.11.0 while announcing 2.10.1 (#11).
 //
 // It now lives in package.json alone and rollup injects it at build time, the

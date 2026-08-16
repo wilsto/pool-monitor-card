@@ -1,4 +1,4 @@
-# Pool Monitor Card — Sensor Details
+# Pool Monitor Card: Sensor Details
 
 This document explains each sensor, why it matters, and what the ideal ranges mean.
 
@@ -32,7 +32,7 @@ Oxidation Reduction Potential measures sanitizer effectiveness (ideal: 650-750 m
 - **Unit**: g/L
 - **Default setpoint**: 5
 
-Total Dissolved Solids — minerals, salts, particles in the water. High TDS affects clarity. Saltwater pools: 3000-5000 ppm.
+Total Dissolved Solids: minerals, salts, particles in the water. High TDS affects clarity. Saltwater pools: 3000-5000 ppm.
 
 ### Electrical Conductivity (`ec`)
 
@@ -110,7 +110,7 @@ Alternative disinfectant to chlorine (ideal: 3-5 ppm). Common in saltwater and h
 - **Unit**: psi
 - **Default setpoint**: 12
 
-Filter pressure indicates when to backwash. Compare to clean baseline — 8-10 psi above means cleaning time.
+Filter pressure indicates when to backwash. Compare to clean baseline: 8-10 psi above means cleaning time.
 
 ### Specific Gravity (`specific_gravity`)
 
@@ -198,7 +198,7 @@ Target temperature configured on your heat pump (PAC). Use `availability_entity`
 - **Unit**: %
 - **Default setpoint**: 60
 
-Air humidity around an indoor pool. High humidity drives condensation and, over time, structural damage — it is the reading indoor pool owners watch most after temperature.
+Air humidity around an indoor pool. High humidity drives condensation and, over time, structural damage. It is the reading indoor pool owners watch most after temperature.
 
 ### Filtration Time (`filtration_time`)
 

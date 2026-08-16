@@ -5,7 +5,7 @@ import type { CardConfig, SensorData, StatusData } from '../ha/types.js';
  * Horizontal offset for a scale label.
  *
  * Labels are centred on their position, which puts half of them outside the
- * card at 0% and 100% — and the card clips its overflow, so `87` rendered as
+ * card at 0% and 100%, and the card clips its overflow, so `87` rendered as
  * `8`. A truncated number is worse than an ugly one: it reads as a different
  * value. Edge labels are therefore aligned inwards instead of centred.
  *
@@ -25,7 +25,7 @@ const labelShift = (position: number): string => {
  * be painted from constants. A monotonic scale cannot: it runs good to bad, and
  * its colours have to change on the thresholds the labels announce. Painting it
  * with the centric gradient put red at 0 ppm of carbon monoxide and green in
- * the middle — the exact inverse of the message.
+ * the middle, the exact inverse of the message.
  */
 export class cardContent {
   static generateTitle(config: CardConfig): TemplateResult {
@@ -84,7 +84,7 @@ export class cardContent {
                 ${data.side_align === 'right' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
                   : ''}
-                ${data.value != null ? `${data.value} ${data.unit}` : '—'}
+                ${data.value != null ? `${data.value} ${data.unit}` : ','}
                 ${data.side_align === 'left' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
                   : ''}
@@ -315,7 +315,7 @@ export class cardContent {
                   ? `;font-weight:${config.display.name_font_weight}`
                   : ''}"
               >
-                &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : '—'}
+                &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : ','}
                 ${data.separator} ${data.state}
                 ${data.battery_icon
                   ? html`<ha-icon
