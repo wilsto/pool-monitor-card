@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { supportedLanguages, loadSensors, CARDS } from '../../../scripts/generate-readmes.js';
 import { translations } from '../src/locales/translations.js';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
 import { PoolMonitorCard } from '../../pool-monitor/src/pool-monitor-card.js';
 import { AquariumMonitorCard } from '../../aquarium-monitor/src/aquarium-monitor-card.js';
 import { AirQualityCard } from '../../air-quality/src/air-quality-card.js';
@@ -95,6 +98,25 @@ describe('README generator, no preset is dropped on the way to the page', () => 
     it(`${card.package}: no category names a preset that does not exist`, () => {
       const filed = card.sensorCategories.flatMap(c => c.keys);
       expect(filed.filter(k => !declared.includes(k))).toEqual([]);
+    });
+  }
+});
+
+// A README that points at a picture which is not there shows a broken image on
+// the public repository and in the HACS store, and nothing here would notice:
+// the file lives in one place and the reference in another.
+
+describe('every picture a README points at is really there', () => {
+  const root = resolve(__dirname, '../../..');
+
+  for (const card of CARDS) {
+    it(card.package, () => {
+      const dir = resolve(root, 'scripts/dist-readmes', card.repo.split('/')[1]);
+      const readme = readFileSync(resolve(dir, 'README.md'), 'utf8');
+      const referenced = [...readme.matchAll(/!\[[^\]]*\]\((?!https?:)([^)]+)\)/g)].map(m => m[1]);
+      expect(referenced.length).toBeGreaterThan(0);
+      const missing = referenced.filter(rel => !existsSync(resolve(dir, rel)));
+      expect(missing).toEqual([]);
     });
   }
 });

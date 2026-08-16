@@ -4,7 +4,7 @@
 
 > Keep your swimming pool safe and crystal clear by monitoring up to 20 water chemistry parameters at a glance.
 
-![screenshot](example/hero.png)
+![screenshot](example/hero.gif)
 
 [See all configurations and visual tests](example/screenshots.md)
 

@@ -3,6 +3,16 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.17.2] - 2026-08-16
+
+### Documentation
+
+- **The picture at the top of this page is new, and it moves.** The old one was a screenshot of a development bench taken in March: cards titled Compact Display and Color Customisation, a row in Russian, a sensor called MY CUSTOM TEMP NAME, and nothing that shipped since.
+
+  The new one follows an afternoon: the sun eats the chlorine, the pH climbs with it, the status badge goes from safe to warning to danger, the filter pressure creeps up, and everything settles after dosing and a backwash.
+
+  It is also reproducible now. The card is a plain web component, so the picture is rendered from the source in a browser with no Home Assistant around it, which means it can be retaken by anyone at any version instead of by whoever had the bench running.
+
 ## [2.17.1] - 2026-08-16
 
 ### Changed
