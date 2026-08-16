@@ -308,4 +308,29 @@ export const styles = css`
       transform: translateY(0);
     }
   }
+
+  /* The device's own battery, shown once beside the card status rather than
+     repeated on every measurement (pool-monitor-card#81). */
+  .card-battery {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 8px;
+    font-size: 0.8em;
+    font-weight: 600;
+  }
+
+  /* The status of one measurement, next to its name (pool-monitor-card#82). */
+  .sensor-status {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 8px;
+    font-size: 0.7em;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #ffffff;
+    vertical-align: middle;
+    cursor: pointer;
+  }
 `;

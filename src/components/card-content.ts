@@ -37,17 +37,59 @@ export class cardContent {
     return html`${title}`;
   }
 
-  static generateStatusBadge(status: StatusData): TemplateResult {
+  static generateStatusBadge(
+    status: StatusData,
+    battery?: { level: number | null; icon: string; color: string } | null,
+  ): TemplateResult {
     return html`
-      <div class="status-container" @click=${() => cardContent._moreinfo(status.entity_id)}>
-        <span class="status-badge" style="background-color: ${status.color};">
+      <div class="status-container">
+        <span
+          class="status-badge"
+          style="background-color: ${status.color};"
+          @click=${() => cardContent._moreinfo(status.entity_id)}
+        >
           <ha-icon icon="${status.icon}" style="--mdc-icon-size: 16px;"></ha-icon>
           ${status.label}
         </span>
         ${status.friendly_name
           ? html`<span class="status-friendly-name">${status.friendly_name}</span>`
           : ''}
+        ${battery ? cardContent.generateCardBattery(battery) : ''}
       </div>
+    `;
+  }
+
+  /**
+   * The device's own battery, shown once in the header.
+   *
+   * A WaterGuru takes every measurement on one battery, so repeating it on
+   * each sensor row said the same thing five times (pool-monitor-card#81).
+   */
+  static generateCardBattery(battery: {
+    level: number | null;
+    icon: string;
+    color: string;
+  }): TemplateResult {
+    return html`
+      <span class="card-battery" style="color: ${battery.color};">
+        <ha-icon icon="${battery.icon}" style="--mdc-icon-size: 16px;"></ha-icon>
+        ${battery.level != null ? html`${battery.level}%` : ''}
+      </span>
+    `;
+  }
+
+  /** The status of one measurement, next to its name. */
+  static generateSensorStatus(status: StatusData): TemplateResult {
+    return html`
+      <span
+        class="sensor-status"
+        style="background-color: ${status.color};"
+        @click=${(e: Event) => {
+          e.stopPropagation();
+          cardContent._moreinfo(status.entity_id);
+        }}
+        >${status.label}</span
+      >
     `;
   }
 
@@ -217,7 +259,7 @@ export class cardContent {
             ? `font-weight:${config.display.name_font_weight}`
             : ''}"
         >
-          ${data.title}
+          ${data.title} ${data.status ? cardContent.generateSensorStatus(data.status) : ''}
           ${data.battery_icon
             ? html`<span class="battery-indicator" style="color: ${data.battery_color};">
                 <ha-icon icon="${data.battery_icon}" style="--mdc-icon-size: 14px;"></ha-icon>
@@ -317,6 +359,7 @@ export class cardContent {
               >
                 &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : ','}
                 ${data.separator} ${data.state}
+                ${data.status ? cardContent.generateSensorStatus(data.status) : ''}
                 ${data.battery_icon
                   ? html`<ha-icon
                         icon="${data.battery_icon}"

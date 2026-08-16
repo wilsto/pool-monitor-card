@@ -88,6 +88,8 @@ export interface SensorUserConfig {
   max?: string | number;
   /** Read this attribute of the entity instead of its state. */
   attribute?: string;
+  /** A status published for this measurement alone, shown next to it. */
+  status_entity?: string;
   /** Four explicit class boundaries. Replaces the setpoint/step computation. */
   limits?: number[];
   /** Colour ramp direction when `limits` is used. Defaults to lower_is_better. */
@@ -116,6 +118,8 @@ export interface SensorUserConfig {
 export interface CardConfig {
   title?: string;
   status_entity?: string;
+  /** One battery for the whole device, rather than one per measurement. */
+  battery_entity?: string;
   display: DisplayConfig;
   colors: ColorConfig;
   sensors: Record<string, SensorUserConfig | SensorUserConfig[]>;
@@ -167,6 +171,8 @@ export interface SensorData {
    * keep their own fixed gradient.
    */
   monotonic_stops?: string;
+  /** Resolved from the sensor's own `status_entity`, null when it has none. */
+  status?: StatusData | null;
   disabled?: boolean;
   battery_level?: number | null;
   battery_icon?: string;

@@ -27,6 +27,7 @@ export class MonitorCardBase extends LitElement {
     const config = this.getConfig();
     const data = this.processData();
     const status = this.resolveStatus();
+    const cardBattery = this.resolveCardBattery();
     const generateContent = config.display.compact
       ? cardContent.generateCompactBody
       : cardContent.generateBody;
@@ -45,7 +46,13 @@ export class MonitorCardBase extends LitElement {
     return html` <ha-card
       ><div id="pool-monitor-card">
         ${cardContent.generateTitle(config)}
-        ${status ? cardContent.generateStatusBadge(status) : ''}
+        ${status
+          ? cardContent.generateStatusBadge(status, cardBattery)
+          : cardBattery
+            ? html`<div class="status-container">
+                ${cardContent.generateCardBattery(cardBattery)}
+              </div>`
+            : ''}
         ${Object.values(data).map(sensorData => {
           if (sensorData?.invalid) {
             return html`
@@ -138,30 +145,19 @@ export class MonitorCardBase extends LitElement {
         }
 
         if (sensor.battery_entity) {
-          const battState = this.hass?.states?.[sensor.battery_entity];
-          if (!battState || battState.state === 'unavailable' || battState.state === 'unknown') {
-            data[sensorKey].battery_level = null;
-            data[sensorKey].battery_icon = 'mdi:battery-unknown';
-            data[sensorKey].battery_color = 'var(--disabled-text-color, #bdbdbd)';
-          } else {
-            const level = parseFloat(battState.state);
-            if (isNaN(level)) {
-              data[sensorKey].battery_level = null;
-              data[sensorKey].battery_icon = 'mdi:battery-unknown';
-              data[sensorKey].battery_color = 'var(--disabled-text-color, #bdbdbd)';
-            } else {
-              data[sensorKey].battery_level = level;
-              data[sensorKey].battery_icon =
-                level > 50 ? 'mdi:battery' : level >= 20 ? 'mdi:battery-50' : 'mdi:battery-20';
-              data[sensorKey].battery_color =
-                level > 50
-                  ? 'var(--state-sensor-battery-high-color, #4caf50)'
-                  : level >= 20
-                    ? 'var(--state-sensor-battery-medium-color, #ff9800)'
-                    : 'var(--state-sensor-battery-low-color, #f44336)';
-            }
-          }
+          const battery = this.resolveBattery(sensor.battery_entity);
+          data[sensorKey].battery_level = battery.level;
+          data[sensorKey].battery_icon = battery.icon;
+          data[sensorKey].battery_color = battery.color;
         }
+
+        // A status published for this measurement alone. WaterGuru gives one
+        // per reading (HIGH, LOW, Ok), which the card could only show for the
+        // whole device before. Same resolution as the card-level badge, so the
+        // two cannot disagree on what "HIGH" means.
+        data[sensorKey].status = sensor.status_entity
+          ? this.resolveStatus(sensor.status_entity)
+          : null;
       });
     });
 
@@ -578,12 +574,56 @@ export class MonitorCardBase extends LitElement {
     return 0;
   }
 
-  resolveStatus(): StatusData | null {
-    const config = this.getConfig();
-    const entityId = config.status_entity;
-    if (!entityId) return null;
+  /**
+   * Battery level, icon and colour for one entity.
+   *
+   * Pulled out of the per-sensor loop so the card-level battery uses the very
+   * same thresholds: a WaterGuru takes every measurement on one battery, and
+   * two readings of the same battery must not disagree on whether it is low.
+   */
+  resolveBattery(entityId: string): { level: number | null; icon: string; color: string } {
+    const unknown = {
+      level: null,
+      icon: 'mdi:battery-unknown',
+      color: 'var(--disabled-text-color, #bdbdbd)',
+    };
+    const state = this.hass?.states?.[entityId];
+    if (!state || state.state === 'unavailable' || state.state === 'unknown') return unknown;
 
-    const entityState = this.hass?.states?.[entityId];
+    const level = parseFloat(state.state);
+    if (isNaN(level)) return unknown;
+
+    return {
+      level,
+      icon: level > 50 ? 'mdi:battery' : level >= 20 ? 'mdi:battery-50' : 'mdi:battery-20',
+      color:
+        level > 50
+          ? 'var(--state-sensor-battery-high-color, #4caf50)'
+          : level >= 20
+            ? 'var(--state-sensor-battery-medium-color, #ff9800)'
+            : 'var(--state-sensor-battery-low-color, #f44336)',
+    };
+  }
+
+  /** The card's own battery, when the device has a single one. */
+  resolveCardBattery(): { level: number | null; icon: string; color: string } | null {
+    const entityId = this.getConfig().battery_entity;
+    return entityId ? this.resolveBattery(entityId) : null;
+  }
+
+  /**
+   * Turns a status entity into a badge.
+   *
+   * Takes the entity id so the same mapping serves the card header and each
+   * individual measurement: a device that says "HIGH" means the same thing
+   * wherever it is shown.
+   */
+  resolveStatus(entityId?: string): StatusData | null {
+    const config = this.getConfig();
+    const id = entityId ?? config.status_entity;
+    if (!id) return null;
+
+    const entityState = this.hass?.states?.[id];
     if (!entityState) return null;
 
     const stateVal = entityState.state;
@@ -629,7 +669,7 @@ export class MonitorCardBase extends LitElement {
       color: colorMap[level],
       icon: iconMap[level],
       friendly_name,
-      entity_id: entityId,
+      entity_id: id,
     };
   }
 

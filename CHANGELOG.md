@@ -3,6 +3,34 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.16.0] - 2026-08-16
+
+### Added
+
+- **One battery for the whole device.** Some pool monitors take every measurement with a single unit, on a single battery. Setting it on each sensor said the same thing five times, so it can now be set once on the card and appears beside the status.
+
+  ```yaml
+  type: custom:pool-monitor-card
+  battery_entity: sensor.waterguru_battery
+  ```
+
+- **A status for each measurement.** Devices that publish one status entity per reading (`HIGH`, `LOW`, `Ok`) can now show it as a badge next to that reading, instead of only having a single status for the whole card.
+
+  ```yaml
+  sensors:
+    ph:
+      entity: sensor.waterguru_ph
+      status_entity: sensor.waterguru_ph_status
+  ```
+
+  Both were asked for by @daveewall. The same words are recognised as for the card status, so `HIGH` cannot mean one thing at the top of the card and another next to a reading.
+
+### Documentation
+
+- **Half of what a sensor accepts was undocumented.** The README listed ten of the twenty-three options, and none of those added this week. There is now a full table, covering `attribute`, `status_entity`, `battery_entity`, `availability_entity`, `setpoint_entity`, `min_limit_entity`, the last-updated pair, `step_low`, `step_high`, `min_limit` and `image_url`.
+
+- **The language option was documented in the wrong place.** It was shown at the top level while the card reads it under `display`. Anyone copying the documentation wrote a key nothing reads, and their card stayed in English with no explanation. `display.show_icons` was also listed twice.
+
 ## [2.15.0] - 2026-08-16
 
 ### Fixed

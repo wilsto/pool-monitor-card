@@ -164,6 +164,8 @@ That's it! The card uses sensible defaults for everything else.
 |--------|------|---------|-------------|
 | `title` | string | - | Card title |
 | `sensors` | object | - | Sensor definitions (see below) |
+| `status_entity` | string | - | Entity whose state is shown as a badge at the top of the card |
+| `battery_entity` | string | - | One battery for the whole device, shown once beside the status |
 | `display.compact` | boolean | `false` | Compact display mode |
 | `display.show_names` | boolean | `true` | Show sensor names |
 | `display.show_icons` | boolean | `true` | Show sensor icons |
@@ -171,8 +173,10 @@ That's it! The card uses sensible defaults for everything else.
 | `display.show_labels` | boolean | `true` | Show range labels |
 | `display.gradient` | boolean | `true` | Show gradient bar |
 | `display.show_last_updated` | boolean | `false` | Show last update time |
-| `display.show_icons` | boolean | `true` | Show sensor icons |
-| `language` | string | `en` | Language code |
+| `display.name_font_size` | string | - | Font size of the sensor name, e.g. `0.8em` |
+| `display.name_font_weight` | string | - | Font weight of the sensor name |
+| `display.language` | string | `en` | Language code, one of the 17 shipped |
+| `colors.*` | string | - | Any colour of the palette, see the Styling section |
 
 ### Per-sensor overrides
 
@@ -189,6 +193,34 @@ sensors:
     icon: mdi:thermometer     # MDI icon
     mode: centric             # centric | heatflow
 ```
+
+Every option a sensor accepts:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `entity` | string | **Required.** The entity to read |
+| `attribute` | string | Read this attribute instead of the state. Missing attribute reads as unavailable rather than falling back |
+| `name` | string | Override the displayed name |
+| `unit` | string | Override the unit |
+| `icon` | string | MDI icon, or `hide` to show none |
+| `image_url` | string | Image instead of an icon |
+| `setpoint` | number | The ideal value the bands are built around |
+| `step` | number | Width of one band, so how tolerant the scale is |
+| `step_low` | number | Band width below the setpoint, when it differs |
+| `step_high` | number | Band width above the setpoint |
+| `min_limit` | number | Lowest value the bar will show |
+| `limits` | number[] | Four explicit boundaries. Replaces `setpoint` and `step`, which are then ignored |
+| `direction` | string | `lower_is_better` (default) or `higher_is_better`, with `limits` |
+| `mode` | string | `centric` or `heatflow`, when no preset decides it |
+| `min` | number | string | Number = scale bound. String = entity placing a marker |
+| `max` | number | string | Same |
+| `status_entity` | string | A status for this measurement alone, shown as a badge beside it |
+| `battery_entity` | string | Battery of this sensor. For one device with one battery, use the card-level option instead |
+| `availability_entity` | string | Greys the row out when this entity is off |
+| `setpoint_entity` | string | Reads the setpoint from an entity rather than a fixed number |
+| `min_limit_entity` | string | Same, for `min_limit` |
+| `last_updated_entity` | string | Where the measurement time comes from |
+| `last_updated_attribute` | string | Attribute holding that time, e.g. PoolLab `measured_at` |
 
 `min` and `max` accept two forms and the type decides: a **number** is a bound
 of the visible scale, a **string** is an entity whose value places a tracking
