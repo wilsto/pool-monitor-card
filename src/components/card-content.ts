@@ -1,5 +1,6 @@
 import { html, TemplateResult } from 'lit';
 import type { CardConfig, SensorData, StatusData } from '../ha/types.js';
+import { trendGlyphs } from '../trend.js';
 
 /**
  * Horizontal offset for a scale label.
@@ -93,6 +94,28 @@ export class cardContent {
     `;
   }
 
+  /**
+   * The rise and fall indicator, @arketec's design (see `src/trend.ts`).
+   *
+   * The triangles are hidden from assistive technology and the direction is
+   * spoken instead: a screen reader reading `▴▴▴` announces nothing useful, so
+   * the glyph alone would make the trend visible to sighted users only.
+   *
+   * Both directions sit after the value, where @arketec put falling before the
+   * badge and rising after it. His glyphs pointed left and right, so the split
+   * followed the glyph; these point up and down and have no horizontal pull.
+   * A fixed side also keeps the number still: the marker is centred on its
+   * position, so growing it on alternating sides would shift the value
+   * sideways every time the trend flipped.
+   */
+  static generateTrend(data: SensorData): TemplateResult | string {
+    const glyphs = trendGlyphs(data.trend);
+    if (!glyphs) return '';
+
+    return html`<span class="trend-arrow" aria-hidden="true">${glyphs}</span
+      ><span class="sr-only">${data.trend_label || ''}</span>`;
+  }
+
   static generateBody(config: CardConfig, data: SensorData): TemplateResult {
     if (!data) {
       return html` <div class="warning-message">No sensor data available</div> `;
@@ -130,6 +153,7 @@ export class cardContent {
                 ${data.side_align === 'left' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
                   : ''}
+                ${cardContent.generateTrend(data)}
               </div>
               <div
                 class="triangle"
@@ -358,7 +382,7 @@ export class cardContent {
                   : ''}"
               >
                 &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : ','}
-                ${data.separator} ${data.state}
+                ${cardContent.generateTrend(data)} ${data.separator} ${data.state}
                 ${data.status ? cardContent.generateSensorStatus(data.status) : ''}
                 ${data.battery_icon
                   ? html`<ha-icon

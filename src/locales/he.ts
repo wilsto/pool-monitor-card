@@ -8,6 +8,15 @@ export default {
     5: 'גבוה מאוד',
     6: 'גבוה מדי',
   },
+  // הכרזת המגמה לקורא מסך.
+  trend: {
+    rising_1: 'עולה לאט',
+    rising_2: 'עולה',
+    rising_3: 'עולה מהר',
+    falling_1: 'יורד לאט',
+    falling_2: 'יורד',
+    falling_3: 'יורד מהר',
+  },
   sensor: {
     humidity: 'לחות',
     filtration_time: 'זמן סינון',

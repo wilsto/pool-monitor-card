@@ -8,6 +8,15 @@ export default {
     5: 'Aceptable alto',
     6: 'Demasiado alto',
   },
+  // Anuncio de la tendencia para un lector de pantalla.
+  trend: {
+    rising_1: 'sube lentamente',
+    rising_2: 'sube',
+    rising_3: 'sube rápidamente',
+    falling_1: 'baja lentamente',
+    falling_2: 'baja',
+    falling_3: 'baja rápidamente',
+  },
   sensor: {
     humidity: 'Humedad',
     filtration_time: 'Tiempo de filtración',

@@ -1,4 +1,5 @@
 import { HassEntity } from 'home-assistant-js-websocket';
+import type { Trend } from '../trend.js';
 
 export type { HassEntity };
 
@@ -113,6 +114,13 @@ export interface SensorUserConfig {
   setpoint_entity?: string;
   min_limit_entity?: string;
   battery_entity?: string;
+  /**
+   * A Home Assistant `derivative` helper watching this measurement. Its sign
+   * gives the direction of the chevron, its magnitude the number of chevrons.
+   */
+  derivative_entity?: string;
+  /** How much slope is worth one chevron, and the floor below which none shows. */
+  derivative_scale?: number;
 }
 
 export interface CardConfig {
@@ -177,6 +185,10 @@ export interface SensorData {
   battery_level?: number | null;
   battery_icon?: string;
   battery_color?: string;
+  /** Chevrons to paint, `null` direction when the measurement is steady or silent. */
+  trend?: Trend | null;
+  /** What a screen reader announces, already translated. Empty when silent. */
+  trend_label?: string;
 }
 
 export interface TranslationSet {

@@ -8,6 +8,15 @@ export default {
     5: 'Acceptabel hoog',
     6: 'Te hoog',
   },
+  // Aankondiging van de trend voor een schermlezer.
+  trend: {
+    rising_1: 'stijgt langzaam',
+    rising_2: 'stijgt',
+    rising_3: 'stijgt snel',
+    falling_1: 'daalt langzaam',
+    falling_2: 'daalt',
+    falling_3: 'daalt snel',
+  },
   sensor: {
     humidity: 'Luchtvochtigheid',
     filtration_time: 'Filtertijd',

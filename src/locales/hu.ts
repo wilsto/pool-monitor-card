@@ -8,6 +8,15 @@ export default {
     5: 'Elfogadhatóan magas',
     6: 'Túl magas',
   },
+  // A trend bemondása képernyőolvasónak.
+  trend: {
+    rising_1: 'lassan emelkedik',
+    rising_2: 'emelkedik',
+    rising_3: 'gyorsan emelkedik',
+    falling_1: 'lassan csökken',
+    falling_2: 'csökken',
+    falling_3: 'gyorsan csökken',
+  },
   sensor: {
     humidity: 'Páratartalom',
     filtration_time: 'Szűrési idő',

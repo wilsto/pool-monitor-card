@@ -8,6 +8,15 @@ export default {
     5: 'Akzeptabler Hochwert',
     6: 'Zu hoch',
   },
+  // Ansage des Trends für einen Screenreader.
+  trend: {
+    rising_1: 'steigt langsam',
+    rising_2: 'steigt',
+    rising_3: 'steigt schnell',
+    falling_1: 'fällt langsam',
+    falling_2: 'fällt',
+    falling_3: 'fällt schnell',
+  },
   sensor: {
     humidity: 'Luftfeuchtigkeit',
     filtration_time: 'Filterlaufzeit',

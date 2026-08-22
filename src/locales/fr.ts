@@ -17,6 +17,15 @@ export default {
     4: 'Mauvais',
     5: 'Très mauvais',
   },
+  // Ce qu'un lecteur d'écran annonce à la place des chevrons.
+  trend: {
+    rising_1: 'en légère hausse',
+    rising_2: 'en hausse',
+    rising_3: 'en forte hausse',
+    falling_1: 'en légère baisse',
+    falling_2: 'en baisse',
+    falling_3: 'en forte baisse',
+  },
   // Libelles de l'editeur. Il suit `hass.language` : celui qui configure n'est
   // pas forcement celui qui regarde la carte.
   editor: {
@@ -47,7 +56,7 @@ export default {
     values_changed: '{count} modifiée(s)',
     preview: 'Aperçu',
     sec_appearance_sub: 'icône, image',
-    sec_linked_sub: 'consigne, bornes, disponibilité, pile',
+    sec_linked_sub: 'consigne, bornes, disponibilité, pile, tendance',
     sec_timestamp_sub: 'd’où vient la date de mesure',
     mode: 'Mode',
     mode_centric: 'Centrée',
@@ -67,6 +76,9 @@ export default {
     availability_entity:
       'Entité de disponibilité (facultatif, grise la ligne quand elle est éteinte)',
     battery_entity: 'Entité de batterie (facultatif, affiche le niveau)',
+    derivative_entity: 'Entité de dérivée (facultatif, affiche un chevron de hausse ou de baisse)',
+    derivative_scale:
+      'Pente par chevron (facultatif, 0.1 par défaut, sert aussi de seuil de silence)',
     last_updated_entity: 'Entité de dernière mesure (facultatif)',
     last_updated_attribute: 'Attribut de dernière mesure',
     setpoint_entity: 'Entité de consigne (facultatif, remplace la consigne fixe)',

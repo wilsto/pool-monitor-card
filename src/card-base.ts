@@ -4,6 +4,7 @@ import { getTranslation, formatTranslation } from './locales/translations.js';
 import { styles } from './styles/styles.js';
 import { cardContent } from './components/card-content.js';
 import { getDisplayConfig, getColorConfig, getSensorConfig } from './configs/config.js';
+import { computeTrend, trendLabelKey } from './trend.js';
 import type {
   HomeAssistant,
   SensorsRegistry,
@@ -143,6 +144,18 @@ export class MonitorCardBase extends LitElement {
           const availState = this.hass?.states?.[sensor.availability_entity]?.state;
           data[sensorKey].disabled = availState === 'off' || availState === 'unavailable';
         }
+
+        // Rise and fall indicator, @arketec's design (see src/trend.ts).
+        // Resolved here rather than inside calculateData, which already takes
+        // twenty-three positional arguments; availability, battery and status
+        // are attached the same way.
+        const trend = computeTrend(
+          this.resolveEntityNumber(sensor.derivative_entity),
+          sensor.derivative_scale,
+        );
+        data[sensorKey].trend = trend;
+        const labelKey = trendLabelKey(trend);
+        data[sensorKey].trend_label = labelKey ? this.getTranslatedText(labelKey) : '';
 
         if (sensor.battery_entity) {
           const battery = this.resolveBattery(sensor.battery_entity);

@@ -8,6 +8,15 @@ export default {
     5: 'Mare',
     6: 'Prea mare',
   },
+  // Anunțarea tendinței pentru un cititor de ecran.
+  trend: {
+    rising_1: 'crește lent',
+    rising_2: 'crește',
+    rising_3: 'crește rapid',
+    falling_1: 'scade lent',
+    falling_2: 'scade',
+    falling_3: 'scade rapid',
+  },
   sensor: {
     humidity: 'Umiditate',
     filtration_time: 'Timp de filtrare',

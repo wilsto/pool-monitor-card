@@ -11,6 +11,15 @@ export default {
     5: 'Aceptable alt',
     6: 'Massa alt',
   },
+  // Anunci de la tendència per a un lector de pantalla.
+  trend: {
+    rising_1: 'puja lentament',
+    rising_2: 'puja',
+    rising_3: 'puja ràpidament',
+    falling_1: 'baixa lentament',
+    falling_2: 'baixa',
+    falling_3: 'baixa ràpidament',
+  },
   sensor: {
     humidity: 'Humitat',
     filtration_time: 'Temps de filtració',

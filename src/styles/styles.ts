@@ -117,6 +117,39 @@ export const styles = css`
     opacity: 0.9;
   }
 
+  /**
+   * Rise and fall indicator, @arketec's design. Slightly faded and tightened
+   * so a run of three triangles reads as one mark next to the value rather
+   * than as three separate characters competing with it. The triangles are
+   * drawn a little smaller than the value they annotate: they qualify it, they
+   * are not the reading. Not smaller than this, though. A small triangle only
+   * fills the upper half of its em box, so at 0.75em it stopped reading as a
+   * direction on the bench and started reading as a dot.
+   */
+  .trend-arrow {
+    font-size: 0.9em;
+    letter-spacing: -1px;
+    opacity: 0.85;
+    margin: 0 2px;
+  }
+
+  /**
+   * Carries the trend for a screen reader while the chevrons carry it for the
+   * eye. Clipped rather than hidden, because hiding it would take it out of
+   * the accessibility tree along with everything else.
+   */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .gauge-marker-zone .triangle {
     width: 0;
     height: 0;

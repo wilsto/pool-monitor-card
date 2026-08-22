@@ -11,6 +11,15 @@ export default {
     5: 'Acceptabelt højt',
     6: 'For højt',
   },
+  // Tendensens oplæsning til en skærmlæser.
+  trend: {
+    rising_1: 'stiger langsomt',
+    rising_2: 'stiger',
+    rising_3: 'stiger hurtigt',
+    falling_1: 'falder langsomt',
+    falling_2: 'falder',
+    falling_3: 'falder hurtigt',
+  },
   sensor: {
     humidity: 'Luftfugtighed',
     filtration_time: 'Filtreringstid',

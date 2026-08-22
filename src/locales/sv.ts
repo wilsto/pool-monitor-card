@@ -8,6 +8,15 @@ export default {
     5: 'Högt, Acceptabelt',
     6: 'För Högt',
   },
+  // Trendens uppläsning för en skärmläsare.
+  trend: {
+    rising_1: 'stiger långsamt',
+    rising_2: 'stiger',
+    rising_3: 'stiger snabbt',
+    falling_1: 'faller långsamt',
+    falling_2: 'faller',
+    falling_3: 'faller snabbt',
+  },
   sensor: {
     humidity: 'Luftfuktighet',
     filtration_time: 'Filtreringstid',

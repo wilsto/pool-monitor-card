@@ -8,6 +8,15 @@ export default {
     5: 'Přijatelně vysoká',
     6: 'Příliš vysoká',
   },
+  // Oznámení trendu pro čtečku obrazovky.
+  trend: {
+    rising_1: 'pomalu stoupá',
+    rising_2: 'stoupá',
+    rising_3: 'rychle stoupá',
+    falling_1: 'pomalu klesá',
+    falling_2: 'klesá',
+    falling_3: 'rychle klesá',
+  },
   sensor: {
     humidity: 'Vlhkost',
     filtration_time: 'Doba filtrace',

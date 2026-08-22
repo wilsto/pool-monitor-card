@@ -405,6 +405,7 @@ export class MonitorSensorEditor extends LitElement {
               'max',
               'availability_entity',
               'battery_entity',
+              'derivative_entity',
             ],
             this.t('sec_linked_sub'),
           ),
@@ -438,6 +439,27 @@ export class MonitorSensorEditor extends LitElement {
             ${this._entityField(this.t('battery_entity'), type, index, 'battery_entity', config, [
               'sensor',
             ])}
+            ${this._entityField(
+              this.t('derivative_entity'),
+              type,
+              index,
+              'derivative_entity',
+              config,
+              NUMERIC,
+            )}
+            ${this._textField({
+              label: this.t('derivative_scale'),
+              value: config.derivative_scale != null ? String(config.derivative_scale) : '',
+              onChange: v => {
+                const parsed = parseFloat(v);
+                this._updateField(
+                  type,
+                  index,
+                  'derivative_scale',
+                  v === '' || isNaN(parsed) ? undefined : parsed,
+                );
+              },
+            })}
           `,
         })}
         ${this._section({

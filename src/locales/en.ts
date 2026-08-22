@@ -69,6 +69,21 @@ export default {
     4: 'Poor',
     5: 'Very Poor',
   },
+  // Spoken form of the rise and fall indicator. The chevrons next to the value
+  // are hidden from assistive technology and one of these is read instead: a
+  // screen reader announces a run of `›` as punctuation, or as nothing.
+  //
+  // A whole sentence per direction and rate, rather than a direction plus an
+  // adverb assembled at runtime, because the two halves do not combine the
+  // same way in every language.
+  trend: {
+    rising_1: 'rising slowly',
+    rising_2: 'rising',
+    rising_3: 'rising quickly',
+    falling_1: 'falling slowly',
+    falling_2: 'falling',
+    falling_3: 'falling quickly',
+  },
   // The editor had no translation at all: every label was written in English in
   // the markup, while the card itself speaks seventeen languages. A Hungarian
   // user read their card in Hungarian and configured it in English.
@@ -103,7 +118,7 @@ export default {
     values_changed: '{count} changed',
     preview: 'Preview',
     sec_appearance_sub: 'icon, image',
-    sec_linked_sub: 'setpoint, bounds, availability, battery',
+    sec_linked_sub: 'setpoint, bounds, availability, battery, trend',
     sec_timestamp_sub: 'where the measurement time comes from',
     mode: 'Mode',
     mode_centric: 'Centric',
@@ -122,6 +137,8 @@ export default {
     image_url: 'Image URL',
     availability_entity: 'Availability entity (optional, grays out when off)',
     battery_entity: 'Battery entity (optional, shows battery level)',
+    derivative_entity: 'Derivative entity (optional, shows a rise or fall chevron)',
+    derivative_scale: 'Slope per chevron (optional, default 0.1, also the silence threshold)',
     last_updated_entity: 'Last updated entity (optional)',
     last_updated_attribute: 'Last updated attribute',
     setpoint_entity: 'Setpoint entity (optional, overrides static setpoint)',

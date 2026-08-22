@@ -224,6 +224,8 @@ Every option a sensor accepts:
 | `availability_entity` | string | Greys the row out when this entity is off |
 | `setpoint_entity` | string | Reads the setpoint from an entity rather than a fixed number |
 | `min_limit_entity` | string | Same, for `min_limit` |
+| `derivative_entity` | string | A Home Assistant `derivative` helper watching this measurement. Its sign gives the direction of the trend chevron, its magnitude the number of chevrons |
+| `derivative_scale` | number | How much slope is worth one chevron, and the floor below which none shows. Defaults to `0.1` |
 | `last_updated_entity` | string | Where the measurement time comes from |
 | `last_updated_attribute` | string | Attribute holding that time, e.g. PoolLab `measured_at` |
 
@@ -335,23 +337,26 @@ Set one with `display.language`, or pick it in the visual editor.
 This card wouldn't be what it is today without our amazing contributors!
 
 - [Gregtakacs](https://github.com/gregtakacs): Min/Max Tickers and custom bar colors
-- [Djgel](https://github.com/djgel): Specific gravity measurements + Portuguese translation
+- [Djgel](https://github.com/djgel): Specific gravity measurements
 - [JDeighty4](https://github.com/JDeighty4): Magnesium sensor support
+- [hlaffez](https://github.com/hlaffez): Tuya BLE-YL01 compatibility
+- [DAVIZINH0](https://github.com/DAVIZINH0): Bluerriot compatibility information
+- [Sangoku](https://github.com/Sangoku): Bromine sensor support
+- [smashtup](https://github.com/smashtup): Display precision fix (Entity Registry)
 - [Sebaer1976](https://github.com/sebaer1976): German translation
 - [Splitti](https://github.com/splitti): German translation
 - [jorgemiguel4](https://github.com/jorgemiguel4): Portuguese translation
+- [Djgel](https://github.com/djgel): Portuguese translation
 - [CosminFRC](https://github.com/CosminFRC): Romanian translation
 - [Misa1515](https://github.com/misa1515): Slovak translation
 - [ViPeR5000](https://github.com/ViPeR5000): Polish translation
 - [Yehuda](https://github.com/Yehuda): Hebrew translation
 - [MrSnakeSPb](https://github.com/MrSnakeSPb): Russian translation
-- [hlaffez](https://github.com/hlaffez): Tuya BLE-YL01 compatibility
-- [DAVIZINH0](https://github.com/DAVIZINH0): Bluerriot compatibility information
-- [Sangoku](https://github.com/Sangoku): Bromine sensor support
-- [smashtup](https://github.com/smashtup): Display precision fix (Entity Registry)
 - [taczirjak](https://github.com/taczirjak): Hungarian translation
 - [KIDNORswe](https://github.com/KIDNORswe): Swedish translation
 - [FejbyK](https://github.com/FejbyK): Czech translation
+- [XattSPT](https://github.com/XattSPT): Catalan translation
+- [Andreasb95](https://github.com/Andreasb95): Danish translation
 
 ## Monitor Cards Family
 
