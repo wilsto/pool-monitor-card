@@ -1,5 +1,6 @@
 /**
- * @fileoverview Out-of-scale mark shared by the four cards.
+ * @fileoverview The scale, shared by the four cards: whether there is one at
+ * all (`hasScale`), and where the value sits on it (`outOfScale`).
  *
  * A value outside the bar is pinned to the end of it: the ratio is clamped to
  * [0, 1] (`card-base.ts`), so carbon monoxide at 500 ppm and at 90 ppm land on
@@ -22,6 +23,44 @@
  * the eye, a translation key for a screen reader. A mark carried by a glyph
  * alone is not a mark for everyone.
  */
+
+/**
+ * Whether a sensor carries a reference its reading can be judged against.
+ *
+ * A scale is four explicit `limits`, or a setpoint from any of its three
+ * sources: a tracking entity, the sensor's own key, the preset it inherits
+ * from. Nothing else counts, and the two near-misses are worth naming because
+ * both were measured on 2026-08-23 and both make the failure look *more*
+ * credible rather than less:
+ *
+ * - `min` and `max` are the bar's geometry, not a reference. A sensor with
+ *   `min: 0, max: 100` and no setpoint draws a full-width bar with the cursor
+ *   at the right place, and still grades every reading the same way.
+ * - `step` without a setpoint is a ladder with no rung to start from. It
+ *   produces the most convincing lie of the lot: five evenly spaced labels
+ *   that look like a published scale, centred on whatever the sensor last
+ *   said.
+ *
+ * A boundary that is not a finite number is not a boundary. `setpoint: "abc"`
+ * used to reach the band comparisons as `NaN`, where every comparison is
+ * false, and left the reading with no state and a transparent bar; three
+ * `limits` instead of four fell through to the setpoint path and, with no
+ * setpoint, into the fallback this guard exists to stop.
+ *
+ * Why it matters is `card-base.ts`: with no reference, the engine used the
+ * reading itself as the setpoint. The bands then close around the value, the
+ * value lands in the middle of them by construction, and 1, 12 and 500 µg/m³
+ * are all announced as "Ideal", in green (#98). A supervision card that
+ * reassures whatever the number is fails worse than one that says nothing.
+ */
+export function hasScale(
+  limits: number[] | null | undefined,
+  ...setpoints: (number | string | null | undefined)[]
+): boolean {
+  if (Array.isArray(limits) && limits.length === 4 && limits.every(l => Number.isFinite(Number(l))))
+    return true;
+  return setpoints.some(s => s != null && s !== '' && Number.isFinite(Number(s)));
+}
 
 /** Which end of the bar the value sits past. */
 export type ScaleOverflow = 'below' | 'above';

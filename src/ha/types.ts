@@ -160,6 +160,13 @@ export interface SensorData {
   name: string;
   invalid: boolean;
   not_found?: boolean;
+  /**
+   * No four `limits` and no setpoint from any source, so nothing to judge the
+   * reading against (#98). Set instead of a scale, never beside one: the
+   * fields below it are never filled when it is true, because computing them
+   * would mean inventing the reference that is missing.
+   */
+  no_scale?: boolean;
   mode: string;
   title: any;
   hide_icon: boolean;

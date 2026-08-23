@@ -5,7 +5,7 @@ import { styles } from './styles/styles.js';
 import { cardContent } from './components/card-content.js';
 import { getDisplayConfig, getColorConfig, getSensorConfig } from './configs/config.js';
 import { computeTrend, trendLabelKey } from './trend.js';
-import { outOfScale, overflowLabelKey } from './scale.js';
+import { hasScale, outOfScale, overflowLabelKey } from './scale.js';
 import type {
   HomeAssistant,
   SensorsRegistry,
@@ -73,6 +73,26 @@ export class MonitorCardBase extends LitElement {
                 <span
                   >Entity ${sensorData?.entity || 'unknown'} could not be found. Please verify its
                   name and ensure the entity is properly configured.</span
+                >
+              </div>
+            `;
+          } else if (sensorData?.no_scale) {
+            // Third of the three banners, and it sits here for the same reason
+            // as the other two: written once, before the layout is chosen, so
+            // the full and compact bodies cannot disagree about it.
+            //
+            // English like its neighbours, though the card speaks eighteen
+            // languages. A translated warning next to two untranslated ones
+            // would be a worse state than three consistent ones; translating
+            // all three is its own job.
+            return html`
+              <div class="warning-message">
+                <ha-icon icon="mdi:alert"></ha-icon>
+                <span
+                  >Sensor ${sensorData?.name || 'unknown'} has no scale, so no reading can be judged
+                  against anything. Give it four <code>limits</code>, or a
+                  <code>setpoint</code> with a <code>step</code>. Note that <code>min</code> and
+                  <code>max</code> only size the bar, they are not a scale.</span
                 >
               </div>
             `;
@@ -376,6 +396,25 @@ export class MonitorCardBase extends LitElement {
 
     // Setpoint calculations, entity overrides static value
     const setpointFromEntity = this.resolveEntityNumber(setpoint_entity);
+
+    // Nothing below this line can run without a reference, so the sensor stops
+    // here when it has none (#98). The fallback three lines down used to end
+    // on `newData.value`: with no limits and no setpoint, the reading became
+    // its own setpoint, the five bands closed around it, and it landed in the
+    // middle of them by construction. 1, 12 and 500 µg/m³ all read "Ideal", in
+    // green. The card did not fail, it reassured.
+    //
+    // Refusing costs a bar that used to be drawn, for someone who asked for
+    // nothing. It is deliberately the smallest refusal that removes the
+    // verdict: this one sensor, told the way a missing entity is already told,
+    // while the rest of the card keeps rendering. Announcing the value with no
+    // colour and no state was the alternative, and it needed a sixth rendering
+    // path written twice, full and compact, to say less.
+    if (!hasScale(limits, setpointFromEntity, setpoint, defaultConfig.setpoint)) {
+      newData.no_scale = true;
+      return newData;
+    }
+
     const sp_val: number =
       setpointFromEntity != null
         ? setpointFromEntity
