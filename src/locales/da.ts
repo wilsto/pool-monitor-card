@@ -20,6 +20,10 @@ export default {
     falling_2: 'falder',
     falling_3: 'falder hurtigt',
   },
+  out_of_scale: {
+    above: 'over skalaen',
+    below: 'under skalaen',
+  },
   sensor: {
     humidity: 'Luftfugtighed',
     filtration_time: 'Filtreringstid',
@@ -51,7 +55,9 @@ export default {
     light_brightness: 'Lysstyrke',
     heat_pump_setpoint: 'Varmepumpe setpoint',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

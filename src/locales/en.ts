@@ -84,6 +84,17 @@ export default {
     falling_2: 'falling',
     falling_3: 'falling quickly',
   },
+  // Spoken form of the out-of-scale mark. The small triangle next to the value
+  // is hidden from assistive technology and one of these is read instead: a
+  // reader announces a lone triangle as punctuation, or as nothing, so a value
+  // off the scale would be a fact only sighted users are told.
+  //
+  // A whole phrase per end rather than a word assembled at runtime, for the
+  // same reason as the trend above.
+  out_of_scale: {
+    above: 'above the scale',
+    below: 'below the scale',
+  },
   // The editor had no translation at all: every label was written in English in
   // the markup, while the card itself speaks seventeen languages. A Hungarian
   // user read their card in Hungarian and configured it in English.
@@ -230,7 +241,9 @@ export default {
     light_brightness: 'Light Brightness',
     heat_pump_setpoint: 'Heat Pump Setpoint',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

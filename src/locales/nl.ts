@@ -17,6 +17,10 @@ export default {
     falling_2: 'daalt',
     falling_3: 'daalt snel',
   },
+  out_of_scale: {
+    above: 'boven de schaal',
+    below: 'onder de schaal',
+  },
   sensor: {
     humidity: 'Luchtvochtigheid',
     filtration_time: 'Filtertijd',
@@ -48,7 +52,9 @@ export default {
     light_brightness: 'Lichthelderheid',
     heat_pump_setpoint: 'Warmtepomp instelpunt',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

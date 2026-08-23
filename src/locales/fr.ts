@@ -26,6 +26,10 @@ export default {
     falling_2: 'en baisse',
     falling_3: 'en forte baisse',
   },
+  out_of_scale: {
+    above: "au-dessus de l'échelle",
+    below: "en dessous de l'échelle",
+  },
   // Libelles de l'editeur. Il suit `hass.language` : celui qui configure n'est
   // pas forcement celui qui regarde la carte.
   editor: {
@@ -162,7 +166,9 @@ export default {
     light_brightness: 'Luminosité éclairage',
     heat_pump_setpoint: 'Consigne PAC',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

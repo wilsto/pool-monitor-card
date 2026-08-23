@@ -17,6 +17,10 @@ export default {
     falling_2: 'scende',
     falling_3: 'scende rapidamente',
   },
+  out_of_scale: {
+    above: 'sopra la scala',
+    below: 'sotto la scala',
+  },
   sensor: {
     humidity: 'Umidità',
     filtration_time: 'Tempo di filtrazione',
@@ -48,7 +52,9 @@ export default {
     light_brightness: 'Luminosità luce',
     heat_pump_setpoint: 'Setpoint pompa di calore',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

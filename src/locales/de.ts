@@ -17,6 +17,10 @@ export default {
     falling_2: 'fällt',
     falling_3: 'fällt schnell',
   },
+  out_of_scale: {
+    above: 'über der Skala',
+    below: 'unter der Skala',
+  },
   sensor: {
     humidity: 'Luftfeuchtigkeit',
     filtration_time: 'Filterlaufzeit',
@@ -48,7 +52,9 @@ export default {
     light_brightness: 'Lichthelligkeit',
     heat_pump_setpoint: 'Wärmepumpe Sollwert',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

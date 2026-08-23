@@ -17,6 +17,10 @@ export default {
     falling_2: 'klesá',
     falling_3: 'rýchlo klesá',
   },
+  out_of_scale: {
+    above: 'nad stupnicou',
+    below: 'pod stupnicou',
+  },
   sensor: {
     humidity: 'Vlhkosť',
     filtration_time: 'Čas filtrácie',
@@ -48,7 +52,9 @@ export default {
     light_brightness: 'Jas svetla',
     heat_pump_setpoint: 'Nastavená teplota tepelného čerpadla',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

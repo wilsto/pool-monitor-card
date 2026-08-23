@@ -5,6 +5,7 @@ import { styles } from './styles/styles.js';
 import { cardContent } from './components/card-content.js';
 import { getDisplayConfig, getColorConfig, getSensorConfig } from './configs/config.js';
 import { computeTrend, trendLabelKey } from './trend.js';
+import { outOfScale, overflowLabelKey } from './scale.js';
 import type {
   HomeAssistant,
   SensorsRegistry,
@@ -572,6 +573,17 @@ export class MonitorCardBase extends LitElement {
     const ratio = toRatio(newData.value);
     newData.pct = (ratio * 100).toFixed(1);
     newData.pct_marker = ratio * 100;
+
+    // What the clamp above destroys, recorded before anything reads the ratio.
+    // Once `toRatio` has returned 1, nothing downstream can tell a value that
+    // just crossed the last threshold from one ten times past it (#62). The
+    // geometry stays put, by PO decision of 2026-08-22, so the overflow is
+    // marked instead: `card-content.ts` puts a small triangle pointing off the
+    // end of the scale in the value bubble, with a spoken form beside it.
+    const overflow = outOfScale(newData.value, barLeft, barRight);
+    newData.out_of_scale = overflow;
+    const overflowKey = overflowLabelKey(overflow);
+    newData.out_of_scale_label = overflowKey ? this.getTranslatedText(overflowKey) : '';
     newData.side_align = newData.value > sp_val ? 'right' : 'left';
     newData.pct_cursor = newData.value > sp_val ? 100 - ratio * 100 : ratio * 100;
     newData.pct_state_step = newData.value > sp_val ? 100 - ratio * 100 + 1 : ratio * 100 + 1;

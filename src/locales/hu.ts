@@ -17,6 +17,10 @@ export default {
     falling_2: 'csökken',
     falling_3: 'gyorsan csökken',
   },
+  out_of_scale: {
+    above: 'a skála felett',
+    below: 'a skála alatt',
+  },
   sensor: {
     humidity: 'Páratartalom',
     filtration_time: 'Szűrési idő',
@@ -48,7 +52,9 @@ export default {
     light_brightness: 'Fény fényerő',
     heat_pump_setpoint: 'Hőszivattyú beállítás',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

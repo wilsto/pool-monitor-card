@@ -1,0 +1,89 @@
+/**
+ * @fileoverview Out-of-scale mark shared by the four cards.
+ *
+ * A value outside the bar is pinned to the end of it: the ratio is clamped to
+ * [0, 1] (`card-base.ts`), so carbon monoxide at 500 ppm and at 90 ppm land on
+ * the same pixel of a scale that stops at 30 (#62). The reader sees a cursor
+ * against the edge and has no way to tell a value that just crossed the last
+ * threshold from one an order of magnitude past it.
+ *
+ * The PO settled the principle on 2026-08-22: mark the overflow at the edge,
+ * do not stretch the geometry. The alternative, seen on @rpirsc13's fork
+ * (rpirsc13/air-quality-card, commit 77eb5e6), extends the last band up to the
+ * value; the amplitude then shows, but the bands deform with every reading and
+ * two cards side by side no longer share a geometry.
+ *
+ * So the clamp stays, and this module answers the one question the clamp
+ * destroys: is the value still on the scale, and if not, which end did it
+ * leave. The amount is not encoded here. The bubble already prints the number,
+ * and grading the mark would need a threshold nobody has decided on.
+ *
+ * The shape follows `trend.ts`: a small pure function per concern, a glyph for
+ * the eye, a translation key for a screen reader. A mark carried by a glyph
+ * alone is not a mark for everyone.
+ */
+
+/** Which end of the bar the value sits past. */
+export type ScaleOverflow = 'below' | 'above';
+
+/**
+ * Where a value sits relative to the bar, `null` when it is on the scale.
+ *
+ * The value arrives from `parseFloat` and can be `null` (entity missing,
+ * unreadable state) or a string (an `override` replaces the reading with a
+ * word). Neither is below anything, so both read as on-scale rather than as
+ * an overflow at the bottom, which is what `Number(null) === 0` would say.
+ *
+ * A bar of zero width is refused for the same reason: every value but one
+ * would be off it, and the mark would fire on a degenerate configuration
+ * instead of on a real exceedance.
+ */
+export function outOfScale(
+  value: number | string | null | undefined,
+  barMin: number,
+  barMax: number,
+): ScaleOverflow | null {
+  const v = typeof value === 'number' ? value : Number(value);
+  if (value == null || value === '' || !Number.isFinite(v)) return null;
+  if (!Number.isFinite(barMin) || !Number.isFinite(barMax) || barMax <= barMin) return null;
+
+  if (v < barMin) return 'below';
+  if (v > barMax) return 'above';
+  return null;
+}
+
+/**
+ * `▸` and `◂`, U+25B8 and U+25C2, the small triangles pointing off the scale.
+ *
+ * Chosen on the same three measured properties that settled the trend's `▴`
+ * and `▾`, and here the first one is not theoretical: this mark points
+ * sideways, and the bar it annotates is drawn left to right whatever the
+ * language, since positions are always set as `left: n%`.
+ *
+ * - **Not Bidi_Mirrored.** A mirrored glyph in a right-to-left paragraph is
+ *   painted reversed, so it would point at the middle of a bar that still runs
+ *   the other way. `‹` `›` carry the property, these do not.
+ * - **East_Asian_Width = Narrow**, like the Latin text beside them. The
+ *   full-size `▶` `◀` are Ambiguous, the class that resolves to full width in
+ *   a CJK context, which is what rules them out.
+ * - **Not Emoji**, so no renderer paints them in colour.
+ *
+ * (Verified against Unicode 15.0: `unicodedata.east_asian_width` for the
+ * width, `\p{Bidi_Mirrored}` and `\p{Emoji}` for the other two.)
+ */
+export function overflowGlyph(overflow: ScaleOverflow | null | undefined): string {
+  if (overflow === 'above') return '▸';
+  if (overflow === 'below') return '◂';
+  return '';
+}
+
+/**
+ * The translation key for what a screen reader should say.
+ *
+ * A whole phrase per end rather than a word assembled at runtime, for the
+ * reason `trend.ts` gives: the halves do not combine the same way in every
+ * language.
+ */
+export function overflowLabelKey(overflow: ScaleOverflow | null | undefined): string | null {
+  return overflow ? `out_of_scale.${overflow}` : null;
+}

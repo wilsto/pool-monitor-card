@@ -143,6 +143,23 @@ export const styles = css`
   }
 
   /**
+   * The mark that says the value has left the scale (#62), drawn at the end it
+   * left. Unlike the trend beside it, this one is not a qualifier: it says the
+   * cursor is no longer reporting a position, so it is not faded and it is not
+   * shrunk. Full size and full opacity, a triangle pointing off the bar.
+   *
+   * It needs no colour of its own. The mark sits in the value bubble, which
+   * paints its own background from the reading and its own text black, so it
+   * reads the same in a dark theme as in a light one.
+   */
+  .out-of-scale {
+    font-size: 1em;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin: 0 1px;
+  }
+
+  /**
    * Carries the trend for a screen reader while the chevrons carry it for the
    * eye. Clipped rather than hidden, because hiding it would take it out of
    * the accessibility tree along with everything else.

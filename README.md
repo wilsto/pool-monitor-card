@@ -81,7 +81,7 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 
 *Track the health of your pool equipment and supply levels.*
 
-![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)       
+![Water Level](resources/water_level.png) ![Flow Rate](resources/flow_rate.png) ![UV Radiation](resources/uv_radiation.png) ![Product Volume](resources/product_volume.png) ![Product Weight](resources/product_weight.png)
 
 | Sensor | Key | Unit | Defaults |
 |--------|-----|------|:----------------:|
@@ -426,7 +426,7 @@ This card is part of the **monitor-cards** family: same rendering engine, same f
 |------|-----|---------|
 | [Pool Monitor Card](https://github.com/wilsto/pool-monitor-card) | Pool & spa owners | 28 presets ← *you are here* |
 | [Aquarium Monitor Card](https://github.com/wilsto/aquarium-monitor-card) | Freshwater & saltwater aquarium keepers | 15 presets |
-| [Air Monitor Card](https://github.com/wilsto/air-quality-card) | Homeowners concerned about indoor air quality | 13 presets |
+| [Air Monitor Card](https://github.com/wilsto/air-quality-card) | Homeowners concerned about indoor air quality | 15 presets |
 | [Sensor Monitor Card](https://github.com/wilsto/sensor-monitor-card) | Home Assistant power users | unlimited (custom) |
 
 <!-- Badges -->

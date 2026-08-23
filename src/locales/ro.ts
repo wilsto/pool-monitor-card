@@ -17,6 +17,10 @@ export default {
     falling_2: 'scade',
     falling_3: 'scade rapid',
   },
+  out_of_scale: {
+    above: 'peste scară',
+    below: 'sub scară',
+  },
   sensor: {
     humidity: 'Umiditate',
     filtration_time: 'Timp de filtrare',
@@ -48,7 +52,9 @@ export default {
     light_brightness: 'Luminozitate lumina',
     heat_pump_setpoint: 'Punct de reglaj pompa de caldura',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

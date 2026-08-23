@@ -1,5 +1,6 @@
 import { HassEntity } from 'home-assistant-js-websocket';
 import type { Trend } from '../trend.js';
+import type { ScaleOverflow } from '../scale.js';
 
 export type { HassEntity };
 
@@ -203,6 +204,13 @@ export interface SensorData {
   trend?: Trend | null;
   /** What a screen reader announces, already translated. Empty when silent. */
   trend_label?: string;
+  /**
+   * Which end of the bar the value sits past, `null` when it is on the scale.
+   * The position alone cannot say it: the ratio is clamped to the bar (#62).
+   */
+  out_of_scale?: ScaleOverflow | null;
+  /** What a screen reader announces, already translated. Empty when on scale. */
+  out_of_scale_label?: string;
 }
 
 /**

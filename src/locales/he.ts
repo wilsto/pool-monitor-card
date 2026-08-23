@@ -17,6 +17,10 @@ export default {
     falling_2: 'יורד',
     falling_3: 'יורד מהר',
   },
+  out_of_scale: {
+    above: 'מעל הסולם',
+    below: 'מתחת לסולם',
+  },
   sensor: {
     humidity: 'לחות',
     filtration_time: 'זמן סינון',
@@ -48,7 +52,9 @@ export default {
     light_brightness: 'בהירות תאורה',
     heat_pump_setpoint: 'נקודת כיוון משאבת חום',
     co2: 'CO2',
+    pm1: 'PM1',
     pm25: 'PM2.5',
+    pm4: 'PM4',
     pm10: 'PM10',
     voc: 'VOC',
     tvoc: 'TVOC',

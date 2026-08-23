@@ -1,6 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import type { CardConfig, SensorData, StatusData } from '../ha/types.js';
 import { trendGlyphs } from '../trend.js';
+import { overflowGlyph, type ScaleOverflow } from '../scale.js';
 
 /**
  * Horizontal offset for a scale label.
@@ -150,6 +151,37 @@ export class cardContent {
       ><span class="sr-only">${data.trend_label || ''}</span>`;
   }
 
+  /**
+   * The out-of-scale mark, at the end of the scale the value left (#62).
+   *
+   * It rides in the value bubble rather than on the cursor, for two reasons
+   * that both come down to the bubble being the only thing on this row that
+   * can carry text. The mark has to be spoken as well as drawn, exactly as the
+   * trend is, and a cursor is a CSS triangle with nothing to say. And the
+   * bubble is where the number is read, so the mark is next to the reading it
+   * qualifies rather than a row below it.
+   *
+   * `end` selects which side is being rendered: the mark is drawn outside the
+   * value, so it comes before it at the bottom of the scale and after it at
+   * the top, and each call site asks for its own end. The bubble's colours are
+   * set on the bubble itself, a solid background from the reading and black
+   * text, so the mark is as legible in a dark theme as in a light one without
+   * a rule of its own.
+   *
+   * It costs a few pixels of bubble, which the clamp of #70 absorbs: a wider
+   * bubble simply slides further from the edge, and the cursor stays on the
+   * value. It is the only place the two corrections touch.
+   */
+  static generateOutOfScale(data: SensorData, end: ScaleOverflow): TemplateResult | string {
+    if (data.out_of_scale !== end) return '';
+
+    const glyph = overflowGlyph(data.out_of_scale);
+    if (!glyph) return '';
+
+    return html`<span class="out-of-scale" aria-hidden="true">${glyph}</span
+      ><span class="sr-only">${data.out_of_scale_label || ''}</span>`;
+  }
+
   static generateBody(config: CardConfig, data: SensorData): TemplateResult {
     if (!data) {
       return html` <div class="warning-message">No sensor data available</div> `;
@@ -181,6 +213,7 @@ export class cardContent {
                 class="marker"
                 style="background-color: ${data.color};color: black;left: ${markerPct}%;transform: ${bubbleTransform};"
               >
+                ${cardContent.generateOutOfScale(data, 'below')}
                 ${data.side_align === 'right' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
                   : ''}
@@ -188,7 +221,7 @@ export class cardContent {
                 ${data.side_align === 'left' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
                   : ''}
-                ${cardContent.generateTrend(data)}
+                ${cardContent.generateTrend(data)} ${cardContent.generateOutOfScale(data, 'above')}
               </div>
               <div
                 class="triangle"
@@ -416,8 +449,10 @@ export class cardContent {
                   ? `;font-weight:${config.display.name_font_weight}`
                   : ''}"
               >
-                &nbsp; ${data.title} ${data.value != null ? `${data.value} ${data.unit}` : ','}
-                ${cardContent.generateTrend(data)} ${data.separator} ${data.state}
+                &nbsp; ${data.title} ${cardContent.generateOutOfScale(data, 'below')}
+                ${data.value != null ? `${data.value} ${data.unit}` : ','}
+                ${cardContent.generateTrend(data)} ${cardContent.generateOutOfScale(data, 'above')}
+                ${data.separator} ${data.state}
                 ${data.status ? cardContent.generateSensorStatus(data.status) : ''}
                 ${data.battery_icon
                   ? html`<ha-icon
