@@ -95,3 +95,46 @@ describe('the palette is named where the options table sends the reader', () => 
     });
   }
 });
+
+// The card refuses a sensor with no scale (#98) and says so on the card itself.
+// No page said it anywhere, so the only explanation a user had was that banner,
+// in English whatever their language (#122). The two gaps reinforced each
+// other: the message could not be read and the page did not explain it.
+//
+// `scale.ts` is the authority on what counts as a scale, and it counts exactly
+// two things. What is checked here is that the pages name the same two, and
+// name the two near misses that look like a scale and are not.
+describe('the pages say a scale is required, and which ones count', () => {
+  for (const card of CARDS) {
+    const section = () => sectionOf(page(card), 'Every sensor needs a scale');
+
+    it(`${card.package}: the section is there`, () => {
+      expect(section()).not.toBe('');
+    });
+
+    it(`${card.package}: it names both references, and what happens without one`, () => {
+      const text = section();
+      expect(text).toContain('`limits`');
+      expect(text).toContain('`setpoint`');
+      expect(text).toMatch(/refused/);
+    });
+
+    it(`${card.package}: it says min, max and step alone are not one`, () => {
+      const text = section();
+      expect(text).toContain('`min: 0, max: 100`');
+      expect(text).toContain('`step` alone is not one');
+    });
+  }
+
+  // The generic card is where this bites: nothing supplies a scale behind a
+  // freeform key, so its own option table has to carry the requirement rather
+  // than leaving it to a section further down the page.
+  it('the card with no presets marks it required in its own table', () => {
+    const generic = CARDS.find(c => c.isGeneric);
+    const text = page(generic);
+    const table = text.slice(text.indexOf('| Option | Required | Description |'));
+    expect(table.slice(0, table.indexOf('\n\n'))).toMatch(
+      /^\| `setpoint` \| \*\*yes\*\*, or `limits` \|/m,
+    );
+  });
+});

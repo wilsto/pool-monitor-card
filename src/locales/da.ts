@@ -24,6 +24,24 @@ export default {
     above: 'over skalaen',
     below: 'under skalaen',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Dette kort har ingen sensor at vise. Tilføj mindst én under {sensors} i kortets konfiguration.',
+    no_data: 'Ingen data for denne sensor.',
+    not_supported:
+      'Sensoren {name} er ukendt for dette kort. Vælg en sensor fra listen i den visuelle editor, eller skriv nøglen præcis som i dokumentationen.',
+    not_found:
+      "Entiteten {entity} blev ikke fundet. Kontrollér, at entitets-id'et er skrevet præcis som i Home Assistant, og at integrationen, der leverer den, er indlæst.",
+    no_scale:
+      'Sensoren {name} har ingen skala, så ingen måling kan vurderes. Giv den fire {limits}, eller et {setpoint} med et {step}. Bemærk, at {min} og {max} kun bestemmer bjælkens bredde, de er ikke en skala.',
+    unknown: 'ukendt',
+  },
   sensor: {
     humidity: 'Luftfugtighed',
     filtration_time: 'Filtreringstid',

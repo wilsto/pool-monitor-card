@@ -38,7 +38,7 @@ export class MonitorSensorEditor extends LitElement {
     return html`
       <div class="sensor-list">
         ${sensorEntries.length === 0
-          ? html`<div class="empty-message">No sensors configured. Add one below.</div>`
+          ? html`<div class="empty-message">${this.t('none_configured')}</div>`
           : sensorEntries.map(([type, config]) => this._renderSensorType(type, config))}
         ${this._renderAddSensor()}
       </div>
@@ -564,7 +564,7 @@ export class MonitorSensorEditor extends LitElement {
             }
           }}
         >
-          <option value="">Add sensor...</option>
+          <option value="">${this.t('add_sensor')}</option>
           ${categoryOrder
             .filter(cat => grouped[cat]?.length > 0)
             .map(

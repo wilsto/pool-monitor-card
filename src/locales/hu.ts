@@ -21,6 +21,24 @@ export default {
     above: 'a skála felett',
     below: 'a skála alatt',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Ezen a kártyán nincs megjeleníthető érzékelő. Vegyen fel legalább egyet a {sensors} alá a kártya beállításaiban.',
+    no_data: 'Nincs adat ehhez az érzékelőhöz.',
+    not_supported:
+      'A(z) {name} érzékelőt nem ismeri ez a kártya. Válasszon érzékelőt a vizuális szerkesztő listájából, vagy írja be a kulcsát pontosan úgy, ahogy a dokumentációban szerepel.',
+    not_found:
+      'A(z) {entity} entitás nem található. Ellenőrizze, hogy az azonosító pontosan úgy szerepel-e, ahogy a Home Assistant tárolja, és hogy be van-e töltve az azt biztosító integráció.',
+    no_scale:
+      'A(z) {name} érzékelőnek nincs skálája, ezért egyetlen mérés sem értékelhető. Adjon meg neki négy {limits} értéket, vagy egy {setpoint} értéket {step} lépésközzel. A {min} és a {max} csak a sáv szélességét adja meg, nem skála.',
+    unknown: 'ismeretlen',
+  },
   sensor: {
     humidity: 'Páratartalom',
     filtration_time: 'Szűrési idő',

@@ -2,6 +2,18 @@ import { html, TemplateResult } from 'lit';
 import type { CardConfig, SensorData, StatusData } from '../ha/types.js';
 import { trendGlyphs } from '../trend.js';
 import { overflowGlyph, type ScaleOverflow } from '../scale.js';
+import { getTranslation } from '../locales/translations.js';
+
+/**
+ * The row-level refusal, in the card's language.
+ *
+ * The banners a user actually meets live in `card-base.ts`, above the split
+ * between the two layouts. This one is the guard both layouts keep for a row
+ * with no data at all, so it is written twice by construction, and it is
+ * translated here rather than in the base for that reason alone.
+ */
+const noData = (config: CardConfig): string =>
+  getTranslation(config?.display?.language || 'en', 'warning.no_data');
 
 /**
  * Horizontal offset for a scale label.
@@ -84,7 +96,9 @@ export class cardContent {
           style="background-color: ${status.color};"
           @click=${() => cardContent._moreinfo(status.entity_id)}
         >
-          <ha-icon icon="${status.icon}" style="--mdc-icon-size: 16px;"></ha-icon>
+          ${status.icon
+            ? html`<ha-icon icon="${status.icon}" style="--mdc-icon-size: 16px;"></ha-icon>`
+            : ''}
           ${status.label}
         </span>
         ${status.friendly_name
@@ -182,9 +196,37 @@ export class cardContent {
       ><span class="sr-only">${data.out_of_scale_label || ''}</span>`;
   }
 
+  /**
+   * The reading itself, a number and its unit, isolated from the text around
+   * it (#121).
+   *
+   * `<bdi>` is the standard remedy for exactly this shape, a run whose own
+   * direction is not the paragraph's: it wraps the run in a bidi isolate, so
+   * the reordering algorithm treats it as one opaque object instead of
+   * shuffling its pieces against the neighbours.
+   *
+   * Without it, the bubble of a Hebrew card is laid out at the paragraph's
+   * right-to-left level and `25.7 °C` comes apart. The degree sign is a
+   * European Number Terminator with no number adjacent to it, so it resolves
+   * as a neutral, takes the paragraph direction, and lands on the far side of
+   * the `C`: the bench painted `C° 25.7` (measured on #121, four cards, HA
+   * interface in Hebrew). The compact layout escaped it by accident, its
+   * sensor name is a strong left-to-right letter right before the number and
+   * pulled the whole run along; that accident is not a design, hence the same
+   * call on both.
+   *
+   * In a left-to-right card this renders exactly what the bare text rendered:
+   * an isolate around a left-to-right run inside a left-to-right paragraph is
+   * a no-op.
+   */
+  static generateReading(data: SensorData): TemplateResult | string {
+    if (data.value == null) return ',';
+    return html`<bdi>${data.value} ${data.unit}</bdi>`;
+  }
+
   static generateBody(config: CardConfig, data: SensorData): TemplateResult {
     if (!data) {
-      return html` <div class="warning-message">No sensor data available</div> `;
+      return html` <div class="warning-message">${noData(config)}</div> `;
     }
     const markerPct = data.pct_marker;
     const bubbleTransform = markerShift(markerPct);
@@ -217,7 +259,7 @@ export class cardContent {
                 ${data.side_align === 'right' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
                   : ''}
-                ${data.value != null ? `${data.value} ${data.unit}` : ','}
+                ${cardContent.generateReading(data)}
                 ${data.side_align === 'left' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
                   : ''}
@@ -366,7 +408,7 @@ export class cardContent {
 
   static generateCompactBody(config: CardConfig, data: SensorData): TemplateResult {
     if (!data) {
-      return html` <div class="warning-message">No sensor data available</div> `;
+      return html` <div class="warning-message">${noData(config)}</div> `;
     }
     return html`
       <!-- ##### ${data.name} section ##### -->
@@ -450,9 +492,8 @@ export class cardContent {
                   : ''}"
               >
                 &nbsp; ${data.title} ${cardContent.generateOutOfScale(data, 'below')}
-                ${data.value != null ? `${data.value} ${data.unit}` : ','}
-                ${cardContent.generateTrend(data)} ${cardContent.generateOutOfScale(data, 'above')}
-                ${data.separator} ${data.state}
+                ${cardContent.generateReading(data)} ${cardContent.generateTrend(data)}
+                ${cardContent.generateOutOfScale(data, 'above')} ${data.separator} ${data.state}
                 ${data.status ? cardContent.generateSensorStatus(data.status) : ''}
                 ${data.battery_icon
                   ? html`<ha-icon

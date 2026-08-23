@@ -21,6 +21,24 @@ export default {
     above: 'por encima de la escala',
     below: 'por debajo de la escala',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Esta tarjeta no tiene ningún sensor que mostrar. Añada al menos uno en {sensors} dentro de la configuración de la tarjeta.',
+    no_data: 'Sin datos para este sensor.',
+    not_supported:
+      'Esta tarjeta no conoce el sensor {name}. Elija un sensor de la lista del editor visual, o escriba su clave tal como aparece en la documentación.',
+    not_found:
+      'No se encuentra la entidad {entity}. Compruebe que el identificador está escrito como lo registra Home Assistant y que la integración que la proporciona está cargada.',
+    no_scale:
+      'El sensor {name} no tiene escala, así que ninguna lectura puede valorarse. Déle cuatro {limits}, o un {setpoint} con un {step}. Tenga en cuenta que {min} y {max} solo dimensionan la barra, no son una escala.',
+    unknown: 'desconocido',
+  },
   sensor: {
     humidity: 'Humedad',
     filtration_time: 'Tiempo de filtración',

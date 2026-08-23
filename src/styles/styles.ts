@@ -60,17 +60,28 @@ export const styles = css`
   }
 
   /** Title styles */
+  /**
+   * The inset is logical, not physical (#121). The title follows the reading
+   * direction, so in a Hebrew card it sits on the right, and a padding on the
+   * left would hold its 15px on the empty side while the text touched the card
+   * edge. Measured on the bench, that is what it did.
+   */
   .pool-monitor-title {
     font-size: 1.5rem;
     font-weight: 500;
-    padding-left: 15px;
+    padding-inline-start: 15px;
     padding-bottom: 15px;
     margin: 0;
   }
 
-  /** Entity image container */
+  /**
+   * Entity image container, aligned to the end rather than to the right for
+   * the reason above: the icon is meant to hug the bar it belongs to, and the
+   * row that carries both flips with the reading direction. On a wide Hebrew
+   * card the physical right left a 15px gap between bar and icon (#121).
+   */
   .pool-monitor-entity-img {
-    text-align: right;
+    text-align: end;
     width: 10%;
     flex-shrink: 0;
     margin-top: 35px;
@@ -330,9 +341,14 @@ export const styles = css`
     opacity: 0.7;
   }
 
+  /* The accent bar and the icon gap follow the reading direction. They were
+     physical, and a warning is the one thing on this card that is a sentence:
+     translating it (#122) is what puts it in front of a Hebrew reader, where
+     the flex row reverses and both landed on the empty side. Same fix as the
+     title inset in #121, and identical rendering in a left-to-right card. */
   .warning-message {
     background-color: var(--warning-color, rgba(255, 152, 0, 0.1));
-    border-left: 4px solid var(--warning-color, #ff9800);
+    border-inline-start: 4px solid var(--warning-color, #ff9800);
     border-radius: 4px;
     padding: 12px 16px;
     margin: 8px 0;
@@ -347,7 +363,7 @@ export const styles = css`
 
   .warning-message ha-icon {
     color: var(--warning-color, #ff9800);
-    margin-right: 12px;
+    margin-inline-end: 12px;
     flex-shrink: 0;
   }
 

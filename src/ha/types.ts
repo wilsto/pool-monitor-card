@@ -11,6 +11,18 @@ export interface HomeAssistant {
   locale: {
     language: string;
   };
+  /**
+   * Home Assistant's own state formatter: `on` becomes Ouvert on a window and
+   * Allumé on a fan, in whatever language the user reads the rest of their
+   * dashboard in.
+   *
+   * Optional because it is not ours to promise. It is present on every frontend
+   * the bench has run (verified 2026-08-23), but an older one has no such
+   * method and the caller must have somewhere to fall back to. Every test in
+   * this repository builds `hass` by hand and none of them define it, which is
+   * exactly the case the fallback covers.
+   */
+  formatEntityState?: (stateObj: HassEntity, state?: string) => string;
 }
 
 export interface EntityRegistryEntry {
@@ -151,6 +163,11 @@ export interface CardConfig {
 export interface StatusData {
   label: string;
   color: string;
+  /**
+   * Empty when the status is a plain on/off and the entity declares no icon of
+   * its own: the badge then shows its text and nothing else. See the icon table
+   * in `resolveStatus` for why no glyph is invented there.
+   */
   icon: string;
   friendly_name?: string;
   entity_id: string;

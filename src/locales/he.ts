@@ -21,6 +21,23 @@ export default {
     above: 'מעל הסולם',
     below: 'מתחת לסולם',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors: 'לכרטיס הזה אין חיישן להצגה. הוסיפו לפחות אחד תחת {sensors} בהגדרות הכרטיס.',
+    no_data: 'אין נתונים לחיישן הזה.',
+    not_supported:
+      'הכרטיס הזה לא מכיר את החיישן {name}. בחרו חיישן מהרשימה בעורך הוויזואלי, או כתבו את המפתח שלו בדיוק כפי שמופיע בתיעוד.',
+    not_found:
+      'הישות {entity} לא נמצאה. ודאו שמזהה הישות כתוב בדיוק כפי שהוא רשום ב-Home Assistant, ושהאינטגרציה שמספקת אותה נטענה.',
+    no_scale:
+      'לחיישן {name} אין סולם, ולכן אי אפשר להעריך שום קריאה. הגדירו לו ארבעה {limits}, או {setpoint} יחד עם {step}. שימו לב ש-{min} ו-{max} רק קובעים את רוחב הפס, הם אינם סולם.',
+    unknown: 'לא ידוע',
+  },
   sensor: {
     humidity: 'לחות',
     filtration_time: 'זמן סינון',

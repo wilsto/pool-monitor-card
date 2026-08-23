@@ -21,6 +21,24 @@ export default {
     above: 'выше шкалы',
     below: 'ниже шкалы',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'На этой карточке нет ни одного датчика. Добавьте хотя бы один в раздел {sensors} в настройках карточки.',
+    no_data: 'Нет данных для этого датчика.',
+    not_supported:
+      'Датчик {name} этой карточке неизвестен. Выберите датчик из списка в визуальном редакторе, или напишите его ключ точно так, как указано в документации.',
+    not_found:
+      'Объект {entity} не найден. Проверьте, что идентификатор написан так же, как в Home Assistant, и что интеграция, которая его предоставляет, загружена.',
+    no_scale:
+      'У датчика {name} нет шкалы, поэтому ни одно значение нельзя оценить. Задайте ему четыре {limits}, или {setpoint} вместе с {step}. Учтите, что {min} и {max} только задают ширину полосы, это не шкала.',
+    unknown: 'неизвестно',
+  },
   sensor: {
     humidity: 'Влажность',
     filtration_time: 'Время фильтрации',

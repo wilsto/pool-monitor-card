@@ -21,6 +21,24 @@ export default {
     above: 'nad stupnicí',
     below: 'pod stupnicí',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Tato karta nemá žádný senzor k zobrazení. Přidejte alespoň jeden do {sensors} v konfiguraci karty.',
+    no_data: 'Žádná data pro tento senzor.',
+    not_supported:
+      'Senzor {name} tato karta nezná. Vyberte senzor ze seznamu ve vizuálním editoru, nebo napište jeho klíč přesně tak, jak je uveden v dokumentaci.',
+    not_found:
+      'Entita {entity} nebyla nalezena. Zkontrolujte, zda je identifikátor napsán přesně tak, jak jej eviduje Home Assistant, a zda je načtena integrace, která ji poskytuje.',
+    no_scale:
+      'Senzor {name} nemá škálu, takže žádné měření nelze vyhodnotit. Zadejte mu čtyři {limits}, nebo {setpoint} spolu s {step}. Hodnoty {min} a {max} určují jen šířku pruhu, nejsou škálou.',
+    unknown: 'neznámý',
+  },
   sensor: {
     humidity: 'Vlhkost',
     filtration_time: 'Doba filtrace',

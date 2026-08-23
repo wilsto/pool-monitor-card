@@ -24,6 +24,24 @@ export default {
     above: "per sobre de l'escala",
     below: "per sota de l'escala",
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Aquesta targeta no té cap sensor per mostrar. Afegiu-ne almenys un a {sensors} dins la configuració de la targeta.',
+    no_data: 'Sense dades per a aquest sensor.',
+    not_supported:
+      "Aquesta targeta no coneix el sensor {name}. Trieu un sensor de la llista de l'editor visual, o escriviu-ne la clau tal com apareix a la documentació.",
+    not_found:
+      "No s'ha trobat l'entitat {entity}. Comproveu que l'identificador estigui escrit tal com el registra Home Assistant i que la integració que la proporciona estigui carregada.",
+    no_scale:
+      'El sensor {name} no té escala, així que cap lectura no es pot valorar. Doneu-li quatre {limits}, o un {setpoint} amb un {step}. Tingueu en compte que {min} i {max} només dimensionen la barra, no són una escala.',
+    unknown: 'desconegut',
+  },
   sensor: {
     humidity: 'Humitat',
     filtration_time: 'Temps de filtració',

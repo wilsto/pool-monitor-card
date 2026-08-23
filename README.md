@@ -100,6 +100,8 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 
 For detailed explanations of each sensor and why it matters, see [Sensor Details](docs/sensors.md).
 
+Some of the entities this card reads have to be built in Home Assistant first. Ready-made `template` sensors for that are in [Recipes](docs/recipes.md).
+
 ---
 
 ## Compatible Hardware
@@ -236,6 +238,30 @@ marker on the bar.
 Without them, the bar spans `setpoint ± 3 × step`, and the coloured zones
 change every `step`. So `step` is what widens or narrows the green zone:
 a larger `step` is more tolerant, a smaller one more strict.
+
+### Every sensor needs a scale
+
+A reading is only worth showing if it can be compared to something. A sensor
+that carries no reference is **refused**: the card shows a warning in its place
+and draws no bar for it, while the rest of the card keeps working.
+
+A sensor has a scale when it has either of these:
+
+- four explicit `limits`, or
+- a `setpoint`, written here, read from `setpoint_entity`, or inherited from
+  the preset.
+
+The two near misses are worth naming, because both look like a scale:
+
+- **`min` and `max` are not one.** They size the bar. A sensor with
+  `min: 0, max: 100` and nothing else draws a full-width bar with the cursor in
+  the right place, and still has nothing to judge the reading against.
+- **`step` alone is not one either.** It is the width of a band, with no value
+  to build the bands around.
+
+Every preset on this card already carries a scale, so this only bites on a
+sensor key the card does not know, or on a preset whose `setpoint` you
+replaced with nothing.
 
 ### Quantities whose ideal is at one end
 

@@ -21,6 +21,24 @@ export default {
     above: 'över skalan',
     below: 'under skalan',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Det här kortet har ingen sensor att visa. Lägg till minst en under {sensors} i kortets konfiguration.',
+    no_data: 'Inga data för den här sensorn.',
+    not_supported:
+      'Sensorn {name} är okänd för det här kortet. Välj en sensor i listan i den visuella redigeraren, eller skriv nyckeln exakt som i dokumentationen.',
+    not_found:
+      'Entiteten {entity} hittades inte. Kontrollera att entitets-ID:t är skrivet precis som i Home Assistant och att integrationen som tillhandahåller den är laddad.',
+    no_scale:
+      'Sensorn {name} saknar skala, så inget värde kan bedömas. Ge den fyra {limits}, eller en {setpoint} med ett {step}. Observera att {min} och {max} bara bestämmer stapelns bredd, de är ingen skala.',
+    unknown: 'okänd',
+  },
   sensor: {
     humidity: 'Luftfuktighet',
     filtration_time: 'Filtreringstid',

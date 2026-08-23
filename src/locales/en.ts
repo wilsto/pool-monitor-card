@@ -95,6 +95,30 @@ export default {
     above: 'above the scale',
     below: 'below the scale',
   },
+  // Warnings the card paints instead of a reading, in the card's language.
+  //
+  // These are not editor labels. An editor label is read by someone who chose
+  // to open the editor; a warning appears at the moment the configuration is
+  // refused, which is exactly when the reader needs to understand. So a locale
+  // carries all of them or the build is red (`warning-messages.test.js`),
+  // where an editor label may fall back to English.
+  //
+  // Every `{placeholder}` the card supplies a value for is a user's own text
+  // and is printed as it stands. Every other one is a YAML option name, which
+  // `card-base.ts` prints as code: it stays a placeholder precisely so that no
+  // translation can turn `limits` into a word Home Assistant does not accept.
+  warning: {
+    no_sensors:
+      'This card has no sensor to show. Add at least one under {sensors} in the card configuration.',
+    no_data: 'No data for this sensor.',
+    not_supported:
+      'Sensor {name} is not one this card knows. Pick a sensor from the list in the visual editor, or write its key exactly as the documentation spells it.',
+    not_found:
+      'Entity {entity} could not be found. Check that the entity ID is spelled the way Home Assistant has it, and that the integration providing it is loaded.',
+    no_scale:
+      'Sensor {name} has no scale, so no reading can be judged against anything. Give it four {limits}, or a {setpoint} with a {step}. Note that {min} and {max} only size the bar, they are not a scale.',
+    unknown: 'unknown',
+  },
   // The editor had no translation at all: every label was written in English in
   // the markup, while the card itself speaks seventeen languages. A Hungarian
   // user read their card in Hungarian and configured it in English.
@@ -156,6 +180,11 @@ export default {
     min_limit_entity: 'Min limit entity (optional, overrides static min_limit)',
     sensor_type_key: 'Sensor type key',
     all_configured: 'All sensor types are configured.',
+    // The two labels of the add row. They were written in English in the
+    // markup, next to `all_configured` which goes through the table, so no
+    // locale could reach them even by translating everything (#122).
+    none_configured: 'No sensors configured. Add one below.',
+    add_sensor: 'Add sensor...',
     display_options: 'Display Options',
     colors: 'Colors',
     card_title: 'Card title',

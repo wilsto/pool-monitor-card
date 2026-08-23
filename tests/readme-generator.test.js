@@ -108,6 +108,27 @@ describe('README generator, no preset is dropped on the way to the page', () => 
   }
 });
 
+// A third hand-maintained list had to name `co` and did not: `sensorDetails`,
+// the prose the sensor page prints under each section. The section still
+// rendered, with its unit and its four bands and not a word under them, because
+// the generator emits the sentence only `if (detail)`. Carbon monoxide is
+// colourless, odourless, and the one reading on that card somebody has to act
+// on, and it was the one that shipped bare (#129).
+//
+// A card that explains its sensors explains all of them. The three cards that
+// carry prose covered 57 of their 58 sensors when this was written, so the rule
+// is what they already do, minus the one hole.
+describe('README generator, a card that explains its sensors explains all of them', () => {
+  CARDS.filter(c => Object.keys(c.sensorDetails ?? {}).length).forEach(card => {
+    it(`${card.package}: no section is printed with nothing under it`, () => {
+      const silent = loadSensors(card.package)
+        .map(s => s.key)
+        .filter(k => !card.sensorDetails[k]?.trim());
+      expect(silent).toEqual([]);
+    });
+  });
+});
+
 // A README that points at a picture which is not there shows a broken image on
 // the public repository and in the HACS store, and nothing here would notice:
 // the file lives in one place and the reference in another.
@@ -129,7 +150,9 @@ describe('every picture a README points at is really there', () => {
         const text = readFileSync(resolve(dir, page), 'utf8');
         const referenced = [...text.matchAll(/!\[[^\]]*\]\((?!https?:)([^)]+)\)/g)].map(m => m[1]);
         seen += referenced.length;
-        missing.push(...referenced.filter(rel => !existsSync(resolve(base, rel))).map(r => `${page} -> ${r}`));
+        missing.push(
+          ...referenced.filter(rel => !existsSync(resolve(base, rel))).map(r => `${page} -> ${r}`),
+        );
       }
       expect(seen).toBeGreaterThan(0);
       expect(missing).toEqual([]);

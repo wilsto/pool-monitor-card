@@ -21,6 +21,24 @@ export default {
     above: 'über der Skala',
     below: 'unter der Skala',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Diese Karte hat keinen Sensor zum Anzeigen. Fügen Sie mindestens einen unter {sensors} in der Kartenkonfiguration hinzu.',
+    no_data: 'Keine Daten für diesen Sensor.',
+    not_supported:
+      'Der Sensor {name} ist dieser Karte nicht bekannt. Wählen Sie einen Sensor aus der Liste im visuellen Editor, oder schreiben Sie seinen Schlüssel genau so wie in der Dokumentation.',
+    not_found:
+      'Die Entität {entity} wurde nicht gefunden. Prüfen Sie, ob die Entitäts-ID genau so geschrieben ist wie in Home Assistant, und ob die Integration, die sie liefert, geladen ist.',
+    no_scale:
+      'Der Sensor {name} hat keine Skala, daher kann kein Messwert bewertet werden. Geben Sie ihm vier {limits}, oder einen {setpoint} mit einem {step}. Beachten Sie: {min} und {max} bestimmen nur die Breite des Balkens, sie sind keine Skala.',
+    unknown: 'unbekannt',
+  },
   sensor: {
     humidity: 'Luftfeuchtigkeit',
     filtration_time: 'Filterlaufzeit',

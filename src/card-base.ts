@@ -39,7 +39,7 @@ export class MonitorCardBase extends LitElement {
         ><div id="pool-monitor-card">
           <div class="warning-message">
             <ha-icon icon="mdi:alert"></ha-icon>
-            <span>No valid sensor data available</span>
+            <span>${this.warning('no_sensors')}</span>
           </div>
         </div></ha-card
       >`;
@@ -60,40 +60,24 @@ export class MonitorCardBase extends LitElement {
             return html`
               <div class="warning-message">
                 <ha-icon icon="mdi:alert"></ha-icon>
-                <span
-                  >Sensor ${sensorData?.name || 'unknown'} is not supported. Please verify its
-                  configuration and ensure it is compatible with the card.</span
-                >
+                <span>${this.warning('not_supported', { name: sensorData?.name })}</span>
               </div>
             `;
           } else if (sensorData?.not_found) {
             return html`
               <div class="warning-message">
                 <ha-icon icon="mdi:alert"></ha-icon>
-                <span
-                  >Entity ${sensorData?.entity || 'unknown'} could not be found. Please verify its
-                  name and ensure the entity is properly configured.</span
-                >
+                <span>${this.warning('not_found', { entity: sensorData?.entity })}</span>
               </div>
             `;
           } else if (sensorData?.no_scale) {
             // Third of the three banners, and it sits here for the same reason
             // as the other two: written once, before the layout is chosen, so
             // the full and compact bodies cannot disagree about it.
-            //
-            // English like its neighbours, though the card speaks eighteen
-            // languages. A translated warning next to two untranslated ones
-            // would be a worse state than three consistent ones; translating
-            // all three is its own job.
             return html`
               <div class="warning-message">
                 <ha-icon icon="mdi:alert"></ha-icon>
-                <span
-                  >Sensor ${sensorData?.name || 'unknown'} has no scale, so no reading can be judged
-                  against anything. Give it four <code>limits</code>, or a
-                  <code>setpoint</code> with a <code>step</code>. Note that <code>min</code> and
-                  <code>max</code> only size the bar, they are not a scale.</span
-                >
+                <span>${this.warning('no_scale', { name: sensorData?.name })}</span>
               </div>
             `;
           }
@@ -224,6 +208,43 @@ export class MonitorCardBase extends LitElement {
     const lang = this.config?.display.language || 'en';
     const translation = getTranslation(lang, key);
     return formatTranslation(translation, values);
+  }
+
+  /**
+   * The text of a warning banner, in the card's language.
+   *
+   * A warning is not an editor label. An editor label is read by whoever chose
+   * to open the editor, and may fall back to English while a translation
+   * catches up; a warning is painted at the moment a configuration is refused,
+   * which is exactly when the reader needs to understand. So every locale
+   * carries every one of these, and `warning-messages.test.js` is red if one
+   * is missing.
+   *
+   * The message is a sentence with `{placeholders}`, and each one is one of two
+   * things:
+   *
+   * - a value this call supplies, an entity id or a sensor name, printed as it
+   *   stands;
+   * - anything else, which is a YAML option name and is printed as code. It
+   *   stays a placeholder rather than being written into the sentence so that
+   *   no translation can turn `limits` into a word Home Assistant will not
+   *   accept, and so `translations.test.js` checks every locale still carries
+   *   all of them.
+   *
+   * Both go inside a `<bdi>`. They are Latin runs, the sentence around them may
+   * be Hebrew, and an unisolated Latin run drags the punctuation next to it to
+   * the wrong side (`right-to-left.test.js`).
+   */
+  warning(key: string, values: Record<string, string | undefined> = {}): unknown[] {
+    const unknown = this.getTranslatedText('warning.unknown');
+    return this.getTranslatedText(`warning.${key}`)
+      .split(/\{(\w+)\}/)
+      .map((part, i) => {
+        if (i % 2 === 0) return part;
+        return part in values
+          ? html`<bdi>${values[part] || unknown}</bdi>`
+          : html`<bdi><code>${part}</code></bdi>`;
+      });
   }
 
   calculateData(
@@ -722,6 +743,12 @@ export class MonitorCardBase extends LitElement {
    * Takes the entity id so the same mapping serves the card header and each
    * individual measurement: a device that says "HIGH" means the same thing
    * wherever it is shown.
+   *
+   * `status_entity` never restricted the domain, so a window, a fan, a purifier
+   * or a pump could always be pointed at it. What came out was unusable
+   * (monitor-cards#61): the badge read `on`, in English, in a French Home
+   * Assistant, grey and wearing a question mark. Two things were wrong there,
+   * and only one of them was the wording.
    */
   resolveStatus(entityId?: string): StatusData | null {
     const config = this.getConfig();
@@ -738,7 +765,7 @@ export class MonitorCardBase extends LitElement {
     const friendly_name = (entityState.attributes as any)?.friendly_name;
     const numVal = parseFloat(stateVal);
 
-    // level: 'good' | 'warning' | 'danger' | 'unknown'
+    // level: 'good' | 'warning' | 'danger' | 'active' | 'inactive' | 'unknown'
     let level: string;
 
     if (!isNaN(numVal)) {
@@ -749,10 +776,19 @@ export class MonitorCardBase extends LitElement {
       const greenStates = ['safe', 'good', 'ok', 'healthy', 'optimal', 'green', 'normal'];
       const orangeStates = ['warning', 'caution', 'moderate', 'yellow'];
       const redStates = ['danger', 'critical', 'bad', 'poor', 'unsafe', 'red', 'high', 'low'];
+      // An open window is not a verdict. It is neither good nor bad, and the
+      // card has no way to know which: at 400 ppm an open window is a draught,
+      // at 1500 ppm it is the fix. So these states get their own level rather
+      // than a colour that judges them, and rather than `unknown`, which says
+      // the card did not recognise the word. It recognised it perfectly.
+      const activeStates = ['on', 'open', 'opening'];
+      const inactiveStates = ['off', 'closed', 'closing'];
 
       if (greenStates.includes(lower)) level = 'good';
       else if (orangeStates.includes(lower)) level = 'warning';
       else if (redStates.includes(lower)) level = 'danger';
+      else if (activeStates.includes(lower)) level = 'active';
+      else if (inactiveStates.includes(lower)) level = 'inactive';
       else level = 'unknown';
     }
 
@@ -760,19 +796,53 @@ export class MonitorCardBase extends LitElement {
       good: colors.normal,
       warning: colors.low,
       danger: colors.warn,
+      // Theme tokens, not colours of ours, so the badge follows whatever the
+      // user picked. The accent rather than `--state-active-color`: measured on
+      // the bench, that token is amber in the default theme, which lands right
+      // between this card's yellow and its orange and reads as a caution. The
+      // accent is the one colour on the card that cannot be mistaken for a
+      // verdict, which is the whole point of these two levels.
+      active: 'var(--primary-color, #03a9f4)',
+      inactive: 'var(--state-inactive-color, var(--secondary-text-color, #6f6f6f))',
       unknown: 'var(--disabled-text-color, #bdbdbd)',
     };
     const iconMap: Record<string, string> = {
       good: 'mdi:check-circle',
       warning: 'mdi:alert',
       danger: 'mdi:alert-octagon',
+      // No icon, unless the entity carries one of its own. A question mark on a
+      // window says the card is confused; a hard-coded `mdi:window-open` would
+      // be a table to grow one appliance at a time, which is the trap the fork
+      // this came from fell into. The text alone is legible, and a user who
+      // wants a glyph sets `icon:` on the entity, where Home Assistant already
+      // reads it.
+      active: '',
+      inactive: '',
       unknown: 'mdi:help-circle',
     };
+    // Only the two new levels read it. A verdict badge keeps its check mark or
+    // its octagon whatever icon the entity carries: that shape is the card
+    // speaking, not the entity.
+    const ownIcon =
+      level === 'active' || level === 'inactive'
+        ? (entityState.attributes as any)?.icon
+        : undefined;
 
     return {
-      label: stateVal,
+      // Home Assistant already translates entity states, per device class, in
+      // every language it ships: `on` is Ouvert on a window and Allumé on a
+      // fan. Rewriting that into seventeen locale files would be both a worse
+      // table and a shorter one. Older frontends have no `formatEntityState`,
+      // and they keep exactly today's raw state.
+      //
+      // Numbers stay untouched on purpose: a WaterGuru score of 85 reads 85,
+      // not "85 %", and that is what it has always read.
+      label:
+        isNaN(numVal) && this.hass?.formatEntityState
+          ? this.hass.formatEntityState(entityState)
+          : stateVal,
       color: colorMap[level],
-      icon: iconMap[level],
+      icon: ownIcon || iconMap[level],
       friendly_name,
       entity_id: id,
     };

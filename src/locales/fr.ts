@@ -30,6 +30,24 @@ export default {
     above: "au-dessus de l'échelle",
     below: "en dessous de l'échelle",
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      "Cette carte n'a aucun capteur à afficher. Ajoutez-en au moins un sous {sensors} dans la configuration de la carte.",
+    no_data: 'Aucune donnée pour ce capteur.',
+    not_supported:
+      "Le capteur {name} n'est pas connu de cette carte. Choisissez un capteur dans la liste de l'éditeur visuel, ou écrivez sa clé exactement comme la documentation l'orthographie.",
+    not_found:
+      "L'entité {entity} est introuvable. Vérifiez que son identifiant est écrit comme Home Assistant l'enregistre, et que l'intégration qui la fournit est chargée.",
+    no_scale:
+      "Le capteur {name} n'a pas d'échelle, aucune mesure ne peut donc être jugée. Donnez-lui quatre {limits}, ou un {setpoint} avec un {step}. Notez que {min} et {max} ne font que dimensionner la barre, ce n'est pas une échelle.",
+    unknown: 'inconnu',
+  },
   // Libelles de l'editeur. Il suit `hass.language` : celui qui configure n'est
   // pas forcement celui qui regarde la carte.
   editor: {
@@ -89,6 +107,8 @@ export default {
     min_limit_entity: 'Entité de borne basse (facultatif, remplace la borne fixe)',
     sensor_type_key: 'Clé du type de capteur',
     all_configured: 'Tous les types de capteurs sont déjà configurés.',
+    none_configured: 'Aucun capteur configuré. Ajoutez-en un ci-dessous.',
+    add_sensor: 'Ajouter un capteur...',
     display_options: 'Affichage',
     colors: 'Couleurs',
     card_title: 'Titre de la carte',

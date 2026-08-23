@@ -21,6 +21,24 @@ export default {
     above: 'peste scară',
     below: 'sub scară',
   },
+  // Warnings the card paints instead of a reading. A locale carries all of
+  // them, unlike the editor labels, which may fall back to English: a warning
+  // is read at the moment something is refused.
+  //
+  // `{limits}`, `{setpoint}`, `{step}`, `{min}`, `{max}` and `{sensors}` are
+  // YAML option names. They are never translated.
+  warning: {
+    no_sensors:
+      'Acest card nu are niciun senzor de afișat. Adăugați cel puțin unul la {sensors} în configurația cardului.',
+    no_data: 'Nu există date pentru acest senzor.',
+    not_supported:
+      'Senzorul {name} nu este cunoscut de acest card. Alegeți un senzor din lista editorului vizual, sau scrieți cheia exact ca în documentație.',
+    not_found:
+      'Entitatea {entity} nu a fost găsită. Verificați dacă identificatorul este scris exact așa cum îl înregistrează Home Assistant și dacă integrarea care o furnizează este încărcată.',
+    no_scale:
+      'Senzorul {name} nu are o scală, așa că nicio valoare nu poate fi evaluată. Dați-i patru {limits}, sau un {setpoint} cu un {step}. Rețineți că {min} și {max} doar dimensionează bara, nu sunt o scală.',
+    unknown: 'necunoscut',
+  },
   sensor: {
     humidity: 'Umiditate',
     filtration_time: 'Timp de filtrare',
