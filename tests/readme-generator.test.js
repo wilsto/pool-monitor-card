@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { supportedLanguages, loadSensors, CARDS } from '../../../scripts/generate-readmes.js';
+import {
+  supportedLanguages,
+  loadSensors,
+  CARDS,
+  TRANSLATORS,
+  CORE_CONTRIBUTORS,
+} from '../../../scripts/generate-readmes.js';
 import { translations } from '../src/locales/translations.js';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -129,4 +135,80 @@ describe('every picture a README points at is really there', () => {
       expect(missing).toEqual([]);
     });
   }
+});
+
+// @arketec designed the trend chevrons; they went out on the four cards while
+// his name stayed in the issue and the pull request, on no page a user reads.
+// The same slip had already happened to the Catalan and Danish translations.
+// Two lists have to agree before a credit is actually seen: the one kept here,
+// and the pages the generator wrote the last time someone ran it.
+
+const distReadme = card =>
+  readFileSync(
+    resolve(__dirname, '../../..', 'scripts/dist-readmes', card.repo.split('/')[1], 'README.md'),
+    'utf8',
+  );
+
+describe('a contribution to the shared core is credited on every card', () => {
+  const shared = [...CORE_CONTRIBUTORS, ...TRANSLATORS];
+
+  it('there is something to spread', () => {
+    expect(shared.length).toBeGreaterThan(0);
+  });
+
+  for (const card of CARDS) {
+    it(`${card.package}: names everyone the shared core owes`, () => {
+      const credited = new Set((card.acknowledgments ?? []).map(a => a.github));
+      expect(shared.filter(p => !credited.has(p.github)).map(p => p.github)).toEqual([]);
+    });
+  }
+});
+
+// "Polish translation" was credited against a `pl` locale that never existed:
+// the contribution was Portuguese (pool-monitor-card#18 adds a `pt` block). A
+// language named in the credits and absent from the locale directory means the
+// credit is wrong, in one direction or the other.
+describe('every language a credit names is a language the cards actually ship', () => {
+  const english = new Intl.DisplayNames(['en'], { type: 'language' });
+  const shipped = new Set(
+    supportedLanguages().map(l =>
+      english.of(l.code.replace(/-(\w+)$/, (_, region) => `-${region.toUpperCase()}`)),
+    ),
+  );
+
+  it('the shipped set is not empty', () => {
+    expect(shipped.size).toBeGreaterThan(5);
+  });
+
+  it('no translator is thanked for a language that ships nowhere', () => {
+    const orphans = [...CARDS.flatMap(c => c.acknowledgments ?? []), ...TRANSLATORS]
+      .map(t => t.contribution.match(/^(.+) translation$/)?.[1])
+      .filter(lang => lang && !shipped.has(lang));
+    expect([...new Set(orphans)]).toEqual([]);
+  });
+});
+
+// A name written here that never reached the published page is the failure the
+// list exists to prevent: the credit exists, and the person still does not see
+// it. The pages are generated, so a stale page is a page nobody regenerated.
+describe('every credited person reaches the page that thanks them', () => {
+  for (const card of CARDS) {
+    it(`${card.package}: the published page names them all`, () => {
+      const page = distReadme(card);
+      const people = card.acknowledgments ?? [];
+      expect(people.length).toBeGreaterThan(0);
+      expect(
+        people.filter(a => !page.includes(`https://github.com/${a.github}`)).map(a => a.github),
+      ).toEqual([]);
+    });
+  }
+});
+
+describe('no credit is half written', () => {
+  it('each one carries a name, a handle and what it was for', () => {
+    const broken = CARDS.flatMap(c => c.acknowledgments ?? []).filter(
+      a => !a.name?.trim() || !a.github?.trim() || !a.contribution?.trim(),
+    );
+    expect(broken).toEqual([]);
+  });
 });

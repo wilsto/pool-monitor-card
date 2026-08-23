@@ -111,6 +111,13 @@ export default {
       chemical_balance: 'Équilibre chimique',
       treatment: 'Traitement et désinfection',
       equipment: 'Équipement et entretien',
+      nitrogen_cycle: "Cycle de l'azote",
+      reef: 'Récifal et eau de mer',
+      maintenance: 'Entretien',
+      comfort: 'Confort',
+      particulates: 'Particules',
+      gases: 'Gaz et composés chimiques',
+      environment: 'Environnement',
       other: 'Autre',
     },
     color: {

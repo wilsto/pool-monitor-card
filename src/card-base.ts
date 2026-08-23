@@ -589,12 +589,31 @@ export class MonitorCardBase extends LitElement {
       toRatio(sp_plus_2) * 100,
     ];
 
-    // A monotonic bar changes colour on its thresholds rather than in fixed
-    // proportions, so the eye lands on the same boundary the numbers announce.
+    // A monotonic bar changes colour ON its thresholds, not around them. Each
+    // band is painted flat from its own limit to the next, so the boundary the
+    // numbers announce is the boundary the eye sees.
+    //
+    // It used to be one colour stop per limit, which CSS interpolates: a band
+    // wore its own colour on the single pixel of its left edge and spent the
+    // rest of its width fading into the next one. The bar therefore disagreed
+    // with the badge everywhere except exactly on the five stops, and the
+    // colour a reader associates with "bad" appeared well past the limit that
+    // defines it. Forks compensated by moving the limits themselves down
+    // (wilsto/air-quality-card#4: "the baseline was set to 800 because of how
+    // the color gradient is implemented (...) this applied to all sensor
+    // limits"), which turns a published guideline value into an undocumented
+    // display offset and makes every future source have to be deformed the
+    // same way by hand. Fixing the rendering once lets a limit stay the
+    // published number.
+    //
     // Centric and heatflow scales keep their own gradient untouched.
     if (monotonicRamp) {
+      // Five bands, six edges: the bar's left end, the four limits, the right
+      // end. The last band opens at the highest limit and runs off the scale,
+      // so it is pinned to 100%.
+      const edges = [0, ...newData.label_positions.slice(1), 100];
       newData.monotonic_stops = monotonicRamp
-        .map((colour, i) => `${colour} ${newData.label_positions[i]}%`)
+        .map((colour, i) => `${colour} ${edges[i]}%, ${colour} ${edges[i + 1]}%`)
         .join(', ');
     }
 

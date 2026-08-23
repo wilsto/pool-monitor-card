@@ -522,14 +522,6 @@ export class MonitorSensorEditor extends LitElement {
       return html`<div class="empty-message">${this.t('all_configured')}</div>`;
     }
 
-    const categoryLabels: Record<string, string> = {
-      water_chemistry: this.t('category.water_chemistry'),
-      chemical_balance: this.t('category.chemical_balance'),
-      treatment: this.t('category.treatment'),
-      equipment: this.t('category.equipment'),
-      other: this.t('category.other'),
-    };
-
     const grouped = availableTypes.reduce(
       (acc, item) => {
         const cat = item.category;
@@ -540,12 +532,23 @@ export class MonitorSensorEditor extends LitElement {
       {} as Record<string, typeof availableTypes>,
     );
 
+    /**
+     * The sections, in the order the registry declares its presets.
+     *
+     * Two lists used to sit here, one of labels and one of order, both
+     * spelling out pool's four categories by hand. A card that filed its
+     * presets under anything else was grouped by nobody: aquarium and air had
+     * no category at all, and adding one would have changed nothing, because
+     * neither list knew the key. Reading the registry instead means a card
+     * names its own sections and the core learns them.
+     *
+     * `other` collects the presets that claim no category. It is a bucket
+     * rather than a subject, so it sits last wherever it was declared.
+     */
+    const declared = [...new Set(Object.values(this.registry).map(p => p.category || 'other'))];
     const categoryOrder = [
-      'water_chemistry',
-      'chemical_balance',
-      'treatment',
-      'equipment',
-      'other',
+      ...declared.filter(cat => cat !== 'other'),
+      ...declared.filter(cat => cat === 'other'),
     ];
 
     return html`
@@ -566,7 +569,7 @@ export class MonitorSensorEditor extends LitElement {
             .filter(cat => grouped[cat]?.length > 0)
             .map(
               cat => html`
-                <option disabled>, ${categoryLabels[cat]} ,</option>
+                <option disabled>, ${this.t(`category.${cat}`)} ,</option>
                 ${grouped[cat].map(opt => html`<option value=${opt.value}>${opt.label}</option>`)}
               `,
             )}

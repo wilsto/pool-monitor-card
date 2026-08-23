@@ -20,6 +20,40 @@ const labelShift = (position: number): string => {
 };
 
 /**
+ * Horizontal offset for the value bubble.
+ *
+ * Same defect as `labelShift`, one row higher and much wider: the bubble is
+ * centred on its position, so half of it leaves the card as soon as the value
+ * lands within half a bubble of either end of the scale. `ha-card` clips its
+ * overflow, so a pool ORP at 825 with `setpoint: 700` showed `Too High 825 m`
+ * and an air-quality humidity row lost the end of `Too High 58` (#70). The
+ * bottom of the scale fails the same way; the icon column just absorbs the
+ * first few pixels, and nothing absorbs them when `hide_icon` is set.
+ *
+ * Clamping needs two lengths the same expression cannot usually name: the
+ * width of the gauge and the width of the bubble. CSS has both here. `cqw` is
+ * one percent of the gauge, which `.sensor-gauge` declares as a query
+ * container, and a percentage inside a transform is a percentage of the
+ * element's own width. So the browser resolves what JS would otherwise have to
+ * measure after every render:
+ *
+ *   left edge = clamp(0, position - bubble/2, gauge - bubble)
+ *
+ * A bubble wider than the whole gauge pins to the left edge, since `clamp()`
+ * returns its minimum when the bounds cross: the value keeps its start, which
+ * is where it is read from.
+ *
+ * The triangle below keeps its own offset. The bubble slides, the cursor stays
+ * on the value it reports.
+ */
+export const markerShift = (position: number): string => {
+  const pct = Math.max(0, Math.min(100, position));
+  const fromStart = Number(pct.toFixed(2));
+  const fromEnd = Number((100 - pct).toFixed(2));
+  return `translateX(clamp(${-fromStart}cqw, -50%, calc(${fromEnd}cqw - 100%)))`;
+};
+
+/**
  * The bar has three shapes, and only two of them are fixed.
  *
  * A centric scale is bad-good-bad and a heatflow scale cool-to-warm; both can
@@ -121,7 +155,8 @@ export class cardContent {
       return html` <div class="warning-message">No sensor data available</div> `;
     }
     const markerPct = data.pct_marker;
-    const markerTransform =
+    const bubbleTransform = markerShift(markerPct);
+    const cursorTransform =
       markerPct <= 1 ? 'translateX(0)' : markerPct >= 99 ? 'translateX(-100%)' : 'translateX(-50%)';
 
     return html`
@@ -144,7 +179,7 @@ export class cardContent {
             <div class="gauge-marker-zone">
               <div
                 class="marker"
-                style="background-color: ${data.color};color: black;left: ${markerPct}%;transform: ${markerTransform};"
+                style="background-color: ${data.color};color: black;left: ${markerPct}%;transform: ${bubbleTransform};"
               >
                 ${data.side_align === 'right' && data.state
                   ? html`<span class="marker-state">${data.state}</span>`
@@ -157,7 +192,7 @@ export class cardContent {
               </div>
               <div
                 class="triangle"
-                style="border-top: 8px solid ${data.color};left: ${markerPct}%;transform: ${markerTransform};"
+                style="border-top: 8px solid ${data.color};left: ${markerPct}%;transform: ${cursorTransform};"
               ></div>
             </div>
             <div class="pool-monitor-container">

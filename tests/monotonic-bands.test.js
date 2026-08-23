@@ -81,22 +81,40 @@ describe('the bar is painted the way the reading is classified', () => {
     expect(stops).not.toContain('#00BFFF');
   });
 
+  // Updated with the hard-stop fix (#32). The intent of the two tests below is
+  // unchanged: the bar must break on the thresholds the labels announce, and
+  // with the colours the badge is classified with. What changed is the shape
+  // that satisfies it, because one stop per limit could not: CSS interpolates
+  // between stops, so each band showed its colour on the width of one boundary
+  // and faded through the rest.
   it('changes colour on the thresholds the labels announce', () => {
     const d = co(3);
     // limits [6, 9, 30, 87] over a 0..87 bar
     const positions = d.monotonic_stops
       .split(', ')
       .map(s => Number(s.split(' ')[1].replace('%', '')));
+    // Each band is flat between two edges, so every threshold appears twice:
+    // once closing the band below it, once opening the band above it.
+    const edges = [0, ...d.label_positions.slice(1), 100];
     expect(positions.map(p => Math.round(p * 10) / 10)).toEqual(
-      d.label_positions.map(p => Math.round(p * 10) / 10),
+      edges
+        .flatMap((_, i) => (i < 5 ? [edges[i], edges[i + 1]] : []))
+        .map(p => Math.round(p * 10) / 10),
     );
   });
 
-  it('uses the same colours the badge is classified with', () => {
-    const stops = co(20)
-      .monotonic_stops.split(', ')
-      .map(s => s.split(' ')[0]);
-    expect(stops[2]).toBe(co(20).color); // 20 ppm lands in the third band
+  // The regression this locks: a reading inside a band must be painted with
+  // that band's colour, not with a blend on its way to the next one. 20 ppm of
+  // CO sits in the middle of the third band, so the bar under it is the third
+  // colour on both sides, unmixed.
+  it('holds a band flat instead of drifting into the next one', () => {
+    const d = co(20);
+    const stops = d.monotonic_stops.split(', ');
+    // stop 4 opens the third band, stop 5 closes it: same colour, two edges.
+    expect(stops[4].split(' ')[0]).toBe(d.color);
+    expect(stops[5].split(' ')[0]).toBe(d.color);
+    expect(stops[4].split(' ')[1]).toBe(`${d.label_positions[2]}%`);
+    expect(stops[5].split(' ')[1]).toBe(`${d.label_positions[3]}%`);
   });
 
   it('leaves a centric scale alone', () => {

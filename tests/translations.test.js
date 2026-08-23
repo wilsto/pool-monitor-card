@@ -1,5 +1,15 @@
 import { describe, test, expect } from 'vitest';
 import { translations, getTranslation, formatTranslation } from '../src/locales/translations.js';
+import { PoolMonitorCard } from '../../pool-monitor/src/pool-monitor-card.js';
+import { AquariumMonitorCard } from '../../aquarium-monitor/src/aquarium-monitor-card.js';
+import { AirQualityCard } from '../../air-quality/src/air-quality-card.js';
+import { SensorMonitorCard } from '../../sensor-monitor/src/sensor-monitor-card.js';
+
+// Asked of the cards rather than listed here: a list would be an eighth one to
+// keep by hand, and forgetting it is the mistake this file exists to catch.
+const CARD_TYPES = [PoolMonitorCard, AquariumMonitorCard, AirQualityCard, SensorMonitorCard].map(
+  Card => Card.CARD_INFO.cardType,
+);
 
 const SUPPORTED_LANGUAGES = [
   'en',
@@ -47,6 +57,46 @@ describe('Translations', () => {
       test(`${lang} defines no key that English does not`, () => {
         const orphelines = getDeepKeys(translations[lang]).filter(k => !referenceKeys.includes(k));
         expect(orphelines, `${lang} has keys absent from en, likely typos`).toEqual([]);
+      });
+    });
+  });
+
+  // Under `sensor`, a key is a preset and its value the name to paint, except
+  // when the key is a card type: the value is then that card's own names, for
+  // the presets it refuses to share. `pressure` is the filter on a pool and
+  // the weather on an air monitor.
+  //
+  // `SensorNames` in ha/types.ts says a card type never holds a bare name.
+  // What it cannot say is the other half, that everything else is a name and
+  // not a table: an index signature has no way to mean "any key but those".
+  // A preset nested by accident would be read by nobody and reported by
+  // nothing, so it gets checked here.
+  describe('names shared, and names a card keeps for itself', () => {
+    SUPPORTED_LANGUAGES.forEach(lang => {
+      test(`${lang} nests under card types and nowhere else`, () => {
+        const nested = Object.entries(translations[lang].sensor)
+          .filter(([, value]) => typeof value === 'object')
+          .map(([key]) => key);
+        expect(nested.filter(key => !CARD_TYPES.includes(key))).toEqual([]);
+      });
+
+      test(`${lang} scopes names to a card, not tables of tables`, () => {
+        const deeper = Object.entries(translations[lang].sensor)
+          .filter(([key]) => CARD_TYPES.includes(key))
+          .flatMap(([key, table]) =>
+            Object.entries(table)
+              .filter(([, name]) => typeof name !== 'string')
+              .map(([preset]) => `${key}.${preset}`),
+          );
+        expect(deeper).toEqual([]);
+      });
+
+      test(`${lang} agrees with English on which keys are which`, () => {
+        const disagreements = Object.entries(translations[lang].sensor)
+          .filter(([key]) => key in translations.en.sensor)
+          .filter(([key, value]) => typeof value !== typeof translations.en.sensor[key])
+          .map(([key]) => key);
+        expect(disagreements).toEqual([]);
       });
     });
   });

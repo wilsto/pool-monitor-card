@@ -85,10 +85,19 @@ export const styles = css`
     align-items: flex-start;
   }
 
-  /** Unified gauge container, marker, bar, labels share same coordinate space */
+  /**
+   * Unified gauge container, marker, bar, labels share same coordinate space.
+   *
+   * Declared a query container so that cqw inside it means one percent of the
+   * gauge. That is what lets the value bubble clamp itself to the card in CSS
+   * (markerShift, card-content.ts) instead of being measured in JS after every
+   * render. Its own width never depends on its contents: it is a flex item
+   * with flex 1 and min-width 0, so the flex line decides it.
+   */
   .sensor-gauge {
     flex: 1;
     min-width: 0;
+    container-type: inline-size;
   }
 
   .gauge-marker-zone {

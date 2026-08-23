@@ -166,11 +166,26 @@ export default {
       light: 'Light (300)',
       semi_bold: 'Semi-bold (600)',
     },
+    // Sections of the preset picker. A card files its presets under keys of
+    // its own and they are named here; the wording is the one its published
+    // sensor documentation already uses, so the page and the editor group the
+    // same measurements under the same words.
     category: {
+      // pool
       water_chemistry: 'Essential Water Chemistry',
       chemical_balance: 'Chemical Balance',
       treatment: 'Treatment & Sanitization',
       equipment: 'Equipment & Maintenance',
+      // aquarium, which shares water_chemistry above
+      nitrogen_cycle: 'Nitrogen Cycle',
+      reef: 'Reef & Saltwater',
+      maintenance: 'Maintenance',
+      // air quality
+      comfort: 'Comfort',
+      particulates: 'Particulates',
+      gases: 'Gases & Chemicals',
+      environment: 'Environment',
+      // where a preset with no category of its own ends up
       other: 'Other',
     },
     color: {

@@ -40,7 +40,21 @@ export interface SensorPreset {
   icon?: string;
   min_limit?: number;
   override?: string;
-  category?: 'water_chemistry' | 'chemical_balance' | 'treatment' | 'equipment';
+  /**
+   * Which section of the editor's preset picker this sensor is filed under.
+   *
+   * A free key, not a closed list: the four values written here were pool's
+   * own (water chemistry, treatment, equipment), so an aquarium or an air
+   * preset could not carry a category at all and every one of them fell into
+   * "Other". A card names its own sections.
+   *
+   * The key is looked up as `editor.category.<key>`, so a category with no
+   * English label surfaces its raw key in the picker. That is what
+   * `core/tests/sensor-categories.test.js` refuses, and it is the check the
+   * closed list used to stand in for. A preset with no category is filed under
+   * "Other", which always sits last.
+   */
+  category?: string;
 }
 
 export type SensorsRegistry = Record<string, SensorPreset>;
@@ -191,11 +205,33 @@ export interface SensorData {
   trend_label?: string;
 }
 
+/**
+ * The names written under the bars, in one language.
+ *
+ * Most keys are a preset (`ph`, `temperature`) and the value is the name
+ * itself. The four cards share that table and are right to: of the forty-three
+ * presets, most mean the same thing everywhere. `pressure` does not, it is the
+ * filter on a pool and the weather on an air monitor.
+ *
+ * So a key may be a card type instead of a preset, and its value a table of
+ * the names that card keeps for itself. `MonitorCardBase.sensorName()` reads
+ * the scoped table first and falls back to the shared name.
+ */
+export interface SensorNames {
+  [preset: string]: string | Record<string, string>;
+  /**
+   * A card type never holds a name of its own, only that card's table. The
+   * pattern is the card family, `pool-monitor-card` and its siblings; a card
+   * named outside it still works, it simply gets no guard here.
+   */
+  [cardType: `${string}-monitor-card`]: Record<string, string>;
+}
+
 export interface TranslationSet {
   /** The language's own name, as its speakers write it. Drives the editor menu. */
   language: string;
   state: Record<string, string>;
-  sensor: Record<string, string>;
+  sensor: SensorNames;
   time: Record<string, string>;
   time_plural: Record<string, string>;
 }
