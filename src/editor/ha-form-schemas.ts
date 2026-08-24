@@ -38,6 +38,7 @@ export const displaySchema = (t: Translate): HaFormSchema[] => [
   { name: 'show_icons', label: t('show_icons'), selector: { boolean: {} } },
   { name: 'show_units', label: t('show_units'), selector: { boolean: {} } },
   { name: 'gradient', label: t('gradient'), selector: { boolean: {} } },
+  { name: 'blink', label: t('blink'), selector: { boolean: {} } },
   {
     name: 'language',
     label: t('language'),

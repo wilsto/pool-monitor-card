@@ -48,7 +48,19 @@ export const styles = css`
     padding: 0px;
   }
 
-  .section.disabled {
+  /**
+   * A sensor whose availability_entity reports off or unavailable.
+   *
+   * Both layouts, and the selector is one rule for that reason: the compact
+   * row carried no marker at all until #148, so a probe unplugged three days
+   * ago showed its last known value exactly as a live measurement would.
+   * Splitting this in two is how the next one drifts.
+   *
+   * No backtick in this comment, deliberately: the stylesheet is a tagged
+   * template literal and a backtick ends it.
+   */
+  .section.disabled,
+  .section-compact.disabled {
     opacity: 0.4;
     filter: grayscale(0.8);
     pointer-events: none;
@@ -253,9 +265,20 @@ export const styles = css`
     z-index: 1;
   }
 
+  /**
+   * The compact layout's reading row, and the two-pixel marks that record the
+   * lowest and highest readings of the day in both layouts.
+   *
+   * The width is the row's own content rather than the flat 200px it used to
+   * be, because that is the length the clamp of markerShift() has to work
+   * against: a fixed 200px pushed a three-character row a fifth of the bar
+   * away from the value it reports, and a row longer than 200px overflowed its
+   * own box anyway. The min and max marks set width inline, so they keep the
+   * two pixels they are.
+   */
   .cursor-text {
     position: absolute;
-    width: 200px;
+    width: max-content;
     height: 15px;
     padding-left: 3px;
     padding-right: 3px;
@@ -265,6 +288,23 @@ export const styles = css`
     font-weight: 500;
     text-align: right;
     color: black;
+    z-index: 1;
+  }
+
+  /**
+   * The compact layout's cursor, the counterpart of .triangle above.
+   *
+   * It used to be a border on the reading row itself, which was fine only for
+   * as long as the row never moved. The row now slides to stay inside the card
+   * (#144), and a cursor carried along by it would report a value the reading
+   * is no longer next to, so the two are separate elements: the reading
+   * slides, the mark stays on the value.
+   */
+  .compact-cursor {
+    position: absolute;
+    width: 5px;
+    height: 15px;
+    top: 5px;
     z-index: 1;
   }
 
@@ -393,6 +433,61 @@ export const styles = css`
     margin-left: 8px;
     font-size: 0.8em;
     font-weight: 600;
+  }
+
+  /* The reading in the worst band of its scale, blinking (#123).
+     Asked for by @rpirsc13 on wilsto/air-quality-card#4 as blink_threshold,
+     and asked for as an animation: a colour that changes is only seen by
+     someone already looking, motion is seen by someone walking past.
+
+     (No backticks anywhere in this file. It is one tagged template literal, so
+     a backtick in a comment ends the stylesheet and the parse error lands
+     dozens of lines later on whatever follows.)
+
+     A fade rather than a switch, and a slow one: 1.4s is 0.71 Hz, where the
+     general and red flash thresholds of WCAG 2.3.1 start at 3 Hz. Nothing here
+     comes near a seizure risk, and the gap is left wide on purpose because the
+     screen of a home dashboard stays lit all day.
+
+     Only opacity is animated. It is one of the two properties a browser can
+     composite without laying the row out again, so the number does not reflow
+     and the bubble does not jitter against the clamp of #70. Animating the
+     colour instead would have fought the band colour the same element carries.
+
+     0.35 rather than 0: a reading that disappears is a reading someone reads at
+     the wrong moment and gets nothing from, which on carbon monoxide is the
+     opposite of the point. It dims, it does not go away. */
+  .blink {
+    animation: blink 1.4s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  /* Someone who asked for less motion has a reason, and vestibular disorders
+     are the common one. Switching the animation off is the easy half.
+
+     The half that is easy to skip: the reason for the motion does not go away
+     with it, so it is replaced rather than deleted. A static ring says the same
+     "look here" without moving, which is what the W3C guidance on this query
+     asks for. currentColor because the ring then inherits whatever the row
+     already uses for text: black inside the value bubble, the theme's text
+     colour in the compact row, legible in both without a rule per theme.
+
+     The verdict itself was never carried by the motion. The band colour and the
+     band name, Very Poor or Too High, translated, are on the row either way and
+     are what a screen reader is given. The blink adds urgency to information
+     that is already there, which is exactly why removing it loses nothing. */
+  @media (prefers-reduced-motion: reduce) {
+    .blink {
+      animation: none;
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
   }
 
   /* The status of one measurement, next to its name (pool-monitor-card#82). */

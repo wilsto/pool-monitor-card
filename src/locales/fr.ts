@@ -119,6 +119,7 @@ export default {
     show_icons: 'Afficher les icônes',
     show_units: 'Afficher les unités',
     gradient: 'Barre en dégradé',
+    blink: 'Clignoter sur la pire bande',
     language: 'Langue',
     status_entity: "Entité d'état",
     name_font_size: 'Taille du nom (ex. 0.8em, 14px)',

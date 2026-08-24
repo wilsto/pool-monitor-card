@@ -86,6 +86,26 @@ export interface DisplayConfig {
   show_icons: boolean;
   show_units: boolean;
   gradient: boolean;
+  /**
+   * Whether a reading in the worst band of its scale is painted blinking.
+   *
+   * Off by default, and that is the whole point of the option existing rather
+   * than the behaviour being unconditional. Motion on a wall dashboard is
+   * spent attention, and it is spent on everyone in the room, including people
+   * who never configured this card. Two facts settled the default:
+   *
+   * - The worst band is not rare. Carbon dioxide above 2000 ppm is a closed
+   *   bedroom at 4am, several nights a week, and the card is right to say so
+   *   in purple. A blink that fires every night is a blink nobody reads by the
+   *   end of the week, which costs more than it buys the one night it matters.
+   * - Turning it on for existing installations would change what a dashboard
+   *   looks like on a version bump, for someone who asked for nothing.
+   *
+   * Requested by @rpirsc13 as `blink_threshold` on wilsto/air-quality-card#4,
+   * where the threshold was a number. It is a band here because bands exist
+   * now and a number does not survive translation, a preset change or a unit.
+   */
+  blink: boolean;
   language: string;
   name_font_size?: string;
   name_font_weight?: string;
@@ -235,6 +255,16 @@ export interface SensorData {
   out_of_scale?: ScaleOverflow | null;
   /** What a screen reader announces, already translated. Empty when on scale. */
   out_of_scale_label?: string;
+  /**
+   * Paint this reading blinking: it sits in the worst band its scale defines,
+   * and `display.blink` is on. Both halves, deliberately, so the two layouts
+   * ask one question instead of each recombining a fact and an option.
+   *
+   * Never set on a sensor with no scale, nor on one whose reading is not a
+   * number: an `override` replaces the value with a word, and a word is not in
+   * any band.
+   */
+  blink?: boolean;
 }
 
 /**

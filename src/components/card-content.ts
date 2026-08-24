@@ -33,37 +33,61 @@ const labelShift = (position: number): string => {
 };
 
 /**
- * Horizontal offset for the value bubble.
+ * Where the reading sits relative to the point on the bar it reports.
  *
- * Same defect as `labelShift`, one row higher and much wider: the bubble is
- * centred on its position, so half of it leaves the card as soon as the value
- * lands within half a bubble of either end of the scale. `ha-card` clips its
+ * The full layout centres its bubble on that point. The compact layout hangs
+ * its row off one side of it, whichever side the reading is on, so the label
+ * grows away from the middle of the bar rather than across it.
+ */
+export type ReadingAnchor = 'centre' | 'start' | 'end';
+
+const ANCHOR_OFFSET: Record<ReadingAnchor, string> = {
+  centre: '-50%',
+  start: '0%',
+  end: '-100%',
+};
+
+/**
+ * Horizontal offset for the element that carries the reading.
+ *
+ * Same defect as `labelShift`, one row higher and much wider: the element is
+ * hung off its position, so it leaves the card as soon as the value lands
+ * within its own width of the matching end of the scale. `ha-card` clips its
  * overflow, so a pool ORP at 825 with `setpoint: 700` showed `Too High 825 m`
  * and an air-quality humidity row lost the end of `Too High 58` (#70). The
  * bottom of the scale fails the same way; the icon column just absorbs the
  * first few pixels, and nothing absorbs them when `hide_icon` is set.
  *
  * Clamping needs two lengths the same expression cannot usually name: the
- * width of the gauge and the width of the bubble. CSS has both here. `cqw` is
+ * width of the gauge and the width of the element. CSS has both here. `cqw` is
  * one percent of the gauge, which `.sensor-gauge` declares as a query
  * container, and a percentage inside a transform is a percentage of the
  * element's own width. So the browser resolves what JS would otherwise have to
  * measure after every render:
  *
- *   left edge = clamp(0, position - bubble/2, gauge - bubble)
+ *   left edge = clamp(0, position + anchor, gauge - width)
  *
- * A bubble wider than the whole gauge pins to the left edge, since `clamp()`
+ * An element wider than the whole gauge pins to the left edge, since `clamp()`
  * returns its minimum when the bounds cross: the value keeps its start, which
  * is where it is read from.
  *
- * The triangle below keeps its own offset. The bubble slides, the cursor stays
- * on the value it reports.
+ * `anchor` is the only term the two layouts disagree on, and it moves the
+ * preferred position only: both bounds are the element's own edges against the
+ * gauge's, so they are the same expression whatever the anchor. That is why
+ * this is one function and not two. The compact layout had none of it until
+ * #144, and a carbon monoxide row at the top of its scale rendered entirely
+ * outside the card; a rule saying a rendering fix applies to both layouts had
+ * been written and had not been enough, so the guard is now
+ * `packages/core/tests/reading-inside-card.test.js`, which measures both.
+ *
+ * The cursor below keeps its own offset. The reading slides, the mark stays on
+ * the value it reports.
  */
-export const markerShift = (position: number): string => {
+export const markerShift = (position: number, anchor: ReadingAnchor = 'centre'): string => {
   const pct = Math.max(0, Math.min(100, position));
   const fromStart = Number(pct.toFixed(2));
   const fromEnd = Number((100 - pct).toFixed(2));
-  return `translateX(clamp(${-fromStart}cqw, -50%, calc(${fromEnd}cqw - 100%)))`;
+  return `translateX(clamp(${-fromStart}cqw, ${ANCHOR_OFFSET[anchor]}, calc(${fromEnd}cqw - 100%)))`;
 };
 
 /**
@@ -218,9 +242,21 @@ export class cardContent {
    * In a left-to-right card this renders exactly what the bare text rendered:
    * an isolate around a left-to-right run inside a left-to-right paragraph is
    * a no-op.
+   *
+   * It is also where the blink of #123 lives, and that is not a coincidence
+   * dressed up as a design. The rendering is written twice, full and compact,
+   * and the sixth hard guard of `CLAUDE.md` says a rendering fix applies to
+   * both; a fix that both layouts already share cannot be applied to one of
+   * them only. This function is the one element on the row that both layouts
+   * call, so the class rides here rather than on the value bubble, which the
+   * compact layout does not have.
+   *
+   * The reading is also the right thing to blink on its own merits: it is what
+   * the eye lands on, and it is the number the severity is a verdict about.
    */
   static generateReading(data: SensorData): TemplateResult | string {
     if (data.value == null) return ',';
+    if (data.blink) return html`<bdi class="blink">${data.value} ${data.unit}</bdi>`;
     return html`<bdi>${data.value} ${data.unit}</bdi>`;
   }
 
@@ -410,9 +446,32 @@ export class cardContent {
     if (!data) {
       return html` <div class="warning-message">${noData(config)}</div> `;
     }
+    // The compact row hangs off the point on the bar it reports, on the side
+    // the reading sits: the label grows outwards, away from the middle of the
+    // bar. `pct_marker` is that point measured from the left in both cases,
+    // which is what `markerShift` needs; `pct_cursor` is the same point
+    // measured from whichever edge `side_align` names, and the two disagree by
+    // construction as soon as the reading is above its setpoint.
+    const anchorPct = data.pct_marker;
+    const readingAnchor: ReadingAnchor = data.side_align === 'right' ? 'end' : 'start';
+    const readingShift = markerShift(anchorPct, readingAnchor);
+    const cursorShift = readingAnchor === 'end' ? 'translateX(-100%)' : 'translateX(0)';
+    // `data.disabled` on the row below is #148. It was read by the full layout
+    // alone, and `card-content.ts` contained exactly one occurrence of it, so
+    // in compact a probe whose availability entity had been off for three days
+    // showed its last known value exactly as a live measurement would. Nothing
+    // on the row distinguished the two.
+    //
+    // Appended rather than written as the full layout's ternary so the class
+    // name stays in the static half of the template: a plain text search still
+    // finds `section-compact` where it is emitted, and `card-content.test.js`
+    // reads it there.
     return html`
       <!-- ##### ${data.name} section ##### -->
-      <div class="section-compact" @click=${() => cardContent._moreinfo(data.entity)}>
+      <div
+        class="section-compact${data.disabled ? ' disabled' : ''}"
+        @click=${() => cardContent._moreinfo(data.entity)}
+      >
         <div class="section-row">
           ${!data.hide_icon
             ? html`
@@ -482,9 +541,13 @@ export class cardContent {
                     </div>
                   `}
               <div
+                class="compact-cursor"
+                style="background-color: ${config.colors
+                  .marker};left: ${anchorPct}%;transform: ${cursorShift};"
+              ></div>
+              <div
                 class="cursor-text"
-                style="border-${data.side_align}: 5px solid ${config.colors
-                  .marker}; text-align:${data.side_align};background-color:transparent ;${data.side_align}: ${data.pct_cursor}%;${config
+                style="text-align:${data.side_align};background-color:transparent ;left: ${anchorPct}%;transform: ${readingShift};${config
                   .display.name_font_size
                   ? `font-size:${config.display.name_font_size}`
                   : ''}${config.display.name_font_weight

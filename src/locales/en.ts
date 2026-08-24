@@ -195,6 +195,7 @@ export default {
     show_icons: 'Show icons',
     show_units: 'Show units',
     gradient: 'Gradient bar',
+    blink: 'Blink on the worst band',
     language: 'Language',
     status_entity: 'Status entity',
     name_font_size: 'Name font size (e.g. 0.8em, 14px)',

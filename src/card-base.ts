@@ -325,9 +325,34 @@ export class MonitorCardBase extends LitElement {
     // one needs a template sensor just to be displayed (sensor-monitor-card#3).
     // A missing attribute reads as no value, not as the state, which would show
     // an unrelated number as if it were the one asked for.
-    const rawSource = attribute
+    const entitySource = attribute
       ? ((entityState.attributes as any)?.[attribute] as string)
       : entityState.state;
+
+    /**
+     * The text an `override` puts in place of the reading, `undefined` when
+     * there is none.
+     *
+     * It is resolved here, before anything is parsed, and that position is the
+     * whole fix of #145. The assignment used to sit forty lines below, after
+     * the numeric pipeline had already run on the entity's own state, so the
+     * word was spliced into a field the rest of the function believed to hold
+     * a number. `Math.max(min_limit, 'OFF')` then coerced it to `NaN`, and
+     * that `NaN` travelled: the row painted the six letters `NaN` instead of
+     * the word, every `left:` and `transform:` on the row resolved to `NaN%`,
+     * and on a monotonic scale every `NaN < limit` comparison being false made
+     * `findIndex` return -1, which is the index of the worst band, so the word
+     * arrived classified `Very Poor` in the hazardous colour.
+     *
+     * Treating it as the source instead means a non-numeric override takes the
+     * branch the card already has for a reading that is not a number, the one
+     * an entity in `unavailable` takes. Nothing new is invented: the row is
+     * grey, centred on its bar, in no band, and it carries the word rather
+     * than a comma. A numeric override still parses and is still placed on the
+     * scale, which is the only behaviour of this option that ever worked.
+     */
+    const overrideText = override ? override_value || defaultConfig.override || '' : undefined;
+    const rawSource = overrideText !== undefined ? overrideText : entitySource;
 
     // Decimals are counted on whatever actually supplies the number. Reading
     // them from the state while the value comes from an attribute is how a
@@ -344,8 +369,15 @@ export class MonitorCardBase extends LitElement {
     newData.entity = entity;
 
     if (isNaN(rawValue)) {
-      newData.value = null;
+      // The word survives here and nowhere else. `null` is what an entity with
+      // nothing readable leaves, and the row renders a comma for it; an
+      // `override` was asked for by name, so it shows the name it was given.
+      newData.value = overrideText ? overrideText : null;
       newData.state = '';
+      // Stated rather than left absent. A reading that is not a number is in
+      // no band, so it cannot be in the worst one, and the two layouts read
+      // this field without asking whether it was ever assigned.
+      newData.blink = false;
       newData.color = 'var(--disabled-text-color, #bdbdbd)';
       newData.pct = '50';
       newData.pct_min = '50';
@@ -380,10 +412,6 @@ export class MonitorCardBase extends LitElement {
     }
 
     newData.unit = config.display.show_units ? unit || defaultConfig.unit || '' : '';
-
-    if (override) {
-      newData.value = override_value || defaultConfig.override;
-    }
 
     // `min` and `max` accept two forms and the type decides, PO decision
     // 2026-08-15 (#5). A number is a scale boundary, which is what the README
@@ -525,6 +553,27 @@ export class MonitorCardBase extends LitElement {
     // colours the reading is classified against, one ramp, not two that drift.
     let monotonicRamp: string[] | null = null;
 
+    // Whether the reading sits in the worst band its own scale defines.
+    //
+    // Set inside the branches below rather than recomputed after them, which is
+    // the only way it cannot drift from the colour and the label: the same
+    // comparison that paints the band raises the flag. A second pass over
+    // `setpoint_class` would be a copy of the arithmetic, and the day one side
+    // gained a boundary rule the other would keep the old one silently.
+    //
+    // What counts as "worst" is read off each scale rather than decided here:
+    //
+    // - Monotonic: the end the ramp paints `hazardous`. It is the top band on
+    //   a pollutant and the bottom one on ORP, and `direction` has already
+    //   reversed the ramp, so the index is simply the last one.
+    // - Centric: the two outer bands, the ones the card already calls Too Low
+    //   and Too High and already paints `warn`. Both, because a centric scale
+    //   is bad outwards in both directions by construction.
+    // - Heatflow: never. Its three states are cool, normal and warm, a
+    //   direction of flow rather than a severity, and calling one of them
+    //   grave would be inventing a verdict the scale does not carry.
+    let worstBand = false;
+
     if (newData.value !== null) {
       newData.value = Math.max(minLimitVal, newData.value);
     }
@@ -560,6 +609,12 @@ export class MonitorCardBase extends LitElement {
       const idx = band === -1 ? 4 : band;
       newData.color = monotonicRamp[idx];
       newData.state = config.display.show_labels ? this.getTranslatedText(labels[idx]) : '';
+      // Read off `labels`, not off `idx`. The two arrays are reversed together
+      // for `higher_is_better`, so the worst band moves to index 0 there while
+      // keeping its name: `idx === 4` would have blinked on perfectly good
+      // water every time a pool ORP sensor was configured. `band.5` is the
+      // hazardous end of the ramp in both directions, by construction.
+      worstBand = labels[idx] === 'band.5';
     } else if (mode === 'heatflow') {
       if (Number(newData.value) < Number(newData.setpoint_class[1])) {
         newData.state = config.display.show_labels ? this.getTranslatedText('state.1') : '';
@@ -578,6 +633,7 @@ export class MonitorCardBase extends LitElement {
       if (Number(newData.value) < Number(newData.setpoint_class[0])) {
         newData.state = config.display.show_labels ? this.getTranslatedText('state.1') : '';
         newData.color = config.colors.warn;
+        worstBand = true;
       } else if (
         Number(newData.value) >= Number(newData.setpoint_class[0]) &&
         Number(newData.value) < Number(newData.setpoint_class[1])
@@ -605,8 +661,24 @@ export class MonitorCardBase extends LitElement {
       } else if (Number(newData.value) >= Number(newData.setpoint_class[4])) {
         newData.state = config.display.show_labels ? this.getTranslatedText('state.6') : '';
         newData.color = config.colors.warn;
+        worstBand = true;
       }
     }
+
+    // The fact meets the option, once, here. Both layouts then read one field
+    // instead of each recombining the two, which is how a rendering fix comes
+    // to be applied to the full layout and forgotten on the compact one.
+    //
+    // The finiteness check is not belt and braces. An `override` replaces the
+    // reading with a word, and on a monotonic scale every `NaN < limit`
+    // comparison is false, so `findIndex` returns -1 and the word lands in the
+    // worst band with the label and the colour to match. That misclassification
+    // predates this option and is left alone here (#123 is about the blink);
+    // what is refused is a card that blinks at somebody because their pump is
+    // reading "OFF".
+    newData.blink =
+      worstBand && config.display.blink === true && Number.isFinite(Number(newData.value));
+
     newData.progressClass = name === 'temperature' ? 'progress-temp' : 'progress';
 
     // Bar range, in order of precedence:
