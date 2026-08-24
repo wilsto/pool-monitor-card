@@ -18,14 +18,14 @@ The ideal pool temperature is 26-28°C. Knowing the temperature helps decide if 
 - **Unit**: pH
 - **Defaults**: 7.2
 
-pH measures acidity/alkalinity (ideal: 7.0-7.4). Proper pH prevents skin and eye irritation and keeps sanitizers effective.
+pH measures acidity and alkalinity, and it decides both whether the water stings and whether your sanitiser works at all. The card ships `setpoint: 7.2` with `step: 0.2`, which paints 6.8 to 7.6. That sits inside the 6.5 to 7.8 [DIN 19643 requires of pool basin water](https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605). The requirement is the published part; the narrower scale drawn inside it is our own choice.
 
 ### ORP (`orp`)
 
 - **Unit**: mV
 - **Defaults**: 700
 
-Oxidation Reduction Potential measures sanitizer effectiveness (ideal: 650-750 mV). Ensures water is properly disinfected.
+Oxidation reduction potential measures how effectively the water is disinfected, whatever the sanitiser. The card ships `setpoint: 700` with `step: 50`, which paints 600 to 800 mV. [DIN 19643 sets a minimum redox voltage for pool basin water](https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605), given as 700 mV at the lower end and 770 mV at the upper, which of the two applies depending on pH and on the type of water. The 700 comes from there; the 50 mV step is our own choice.
 
 ### TDS (`tds`)
 
@@ -57,7 +57,7 @@ Salt level for saltwater pools (ideal: 2500-3500 ppm). Required for salt chlorin
 - **Unit**: ppm
 - **Defaults**: 40
 
-Cyanuric Acid stabilizes chlorine against UV breakdown (ideal: 30-50 ppm). Too high reduces chlorine effectiveness.
+Cyanuric acid stabilises chlorine against UV breakdown, and it changes what a chlorine reading means: the US Model Aquatic Health Code doubles its own free chlorine minimum, from [1.0 ppm](https://cmahc.org/mahc_sections/1723) to [2.0 ppm](https://cmahc.org/mahc_sections/1724), as soon as cyanuric acid is present. Too much of it and chlorine loses effectiveness. The card ships `setpoint: 40` with `step: 10`, which paints 20 to 60 ppm: that figure is our own choice, the doubling above is the published part.
 
 ### Calcium (`calcium`)
 
@@ -89,21 +89,21 @@ Buffers pH changes (ideal: 80-120 ppm). Low alkalinity causes pH to swing wildly
 - **Unit**: ppm
 - **Defaults**: 3
 
-Active chlorine available for sanitization (ideal: 1-3 ppm).
+Active chlorine available for sanitisation, and **the shipped default follows American practice**, which is worth knowing before trusting the colour. The card ships `setpoint: 3` with `step: 0.5`, which paints a scale from 2.0 to 4.0 ppm. That is at or above every minimum the US Model Aquatic Health Code sets ([1.0 ppm for a venue without cyanuric acid](https://cmahc.org/mahc_sections/1723), [2.0 ppm with it](https://cmahc.org/mahc_sections/1724), [3.0 ppm for a spa](https://cmahc.org/mahc_sections/1725)), and five to ten times what [DIN 19643 requires of German pool water](https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605): 0.3 to 0.6 mg/l in the basin, 0.7 to 1.0 mg/l in a warm bubble pool. 1 ppm is 1 mg/l, so the two disagree by convention and not by unit, which is why a correctly treated German pool reads Too Low on the shipped scale. **For a DIN 19643 pool, set `setpoint: 0.45` and `step: 0.075`**, which paints 0.3 to 0.6 mg/l. The 3 ppm default is our own choice and no standard is cited for it; it is left where it is so that nobody who configured nothing has their scale moved underneath them.
 
 ### Total Chlorine (`total_chlorine`)
 
 - **Unit**: ppm
 - **Defaults**: 3
 
-Free + combined chlorine. If much higher than free chlorine, indicates chloramine buildup.
+Free plus combined chlorine, so it can only ever read at or above free chlorine. On its own the number carries no published meaning: what a standard bounds is the difference between the two, the combined chlorine, which [DIN 19643 holds at or below 0.2 mg/l](https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605). A total much higher than free chlorine is chloramine buildup. The shipped `setpoint: 3` mirrors free chlorine and is our own choice, with no source behind it.
 
 ### Bromine (`bromine`)
 
 - **Unit**: ppm
 - **Defaults**: 4
 
-Alternative disinfectant to chlorine (ideal: 3-5 ppm). Common in saltwater and hot tub systems. Better temperature resistance than chlorine.
+Alternative disinfectant to chlorine. Common in saltwater and hot tub systems, and it holds up better than chlorine in warm water. The card ships `setpoint: 4` with `step: 1`, which paints 2 to 6 ppm: that figure is our own choice, no standard is cited for it, and it should not be read as a quotation.
 
 ### Filter Pressure (`pressure`)
 

@@ -10,6 +10,19 @@ export const POOL_SENSORS: SensorsRegistry = {
     mode: 'heatflow',
     category: 'water_chemistry',
   },
+  // Oxidation reduction potential. The delivered scale runs setpoint +/- 2 x
+  // step, so 600 to 800 mV.
+  //
+  //   700 mV - taken as published: DIN 19643 sets a minimum redox voltage for
+  //            pool basin water, given in the official parameter table as 700
+  //            mV at the lower end and 770 mV at the upper, the applicable one
+  //            depending on pH and on the type of water.
+  //    50 mV - OURS. It is what places the scale on 600 to 800 mV, and no
+  //            document read here puts a boundary on either end.
+  //
+  // DIN 19643 parameter table for pool and bathing water, Landesamt fuer
+  // Gesundheit und Soziales Mecklenburg-Vorpommern, dated 2024-01-26:
+  // https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605
   orp: {
     name: 'ORP',
     unit: 'mV',
@@ -37,6 +50,18 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'water_chemistry',
   },
+  // pH. The delivered scale runs setpoint +/- 2 x step, so 6.8 to 7.6.
+  //
+  //   7.2 pH - OURS. It sits inside the published requirement, but no document
+  //            read here puts a target on this particular figure.
+  //   0.2 pH - OURS. It is what places the scale on 6.8 to 7.6, which stays
+  //            inside the 6.5 to 7.8 that DIN 19643 requires of pool basin
+  //            water. That requirement is the published part; the narrower
+  //            scale drawn inside it is ours.
+  //
+  // DIN 19643 parameter table for pool and bathing water, Landesamt fuer
+  // Gesundheit und Soziales Mecklenburg-Vorpommern, dated 2024-01-26:
+  // https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605
   ph: {
     name: 'pH',
     unit: 'pH',
@@ -57,6 +82,21 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'chemical_balance',
   },
+  // Cyanuric acid. The delivered scale runs setpoint +/- 2 x step, so 20 to 60
+  // ppm. This preset is not only a value, it is the thing that decides what a
+  // chlorine reading means: the US Model Aquatic Health Code doubles its own
+  // free chlorine minimum, from 1.0 to 2.0 ppm, as soon as cyanuric acid is
+  // present. A chlorine number cannot be judged without knowing whether the
+  // pool is stabilised.
+  //
+  //   40 ppm - OURS. The doubling above is published, this figure is not: no
+  //            document read here puts a target on it.
+  //   10 ppm - OURS.
+  //
+  // MAHC 5.7.3.1.1.2.1, venues not using cyanuric acid, minimum 1.0 ppm:
+  // https://cmahc.org/mahc_sections/1723
+  // MAHC 5.7.3.1.1.2.2, venues using cyanuric acid, minimum 2.0 ppm:
+  // https://cmahc.org/mahc_sections/1724
   cya: {
     name: 'Cyanuric Acid',
     unit: 'ppm',
@@ -95,6 +135,47 @@ export const POOL_SENSORS: SensorsRegistry = {
   },
 
   // --- Treatment & Sanitization ---
+  // Free chlorine. THIS SETPOINT IS A NATIONAL CONVENTION, NOT A UNIVERSAL
+  // TARGET. The delivered scale runs setpoint +/- 2 x step, so 2.0 to 4.0 ppm.
+  // 1 ppm is 1 mg/l in dilute aqueous solution, so a German controller reading
+  // 0.50 mg/l is on this very axis and not in some other unit: what disagrees
+  // is the convention, not the measurement.
+  //
+  //   3 ppm - OURS. Nothing in this repository records where it came from. It
+  //           arrived with the first commit, 19a1b08, with no rationale, and
+  //           the published page carried it for eighteen months with no source
+  //           next to it, which is how a reader came to assume it had one. It
+  //           is at or above every American minimum quoted below, and five to
+  //           ten times the German requirement.
+  //   0.5 ppm - OURS. It is what places the scale on 2.0 to 4.0 ppm.
+  //
+  // The two conventions, both quoted rather than summarised:
+  //
+  //   United States. The Model Aquatic Health Code publishes minimums, not
+  //   targets: 1.0 ppm for a venue not using cyanuric acid (5.7.3.1.1.2.1),
+  //   2.0 ppm for a venue using it (5.7.3.1.1.2.2), 3.0 ppm for a spa
+  //   (5.7.3.1.1.2.3).
+  //   https://cmahc.org/mahc_sections/1723
+  //   https://cmahc.org/mahc_sections/1724
+  //   https://cmahc.org/mahc_sections/1725
+  //
+  //   Germany. DIN 19643 requires 0.3 to 0.6 mg/l of free chlorine in the pool
+  //   basin water, and 0.7 to 1.0 mg/l in a warm bubble pool, capped at 1.2.
+  //   https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605
+  //   The standard is what German law points at when it requires bathing water
+  //   to meet the generally recognised rules of technology:
+  //   https://www.bundesgesundheitsministerium.de/service/begriffe-von-a-z/s/schwimm-und-badebeckenwasser
+  //
+  //   Why they differ is an INFERENCE drawn from those two documents, not a
+  //   sentence either of them writes: DIN 19643 water is treated continuously
+  //   through a mandated chain before it is chlorinated and its combined
+  //   chlorine is held at or below 0.2 mg/l, so a small residual suffices,
+  //   while the American minimums cover venues that may be stabilised with
+  //   cyanuric acid, which is why the same code doubles its own minimum when it
+  //   is present.
+  //
+  // Reported by @SebastianM, whose German controller reads 0.50 mg/l and is
+  // painted Too Low by this scale: https://community.home-assistant.io/t/572179/58
   free_chlorine: {
     name: 'Free Chlorine',
     unit: 'ppm',
@@ -104,6 +185,18 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'treatment',
   },
+  // Total chlorine, which is free plus combined. It therefore inherits the
+  // convention problem of free chlorine above, and adds one of its own: on its
+  // own this reading carries no published meaning, because what a standard
+  // bounds is the difference between total and free.
+  //
+  //   3 ppm - OURS, and for the same reason as free chlorine: no source is
+  //           recorded for it anywhere in this repository.
+  //   0.5 ppm - OURS.
+  //
+  // What is published is the difference: DIN 19643 requires combined chlorine
+  // in the basin water to stay at or below 0.2 mg/l.
+  // https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605
   total_chlorine: {
     name: 'Total Chlorine',
     unit: 'ppm',
@@ -113,6 +206,14 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'treatment',
   },
+  // Bromine, the sanitiser used instead of chlorine, most often in hot tubs.
+  // The delivered scale runs setpoint +/- 2 x step, so 2 to 6 ppm.
+  //
+  //   4 ppm - OURS. No standard was opened for this figure during the change
+  //           that wrote these provenance blocks, so it is a choice and must
+  //           not be read as a quotation. Saying so is the point: the failure
+  //           this file guards against is a number that looks quoted.
+  //   1 ppm - OURS.
   bromine: {
     name: 'Bromine',
     unit: 'ppm',
