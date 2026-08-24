@@ -3,6 +3,141 @@
 All notable changes to Pool Monitor Card will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+Everything above 2.17.4 is derived from the pull requests merged
+between two release tags, so the list keeps itself and a check refuses an entry
+that no longer matches. 2.17.4 and below were written by hand,
+before that derivation existed, and are kept exactly as they were.
+
+## [2.23.2] - 2026-08-24
+
+### Added
+
+- Le journal des versions se derive des publications fusionnees, et une garde refuse qu'il derive
+
+### Fixed
+
+- L'age du releve s'affiche aussi en compact, et une garde derive la liste des options muettes
+- La page piscine annonce enfin l'echelle qu'elle peint, et tds cesse de melanger g/L et ppm
+
+## [2.23.1] - 2026-08-24
+
+### Fixed
+
+- Le seuil du chlore libre suit la convention americaine, la page le dit enfin
+
+## [2.23.0] - 2026-08-24
+
+### Added
+
+- Un commit qui nomme quelqu'un porte l'adresse où lui répondre, et une machine refuse sinon
+- A reading in the worst band of its scale can blink
+
+### Fixed
+
+- A word is in no band, and an unavailable sensor looks unavailable in both layouts
+- Les notes de version pointent vers un depot que personne ne peut ouvrir
+- Le verrou suit les versions des paquets, et un test l'y oblige
+- La lecture reste dans la carte en disposition compacte aussi, et une machine le verifie sur les deux
+
+## [2.22.0] - 2026-08-23
+
+### Added
+
+- A generated recipes page, for the template sensor five users were told to write
+
+### Changed
+
+- Trois affirmations fausses retirees, et la version du tag validee
+- Deux gardes de publication HACS, et la mécanique de ligne de base
+
+### Fixed
+
+- Les bandeaux d'erreur parlent la langue de la carte, et la doc dit qu'une echelle est obligatoire
+- Retirer du suivi les relevés de navigateur entrés par accident
+- Dimensionner les delais vitest pour la charge reelle de ce depot
+- A Hebrew card reads its own numbers again
+- The air card health prose quotes its sources correctly
+- The publish chain reads the repository it publishes, checks it, and checks the number it ships
+- A window pointed at status_entity finally reads like a window
+
+### Documentation
+
+- Un nom n'est pas une adresse, et c'est pour ca que personne n'a ete prevenu
+- Home Assistant flips its controls, not its gauges
+- Carbon monoxide explains its four bands, and a guard keeps it that way
+- L'annexe niait l'existence d'un fichier qui existait
+
+## [2.21.0] - 2026-08-23
+
+### Changed
+
+- Dix etiquettes de perimetre, et la colonne qui relie un sujet a ses issues
+
+### Fixed
+
+- Un capteur sans echelle est refuse au lieu d'etre annonce Ideal
+
+### Documentation
+
+- Le README dit ou sont les pieges, et cite ses chemins sous garde
+- Un CLAUDE.md racine avec sa garde, et TODO.md supprime
+
+## [2.20.0] - 2026-08-23
+
+### Added
+
+- PM1 et PM4 reçoivent l'échelle du PM2.5, et les pages rattrapent les seuils de la v0.17.0
+- A value off the scale says so, at the end it left
+- PM1 et PM4 reçoivent leur nom, et aucune échelle inventée
+
+## [2.19.0] - 2026-08-23
+
+### Added
+
+- Aquarium and air presets are filed under named sections
+- Des seuils dont chaque borne cite sa source ou s'annonce comme la notre
+
+### Changed
+
+- The repository decides its line endings, not each machine
+
+### Fixed
+
+- La bulle de valeur reste dans la carte aux deux bouts de l'echelle
+- References regenerees et garde de campagne branchee
+- La campagne dit ce qu'elle couvre, et reconnait quand elle ne peut pas repondre
+- Les dix-sept erreurs de types tombent à zéro, et le contrôle d'intégration les y garde
+- The tank type picks the thresholds, so a reef stops reading as maximally bad
+- Un credit portugais pointait vers un compte inexistant
+
+### Documentation
+
+- The tank type option is on the page, not only in the code
+- Two shipped features stop being invisible, and the palette gets named
+- Onze contributeurs de plus sur les pages que les utilisateurs lisent, et un test qui empeche l'oubli
+
+## [2.18.0] - 2026-08-22
+
+### Added
+
+- Ammonia and nitrite read as poisons instead of deviations
+- Chevrons de tendance sur les quatre cartes, la conception d'arketec
+
+### Changed
+
+- Registry and setConfig tests for the three bare cards
+- # Conflicts:
+- #	.gitignore
+- Les URL de resources ne salissent plus l'arbre de travail
+
+### Fixed
+
+- The flatten runs only when invoked, and targets the main checkout
+
+### Documentation
+
+- L'annexe d'orchestration du depot
+
 ## [2.17.4] - 2026-08-16
 
 ### Documentation

@@ -2,6 +2,13 @@ import type { SensorsRegistry } from './ha/types.js';
 
 export const POOL_SENSORS: SensorsRegistry = {
   // --- Essential Water Chemistry ---
+  // Water temperature. The delivered scale runs setpoint +/- 2 x step, so 25 to
+  // 29 °C.
+  //
+  //   27 °C - OURS. No standard was opened for this figure. The published page
+  //           announced 26 to 28 °C instead, a range this scale never paints
+  //           for anyone (#156).
+  //    1 °C - OURS. It is what places the scale on 25 to 29 °C.
   temperature: {
     name: 'Temperature',
     unit: '°C',
@@ -32,6 +39,13 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'water_chemistry',
   },
+  // Electrical conductivity. The delivered scale runs setpoint +/- 2 x step, so
+  // 3600 to 4400 µS/cm.
+  //
+  //   4000 µS/cm - OURS. No standard was opened for this figure. The published
+  //                page announced 3800 to 4200 µS/cm instead, a range this
+  //                scale never paints for anyone (#156).
+  //    200 µS/cm - OURS. It is what places the scale on 3600 to 4400 µS/cm.
   ec: {
     name: 'Electrical Conductivity',
     unit: 'µS/cm',
@@ -41,6 +55,27 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'water_chemistry',
   },
+  // Total dissolved solids, and the one preset here whose UNIT is the trap. The
+  // delivered scale runs setpoint +/- 2 x step, so 4 to 6 g/L. 1 g/L is 1000
+  // ppm, so that is 4000 to 6000 ppm of the very same water.
+  //
+  // The card never converts. `unit` is a label printed next to the value
+  // (card-base.ts, `newData.unit`), and the band comparison is done on the raw
+  // entity state, so a probe reporting 4500 ppm left on this scale is painted
+  // Too High while its water sits in the middle of the shipped range.
+  //
+  //   5 g/L - OURS. Nothing in this repository records where it came from, and
+  //           the published page carried "Saltwater pools: 3000-5000 ppm"
+  //           underneath it, which is neither this range nor this unit. A
+  //           reader who set their card from that sentence was out by a factor
+  //           of a thousand (#156).
+  //   0.5 g/L - OURS. It is what places the scale on 4 to 6 g/L.
+  //
+  // The value is left where it is, for the reason the free chlorine decision of
+  // 2026-08-24 gives: moving a default moves the scale of everyone who
+  // configured nothing. What changed is that the page now says which unit it
+  // ships in, and hands a ppm probe the two lines to write (`setpoint: 5000`,
+  // `step: 500`). The test executes that recipe rather than trusting it.
   tds: {
     name: 'TDS',
     unit: 'g/L',
@@ -73,6 +108,13 @@ export const POOL_SENSORS: SensorsRegistry = {
   },
 
   // --- Chemical Balance ---
+  // Salinity. The delivered scale runs setpoint +/- 2 x step, so 2000 to 4000
+  // ppm.
+  //
+  //   3000 ppm - OURS. No standard was opened for this figure. The published
+  //              page announced 2500 to 3500 ppm instead, a range this scale
+  //              never paints for anyone (#156).
+  //    500 ppm - OURS. It is what places the scale on 2000 to 4000 ppm.
   salinity: {
     name: 'Salinity',
     unit: 'ppm',
@@ -106,6 +148,13 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'chemical_balance',
   },
+  // Calcium hardness. The delivered scale runs setpoint +/- 2 x step, so 100 to
+  // 500 ppm.
+  //
+  //   300 ppm - OURS. No standard was opened for this figure. The published
+  //             page announced 200 to 400 ppm instead, a range this scale never
+  //             paints for anyone (#156).
+  //   100 ppm - OURS. It is what places the scale on 100 to 500 ppm.
   calcium: {
     name: 'Calcium',
     unit: 'ppm',
@@ -115,6 +164,15 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'chemical_balance',
   },
+  // Phosphate. The delivered scale runs setpoint +/- 2 x step, so 30 to 70 ppb.
+  // It is a band centred on a value, not a ceiling, which is what made the old
+  // page sentence unusable rather than merely imprecise.
+  //
+  //   50 ppb - OURS. No standard was opened for this figure. The published page
+  //            said to keep phosphate below 200 to 300 ppb, which is above
+  //            everything this scale paints: a reading the sentence calls fine
+  //            comes out Too High on the card (#156).
+  //   10 ppb - OURS. It is what places the scale on 30 to 70 ppb.
   phosphate: {
     name: 'Phosphate',
     unit: 'ppb',
@@ -124,6 +182,13 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'chemical_balance',
   },
+  // Total alkalinity. The delivered scale runs setpoint +/- 2 x step, so 60 to
+  // 140 ppm.
+  //
+  //   100 ppm - OURS. No standard was opened for this figure. The published
+  //             page announced 80 to 120 ppm instead, a range this scale never
+  //             paints for anyone (#156).
+  //    20 ppm - OURS. It is what places the scale on 60 to 140 ppm.
   alkalinity: {
     name: 'Alkalinity',
     unit: 'ppm',

@@ -466,6 +466,15 @@ export class cardContent {
     // name stays in the static half of the template: a plain text search still
     // finds `section-compact` where it is emitted, and `card-content.test.js`
     // reads it there.
+    //
+    // The age of the reading at the end of the row is #154, and it is the same
+    // shape as #148 one level up: `card-base.ts` fills the field whenever
+    // `display.show_last_updated` is set, the full layout painted it, this one
+    // did not, so a documented option did nothing here and said nothing about
+    // it. The full layout has a second line under the row and puts the note
+    // there, right-aligned; a compact row has one line, so the note rides at
+    // its end, after everything that qualifies the value. Same `.status-note`
+    // class in both, so it is the same muted grey and dims with the row.
     return html`
       <!-- ##### ${data.name} section ##### -->
       <div
@@ -564,6 +573,9 @@ export class cardContent {
                         style="--mdc-icon-size: 12px; color: ${data.battery_color};"
                       ></ha-icon
                       >${data.battery_level != null ? html`${data.battery_level}%` : ''}`
+                  : ''}
+                ${data.last_updated
+                  ? html`<span class="status-note">${data.last_updated}</span>`
                   : ''}
                 &nbsp;
               </div>

@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { PoolMonitorCard } from '../src/pool-monitor-card.js';
 import { POOL_SENSORS } from '../src/sensors.js';
+import { CARDS } from '../../../scripts/generate-readmes.js';
 
 // A pool threshold does not look wrong when it is wrong for you. It paints a
 // correctly treated German pool Too Low and says nothing about why, because
@@ -77,31 +78,36 @@ const SOURCED = {
   free_chlorine: { unit: 'ppm', setpoint: 3, step: 0.5, ours: [3, 0.5] },
   total_chlorine: { unit: 'ppm', setpoint: 3, step: 0.5, ours: [3, 0.5] },
   bromine: { unit: 'ppm', setpoint: 4, step: 1, ours: [4, 1] },
+  // Added by #156. These seven were not sourced on purpose: they are the ones
+  // whose published sentence announced a range their scale does not paint, so
+  // rewriting the sentence forced the question "where does this number come
+  // from" to be answered anyway. The answer is the same for all seven, and
+  // saying it out loud is the point: no document was opened for any of them.
+  temperature: { unit: '°C', setpoint: 27, step: 1, ours: [27, 1] },
+  ec: { unit: 'µS/cm', setpoint: 4000, step: 200, ours: [4000, 200] },
+  tds: { unit: 'g/L', setpoint: 5, step: 0.5, ours: [5, 0.5] },
+  salinity: { unit: 'ppm', setpoint: 3000, step: 500, ours: [3000, 500] },
+  calcium: { unit: 'ppm', setpoint: 300, step: 100, ours: [300, 100] },
+  phosphate: { unit: 'ppb', setpoint: 50, step: 10, ours: [50, 10] },
+  alkalinity: { unit: 'ppm', setpoint: 100, step: 20, ours: [100, 20] },
 };
 
 // The presets left undocumented by this change, named rather than counted. A
 // count would go stale silently; a list fails loudly the day the registry moves.
 const UNSOURCED = [
-  'alkalinity',
-  'calcium',
   'chlorinator',
-  'ec',
   'filtration_time',
   'flow_rate',
   'heat_pump_setpoint',
   'humidity',
   'light_brightness',
   'magnesium',
-  'phosphate',
   'pressure',
   'product_volume',
   'product_weight',
   'pump_energy',
   'pump_speed',
-  'salinity',
   'specific_gravity',
-  'tds',
-  'temperature',
   'uv_radiation',
   'water_level',
 ];
@@ -234,5 +240,119 @@ describe('the settings the public page hands a DIN 19643 pool', () => {
   it('stops calling a correctly treated German pool Too Low', () => {
     expect(build('free_chlorine', 0.5).state).toBe('Too Low');
     expect(build('free_chlorine', 0.5, DIN).state).toBe('Ideal');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// The published page against the scale the card actually paints (#156)
+// ---------------------------------------------------------------------------
+//
+// Five pool presets announced, on the public page, a range their scale does not
+// paint for anybody. Four of them were narrower than the axis (ec, salinity,
+// alkalinity, calcium), which reads as a defensible shorthand until you notice
+// nothing on the page says so. The fifth, tds, was in another unit entirely:
+// the preset ships g/L and the sentence said "Saltwater pools: 3000-5000 ppm",
+// so a reader configuring their card from that sentence was out by a factor of
+// a thousand. Two more, temperature and phosphate, turned up while measuring.
+//
+// THE RULE, AND WHY THIS ONE. "The sentence announces the green zone, the axis
+// covers more" was a candidate: write it down once and let every preset follow
+// it. It was rejected, and not on taste. #149 had already written the opposite
+// convention into six presets a day earlier ("The card ships `setpoint: X` with
+// `step: Y`, which paints A to B"), magnesium already agreed with its scale by
+// itself, and a reader given only the green zone has no way to know what the
+// card will paint, which is the thing they are about to look at. So: the page
+// states the scale the card paints. A narrower recommendation may sit next to
+// it, named for what it is, in the unit it belongs to. That is what
+// free_chlorine already does with its DIN figures in mg/l.
+//
+// The check is deliberately two-sided, because either half alone lets the
+// original bug through. The first half catches a wrong range in the right unit;
+// only the second catches a right-looking range in the wrong unit, which is
+// exactly what tds shipped.
+const DETAILS = CARDS.find(c => c.package === 'pool-monitor').sensorDetails;
+
+const escape = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Every "A to B" or "A-B" in the prose, optionally followed by a unit. Ranges
+// are read out of the sentence the reader reads, not out of a structured field,
+// because the sentence is what misled them. The number pattern stops at the
+// decimals rather than swallowing any run of dots: `[\d.]*` turned the "7.6."
+// that ends the pH sentence into NaN, and a comparison against NaN is a check
+// that cannot fail for the right reason.
+const NUMBER = '\\d+(?:\\.\\d+)?';
+const rangesIn = (text, unit = '') => {
+  const tail = unit ? `\\s*${escape(unit)}(?![\\w/])` : '';
+  const re = new RegExp(`(${NUMBER})\\s*(?:-|to)\\s*(${NUMBER})${tail}`, 'g');
+  return [...text.matchAll(re)].map(m => [Number(m[1]), Number(m[2])]);
+};
+
+const paintedScale = key => {
+  const painted = build(key, POOL_SENSORS[key].setpoint).setpoint_class.map(Number);
+  return [painted[0], painted[4]];
+};
+
+// The two presets whose prose carries numbers that are deliberately NOT a
+// position on the axis. Named with what they are instead, rather than silently
+// skipped: an exemption nobody can read is how the four narrow ranges above
+// survived eighteen months.
+const NOT_A_SCALE = {
+  pressure: '8-10 psi is a rise above the clean-filter baseline, not a point on the axis',
+  chlorinator: '0-100% is the range the reading itself spans, and the page declines to pick one',
+};
+
+describe('the published page describes the scale the card paints', () => {
+  const keys = Object.keys(POOL_SENSORS).filter(k => !(k in NOT_A_SCALE));
+
+  it('covers every preset except the ones named as not describing a scale', () => {
+    expect([...keys, ...Object.keys(NOT_A_SCALE)].sort()).toEqual(Object.keys(POOL_SENSORS).sort());
+  });
+
+  it.each(keys)('%s: no range in its own unit other than the one it paints', key => {
+    const [lo, hi] = paintedScale(key);
+    rangesIn(DETAILS[key] ?? '', POOL_SENSORS[key].unit).forEach(([a, b]) => {
+      expect(
+        [a, b],
+        `${key}: the page announces ${a} to ${b} ${POOL_SENSORS[key].unit}, the card paints ${lo} to ${hi}`,
+      ).toEqual([lo, hi]);
+    });
+  });
+
+  it.each(keys)('%s: a page that quotes any range quotes the painted one', key => {
+    const text = DETAILS[key] ?? '';
+    const all = rangesIn(text);
+    if (!all.length) return;
+    const [lo, hi] = paintedScale(key);
+    expect(
+      all.some(([a, b]) => a === lo && b === hi),
+      `${key}: the page quotes ${JSON.stringify(all)} and never the ${lo} to ${hi} the card paints`,
+    ).toBe(true);
+  });
+});
+
+// tds is the one that could mislead by a factor of a thousand, so its page does
+// not just state the g/L scale: it names the ppm equivalent and hands a
+// ppm-reporting probe the two lines to write. Both are executed here rather
+// than trusted, on the model of the DIN recipe above.
+describe('tds cannot be read a thousand times off any more', () => {
+  const PPM = { setpoint: 5000, step: 500 };
+
+  it('says which unit it ships in and what that is in the other one', () => {
+    expect(DETAILS.tds).toContain('g/L');
+    expect(DETAILS.tds).toContain('1 g/L is 1000 ppm');
+    expect(DETAILS.tds).toContain('4000 to 6000 ppm');
+  });
+
+  it('hands a ppm probe a recipe that paints the same water', () => {
+    expect(DETAILS.tds).toContain('`setpoint: 5000`');
+    expect(DETAILS.tds).toContain('`step: 500`');
+    const gPerL = build('tds', 5).setpoint_class.map(Number);
+    const ppm = build('tds', 5000, PPM).setpoint_class.map(Number);
+    expect(ppm).toEqual(gPerL.map(v => v * 1000));
+  });
+
+  it('stops a ppm reading in the middle of the shipped range coming out Too High', () => {
+    expect(build('tds', 5000).state).toBe('Too High');
+    expect(build('tds', 5000, PPM).state).toBe('Ideal');
   });
 });

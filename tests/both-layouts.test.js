@@ -5,6 +5,8 @@ import { AirQualityCard } from '../../air-quality/src/air-quality-card.js';
 import { PoolMonitorCard } from '../../pool-monitor/src/pool-monitor-card.js';
 import { cardContent } from '../src/components/card-content.js';
 import { styles } from '../src/styles/styles.js';
+import { DEFAULT_DISPLAY } from '../src/configs/config.js';
+import { translations } from '../src/locales/translations.js';
 
 /**
  * What the two layouts owe each other, asked as properties rather than case
@@ -72,7 +74,15 @@ function fieldsRead(body) {
   // `data.disabled`, and with the class removed from the markup the guard
   // stayed green on the strength of the comment alone. A guard that a sentence
   // about the code can satisfy is the written rule again.
-  const code = body.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  const code = body
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+    // And markup comments, for the same reason one line up. Both bodies open
+    // with `<!-- ##### ${data.name} section ##### -->`, so `name` counted as
+    // read by two layouts that never paint it; the hole is symmetric there and
+    // therefore silent, which is what makes it worth closing before something
+    // asymmetric lands in one.
+    .replace(/<!--[\s\S]*?-->/g, ' ');
   const found = new Set();
   for (const m of code.matchAll(/\bdata\s*(?:as any\))?\s*\.\s*([A-Za-z_$][\w$]*)/g))
     found.add(m[1]);
@@ -89,18 +99,24 @@ function fieldsRead(body) {
 const ACCEPTED = {
   color: [
     'full',
-    'The full layout paints its value bubble with the band colour. The compact row has ' +
-      'no bubble: its only colour is the gradient bar underneath, shared by every sensor. ' +
-      'OPEN QUESTION, not a settled design: a compact row gives no per-reading colour at ' +
-      'all, so severity there is carried by the label alone. Reported with #148, not fixed ' +
-      'inside it.',
-  ],
-  last_updated: [
-    'full',
-    'The full layout writes the age of the reading in a status note under the row. The ' +
-      'compact row has no second line to put it on. OPEN QUESTION: the consequence is that ' +
-      '`display.show_last_updated` is silently inert in compact, which is an option that ' +
-      'appears to do nothing rather than a layout that is denser. Reported with #148.',
+    'The full layout paints its value bubble with the band colour. The compact row has no ' +
+      'bubble, and painting one is a design decision that has been measured and not taken ' +
+      '(#154), so this stays an exception on purpose rather than by neglect. What the ' +
+      'measurement changed: severity in compact is not carried by the label alone, as #148 ' +
+      'reported. A monotonic gradient is built from the real thresholds, so the colour ' +
+      'directly under the cursor is the band colour, and the compact row does carry ' +
+      'severity in colour. What it carries badly is which colour the eye reads: the ' +
+      'reading text lies along the bar, so the dominant colour behind a row is the band ' +
+      'the *label* overlaps, not the band the *value* is in. Measured on an air card at ' +
+      '460 px: carbon monoxide at 3 ppm, cursor at 4% over green, label lying across ' +
+      'yellow and orange, so a row that says Good reads orange at a glance. Two remedies ' +
+      'were rendered and both cost something a screenshot shows better than a sentence: a ' +
+      'colour dot before the reading disappears into a bar of the same palette, and a ' +
+      'solid pill in the band colour reads at a glance and hides the thresholds under the ' +
+      'label. The second changes what every compact card looks like on a version bump, for ' +
+      'someone who asked for nothing, which is the argument that put `display.blink` off by ' +
+      "default. So it is the PO's call, and until then this asymmetry is known, measured " +
+      'and deliberate.',
   ],
   separator: [
     'compact',
@@ -373,5 +389,163 @@ describe.each([
     // Guards the guard again: a stylesheet this parser failed to read would
     // make "a live sensor is not dimmed" pass for the wrong reason.
     expect(dimmingRules().length).toBeGreaterThan(0);
+  });
+});
+
+/**
+ * The same question one level up: not the fields, the options.
+ *
+ * The field check above is lexical and reads `card-content.ts` only, so it sees
+ * a divergence in what the two bodies paint and nothing of what happens before
+ * them. `display.show_last_updated` was exactly that: `card-base.ts` filled
+ * `data.last_updated` when the option was set, the full layout painted it, the
+ * compact one did not, and the field check caught it as `last_updated` read by
+ * one side. It caught it and then *tolerated* it, because a hand-written
+ * exception said so (#154).
+ *
+ * The question the exception table cannot answer is the one #154 ends on: are
+ * there other documented options that do nothing in one of the two layouts?
+ * Enumerating them is the sixth hand-maintained list this repository has
+ * watched go stale, so this asks it instead, and it asks the user's question
+ * rather than the source's:
+ *
+ *   change one option, and if the markup of one layout moves, the other's moves
+ *
+ * That is behavioural, not lexical. It does not care whether the option is read
+ * in `card-base.ts` or in the layout body, which is why it covers the whole
+ * path from the configuration file to the pixel, and it needs no list of what
+ * each option is supposed to do. It only needs a value different from the
+ * default, and a row to render.
+ *
+ * What it does not say: that the effect is the *same* in both, or that either
+ * is right. A layout that painted the age of the reading in the wrong corner
+ * would pass this and be caught by a measurement, as #144 was.
+ */
+const DISPLAY_KEYS = (() => {
+  const src = readFileSync(resolve(__dirname, '../src/ha/types.ts'), 'utf8');
+  const from = src.slice(src.indexOf('interface DisplayConfig'));
+  return [...from.slice(0, from.indexOf('\n}')).matchAll(/^ {2}(\w+)\??:/gm)].map(m => m[1]);
+})();
+
+/**
+ * A value that is not the default, for options whose type does not supply one.
+ *
+ * Booleans need nothing declared: the other value of a boolean is the other
+ * one. These three are the options where a second value has to be chosen, and
+ * `language` takes its from the shipped set rather than a literal, so removing
+ * a translation cannot leave this pointing at a language that no longer exists.
+ */
+const PROBE = {
+  language: [
+    DEFAULT_DISPLAY.language,
+    Object.keys(translations).find(l => l !== DEFAULT_DISPLAY.language),
+  ],
+  name_font_size: [undefined, '2em'],
+  name_font_weight: [undefined, '900'],
+};
+
+const probeFor = key =>
+  PROBE[key] ??
+  (typeof DEFAULT_DISPLAY[key] === 'boolean'
+    ? [DEFAULT_DISPLAY[key], !DEFAULT_DISPLAY[key]]
+    : null);
+
+/**
+ * Options that move neither layout, with why.
+ *
+ * Separate from `ACCEPTED` above because it answers a different question: that
+ * table is about an asymmetry between the two bodies, this one is about an
+ * option that paints nothing anywhere.
+ */
+const MOVES_NEITHER = {
+  compact:
+    'It chooses which of the two bodies is called; it is not read inside either. So the ' +
+    'card obeys it and no row can show it, which is the one honest way for an option to ' +
+    'move neither layout.',
+};
+
+/** One card, one row, one display option set to one value. */
+function built(Card, sensor, state, display) {
+  const card = new Card();
+  card.hass = {
+    states: {
+      'sensor.x': {
+        entity_id: 'sensor.x',
+        state: String(state),
+        attributes: {},
+        last_updated: '2026-08-23T10:00:00Z',
+      },
+    },
+    entities: {},
+  };
+  card.setConfig({ display, sensors: { [sensor]: { entity: 'sensor.x' } } });
+  return { config: card.getConfig(), data: card.processData()[`${sensor}_1`] };
+}
+
+/**
+ * Four rows, on both scale shapes and at both ends of them.
+ *
+ * `blink` only paints on a reading in the worst band, so a fixture that never
+ * reaches one reports it inert in both layouts: true, and about the fixture
+ * rather than the card. Rows at the bad end of each scale are what make the
+ * answer about the option.
+ */
+const OPTION_ROWS = [
+  ['air co, ideal', AirQualityCard, 'co', 3],
+  ['air co, at the top of its scale', AirQualityCard, 'co', 900],
+  ['pool ph, ideal', PoolMonitorCard, 'ph', 7.2],
+  ['pool ph, far above its setpoint', PoolMonitorCard, 'ph', 9],
+];
+
+/** The rows on which changing `key` changes what `generate` paints. */
+const rowsMovedBy = (key, generate) => {
+  const [a, b] = probeFor(key);
+  return OPTION_ROWS.filter(([, Card, sensor, state]) => {
+    const A = built(Card, sensor, state, { [key]: a });
+    const B = built(Card, sensor, state, { [key]: b });
+    return renderText(generate(A.config, A.data)) !== renderText(generate(B.config, B.data));
+  }).map(([label]) => label);
+};
+
+describe('the two layouts obey the same documented options', () => {
+  test('every option the card accepts has a value to probe it with', () => {
+    // Read off the interface rather than listed here, so a new option arrives
+    // in this guard by itself. It arrives red, which is the point: a boolean
+    // answers for itself, anything else has to be given a second value before
+    // the check below can say anything about it.
+    expect(
+      DISPLAY_KEYS.filter(k => !probeFor(k)),
+      'a new display option with no probe: add one to PROBE, or this guard silently ' +
+        'stops covering it',
+    ).toEqual([]);
+  });
+
+  test.each(DISPLAY_KEYS.map(k => [k]))('display.%s', key => {
+    const full = rowsMovedBy(key, cardContent.generateBody);
+    const compact = rowsMovedBy(key, cardContent.generateCompactBody);
+
+    if (!full.length && !compact.length) {
+      expect(
+        MOVES_NEITHER[key] ? [] : [key],
+        `display.${key} changes nothing in either layout. It is documented, so a user can ` +
+          'set it and watch nothing happen. If that is by construction, say so in ' +
+          'MOVES_NEITHER.',
+      ).toEqual([]);
+      return;
+    }
+
+    expect(
+      MOVES_NEITHER[key],
+      `display.${key} is listed as moving neither layout and it moves one: delete the entry`,
+    ).toBeUndefined();
+
+    // Row by row rather than by count: two layouts each moved by two rows out
+    // of four, and not the same two, is a divergence a count would hide.
+    expect(
+      compact,
+      `display.${key} moves the full layout and not the compact one on these rows. That is ` +
+        'the shape of #154: an option that is documented, that the card computes, and that ' +
+        'one layout then does not paint. The user gets no message either way.',
+    ).toEqual(full);
   });
 });

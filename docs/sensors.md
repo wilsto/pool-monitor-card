@@ -11,7 +11,7 @@ This document explains each sensor, why it matters, and what the ideal ranges me
 - **Unit**: °C
 - **Defaults**: 27
 
-The ideal pool temperature is 26-28°C. Knowing the temperature helps decide if it's warm enough for swimming or if heating is needed.
+The card ships `setpoint: 27` with `step: 1`, which paints 25 to 29 °C. That scale is our own choice and no standard is cited for it. Knowing the temperature helps decide if it's warm enough for swimming or if heating is needed.
 
 ### pH (`ph`)
 
@@ -32,14 +32,14 @@ Oxidation reduction potential measures how effectively the water is disinfected,
 - **Unit**: g/L
 - **Defaults**: 5
 
-Total Dissolved Solids: minerals, salts, particles in the water. High TDS affects clarity. Saltwater pools: 3000-5000 ppm.
+Total Dissolved Solids: minerals, salts and particles in the water. High TDS affects clarity. **Check which unit your sensor reports before trusting the colour**, because this preset ships in g/L and 1 g/L is 1000 ppm: the two are a factor of a thousand apart, not a rounding difference. The card ships `setpoint: 5` with `step: 0.5`, which paints 4 to 6 g/L, the same water as 4000 to 6000 ppm. **For a sensor reporting ppm, set `setpoint: 5000` and `step: 500`**, which paints that same water on a ppm axis. The card never converts anything: it compares the number your entity reports against the scale as you configured it, so a ppm reading left on the shipped g/L scale is painted a thousand times too high. Both shipped figures are our own choice and no standard is cited for them.
 
 ### Electrical Conductivity (`ec`)
 
 - **Unit**: µS/cm
 - **Defaults**: 4000
 
-Electrical Conductivity measures dissolved ion concentration. Closely related to TDS. Ideal for pools: 3800-4200 µS/cm.
+Electrical Conductivity measures dissolved ion concentration. Closely related to TDS. The card ships `setpoint: 4000` with `step: 200`, which paints 3600 to 4400 µS/cm. That scale is our own choice and no standard is cited for it.
 
 ## Chemical Balance
 
@@ -50,7 +50,7 @@ Electrical Conductivity measures dissolved ion concentration. Closely related to
 - **Unit**: ppm
 - **Defaults**: 3000
 
-Salt level for saltwater pools (ideal: 2500-3500 ppm). Required for salt chlorination systems.
+Salt level for saltwater pools, required by salt chlorination systems. The card ships `setpoint: 3000` with `step: 500`, which paints 2000 to 4000 ppm. That scale is our own choice and no standard is cited for it, so set it to the concentration your chlorinator asks for rather than reading ours as a requirement.
 
 ### Cyanuric Acid (`cya`)
 
@@ -64,21 +64,21 @@ Cyanuric acid stabilises chlorine against UV breakdown, and it changes what a ch
 - **Unit**: ppm
 - **Defaults**: 300
 
-Calcium hardness prevents scaling or corrosion (ideal: 200-400 ppm).
+Calcium hardness decides whether the water scales or corrodes. The card ships `setpoint: 300` with `step: 100`, which paints 100 to 500 ppm. That scale is our own choice and no standard is cited for it.
 
 ### Phosphate (`phosphate`)
 
 - **Unit**: ppb
 - **Defaults**: 50
 
-Phosphates feed algae growth. Keep below 200-300 ppb to prevent blooms.
+Phosphates feed algae growth, and lower is better. The card ships `setpoint: 50` with `step: 10`, which paints 30 to 70 ppb: it centres a band rather than drawing a ceiling. That scale is our own choice and no standard is cited for it, so set it around the level you actually work to.
 
 ### Alkalinity (`alkalinity`)
 
 - **Unit**: ppm
 - **Defaults**: 100
 
-Buffers pH changes (ideal: 80-120 ppm). Low alkalinity causes pH to swing wildly.
+Buffers pH changes, and low alkalinity is what makes pH swing wildly. The card ships `setpoint: 100` with `step: 20`, which paints 60 to 140 ppm. That scale is our own choice and no standard is cited for it.
 
 ## Treatment & Sanitization
 
