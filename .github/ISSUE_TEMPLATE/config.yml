@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or setup help
+    url: https://github.com/wilsto/pool-monitor-card#troubleshooting
+    about: Most questions are answered in the Troubleshooting section of the README. Please look there first.

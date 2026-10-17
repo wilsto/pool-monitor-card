@@ -8,6 +8,31 @@ between two release tags, so the list keeps itself and a check refuses an entry
 that no longer matches. 2.17.4 and below were written by hand,
 before that derivation existed, and are kept exactly as they were.
 
+## [2.25.0] - 2026-10-17
+
+### Added
+
+- List the sensor card in HACS as Sensor Monitor Card
+- List the air card in HACS as Air Monitor Card
+- Des formulaires d'issue sur les quatre dépôts publics
+- Une section Dépannage dans chaque README public
+- La fusion d'une PR de version pose les tags et publie
+- Les sections des pages se dérivent de la catégorie des capteurs
+- Hacs.json est généré par la publication, et vérifié
+
+### Changed
+
+- Garde de provenance des seuils, comme l'air et la piscine
+
+### Fixed
+
+- La densité est centrée sur une piscine au sel, 1,002 avec une marge de 0,001
+- Les chiffres en tête des README viennent du code, et un test les garde
+
+### Documentation
+
+- Les préréglages d'équipement déclarent leurs seuils comme nôtres
+
 ## [2.24.0] - 2026-10-17
 
 ### Added

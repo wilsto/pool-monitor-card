@@ -169,21 +169,7 @@ describe('every generated home page keeps a real image', () => {
   }
 });
 
-// The third HACS check that depends on our content, the `hacs.json` schema, is
-// NOT here, and the reason is the point rather than an omission.
-//
-// `HACS_MANIFEST_JSON_SCHEMA` (custom_components/hacs/utils/validate.py) requires
-// `name` and allows exactly `content_in_root`, `country`, `filename`, `hacs`,
-// `hide_default_branch`, `homeassistant`, `persistent_directory`, `render_readme`
-// and `zip_release`, with `extra=vol.PREVENT_EXTRA`: one unknown key, `fileName`
-// for a typo, and the whole manifest is refused.
-//
-// That file does not exist in this repository. It belongs to each distribution
-// repository, `flatten-to-dist.js` never writes it and deliberately never clears
-// it, and the publish would overwrite it if it did. A copy checked in here would
-// validate something other than what ships, which is worse than no check.
-//
-// Making it checkable is a change of ownership, not a change of test: the
-// publish already generates `package.json`, `rollup.config.js` and
-// `validate.yaml`, and generating `hacs.json` too would put the manifest under
-// the same guard as the rest. That is a decision for the PO, and it is open.
+// The third HACS check that depends on our content, the `hacs.json` schema,
+// lives in hacs-manifest.test.js. It could not be checked here while the file
+// existed only in each distribution repository; since #115 the publish writes
+// it, and that test runs the real flatten and validates what it wrote.

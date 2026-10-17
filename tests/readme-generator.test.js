@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   supportedLanguages,
   loadSensors,
+  sectionKeys,
   CARDS,
   TRANSLATORS,
   CORE_CONTRIBUTORS,
@@ -59,18 +60,52 @@ describe('README generator, the sensor registry is actually read', () => {
   });
 });
 
-// Sensor documentation is emitted category by category: a sensor that belongs
-// to no category is simply never written. Three pool sensors (chlorinator,
-// pump_speed, light_brightness) had fallen out of the metadata, so the doc
-// silently lost them the next time it was generated.
-describe('README generator, every sensor belongs to a category', () => {
+// Sensor documentation is emitted section by section, and a section used to
+// carry a hand-written list of the presets it shows. Three pool sensors
+// (chlorinator, pump_speed, light_brightness) fell out of those lists, and the
+// doc silently lost them the next time it was generated. The lists are now
+// derived from the `category` each preset declares (#101), so what is left to
+// check is the join: every category the registry uses has a section, and every
+// section reads a category the registry uses.
+describe('README generator, every sensor belongs to a section', () => {
   CARDS.filter(c => !c.isGeneric).forEach(card => {
+    const used = [...new Set(loadSensors(card.package).map(s => s.category))];
+
+    it(`${card.package}: every preset declares a category`, () => {
+      expect(
+        loadSensors(card.package)
+          .filter(s => !s.category)
+          .map(s => s.key),
+      ).toEqual([]);
+    });
+
+    it(`${card.package}: every category the registry uses has a section`, () => {
+      const sections = card.sensorCategories.map(c => c.category);
+      expect(used.filter(c => !sections.includes(c))).toEqual([]);
+    });
+
+    it(`${card.package}: no section reads a category nobody uses`, () => {
+      const sections = card.sensorCategories.map(c => c.category);
+      expect(sections.filter(c => !used.includes(c))).toEqual([]);
+    });
+
     it(`${card.package}: no sensor is left undocumented`, () => {
-      const categorised = new Set(card.sensorCategories.flatMap(c => c.keys));
+      const shown = card.sensorCategories.flatMap(c => sectionKeys(card, c));
       const orphans = loadSensors(card.package)
         .map(s => s.key)
-        .filter(k => !categorised.has(k));
+        .filter(k => !shown.includes(k));
       expect(orphans).toEqual([]);
+    });
+
+    // The editor groups the same presets by the same field, in registry order.
+    // The page following that order is what keeps the two from disagreeing.
+    it(`${card.package}: each section lists its presets in registry order`, () => {
+      const order = loadSensors(card.package).map(s => s.key);
+      card.sensorCategories.forEach(c => {
+        const keys = sectionKeys(card, c);
+        expect(keys, c.name).toEqual([...keys].sort((a, b) => order.indexOf(a) - order.indexOf(b)));
+        expect(keys.length, `${c.name} shows nothing`).toBeGreaterThan(0);
+      });
     });
   });
 });
@@ -94,16 +129,6 @@ describe('README generator, no preset is dropped on the way to the page', () => 
       expect(declared.length).toBeGreaterThan(0);
       const parsed = loadSensors(card.package).map(s => s.key);
       expect(declared.filter(k => !parsed.includes(k))).toEqual([]);
-    });
-
-    it(`${card.package}: each one is filed under a category`, () => {
-      const filed = card.sensorCategories.flatMap(c => c.keys);
-      expect(declared.filter(k => !filed.includes(k))).toEqual([]);
-    });
-
-    it(`${card.package}: no category names a preset that does not exist`, () => {
-      const filed = card.sensorCategories.flatMap(c => c.keys);
-      expect(filed.filter(k => !declared.includes(k))).toEqual([]);
     });
   }
 });
@@ -233,5 +258,38 @@ describe('no credit is half written', () => {
       a => !a.name?.trim() || !a.github?.trim() || !a.contribution?.trim(),
     );
     expect(broken).toEqual([]);
+  });
+});
+
+// The first lines a visitor reads contradicted the rest of the page: the pool
+// card promised "up to 20 water chemistry parameters" above "Sensors (28
+// presets)", the air card "12 parameters" above "15 presets", and the sensor
+// card "12 languages" above "17 languages supported". Those counts were typed
+// into the card metadata by hand, the derived ones were not. Every count of
+// parameters, presets or languages a committed README states must equal what
+// the code declares, and a line that links a sibling card counts that card.
+describe('README generator, every count a page states is the one the code declares', () => {
+  const COUNT = /\*{0,2}(\d+)\*{0,2} (?:[a-z]+ ){0,2}(parameters|presets|languages)\b/g;
+  const repoName = card => card.repo.split('/')[1];
+  const presetCount = card => (card.isGeneric ? 0 : loadSensors(card.package).length);
+
+  CARDS.forEach(card => {
+    it(`${repoName(card)}: states only true counts`, () => {
+      const page = readFileSync(
+        resolve(__dirname, '../../../scripts/dist-readmes', repoName(card), 'README.md'),
+        'utf-8',
+      );
+      const wrong = [];
+      page.split('\n').forEach((line, i) => {
+        const sibling = CARDS.find(c => line.includes(`(https://github.com/${c.repo})`));
+        const subject = sibling ?? card;
+        for (const [text, n, what] of line.matchAll(COUNT)) {
+          const expected =
+            what === 'languages' ? supportedLanguages().length : presetCount(subject);
+          if (Number(n) !== expected) wrong.push(`line ${i + 1}: "${text}" (code: ${expected})`);
+        }
+      });
+      expect(wrong).toEqual([]);
+    });
   });
 });

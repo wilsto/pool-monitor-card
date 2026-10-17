@@ -115,9 +115,9 @@ Filter pressure indicates when to backwash. Compare to clean baseline: 8-10 psi 
 ### Specific Gravity (`specific_gravity`)
 
 - **Unit**: sg
-- **Defaults**: 1.1
+- **Defaults**: 1.002
 
-Indicates if substances float or sink in your pool water. Reference: pure water = 1.0.
+Density of the water relative to pure water, which only moves noticeably in a salt pool. The card ships `setpoint: 1.002` with `step: 0.001`, which paints 1.000 to 1.004: 1.002 is the published density of 5 g/L of salt (NaCl), and each g/L adds about 0.0004. The whole difference between a salt pool and fresh water is about 0.002, close to what an ordinary hydrometer can resolve, so a salt reading in g/L or ppm says the same thing more reliably.
 
 ### Magnesium (`magnesium`)
 
@@ -125,6 +125,13 @@ Indicates if substances float or sink in your pool water. Reference: pure water 
 - **Defaults**: 1200
 
 Prevents scaling and staining (ideal: 1000-1400 ppm). Important for mineral pool systems.
+
+### Chlorinator (`chlorinator`)
+
+- **Unit**: %
+- **Defaults**: 50
+
+Salt chlorinator output percentage (0-100%). Available via the Hayward OmniLogic integration as `sensor.chlorinator_setting`. Ideal range depends on pool load and size.
 
 ## Equipment & Maintenance
 
@@ -164,13 +171,6 @@ Track liquid chemical stock levels (pH+, pH-, etc.).
 - **Defaults**: 25
 
 Track powdered chemical stock levels.
-
-### Chlorinator (`chlorinator`)
-
-- **Unit**: %
-- **Defaults**: 50
-
-Salt chlorinator output percentage (0-100%). Available via the Hayward OmniLogic integration as `sensor.chlorinator_setting`. Ideal range depends on pool load and size.
 
 ### Pump Speed (`pump_speed`)
 

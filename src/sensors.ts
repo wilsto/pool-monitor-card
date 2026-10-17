@@ -17,6 +17,27 @@ export const POOL_SENSORS: SensorsRegistry = {
     mode: 'heatflow',
     category: 'water_chemistry',
   },
+  // pH. The delivered scale runs setpoint +/- 2 x step, so 6.8 to 7.6.
+  //
+  //   7.2 pH - OURS. It sits inside the published requirement, but no document
+  //            read here puts a target on this particular figure.
+  //   0.2 pH - OURS. It is what places the scale on 6.8 to 7.6, which stays
+  //            inside the 6.5 to 7.8 that DIN 19643 requires of pool basin
+  //            water. That requirement is the published part; the narrower
+  //            scale drawn inside it is ours.
+  //
+  // DIN 19643 parameter table for pool and bathing water, Landesamt fuer
+  // Gesundheit und Soziales Mecklenburg-Vorpommern, dated 2024-01-26:
+  // https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605
+  ph: {
+    name: 'pH',
+    unit: 'pH',
+    setpoint: 7.2,
+    step: 0.2,
+    mode: 'centric',
+    min_limit: 0,
+    category: 'water_chemistry',
+  },
   // Oxidation reduction potential. The delivered scale runs setpoint +/- 2 x
   // step, so 600 to 800 mV.
   //
@@ -35,22 +56,6 @@ export const POOL_SENSORS: SensorsRegistry = {
     unit: 'mV',
     setpoint: 700,
     step: 50,
-    mode: 'centric',
-    min_limit: 0,
-    category: 'water_chemistry',
-  },
-  // Electrical conductivity. The delivered scale runs setpoint +/- 2 x step, so
-  // 3600 to 4400 µS/cm.
-  //
-  //   4000 µS/cm - OURS. No standard was opened for this figure. The published
-  //                page announced 3800 to 4200 µS/cm instead, a range this
-  //                scale never paints for anyone (#156).
-  //    200 µS/cm - OURS. It is what places the scale on 3600 to 4400 µS/cm.
-  ec: {
-    name: 'Electrical Conductivity',
-    unit: 'µS/cm',
-    setpoint: 4000,
-    step: 200,
     mode: 'centric',
     min_limit: 0,
     category: 'water_chemistry',
@@ -85,23 +90,18 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'water_chemistry',
   },
-  // pH. The delivered scale runs setpoint +/- 2 x step, so 6.8 to 7.6.
+  // Electrical conductivity. The delivered scale runs setpoint +/- 2 x step, so
+  // 3600 to 4400 µS/cm.
   //
-  //   7.2 pH - OURS. It sits inside the published requirement, but no document
-  //            read here puts a target on this particular figure.
-  //   0.2 pH - OURS. It is what places the scale on 6.8 to 7.6, which stays
-  //            inside the 6.5 to 7.8 that DIN 19643 requires of pool basin
-  //            water. That requirement is the published part; the narrower
-  //            scale drawn inside it is ours.
-  //
-  // DIN 19643 parameter table for pool and bathing water, Landesamt fuer
-  // Gesundheit und Soziales Mecklenburg-Vorpommern, dated 2024-01-26:
-  // https://www.lagus.mv-regierung.de/serviceassistent/download?id=1666605
-  ph: {
-    name: 'pH',
-    unit: 'pH',
-    setpoint: 7.2,
-    step: 0.2,
+  //   4000 µS/cm - OURS. No standard was opened for this figure. The published
+  //                page announced 3800 to 4200 µS/cm instead, a range this
+  //                scale never paints for anyone (#156).
+  //    200 µS/cm - OURS. It is what places the scale on 3600 to 4400 µS/cm.
+  ec: {
+    name: 'Electrical Conductivity',
+    unit: 'µS/cm',
+    setpoint: 4000,
+    step: 200,
     mode: 'centric',
     min_limit: 0,
     category: 'water_chemistry',
@@ -288,6 +288,12 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'treatment',
   },
+  // Equipment, not water: both numbers are ours (#156). Filter pressure depends
+  // on the filter and the plumbing. What matters is the rise above the
+  // clean-filter reading, which the page explains.
+  //
+  //   12 psi - OURS. No document was opened for it.
+  //   2 psi - OURS. It sets how far from the setpoint a reading turns.
   pressure: {
     name: 'Filter Pressure',
     unit: 'psi',
@@ -296,11 +302,21 @@ export const POOL_SENSORS: SensorsRegistry = {
     mode: 'centric',
     category: 'treatment',
   },
+  // Moved by #172 (PO decision, 2026-10-17). The old 1.1 with a step of 0.2
+  // painted 0.7 to 1.5 and read fresh water and sea water alike as Ideal.
+  //
+  //   1.002 sg - taken as published. NaCl at 0.5 % (5 g/L) is 1.0018 g/cm3
+  //              against 0.99984 for pure water, a relative density of 1.002
+  //              (https://en.wikipedia.org/wiki/Saline_water, table "Properties
+  //              of water-NaCl mixtures"). Each g/L of salt adds about 0.0004.
+  //   0.001 sg - OURS. It keeps roughly 2.5 to 7.5 g/L Ideal, which holds both
+  //              the salinity preset's 3000 ppm (1.0012) and the tds preset's
+  //              5 g/L, and puts fresh water at the edge of the scale.
   specific_gravity: {
     name: 'Specific Gravity',
     unit: 'sg',
-    setpoint: 1.1,
-    step: 0.2,
+    setpoint: 1.002,
+    step: 0.001,
     mode: 'centric',
     category: 'treatment',
   },
@@ -313,6 +329,12 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'treatment',
   },
+  // Equipment, not water: both numbers are ours (#156). A salt chlorinator's
+  // output share depends on the cell, the pool volume and the season, so the
+  // right figure is the one the installation settles on.
+  //
+  //   50 % - OURS. No document was opened for it.
+  //   10 % - OURS. It sets how far from the setpoint a reading turns.
   chlorinator: {
     name: 'Chlorinator',
     unit: '%',
@@ -324,6 +346,11 @@ export const POOL_SENSORS: SensorsRegistry = {
   },
 
   // --- Equipment & Maintenance ---
+  // Equipment, not water: both numbers are ours (#156). What 100 % means is set
+  // by the level sensor's own calibration.
+  //
+  //   100 % - OURS. No document was opened for it.
+  //   10 % - OURS. It sets how far from the setpoint a reading turns.
   water_level: {
     name: 'Water Level',
     unit: '%',
@@ -333,6 +360,12 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'equipment',
   },
+  // Equipment, not water: both numbers are ours (#156). Flow is a property of
+  // the pump and the plumbing, so the right value is the one on the
+  // installation's own pump curve.
+  //
+  //   10 m³/h - OURS. No document was opened for it.
+  //   1 m³/h - OURS. It sets how far from the setpoint a reading turns.
   flow_rate: {
     name: 'Flow Rate',
     unit: 'm³/h',
@@ -342,6 +375,12 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'equipment',
   },
+  // Equipment, not water: both numbers are ours (#156). The useful UV intensity
+  // depends on the steriliser model and its lamp; the maker's figure is the one
+  // to use.
+  //
+  //   4 mW/cm² - OURS. No document was opened for it.
+  //   1 mW/cm² - OURS. It sets how far from the setpoint a reading turns.
   uv_radiation: {
     name: 'UV Radiation',
     unit: 'mW/cm²',
@@ -351,6 +390,11 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'equipment',
   },
+  // Equipment, not water: both numbers are ours (#156). The amount left in a
+  // dosing container depends on the container the installation uses.
+  //
+  //   20 L - OURS. No document was opened for it.
+  //   5 L - OURS. It sets how far from the setpoint a reading turns.
   product_volume: {
     name: 'Product Volume',
     unit: 'L',
@@ -360,6 +404,11 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'equipment',
   },
+  // Equipment, not water: both numbers are ours (#156). The amount left in a bag
+  // or drum depends on the container the installation uses.
+  //
+  //   25 kg - OURS. No document was opened for it.
+  //   5 kg - OURS. It sets how far from the setpoint a reading turns.
   product_weight: {
     name: 'Product Weight',
     unit: 'kg',
@@ -369,9 +418,58 @@ export const POOL_SENSORS: SensorsRegistry = {
     min_limit: 0,
     category: 'equipment',
   },
+
+  // Equipment, not water: both numbers are ours (#156). A variable speed pump is
+  // set for the pool it serves; there is no universal speed.
+  //
+  //   50 % - OURS. No document was opened for it.
+  //   10 % - OURS. It sets how far from the setpoint a reading turns.
+  pump_speed: {
+    name: 'Pump Speed',
+    unit: '%',
+    setpoint: 50,
+    step: 10,
+    mode: 'heatflow',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  // Equipment, not water: both numbers are ours (#156). Brightness is a
+  // preference, with no right or wrong reading.
+  //
+  //   80 % - OURS. No document was opened for it.
+  //   10 % - OURS. It sets how far from the setpoint a reading turns.
+  light_brightness: {
+    name: 'Light Brightness',
+    unit: '%',
+    setpoint: 80,
+    step: 10,
+    mode: 'heatflow',
+    min_limit: 0,
+    category: 'equipment',
+  },
+  // Equipment, not water: both numbers are ours (#156). A heat pump setpoint is
+  // a comfort choice the owner makes, not a water quality limit.
+  //
+  //   28 °C - OURS. No document was opened for it.
+  //   1 °C - OURS. It sets how far from the setpoint a reading turns.
+  heat_pump_setpoint: {
+    name: 'Heat Pump Setpoint',
+    unit: '°C',
+    setpoint: 28,
+    step: 1,
+    mode: 'centric',
+    min_limit: 10,
+    category: 'equipment',
+  },
   // Indoor pools: humidity drives condensation and structural damage.
   // Requested in pool-monitor-card#87, where the only workaround was to
   // repurpose the water-level sensor.
+  // Equipment, not water: both numbers are ours (#156). Indoor pool hall
+  // humidity targets vary by design guide and climate; none was opened for this
+  // figure.
+  //
+  //   60 % - OURS. No document was opened for it.
+  //   10 % - OURS. It sets how far from the setpoint a reading turns.
   humidity: {
     name: 'Humidity',
     unit: '%',
@@ -386,6 +484,12 @@ export const POOL_SENSORS: SensorsRegistry = {
   },
 
   // Requested in pool-monitor-card#91: daily filtration runtime and pump energy.
+  // Equipment, not water: both numbers are ours (#156). Daily runtime is set by
+  // pool volume and pump flow, commonly sized to turn the water over once or
+  // twice a day; no single figure fits every pool.
+  //
+  //   8 h - OURS. No document was opened for it.
+  //   2 h - OURS. It sets how far from the setpoint a reading turns.
   filtration_time: {
     name: 'Filtration Time',
     unit: 'h',
@@ -399,6 +503,12 @@ export const POOL_SENSORS: SensorsRegistry = {
     category: 'equipment',
   },
 
+  // Equipment, not water: both numbers are ours (#156). Daily pump energy
+  // follows pump size and runtime, so it can only be compared with the
+  // installation's own history.
+  //
+  //   5 kWh - OURS. No document was opened for it.
+  //   2 kWh - OURS. It sets how far from the setpoint a reading turns.
   pump_energy: {
     name: 'Pump Energy',
     unit: 'kWh',
@@ -409,34 +519,6 @@ export const POOL_SENSORS: SensorsRegistry = {
     step: 2,
     mode: 'heatflow',
     min_limit: 0,
-    category: 'equipment',
-  },
-
-  pump_speed: {
-    name: 'Pump Speed',
-    unit: '%',
-    setpoint: 50,
-    step: 10,
-    mode: 'heatflow',
-    min_limit: 0,
-    category: 'equipment',
-  },
-  light_brightness: {
-    name: 'Light Brightness',
-    unit: '%',
-    setpoint: 80,
-    step: 10,
-    mode: 'heatflow',
-    min_limit: 0,
-    category: 'equipment',
-  },
-  heat_pump_setpoint: {
-    name: 'Heat Pump Setpoint',
-    unit: '°C',
-    setpoint: 28,
-    step: 1,
-    mode: 'centric',
-    min_limit: 10,
     category: 'equipment',
   },
 };

@@ -2,7 +2,7 @@
 
 [![Release][release-shield]][release-link] [![HACS][hacs-shield]][hacs-link] [![GitHub Activity][commits-shield]][commits-link]
 
-> Keep your swimming pool safe and crystal clear by monitoring up to 20 water chemistry parameters at a glance.
+> Keep your swimming pool safe and crystal clear by monitoring up to 28 parameters at a glance, from water chemistry to equipment.
 
 ![screenshot](example/hero.gif)
 
@@ -18,7 +18,7 @@ Whether you have a chlorine pool, a saltwater system, or a heated spa, this card
 
 Color-coded gradient bars show you at a glance if each parameter is in its ideal range. No need to memorize numbers or look up charts.
 
-Preset ideal ranges for all 20 pool parameters mean you can get started with just an entity ID: the card knows what "good" looks like for pool water.
+Preset ideal ranges for all 28 pool parameters mean you can get started with just an entity ID: the card knows what "good" looks like for pool water.
 
 ### What you can do
 
@@ -74,8 +74,9 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 | Total Chlorine | `total_chlorine` | ppm | 3 |
 | Bromine | `bromine` | ppm | 4 |
 | Filter Pressure | `pressure` | psi | 12 |
-| Specific Gravity | `specific_gravity` | sg | 1.1 |
+| Specific Gravity | `specific_gravity` | sg | 1.002 |
 | Magnesium | `magnesium` | ppm | 1200 |
+| Chlorinator | `chlorinator` | % | 50 |
 
 ### Equipment & Maintenance
 
@@ -90,7 +91,6 @@ Every sensor comes with **preset ideal ranges**: just point to your entity and t
 | UV Radiation | `uv_radiation` | mW/cm² | 4 |
 | Product Volume | `product_volume` | L | 20 |
 | Product Weight | `product_weight` | kg | 25 |
-| Chlorinator | `chlorinator` | % | 50 |
 | Pump Speed | `pump_speed` | % | 50 |
 | Light Brightness | `light_brightness` | % | 80 |
 | Heat Pump Setpoint | `heat_pump_setpoint` | °C | 28 |
@@ -401,6 +401,44 @@ colors:
 17 languages supported: Català, Čeština, Dansk, Deutsch, English, Español, Français, עברית, Magyar, Italiano, Nederlands, Português, Português (Brasil), Română, Русский, Slovenčina, Svenska.
 
 Set one with `display.language`, or pick it in the visual editor.
+
+---
+
+## Troubleshooting
+
+**The card does not appear, or Home Assistant says `Custom element doesn't exist`.**
+Reload the page while bypassing the cache (Ctrl+Shift+R, or Cmd+Shift+R on a Mac). In the companion app, clear the frontend cache in its settings. Then check that the resource is listed under Settings → Dashboards → Resources: HACS adds it on install.
+
+**A warning is shown where a reading should be.** The card says what is wrong in your language. In English:
+
+- *This card has no sensor to show. Add at least one under `sensors` in the card configuration.* The card has no sensor yet: see [Quick Start](#quick-start).
+- *Entity `<entity>` could not be found. Check that the entity ID is spelled the way Home Assistant has it, and that the integration providing it is loaded.* Compare the ID with Settings → Devices & services → Entities.
+- *Sensor `<name>` is not one this card knows. Pick a sensor from the list in the visual editor, or write its key exactly as the documentation spells it.* The key under `sensors:` is misspelled.
+- *Sensor `<name>` has no scale, so no reading can be judged against anything. Give it four `limits`, or a `setpoint` with a `step`. Note that `min` and `max` only size the bar, they are not a scale.* See [Every sensor needs a scale](#every-sensor-needs-a-scale).
+- *No data for this sensor.* The entity has no readable value. Look at its state in Developer Tools → States: `unknown` or `unavailable` comes from the integration, not from the card.
+
+**A reading I consider fine is painted orange or red.**
+The bands come from a `setpoint` with a `step`, or from four `limits`. Write your own for that sensor, as shown in [Per-sensor overrides](#per-sensor-overrides). `min` and `max` change the size of the bar, not the bands.
+
+**My sensor reports in Fahrenheit.**
+Nothing to do. Since the October 2026 release, a preset written in °C follows a sensor that reports in °F, and the reading keeps the number Home Assistant shows. A `setpoint` or `step` you write yourself is read in your sensor's unit.
+
+**Too many or too few decimals.**
+The card uses the display precision Home Assistant has for the entity. Change it in the entity's settings, under Display precision.
+
+**The value I want is an attribute, not the state.**
+Add `attribute: <name>` to that sensor: see [Per-sensor overrides](#per-sensor-overrides).
+
+**The badge at the top of the screenshots.**
+It shows the state of any entity you point `status_entity` at, at the card level or for one sensor: see [Configuration](#configuration).
+
+**`card_mod` styles have no effect.**
+card-mod is a separate card and must be installed first: see [Styling](#styling).
+
+**Will my device work?**
+Any device that gives Home Assistant a numeric sensor works. Some are listed under [Compatible Hardware](#compatible-hardware).
+
+Still stuck? [Open an issue](https://github.com/wilsto/pool-monitor-card/issues) with your card YAML, your Home Assistant version and a screenshot.
 
 ---
 

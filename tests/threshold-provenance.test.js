@@ -28,11 +28,11 @@ import { CARDS } from '../../../scripts/generate-readmes.js';
 //
 // It does not claim the numbers are right. No test can check that.
 //
-// It does not cover the whole registry. Twenty-eight presets ship and six are
-// documented here: the ones whose value visibly depends on a national
-// convention or on the kind of pool. UNSOURCED below names the other twenty-two
-// out loud, so a partial job stays visible instead of reading as a finished
-// one, and so adding a preset forces a decision about which list it joins.
+// It does not cover the whole registry. UNSOURCED below names the presets
+// still undocumented out loud, so a partial job stays visible instead of
+// reading as a finished one, and so adding a preset forces a decision about
+// which list it joins. It started with six documented, the ones whose value
+// visibly depends on a national convention or on the kind of pool.
 
 // Line endings are normalised because git checks the file out with CRLF on
 // Windows, which would leave a stray \r on every comment line collected here.
@@ -89,32 +89,43 @@ const SOURCED = {
   salinity: { unit: 'ppm', setpoint: 3000, step: 500, ours: [3000, 500] },
   calcium: { unit: 'ppm', setpoint: 300, step: 100, ours: [300, 100] },
   phosphate: { unit: 'ppb', setpoint: 50, step: 10, ours: [50, 10] },
-  alkalinity: { unit: 'ppm', setpoint: 100, step: 20, ours: [100, 20] },
+  alkalinity: { unit: 'ppm', setpoint: 100, step: 20, ours: [100, 20] }, // Added for R3 (#156). These thirteen describe a piece of equipment or a
+  // container rather than the water, so no standard could speak for them: the
+  // right value is the one written on the installation's own pump, tank or
+  // controller. Declaring both numbers ours is the finished state for them,
+  // not a gap left open.
+  chlorinator: { unit: '%', setpoint: 50, step: 10, ours: [50, 10] },
+  filtration_time: { unit: 'h', setpoint: 8, step: 2, ours: [8, 2] },
+  flow_rate: { unit: 'm³/h', setpoint: 10, step: 1, ours: [10, 1] },
+  heat_pump_setpoint: { unit: '°C', setpoint: 28, step: 1, ours: [28, 1] },
+  humidity: { unit: '%', setpoint: 60, step: 10, ours: [60, 10] },
+  light_brightness: { unit: '%', setpoint: 80, step: 10, ours: [80, 10] },
+  pressure: { unit: 'psi', setpoint: 12, step: 2, ours: [12, 2] },
+  product_volume: { unit: 'L', setpoint: 20, step: 5, ours: [20, 5] },
+  product_weight: { unit: 'kg', setpoint: 25, step: 5, ours: [25, 5] },
+  pump_energy: { unit: 'kWh', setpoint: 5, step: 2, ours: [5, 2] },
+  pump_speed: { unit: '%', setpoint: 50, step: 10, ours: [50, 10] },
+  uv_radiation: { unit: 'mW/cm²', setpoint: 4, step: 1, ours: [4, 1] },
+  water_level: { unit: '%', setpoint: 100, step: 10, ours: [100, 10] },
+  // Added by #172. Unlike every entry above, this one moved its value: the old
+  // 1.1 with a step of 0.2 painted 0.7 to 1.5 and called fresh water and sea
+  // water alike Ideal, so the scale could not signal anything. The setpoint is
+  // read off a published NaCl density table; the step is ours.
+  specific_gravity: { unit: 'sg', setpoint: 1.002, step: 0.001, ours: [0.001] },
 };
 
 // The presets left undocumented by this change, named rather than counted. A
 // count would go stale silently; a list fails loudly the day the registry moves.
 const UNSOURCED = [
-  'chlorinator',
-  'filtration_time',
-  'flow_rate',
-  'heat_pump_setpoint',
-  'humidity',
-  'light_brightness',
+  // Water chemistry with a published answer somewhere, not yet opened.
   'magnesium',
-  'pressure',
-  'product_volume',
-  'product_weight',
-  'pump_energy',
-  'pump_speed',
-  'specific_gravity',
-  'uv_radiation',
-  'water_level',
 ];
 
 describe('every preset is accounted for, sourced or not', () => {
   it('splits the registry in two with nothing falling between', () => {
-    expect([...Object.keys(SOURCED), ...UNSOURCED].sort()).toEqual(Object.keys(POOL_SENSORS).sort());
+    expect([...Object.keys(SOURCED), ...UNSOURCED].sort()).toEqual(
+      Object.keys(POOL_SENSORS).sort(),
+    );
   });
 
   it('does not let a preset be claimed by both lists', () => {
@@ -205,7 +216,9 @@ describe('the delivered scales did not move', () => {
     pump_speed: [50, 10, '%'],
     orp: [700, 50, 'mV'],
     salinity: [3000, 500, 'ppm'],
-    specific_gravity: [1.1, 0.2, 'sg'],
+    // Moved on purpose by #172, decided by the PO on 2026-10-17. The old value
+    // was [1.1, 0.2]; see the specific_gravity block below for why.
+    specific_gravity: [1.002, 0.001, 'sg'],
     tds: [5, 0.5, 'g/L'],
     temperature: [27, 1, '°C'],
     total_chlorine: [3, 0.5, 'ppm'],
@@ -354,5 +367,26 @@ describe('tds cannot be read a thousand times off any more', () => {
   it('stops a ppm reading in the middle of the shipped range coming out Too High', () => {
     expect(build('tds', 5000).state).toBe('Too High');
     expect(build('tds', 5000, PPM).state).toBe('Ideal');
+  });
+});
+
+// specific_gravity is the one preset whose default was moved rather than only
+// documented (#172). The old scale called every pool Ideal, salted or not, so
+// these are the readings that decide whether the new one says anything.
+describe('specific gravity tells a salt pool from fresh water', () => {
+  it('reads a salt pool on target as Ideal', () => {
+    // 1.0012 is the salinity preset's 3000 ppm, 1.002 the tds preset's 5 g/L.
+    expect(build('specific_gravity', 1.0012).state).toBe('Ideal');
+    expect(build('specific_gravity', 1.002).state).toBe('Ideal');
+  });
+
+  it('no longer calls fresh water or sea water Ideal', () => {
+    expect(build('specific_gravity', 1.0).state).not.toBe('Ideal');
+    expect(build('specific_gravity', 1.025).state).not.toBe('Ideal');
+  });
+
+  it('warns its reader that a hydrometer barely resolves the difference', () => {
+    expect(DETAILS.specific_gravity).toContain('0.001');
+    expect(DETAILS.specific_gravity).toMatch(/salt/i);
   });
 });

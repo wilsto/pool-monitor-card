@@ -1,0 +1,46 @@
+name: Bug report
+description: Something on the pool-monitor-card card does not work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. Before reporting, please check the [Troubleshooting](https://github.com/wilsto/pool-monitor-card#troubleshooting) section: the card not showing up, a warning instead of a reading, colours, Fahrenheit and decimals are answered there.
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Card YAML
+      description: The card configuration, from the dashboard editor's code view.
+      render: yaml
+    validations:
+      required: true
+  - type: input
+    id: card_version
+    attributes:
+      label: Card version
+      description: Shown in HACS, for example 2.24.0.
+    validations:
+      required: true
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant version
+      description: Settings → About.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: A picture of the card helps more than a description of it.
+  - type: input
+    id: device
+    attributes:
+      label: Sensor device and integration
+      description: For example "Ondilo ICO, official integration".

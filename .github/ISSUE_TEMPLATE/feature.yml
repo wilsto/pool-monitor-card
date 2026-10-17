@@ -1,0 +1,15 @@
+name: Feature request
+description: Something the pool-monitor-card card could do for you.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you want to see or do?
+      description: Describe the need first. The way to build it can come after.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Sensor device and integration, if it matters
