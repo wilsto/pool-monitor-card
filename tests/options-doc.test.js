@@ -46,6 +46,19 @@ describe('every option a user can write is documented', () => {
     expect(undocumented).toEqual([]);
   });
 
+  // Found while documenting `display.band_fill` (#154): the two checks above
+  // read `SensorUserConfig` and `CardConfig`, and `display` is skipped there as
+  // a group, so nothing asked whether the options *inside* it were documented.
+  // A display option could ship with no line on any page and every test stayed
+  // green. `both-layouts.test.js` already derives the same list from the same
+  // interface to check the two layouts obey it; this asks whether a user can
+  // find out it exists.
+  it('for every display option, which no check reached until now', () => {
+    const table = readme.slice(readme.indexOf('| Option | Type | Default | Description |'));
+    const undocumented = keysOf('DisplayConfig').filter(k => !table.includes(`\`display.${k}\``));
+    expect(undocumented).toEqual([]);
+  });
+
   it('and the sensor table covers them all, not just the prose', () => {
     const table = readme.slice(readme.indexOf('| Option | Type | Description |'));
     const documented = keysOf('SensorUserConfig').filter(k => !INTERNAL.includes(k));

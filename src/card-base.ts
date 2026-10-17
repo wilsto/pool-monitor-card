@@ -6,6 +6,7 @@ import { cardContent } from './components/card-content.js';
 import { getDisplayConfig, getColorConfig, getSensorConfig } from './configs/config.js';
 import { computeTrend, trendLabelKey } from './trend.js';
 import { hasScale, outOfScale, overflowLabelKey } from './scale.js';
+import { sensorInUnit } from './temperature-unit.js';
 import type {
   HomeAssistant,
   SensorsRegistry,
@@ -115,8 +116,18 @@ export class MonitorCardBase extends LitElement {
     Object.entries(config.sensors).forEach(([sensorType, sensorConfigs]) => {
       const sensorArray = Array.isArray(sensorConfigs) ? sensorConfigs : [sensorConfigs];
 
-      sensorArray.forEach((sensor, index) => {
+      sensorArray.forEach((configured, index) => {
         const sensorKey = `${sensorType}_${index + 1}`;
+        // A Celsius preset against a sensor reporting in Fahrenheit is
+        // converted before anything reads it (air-quality-card#7). Here rather
+        // than in calculateData, because setConfig has already merged the
+        // preset into the sensor and only this side can still tell the two
+        // apart. See temperature-unit.ts.
+        const sensor = sensorInUnit(
+          configured,
+          (this.constructor as typeof MonitorCardBase).SENSORS?.[sensorType],
+          (this.hass?.states?.[configured.entity]?.attributes as any)?.unit_of_measurement,
+        );
 
         data[sensorKey] = this.calculateData(
           sensorType,

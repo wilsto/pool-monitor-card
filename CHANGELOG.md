@@ -8,6 +8,17 @@ between two release tags, so the list keeps itself and a check refuses an entry
 that no longer matches. 2.17.4 and below were written by hand,
 before that derivation existed, and are kept exactly as they were.
 
+## [2.24.0] - 2026-10-17
+
+### Added
+
+- La ligne compacte peut prendre la couleur de sa bande, et le texte reste lisible dessus
+
+### Fixed
+
+- Un prereglage en Celsius suit un capteur qui rapporte en Fahrenheit
+- La valeur de la pire bande devient lisible en disposition complete
+
 ## [2.23.2] - 2026-08-24
 
 ### Added

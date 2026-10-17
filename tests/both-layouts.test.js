@@ -94,30 +94,16 @@ function fieldsRead(body) {
  *
  * Not a list of things that are fine. It is the list of things somebody has
  * looked at: adding a line here is the moment to say whether the difference is
- * a design or a defect, and two of these three are recorded as open.
+ * a design or a defect.
+ *
+ * It held three entries and holds one. `last_updated` left when #160 painted
+ * the age of the reading in the compact row, and `color` left with
+ * `display.band_fill` (#154): the compact row now reads `data.color` to paint
+ * itself, so the asymmetry the entry described no longer exists and the
+ * measurement it carried moved into `DisplayConfig.band_fill`, next to the
+ * option it justifies, where somebody changing the behaviour will meet it.
  */
 const ACCEPTED = {
-  color: [
-    'full',
-    'The full layout paints its value bubble with the band colour. The compact row has no ' +
-      'bubble, and painting one is a design decision that has been measured and not taken ' +
-      '(#154), so this stays an exception on purpose rather than by neglect. What the ' +
-      'measurement changed: severity in compact is not carried by the label alone, as #148 ' +
-      'reported. A monotonic gradient is built from the real thresholds, so the colour ' +
-      'directly under the cursor is the band colour, and the compact row does carry ' +
-      'severity in colour. What it carries badly is which colour the eye reads: the ' +
-      'reading text lies along the bar, so the dominant colour behind a row is the band ' +
-      'the *label* overlaps, not the band the *value* is in. Measured on an air card at ' +
-      '460 px: carbon monoxide at 3 ppm, cursor at 4% over green, label lying across ' +
-      'yellow and orange, so a row that says Good reads orange at a glance. Two remedies ' +
-      'were rendered and both cost something a screenshot shows better than a sentence: a ' +
-      'colour dot before the reading disappears into a bar of the same palette, and a ' +
-      'solid pill in the band colour reads at a glance and hides the thresholds under the ' +
-      'label. The second changes what every compact card looks like on a version bump, for ' +
-      'someone who asked for nothing, which is the argument that put `display.blink` off by ' +
-      "default. So it is the PO's call, and until then this asymmetry is known, measured " +
-      'and deliberate.',
-  ],
   separator: [
     'compact',
     'A design, and the one entry here that is settled. The compact row runs the reading ' +
@@ -464,6 +450,33 @@ const MOVES_NEITHER = {
     'move neither layout.',
 };
 
+/**
+ * Options that move exactly one layout, with which one and why.
+ *
+ * A third table, and a third question. `ACCEPTED` is about a field one body
+ * reads and the other does not; `MOVES_NEITHER` is about an option that paints
+ * nothing anywhere; this one is about an option that paints in one layout on
+ * purpose, because the other already does what it asks for.
+ *
+ * The entry is checked in both directions rather than believed: the side named
+ * has to move, and the side not named has to stay still. So an entry that
+ * stops being true goes red the same way a stale `ACCEPTED` or `MOVES_NEITHER`
+ * one does, which is the only thing that keeps a table of exceptions from
+ * becoming a list of holes.
+ */
+const MOVES_ONE = {
+  band_fill: [
+    'compact',
+    'It paints the compact reading row as a solid block in its band colour. The full ' +
+      'layout has carried the band colour on its value bubble since before either table ' +
+      'existed, unconditionally, so there is nothing for the option to add there: turning ' +
+      'it into a switch over that bubble would mean the off position removes a colour ' +
+      'every existing card already shows. Measured rather than asserted by the test below ' +
+      'this one, which reads the bubble off the full layout rather than trusting this ' +
+      'sentence (#154).',
+  ],
+};
+
 /** One card, one row, one display option set to one value. */
 function built(Card, sensor, state, display) {
   const card = new Card();
@@ -539,6 +552,22 @@ describe('the two layouts obey the same documented options', () => {
       `display.${key} is listed as moving neither layout and it moves one: delete the entry`,
     ).toBeUndefined();
 
+    if (MOVES_ONE[key]) {
+      const [side] = MOVES_ONE[key];
+      const [moves, still] = side === 'full' ? [full, compact] : [compact, full];
+      expect(
+        moves,
+        `display.${key} is listed as moving the ${side} layout only, and it moves nothing ` +
+          'there: delete the entry',
+      ).not.toEqual([]);
+      expect(
+        still,
+        `display.${key} is listed as moving the ${side} layout only, and it moves the other ` +
+          'one too: delete the entry',
+      ).toEqual([]);
+      return;
+    }
+
     // Row by row rather than by count: two layouts each moved by two rows out
     // of four, and not the same two, is a divergence a count would hide.
     expect(
@@ -547,5 +576,28 @@ describe('the two layouts obey the same documented options', () => {
         'the shape of #154: an option that is documented, that the card computes, and that ' +
         'one layout then does not paint. The user gets no message either way.',
     ).toEqual(full);
+  });
+});
+
+/**
+ * The one claim `MOVES_ONE` rests on, asked of the layout instead of written
+ * in the reason next to it.
+ *
+ * `display.band_fill` is allowed to move the compact layout alone because the
+ * full one already paints the band colour without being asked. That is a fact
+ * about `generateBody`, and a fact in a comment is the written rule this file
+ * exists to replace: if somebody ever makes the full bubble transparent, the
+ * exception above becomes a hole and nothing else would say so.
+ */
+describe('the full layout carries the band colour with no option to ask for it', () => {
+  test.each(OPTION_ROWS.map(r => [r[0], r]))('%s', (_label, [, Card, sensor, state]) => {
+    const { config, data } = built(Card, sensor, state, { band_fill: false });
+    expect(data.color, 'the row has no band colour to paint').toBeTruthy();
+    expect(
+      renderText(cardContent.generateBody(config, data)),
+      'the full layout no longer paints its value bubble with the band colour, so ' +
+        '`band_fill` moving only the compact layout is now a hole rather than a design: ' +
+        'reopen the MOVES_ONE entry',
+    ).toContain(`background-color: ${data.color}`);
   });
 });

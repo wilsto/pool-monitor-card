@@ -180,6 +180,7 @@ That's it! The card uses sensible defaults for everything else.
 | `display.show_labels` | boolean | `true` | Show range labels |
 | `display.gradient` | boolean | `true` | Show gradient bar |
 | `display.blink` | boolean | `false` | Blink a reading that falls in the worst band of its scale. Honours `prefers-reduced-motion`, which replaces the blink with a static outline |
+| `display.band_fill` | boolean | `false` | Compact mode only: fill the reading row with the colour of its band, so severity reads at a glance. The full layout already colours its value bubble. The cost: the fill hides the threshold marks under the label |
 | `display.show_last_updated` | boolean | `false` | Show last update time |
 | `display.name_font_size` | string | - | Font size of the sensor name, e.g. `0.8em` |
 | `display.name_font_weight` | string | - | Font weight of the sensor name |

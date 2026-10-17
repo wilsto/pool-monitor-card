@@ -172,8 +172,9 @@ export const styles = css`
    * shrunk. Full size and full opacity, a triangle pointing off the bar.
    *
    * It needs no colour of its own. The mark sits in the value bubble, which
-   * paints its own background from the reading and its own text black, so it
-   * reads the same in a dark theme as in a light one.
+   * paints its own background from the reading and its own text in whichever
+   * of black or white reads on it (#163), so it reads the same in a dark theme
+   * as in a light one.
    */
   .out-of-scale {
     font-size: 1em;
@@ -289,6 +290,38 @@ export const styles = css`
     text-align: right;
     color: black;
     z-index: 1;
+  }
+
+  /* The compact reading row painted as a solid block in its band colour
+     (#154), when display.band_fill asks for it. The colour itself is inline,
+     because it is the band of that one reading; what belongs here is the shape
+     that turns a run of text into a block somebody can read at a glance.
+
+     The rounding matches .marker, the full layout's value bubble, which is the
+     same idea one layout over. The padding is the two pixels .cursor-text
+     already had on each side, widened so the fill does not touch the glyphs.
+
+     Only the reading row carries this class. The two threshold marks are
+     .cursor-text as well and set background-color inline, so they stay the
+     hairlines they are. */
+  .cursor-text.band-fill {
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    z-index: 0;
+  }
+
+  /* The age of the reading, on a filled row.
+
+     .status-note recedes by being painted at 0.7 opacity, which costs nothing
+     while it sits on the card background. On a band colour it costs contrast,
+     and measured against this palette it costs enough: 3.74 against the
+     hazardous purple and 4.46 against warn, both under the 4.5 that text this
+     size needs. 0.85 is the first step that clears the floor on every band,
+     4.72 in the worst case, and the note still reads as secondary because it
+     is also drawn at 0.85em. */
+  .cursor-text.band-fill .status-note {
+    opacity: 0.85;
   }
 
   /**

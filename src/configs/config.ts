@@ -9,6 +9,7 @@ export const DEFAULT_DISPLAY: DisplayConfig = {
   show_units: true,
   gradient: true,
   blink: false,
+  band_fill: false,
   language: 'en',
 };
 

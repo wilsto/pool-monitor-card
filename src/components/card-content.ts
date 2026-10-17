@@ -2,6 +2,7 @@ import { html, TemplateResult } from 'lit';
 import type { CardConfig, SensorData, StatusData } from '../ha/types.js';
 import { trendGlyphs } from '../trend.js';
 import { overflowGlyph, type ScaleOverflow } from '../scale.js';
+import { readableTextOn } from '../contrast.js';
 import { getTranslation } from '../locales/translations.js';
 
 /**
@@ -289,7 +290,9 @@ export class cardContent {
             <div class="gauge-marker-zone">
               <div
                 class="marker"
-                style="background-color: ${data.color};color: black;left: ${markerPct}%;transform: ${bubbleTransform};"
+                style="background-color: ${data.color};color: ${readableTextOn(
+                  String(data.color ?? ''),
+                )};left: ${markerPct}%;transform: ${bubbleTransform};"
               >
                 ${cardContent.generateOutOfScale(data, 'below')}
                 ${data.side_align === 'right' && data.state
@@ -475,6 +478,18 @@ export class cardContent {
     // there, right-aligned; a compact row has one line, so the note rides at
     // its end, after everything that qualifies the value. Same `.status-note`
     // class in both, so it is the same muted grey and dims with the row.
+    //
+    // The fill on the reading row is the other half of #154, and it is off
+    // unless `display.band_fill` says otherwise. The row is transparent today,
+    // so the colour behind it is whatever the bar paints there: the label lies
+    // along the bar and overlaps bands the value is not in, which is how a row
+    // that says Good comes to read orange. The fill answers with the band the
+    // value *is* in, and pays for it by hiding the thresholds under the label.
+    //
+    // The text colour is computed rather than left black. Black on the
+    // `hazardous` purple is 3.58:1, under the 4.5 that 11px text needs, and
+    // the palette is user-writable so no per-band constant would stay true.
+    // See `contrast.ts`.
     return html`
       <!-- ##### ${data.name} section ##### -->
       <div
@@ -555,9 +570,13 @@ export class cardContent {
                   .marker};left: ${anchorPct}%;transform: ${cursorShift};"
               ></div>
               <div
-                class="cursor-text"
-                style="text-align:${data.side_align};background-color:transparent ;left: ${anchorPct}%;transform: ${readingShift};${config
-                  .display.name_font_size
+                class="cursor-text${config.display.band_fill ? ' band-fill' : ''}"
+                style="text-align:${data.side_align};background-color:${config.display.band_fill
+                  ? data.color
+                  : 'transparent'};${config.display.band_fill
+                  ? `color:${readableTextOn(String(data.color ?? ''))};`
+                  : ''}left: ${anchorPct}%;transform: ${readingShift};${config.display
+                  .name_font_size
                   ? `font-size:${config.display.name_font_size}`
                   : ''}${config.display.name_font_weight
                   ? `;font-weight:${config.display.name_font_weight}`

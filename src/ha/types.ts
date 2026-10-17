@@ -106,6 +106,33 @@ export interface DisplayConfig {
    * now and a number does not survive translation, a preset change or a unit.
    */
   blink: boolean;
+  /**
+   * Whether the compact row is painted as a solid block in its band colour.
+   *
+   * The compact row already carries severity in colour: its bar is built from
+   * the real thresholds, so the colour directly under the cursor is the band
+   * colour. What it carries badly is which colour the eye reads. The reading
+   * lies along the bar, so the dominant colour behind a row is the band the
+   * *label* overlaps, not the band the *value* is in. Measured on an air card
+   * at 460 px, carbon monoxide at 3 ppm: the cursor sits at 4% over green, the
+   * label runs from 3.4% to 54.9%, and the bar is green only to 6.9%. Seven
+   * per cent of that label is on the colour of its own verdict; the rest is
+   * yellow and orange. The row says Good and reads orange (#154).
+   *
+   * Off by default, for the reason `blink` is: turning it on for existing
+   * installations would change what every compact dashboard looks like on a
+   * version bump, for someone who asked for nothing.
+   *
+   * The cost is real and was accepted rather than hidden: a solid fill hides
+   * the thresholds under the label. Position is traded for severity, which is
+   * exactly why this is an option and not a change.
+   *
+   * The full layout is not affected, and that is not an oversight. Its value
+   * bubble is already painted with the band colour unconditionally, so there
+   * is nothing here left for it to do. `both-layouts.test.js` holds that claim
+   * rather than this comment.
+   */
+  band_fill: boolean;
   language: string;
   name_font_size?: string;
   name_font_weight?: string;
